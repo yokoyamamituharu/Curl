@@ -7,7 +7,7 @@ bool SceneManager::isBossScene = false;
 
 void SceneManager::Initialize() {
 	//マウスカーソルを非表示にする
-	ShowCursor(false);
+	//ShowCursor(false);
 	//DirectWrite初期化
 	textDraw = std::make_unique<TextDraw>();
 	textDraw->Initialize();
@@ -29,7 +29,7 @@ void SceneManager::Finalize() {
 	//ベースシーン解放
 	safe_delete(nowScene);
 	//カーソル可視化
-	ShowCursor(true);
+	//ShowCursor(true);
 }
 
 void SceneManager::AddScore(const int32_t score) {
