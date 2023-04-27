@@ -320,6 +320,9 @@
     <None Include="Engine\Resources\shaders\Object3d\fbx\FBX.hlsli">
       <Filter>シェーダーファイル\Object3d\fbx</Filter>
     </None>
+    <None Include="Engine\Resources\shaders\PostEffect\PostEffect.hlsli">
+      <Filter>シェーダーファイル\PostEffect</Filter>
+    </None>
     <None Include="Engine\Resources\shaders\Object3d\obj\Basic.hlsli">
       <Filter>シェーダーファイル\Object3d\obj</Filter>
     </None>
@@ -328,9 +331,6 @@
     </None>
     <None Include="Engine\Resources\shaders\Object3d\obj\OBJShaderHeader.hlsli">
       <Filter>シェーダーファイル\Object3d\obj</Filter>
-    </None>
-    <None Include="Engine\Resources\shaders\PostEffect\PostEffect.hlsli">
-      <Filter>シェーダーファイル\PostEffect</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -355,18 +355,6 @@
     <FxCompile Include="Engine\Resources\shaders\Object3d\fbx\FBXVS.hlsl">
       <Filter>シェーダーファイル\Object3d\fbx</Filter>
     </FxCompile>
-    <FxCompile Include="Engine\Resources\shaders\Object3d\obj\BasicPS.hlsl">
-      <Filter>シェーダーファイル\Object3d\obj</Filter>
-    </FxCompile>
-    <FxCompile Include="Engine\Resources\shaders\Object3d\obj\BasicVS.hlsl">
-      <Filter>シェーダーファイル\Object3d\obj</Filter>
-    </FxCompile>
-    <FxCompile Include="Engine\Resources\shaders\Object3d\obj\OBJPixelShader.hlsl">
-      <Filter>シェーダーファイル\Object3d\obj</Filter>
-    </FxCompile>
-    <FxCompile Include="Engine\Resources\shaders\Object3d\obj\OBJVertexShader.hlsl">
-      <Filter>シェーダーファイル\Object3d\obj</Filter>
-    </FxCompile>
     <FxCompile Include="Engine\Resources\shaders\PostEffect\DamageEffect.hlsl">
       <Filter>シェーダーファイル\PostEffect</Filter>
     </FxCompile>
@@ -388,12 +376,6 @@
     <FxCompile Include="Engine\Resources\shaders\PostEffect\Vignette.hlsl">
       <Filter>シェーダーファイル\PostEffect</Filter>
     </FxCompile>
-    <FxCompile Include="Engine\Resources\shaders\Object3d\obj\WavePS.hlsl">
-      <Filter>シェーダーファイル\Object3d\obj</Filter>
-    </FxCompile>
-    <FxCompile Include="Engine\Resources\shaders\Object3d\obj\WaveVS.hlsl">
-      <Filter>シェーダーファイル\Object3d\obj</Filter>
-    </FxCompile>
     <FxCompile Include="Engine\Resources\shaders\PostEffect\RadialBlur.hlsl">
       <Filter>シェーダーファイル\PostEffect</Filter>
     </FxCompile>
@@ -402,6 +384,24 @@
     </FxCompile>
     <FxCompile Include="Engine\Resources\shaders\PostEffect\PostShout.hlsl">
       <Filter>シェーダーファイル\PostEffect</Filter>
+    </FxCompile>
+    <FxCompile Include="Engine\Resources\shaders\Object3d\obj\BasicPS.hlsl">
+      <Filter>シェーダーファイル\Object3d\obj</Filter>
+    </FxCompile>
+    <FxCompile Include="Engine\Resources\shaders\Object3d\obj\BasicVS.hlsl">
+      <Filter>シェーダーファイル\Object3d\obj</Filter>
+    </FxCompile>
+    <FxCompile Include="Engine\Resources\shaders\Object3d\obj\OBJPixelShader.hlsl">
+      <Filter>シェーダーファイル\Object3d\obj</Filter>
+    </FxCompile>
+    <FxCompile Include="Engine\Resources\shaders\Object3d\obj\OBJVertexShader.hlsl">
+      <Filter>シェーダーファイル\Object3d\obj</Filter>
+    </FxCompile>
+    <FxCompile Include="Engine\Resources\shaders\Object3d\obj\WavePS.hlsl">
+      <Filter>シェーダーファイル\Object3d\obj</Filter>
+    </FxCompile>
+    <FxCompile Include="Engine\Resources\shaders\Object3d\obj\WaveVS.hlsl">
+      <Filter>シェーダーファイル\Object3d\obj</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>
