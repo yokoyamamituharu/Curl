@@ -3,7 +3,6 @@
 BaseScene* SceneManager::nowScene = nullptr;
 int32_t SceneManager::stageNo = 1;
 int32_t SceneManager::score = 0;
-bool SceneManager::isBossScene = false;
 
 void SceneManager::Initialize() {
 	//マウスカーソルを非表示にする
