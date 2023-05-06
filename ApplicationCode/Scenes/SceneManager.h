@@ -2,6 +2,8 @@
 
 #include "BaseScene.h"
 #include "TitleScene.h"
+#include "GameScene.h"
+#include "ResultScene.h"
 #include "DirectXSetting.h"
 #include "Sound.h"
 #include "KeyInput.h"
@@ -17,6 +19,8 @@ public:
 public: //ƒV[ƒ“ŠÇ—”Ô†
 	enum class SceneName {
 		Title,
+		Game,
+		Result,
 		None
 	};
 

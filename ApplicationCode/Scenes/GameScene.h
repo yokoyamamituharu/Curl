@@ -13,11 +13,11 @@
 #include "LightGroup.h"
 #include "DebugText.h"
 #include "MotionMath.h"
-#include "TextDraw.h"
 #include "SceneManager.h"
+#include "TextDraw.h"
 #include "JsonLoader.h"
 
-class TitleScene : public BaseScene
+class GameScene : public BaseScene
 {
 public: //メンバ関数
 	/// <summary>
@@ -46,8 +46,6 @@ private: //メンバ関数
 	/// </summary>
 	void SceneChange();
 
-private: //静的メンバ変数
-
 private: //メンバ変数
 	//ポストエフェクト
 	std::unique_ptr<PostEffect> postEffect_;
@@ -60,3 +58,4 @@ private: //メンバ変数
 	//テキスト描画
 	TextDraw* text_;
 };
+

@@ -1,7 +1,6 @@
-#include "TitleScene.h"
-#include <random>
+#include "GameScene.h"
 
-void TitleScene::Initialize()
+void GameScene::Initialize()
 {
 	postEffect_ = std::make_unique<PostEffect>();
 	postEffect_->Initialize();
@@ -22,14 +21,14 @@ void TitleScene::Initialize()
 	postEffectNo_ = PostEffect::NONE;
 }
 
-void TitleScene::Update()
+void GameScene::Update()
 {
 	ground_->Update();
 	//シーン切り替え
 	SceneChange();
 }
 
-void TitleScene::Draw()
+void GameScene::Draw()
 {
 	//背景色
 	const DirectX::XMFLOAT4 backColor = { 0.5f,0.25f, 0.5f, 0.0f };
@@ -54,7 +53,7 @@ void TitleScene::Draw()
 	DirectXSetting::GetIns()->beginDrawWithDirect2D();
 	//テキスト描画範囲
 	D2D1_RECT_F textDrawRange = { 0, 0, 500, 500 };
-	text_->Draw("meiryo", "white", L"タイトルシーン\n左クリックでリザルトシーン\n右クリックでゲームシーン", textDrawRange);
+	text_->Draw("meiryo", "white", L"ゲームシーン\n左クリックでタイトルシーン\n右クリックでリザルトシーン", textDrawRange);
 	DirectXSetting::GetIns()->endDrawWithDirect2D();
 
 	DirectXSetting::GetIns()->PreDraw(backColor);
@@ -62,17 +61,17 @@ void TitleScene::Draw()
 	DirectXSetting::GetIns()->PostDraw();
 }
 
-void TitleScene::Finalize()
+void GameScene::Finalize()
 {
 	safe_delete(text_);
 }
 
-void TitleScene::SceneChange()
+void GameScene::SceneChange()
 {
 	if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
-		SceneManager::SceneChange(SceneManager::SceneName::Result);
+		SceneManager::SceneChange(SceneManager::SceneName::Title);
 	}
 	if (MouseInput::GetIns()->TriggerClick(MouseInput::RIGHT_CLICK)) {
-		SceneManager::SceneChange(SceneManager::SceneName::Game);
+		SceneManager::SceneChange(SceneManager::SceneName::Result);
 	}
 }

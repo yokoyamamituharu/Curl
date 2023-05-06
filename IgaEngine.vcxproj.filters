@@ -185,6 +185,12 @@
     <ClCompile Include="ApplicationCode\Scenes\TitleScene.cpp">
       <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="ApplicationCode\Scenes\GameScene.cpp">
+      <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationCode\Scenes\ResultScene.cpp">
+      <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Audio\Sound.h">
@@ -302,6 +308,12 @@
       <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
     </ClInclude>
     <ClInclude Include="ApplicationCode\Scenes\TitleScene.h">
+      <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationCode\Scenes\GameScene.h">
+      <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationCode\Scenes\ResultScene.h">
       <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
     </ClInclude>
   </ItemGroup>

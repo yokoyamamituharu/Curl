@@ -51,6 +51,14 @@ void SceneManager::SceneChange(SceneName scene) {
 		nowScene = new TitleScene();
 		nowScene->Initialize();
 		break;
+	case SceneName::Game:
+		nowScene = new GameScene();
+		nowScene->Initialize();
+		break;
+	case SceneName::Result:
+		nowScene = new ResultScene();
+		nowScene->Initialize();
+		break;
 	default:
 		break;
 	}
