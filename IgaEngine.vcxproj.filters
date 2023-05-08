@@ -197,6 +197,9 @@
     <ClCompile Include="ApplicationCode\Blood\Blood.cpp">
       <Filter>ソース ファイル\ApplicationCode\Blood</Filter>
     </ClCompile>
+    <ClCompile Include="ApplicationCode\Enemys\Enemys.cpp">
+      <Filter>ソース ファイル\ApplicationCode\Effects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Audio\Sound.h">
@@ -325,6 +328,10 @@
     <ClInclude Include="ApplicationCode\Blood\Blood.h">
       <Filter>ソース ファイル\ApplicationCode\Blood</Filter>
     </ClInclude>
+    <ClInclude Include="ApplicationCode\Enemys\Enemys.h">
+      <Filter>ソース ファイル\ApplicationCode\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Base\RandCreate.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="IgaEngine.rc">

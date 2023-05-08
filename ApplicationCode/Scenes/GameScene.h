@@ -16,6 +16,7 @@
 #include "SceneManager.h"
 #include "TextDraw.h"
 #include "JsonLoader.h"
+#include"Enemys.h"
 
 #include "Blood.h"
 class GameScene : public BaseScene
@@ -60,5 +61,6 @@ private: //ƒƒ“ƒo•Ï”
 	TextDraw* text_;
 
 	Blood* blood = nullptr;
+	Enemys* enemys{};
 };
 
