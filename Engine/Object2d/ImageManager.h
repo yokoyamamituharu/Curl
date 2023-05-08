@@ -18,7 +18,9 @@ public: //Ã“Iƒƒ“ƒoŠÖ”
 
 public: //‰æ‘œ–¼
 	enum class ImageName {
-
+		solidTexNumber = 1,
+		liquidNumber,
+		gasTexNumber
 	};
 
 public: //ƒƒ“ƒoŠÖ”

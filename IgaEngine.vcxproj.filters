@@ -81,6 +81,9 @@
     <Filter Include="ソース ファイル\ApplicationCode\UI">
       <UniqueIdentifier>{47caeb62-7ef3-439b-a6e0-9a073b607dfe}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\ApplicationCode\Blood">
+      <UniqueIdentifier>{0d05e7fa-4e16-44bc-9493-36b9ba29a529}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -190,6 +193,9 @@
     </ClCompile>
     <ClCompile Include="ApplicationCode\Scenes\ResultScene.cpp">
       <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationCode\Blood\Blood.cpp">
+      <Filter>ソース ファイル\ApplicationCode\Blood</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -315,6 +321,9 @@
     </ClInclude>
     <ClInclude Include="ApplicationCode\Scenes\ResultScene.h">
       <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationCode\Blood\Blood.h">
+      <Filter>ソース ファイル\ApplicationCode\Blood</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

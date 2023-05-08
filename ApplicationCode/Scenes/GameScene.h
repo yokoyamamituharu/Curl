@@ -17,6 +17,7 @@
 #include "TextDraw.h"
 #include "JsonLoader.h"
 
+#include "Blood.h"
 class GameScene : public BaseScene
 {
 public: //メンバ関数
@@ -57,5 +58,7 @@ private: //メンバ変数
 	std::unique_ptr<LightGroup> light_;
 	//テキスト描画
 	TextDraw* text_;
+
+	Blood* blood = nullptr;
 };
 

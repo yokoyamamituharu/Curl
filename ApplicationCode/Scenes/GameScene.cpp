@@ -19,10 +19,15 @@ void GameScene::Initialize()
 	ground_->SetPosition({ 0.0f, -10.0f, 0.0f });
 
 	postEffectNo_ = PostEffect::NONE;
+
+	blood = Blood::Create({ 300,500 }, Blood::solid);
 }
 
 void GameScene::Update()
 {
+	if (KeyInput::GetIns()->TriggerKey(DIK_UP)) { blood->Rising(); }
+	if (KeyInput::GetIns()->TriggerKey(DIK_DOWN)) { blood->Decrease(); }
+	blood->Update();
 	ground_->Update();
 	//シーン切り替え
 	SceneChange();
@@ -36,7 +41,7 @@ void GameScene::Draw()
 	postEffect_->PreDrawScene(DirectXSetting::GetIns()->GetCmdList());
 
 	//スプライト描画処理(背景)
-	Sprite::PreDraw(DirectXSetting::GetIns()->GetCmdList());
+	Sprite::PreDraw(DirectXSetting::GetIns()->GetCmdList());	
 	Sprite::PostDraw();
 
 	//3Dオブジェクト描画処理
@@ -46,6 +51,7 @@ void GameScene::Draw()
 
 	//スプライト描画処理(UI等)
 	Sprite::PreDraw(DirectXSetting::GetIns()->GetCmdList());
+	blood->Draw();
 	Sprite::PostDraw();
 
 	postEffect_->PostDrawScene(DirectXSetting::GetIns()->GetCmdList());
