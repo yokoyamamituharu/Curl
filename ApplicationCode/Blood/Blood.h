@@ -12,6 +12,10 @@ public:
 		gas
 	};
 
+	Blood();
+
+	~Blood();
+
 	static Blood* Create(DirectX::XMFLOAT2 position, STATE state);
 
 	void Update();
@@ -29,5 +33,5 @@ public:
 private:
 	int state = NONE;
 	DirectX::XMFLOAT2 position = { 0,0 };
-	std::map<int, Sprite*> sprite;
+	std::map<int, Sprite*> sprites;
 };

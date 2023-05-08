@@ -70,6 +70,7 @@ void GameScene::Draw()
 void GameScene::Finalize()
 {
 	safe_delete(text_);
+	safe_delete(blood);
 }
 
 void GameScene::SceneChange()
