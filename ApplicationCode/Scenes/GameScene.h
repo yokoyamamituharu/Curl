@@ -60,7 +60,8 @@ private: //メンバ変数
 	//テキスト描画
 	TextDraw* text_;
 
-	Blood* blood = nullptr;
-	Enemys* enemys{};
+	Blood* blood_ = nullptr;
+	
+	Enemys* enemys_{};
 };
 
