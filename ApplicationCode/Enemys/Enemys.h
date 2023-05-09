@@ -42,7 +42,7 @@ public:
 
 private:
 	Enemy* enemys_[36]{};
-	RandCreate* randCreate{};
-	KeyInput* keyInput{};
+	RandCreate* randCreate_{};
+	KeyInput* keyInput_{};
 };
 
