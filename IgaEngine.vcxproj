@@ -79,12 +79,12 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(ProjectDir)ApplicationCode\UI;$(ProjectDir)ApplicationCode\Scenes;$(ProjectDir)ApplicationCode\Players;$(ProjectDir)ApplicationCode\Effects;$(ProjectDir)ApplicationCode\Enemies;$(ProjectDir)ApplicationCode\CameraMove;$(ProjectDir)ApplicationCode\Bosses;$(ProjectDir)ApplicationCode\Maths;$(ProjectDir)External\DirectXTex\inc;$(ProjectDir)Engine\Object3d;$(ProjectDir)Engine\Object2d;$(ProjectDir)External\nlohmann;$(ProjectDir)External\fbx_sdk\include;$(ProjectDir)Engine\Input;$(ProjectDir)Engine\FBX;$(ProjectDir)Engine\Camera;$(ProjectDir)Engine\Base;$(ProjectDir)Engine\Audio;$(ProjectDir)Engine\Light;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)ApplicationCode\Command;$(ProjectDir)ApplicationCode\UI;$(ProjectDir)ApplicationCode\Scenes;$(ProjectDir)ApplicationCode\Players;$(ProjectDir)ApplicationCode\Effects;$(ProjectDir)ApplicationCode\Enemies;$(ProjectDir)ApplicationCode\CameraMove;$(ProjectDir)ApplicationCode\Bosses;$(ProjectDir)ApplicationCode\Maths;$(ProjectDir)External\DirectXTex\inc;$(ProjectDir)Engine\Object3d;$(ProjectDir)Engine\Object2d;$(ProjectDir)External\nlohmann;$(ProjectDir)External\fbx_sdk\include;$(ProjectDir)Engine\Input;$(ProjectDir)Engine\FBX;$(ProjectDir)Engine\Camera;$(ProjectDir)Engine\Base;$(ProjectDir)Engine\Audio;$(ProjectDir)Engine\Light;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)External\fbx_sdk\lib;$(ProjectDir)External\DirectXTex\lib\$(Configuration);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(ProjectDir)ApplicationCode\UI;$(ProjectDir)ApplicationCode\Scenes;$(ProjectDir)ApplicationCode\Players;$(ProjectDir)ApplicationCode\Effects;$(ProjectDir)ApplicationCode\Enemies;$(ProjectDir)ApplicationCode\CameraMove;$(ProjectDir)ApplicationCode\Bosses;$(ProjectDir)ApplicationCode\Maths;$(ProjectDir)External\DirectXTex\inc;$(ProjectDir)Engine\Object3d;$(ProjectDir)Engine\Object2d;$(ProjectDir)External\nlohmann;$(ProjectDir)External\fbx_sdk\include;$(ProjectDir)Engine\Input;$(ProjectDir)Engine\FBX;$(ProjectDir)Engine\Camera;$(ProjectDir)Engine\Base;$(ProjectDir)Engine\Audio;$(ProjectDir)Engine\Light;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)ApplicationCode\Command;$(ProjectDir)ApplicationCode\UI;$(ProjectDir)ApplicationCode\Scenes;$(ProjectDir)ApplicationCode\Players;$(ProjectDir)ApplicationCode\Effects;$(ProjectDir)ApplicationCode\Enemies;$(ProjectDir)ApplicationCode\CameraMove;$(ProjectDir)ApplicationCode\Bosses;$(ProjectDir)ApplicationCode\Maths;$(ProjectDir)External\DirectXTex\inc;$(ProjectDir)Engine\Object3d;$(ProjectDir)Engine\Object2d;$(ProjectDir)External\nlohmann;$(ProjectDir)External\fbx_sdk\include;$(ProjectDir)Engine\Input;$(ProjectDir)Engine\FBX;$(ProjectDir)Engine\Camera;$(ProjectDir)Engine\Base;$(ProjectDir)Engine\Audio;$(ProjectDir)Engine\Light;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)External\DirectXTex\lib\$(Configuration);$(ProjectDir)External\fbx_sdk\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -151,6 +151,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ApplicationCode\Command\DownMoveCommand.cpp" />
+    <ClCompile Include="ApplicationCode\Command\KeyInputHandler.cpp" />
+    <ClCompile Include="ApplicationCode\Command\LeftMoveCommand.cpp" />
+    <ClCompile Include="ApplicationCode\Command\RightMoveCommand.cpp" />
+    <ClCompile Include="ApplicationCode\Command\UpMoveCommand.cpp" />
     <ClCompile Include="ApplicationCode\Maths\MotionMath.cpp" />
     <ClCompile Include="ApplicationCode\Scenes\BaseScene.cpp" />
     <ClCompile Include="ApplicationCode\Scenes\GameScene.cpp" />
@@ -189,6 +194,13 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ApplicationCode\Command\Command.h" />
+    <ClInclude Include="ApplicationCode\Command\DownMoveCommand.h" />
+    <ClInclude Include="ApplicationCode\Command\KeyInputHandler.h" />
+    <ClInclude Include="ApplicationCode\Command\LeftMoveCommand.h" />
+    <ClInclude Include="ApplicationCode\Command\PlayerCommand.h" />
+    <ClInclude Include="ApplicationCode\Command\RightMoveCommand.h" />
+    <ClInclude Include="ApplicationCode\Command\UpMoveCommand.h" />
     <ClInclude Include="ApplicationCode\Maths\MotionMath.h" />
     <ClInclude Include="ApplicationCode\Scenes\BaseScene.h" />
     <ClInclude Include="ApplicationCode\Scenes\GameScene.h" />
