@@ -80,6 +80,8 @@ void GameScene::Finalize()
 {
 	safe_delete(text_);
 	safe_delete(blood_);
+	enemys_->Delete();
+	safe_delete(enemys_);
 }
 
 void GameScene::SceneChange()

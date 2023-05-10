@@ -198,7 +198,7 @@
       <Filter>ソース ファイル\ApplicationCode\Blood</Filter>
     </ClCompile>
     <ClCompile Include="ApplicationCode\Enemys\Enemys.cpp">
-      <Filter>ソース ファイル\ApplicationCode\Effects</Filter>
+      <Filter>ソース ファイル\ApplicationCode\Enemies</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -328,10 +328,10 @@
     <ClInclude Include="ApplicationCode\Blood\Blood.h">
       <Filter>ソース ファイル\ApplicationCode\Blood</Filter>
     </ClInclude>
-    <ClInclude Include="ApplicationCode\Enemys\Enemys.h">
-      <Filter>ソース ファイル\ApplicationCode\Effects</Filter>
-    </ClInclude>
     <ClInclude Include="Engine\Base\RandCreate.h" />
+    <ClInclude Include="ApplicationCode\Enemys\Enemys.h">
+      <Filter>ソース ファイル\ApplicationCode\Enemies</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="IgaEngine.rc">
