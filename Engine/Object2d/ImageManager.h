@@ -20,7 +20,9 @@ public: //‰æ‘œ–¼
 	enum class ImageName {
 		solidTexNumber = 1,
 		liquidNumber,
-		gasTexNumber
+		gasTexNumber,
+		playerTexNumber,
+		bgTexNumber,
 	};
 
 public: //ƒƒ“ƒoŠÖ”

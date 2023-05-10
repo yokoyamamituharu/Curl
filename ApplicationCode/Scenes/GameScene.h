@@ -18,6 +18,7 @@
 #include "JsonLoader.h"
 
 #include "Blood.h"
+#include "Player.h"
 class GameScene : public BaseScene
 {
 public: //ƒƒ“ƒoŠÖ”
@@ -60,5 +61,7 @@ private: //ƒƒ“ƒo•Ï”
 	TextDraw* text_;
 
 	Blood* blood_ = nullptr;
+	Player* player_ = nullptr;
+	Sprite* bgSprite_ = nullptr;
 };
 
