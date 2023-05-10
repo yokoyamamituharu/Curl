@@ -58,4 +58,3 @@ private: //メンバ変数
 	//テキスト描画
 	TextDraw* text_;
 };
-
