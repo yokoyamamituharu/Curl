@@ -1,0 +1,9 @@
+{
+    "PopTime": 30,
+    "EnemyType": [
+        "Normal",
+        "Speed"
+    ],
+    "MinRange": 50,
+    "MaxRange": 150
+}
