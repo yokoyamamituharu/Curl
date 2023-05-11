@@ -1,5 +1,6 @@
 #pragma once
 #include <DirectXMath.h>
+#include <cmath>
 
 class Vector2 : public DirectX::XMFLOAT2
 {
