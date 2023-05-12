@@ -41,9 +41,14 @@ void Player::Update()
 		if (KeyInput::GetIns()->TriggerKey(DIK_B)) {
 			blood->SetDead();
 		}
-		/*if (10.0f > sqrtf((sprite_->GetPosition().x - blood->GetPosition().x) * (sprite_->GetPosition().y - blood->GetPosition().y))) {
-			int a = 0;
-		}*/
+		if (50.0f > sqrtf((sprite_->GetPosition().x - blood->GetPosition().x) * (sprite_->GetPosition().y - blood->GetPosition().y))) {
+			if (KeyInput::GetIns()->TriggerKey(DIK_0)) {
+				blood->Rising();
+			}
+			if (KeyInput::GetIns()->TriggerKey(DIK_9)) {
+				blood->Decrease();
+			}
+		}
 	}
 
 	bloods_.remove_if([](std::unique_ptr<Blood>& blood) {
@@ -51,7 +56,7 @@ void Player::Update()
 		});
 
 	//DirectX::XMVector3LengthSq
-	
+
 }
 
 void Player::Shot()
@@ -72,7 +77,7 @@ void Player::Shot()
 	if (KeyInput::GetIns()->PushKey(DIK_SPACE) && shotDiray_ <= 0) {
 		bloods_.push_back(Blood::UniquePtrCreate({ sprite_->GetPosition() }, Blood::solid, cursolPos));
 		shotDiray_ = maxShotDiray_;
-	}	
+	}
 }
 
 void Player::Draw()

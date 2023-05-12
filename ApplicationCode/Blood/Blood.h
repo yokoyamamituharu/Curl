@@ -43,6 +43,8 @@ public:
 
 	int GetTemperature() { return state_; }
 
+	DirectX::XMFLOAT2 GetPosition() { return position_; }
+
 	DirectX::XMFLOAT2 Learp(DirectX::XMFLOAT2 p, DirectX::XMFLOAT2 p2, float time);
 
 private:
