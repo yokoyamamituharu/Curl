@@ -12,4 +12,5 @@ void ImageManager::Initialize() {
 	Sprite::LoadTexture(int32_t(ImageName::gasTexNumber), L"Engine/Resources/Images/gas.png");
 	Sprite::LoadTexture(int32_t(ImageName::playerTexNumber), L"Engine/Resources/Images/player.png");
 	Sprite::LoadTexture(int32_t(ImageName::bgTexNumber), L"Engine/Resources/Images/bg.png");
+	Sprite::LoadTexture(int32_t(ImageName::towerNumber), L"Engine/Resources/Images/tower.png");
 }

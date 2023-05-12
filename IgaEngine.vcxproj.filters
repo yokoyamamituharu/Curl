@@ -90,6 +90,9 @@
     <Filter Include="ソース ファイル\ApplicationCode\Blood">
       <UniqueIdentifier>{0d05e7fa-4e16-44bc-9493-36b9ba29a529}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\ApplicationCode\Tower">
+      <UniqueIdentifier>{16466b8c-9bb6-4999-8b01-0f1f9de7654e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -220,6 +223,12 @@
     </ClCompile>
     <ClCompile Include="ApplicationCode\Players\Player.cpp">
       <Filter>ソース ファイル\ApplicationCode\Players</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationCode\Tower\Tower.cpp">
+      <Filter>ソース ファイル\ApplicationCode\Tower</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Base\Vector2.cpp">
+      <Filter>ソース ファイル\Engine\Base</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -372,6 +381,12 @@
     </ClInclude>
     <ClInclude Include="ApplicationCode\Players\Player.h">
       <Filter>ソース ファイル\ApplicationCode\Players</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationCode\Tower\Tower.h">
+      <Filter>ソース ファイル\ApplicationCode\Tower</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Base\Vector2.h">
+      <Filter>ソース ファイル\Engine\Base</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
