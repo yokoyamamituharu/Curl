@@ -19,6 +19,8 @@
 
 #include "Blood.h"
 #include "Player.h"
+#include "Tower.h"
+
 class GameScene : public BaseScene
 {
 public: //ƒƒ“ƒoŠÖ”
@@ -62,6 +64,7 @@ private: //ƒƒ“ƒo•Ï”
 
 	Blood* blood_ = nullptr;
 	Player* player_ = nullptr;
+	Tower* tower_ = nullptr;
 	Sprite* bgSprite_ = nullptr;
 };
 

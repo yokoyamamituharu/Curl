@@ -23,6 +23,7 @@ public: //‰æ‘œ–¼
 		gasTexNumber,
 		playerTexNumber,
 		bgTexNumber,
+		towerNumber
 	};
 
 public: //ƒƒ“ƒoŠÖ”

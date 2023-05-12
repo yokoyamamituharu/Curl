@@ -23,6 +23,9 @@ void GameScene::Initialize()
 	blood_ = Blood::Create({ 300,500 }, Blood::solid);
 	player_ = Player::Create();
 	bgSprite_ = Sprite::Create(UINT(ImageManager::ImageName::bgTexNumber),{0,0});
+	int32_t towerHP = 10;
+	tower_ = new Tower;
+	tower_->Initialize(towerHP);
 }
 
 void GameScene::Update()
@@ -56,7 +59,8 @@ void GameScene::Draw()
 	Sprite::PreDraw(DirectXSetting::GetIns()->GetCmdList());
 	bgSprite_->Draw();
 	blood_->Draw();
-	player_->Draw();		
+	player_->Draw();
+	tower_->Draw();
 	Sprite::PostDraw();
 
 	postEffect_->PostDrawScene(DirectXSetting::GetIns()->GetCmdList());
@@ -78,6 +82,7 @@ void GameScene::Finalize()
 	safe_delete(blood_);
 	safe_delete(player_);
 	safe_delete(bgSprite_);
+	safe_delete(tower_);
 }
 
 void GameScene::SceneChange()
