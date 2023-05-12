@@ -24,4 +24,6 @@ public:
 private:
 	Sprite* sprite_ = nullptr;
 	std::list<std::unique_ptr<Blood>>bloods_;
+	const int maxShotDiray_ = 10;
+	int shotDiray_ = maxShotDiray_;
 };

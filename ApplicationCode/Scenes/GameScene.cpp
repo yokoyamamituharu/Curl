@@ -27,9 +27,7 @@ void GameScene::Initialize()
 
 void GameScene::Update()
 {
-	if (KeyInput::GetIns()->TriggerKey(DIK_UP)) { blood_->Rising(); }
-	if (KeyInput::GetIns()->TriggerKey(DIK_DOWN)) { blood_->Decrease(); }
-	blood_->Update();
+	//blood_->Update();
 	player_->Update();
 	ground_->Update();
 	//シーン切り替え
@@ -55,7 +53,7 @@ void GameScene::Draw()
 	//スプライト描画処理(UI等)
 	Sprite::PreDraw(DirectXSetting::GetIns()->GetCmdList());
 	bgSprite_->Draw();
-	blood_->Draw();
+	//blood_->Draw();
 	player_->Draw();		
 	Sprite::PostDraw();
 

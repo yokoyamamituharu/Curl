@@ -32,32 +32,42 @@ void Player::Update()
 
 	sprite_->SetPosition({ sprite_->GetPosition().x + vec.m128_f32[0],sprite_->GetPosition().y + vec.m128_f32[1] });
 
+	//ŒŒ‚ğ•úo
+	Shot();
+
 	for (std::unique_ptr<Blood>& blood : bloods_) {
 		blood->Update();
+		if (KeyInput::GetIns()->TriggerKey(DIK_B)) {
+			blood->SetDead();
+		}
 	}
 
 	bloods_.remove_if([](std::unique_ptr<Blood>& blood) {
 		return blood->GetDead();
 		});
 
-	Shot();
 
-	XMFLOAT2 cursolPos = DirectX::XMFLOAT2{ float(MouseInput::GetIns()->GetMousePoint().x),float(MouseInput::GetIns()->GetMousePoint().y)};
+}
+
+void Player::Shot()
+{
+	XMFLOAT2 cursolPos = DirectX::XMFLOAT2{ float(MouseInput::GetIns()->GetMousePoint().x),float(MouseInput::GetIns()->GetMousePoint().y) };
 	XMFLOAT2 playerPos = sprite_->GetPosition();
 	DirectX::XMVECTOR vec3 = { cursolPos.x - playerPos.x,cursolPos.y - playerPos.y };
 	vec3 = DirectX::XMVector3Normalize(vec3);
 	XMFLOAT2 vec2 = { vec3.m128_f32[0],vec3.m128_f32[1] };
 
-	if (KeyInput::GetIns()->PushKey(DIK_SPACE)) {
-		bloods_.push_back(Blood::UniquePtrCreate({ sprite_->GetPosition() }, Blood::solid, vec2));
-	}
-}
+	int x = 0;
+	int x2 = 10;
+	int time = 0.1;
 
-void Player::Shot()
-{
-	//if (KeyInput::GetIns()->PushKey(DIK_SPACE)) {
-	//	bloods_.push_back(Blood::UniquePtrCreate({ sprite_->GetPosition() }, Blood::solid,vec));
-	//}
+	int vec = x2 * time;
+
+	shotDiray_--;
+	if (KeyInput::GetIns()->PushKey(DIK_SPACE) && shotDiray_ <= 0) {
+		bloods_.push_back(Blood::UniquePtrCreate({ sprite_->GetPosition() }, Blood::solid, cursolPos));
+		shotDiray_ = maxShotDiray_;
+	}	
 }
 
 void Player::Draw()
