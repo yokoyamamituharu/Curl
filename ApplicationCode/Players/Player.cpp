@@ -3,6 +3,7 @@
 #include "KeyInput.h"
 #include "ImageManager.h"
 #include "MouseInput.h"
+#include <math.h>
 
 Player::Player()
 {
@@ -40,13 +41,17 @@ void Player::Update()
 		if (KeyInput::GetIns()->TriggerKey(DIK_B)) {
 			blood->SetDead();
 		}
+		if (10.0f > sqrtf((sprite_->GetPosition().x - blood->GetPosition().x) * (sprite_->GetPosition().y - blood->GetPosition().y))) {
+			int a = 0;
+		}
 	}
 
 	bloods_.remove_if([](std::unique_ptr<Blood>& blood) {
 		return blood->GetDead();
 		});
 
-
+	//DirectX::XMVector3LengthSq
+	
 }
 
 void Player::Shot()
