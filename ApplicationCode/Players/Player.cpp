@@ -37,11 +37,13 @@ void Player::Update()
 	Shot();
 
 	for (std::unique_ptr<Blood>& blood : bloods_) {
-		blood->Update();
 		if (KeyInput::GetIns()->TriggerKey(DIK_B)) {
 			blood->SetDead();
 		}
-		if (50.0f > sqrtf((sprite_->GetPosition().x - blood->GetPosition().x) * (sprite_->GetPosition().y - blood->GetPosition().y))) {
+		XMFLOAT2 pos1 = sprite_->GetPosition();
+		XMFLOAT2 pos2 = blood->GetPosition();
+		float length = sqrtf((pos1.x - pos2.x) * (pos1.x - pos2.x) + (pos1.y - pos2.y) * (pos1.y - pos2.y));
+		if (200.0f > length) {
 			if (KeyInput::GetIns()->TriggerKey(DIK_0)) {
 				blood->Rising();
 			}
@@ -49,6 +51,7 @@ void Player::Update()
 				blood->Decrease();
 			}
 		}
+		blood->Update();
 	}
 
 	bloods_.remove_if([](std::unique_ptr<Blood>& blood) {
