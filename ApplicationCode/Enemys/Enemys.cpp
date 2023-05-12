@@ -21,7 +21,7 @@ void Enemys::Initialize()
 		newEnemy->sprite = Sprite::Create(type + 3, {});
 		newEnemy->sprite->SetAnchorPoint({ 0.5f,0.5f });
 		newEnemy->enemyType = type;
-		newEnemy->moveLength = randCreate_->getRandFloat(250, 300);
+		newEnemy->moveLength = randCreate_->getRandFloat(300, 500);
 		newEnemy->angle = (float)i * 10.f/*randCreate->getRandFloat(0.f, 359.f)*/;
 		newEnemy->pos.x = sin((newEnemy->angle * DirectX::XM_PI) / 180) * newEnemy->moveLength;
 		newEnemy->pos.y = cos((newEnemy->angle * DirectX::XM_PI) / 180) * newEnemy->moveLength;
@@ -56,13 +56,21 @@ void Enemys::Update()
 
 	for (unique_ptr<Enemy>& enemy : enemys3_)
 	{
+		enemy->moveLength--;
 		enemy->pos.x = sin((enemy->angle * DirectX::XM_PI) / 180) * enemy->moveLength;
 		enemy->pos.y = cos((enemy->angle * DirectX::XM_PI) / 180) * enemy->moveLength;
 		enemy->pos.x = enemy->pos.x + 640.f;
 		enemy->pos.y = enemy->pos.y + 360.f;
 		enemy->sprite->SetPosition(enemy->pos);
+		if (enemy->moveLength <= 0)
+		{
+			enemy->bloodHitFlag = true;
+		}
+
 		//enemy->sprite
 	}
+
+
 	if (keyInput_->TriggerKey(DIK_SPACE))
 	{
 		for (unique_ptr<Enemy>& enemy : enemys3_)
@@ -108,6 +116,8 @@ void Enemys::Update()
 		enemys_[i]->pos.y = enemys_[i]->pos.y + 360.f;
 		enemys_[i]->sprite->SetPosition(enemys_[i]->pos);
 	}*/
+	enemys3_.remove_if([](unique_ptr<Enemy>& enemy) {return enemy->bloodHitFlag == true; });
+
 }
 
 void Enemys::Draw()
