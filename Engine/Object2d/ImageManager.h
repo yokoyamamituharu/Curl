@@ -21,6 +21,10 @@ public: //‰æ‘œ–¼
 		solidTexNumber = 1,
 		liquidNumber,
 		gasTexNumber,
+		playerTexNumber,
+		bgTexNumber,
+		towerNumber
+		gasTexNumber,
 		enemyindividual,
 		enemyLiquid,
 		enemyGas,
