@@ -5,20 +5,29 @@
 class Blood
 {
 public:
-	enum STATE {
+	enum class Temperature
+	{
 		NONE,
 		solid,
 		liquid,
 		gas
 	};
 
+	enum class State {
+		none,
+		idle,
+		shot,
+		back,
+		heat
+	};
+
 	Blood() = default;
 
 	~Blood();
 
-	static Blood* Create(DirectX::XMFLOAT2 position, STATE state);
+	static Blood* Create(DirectX::XMFLOAT2 position, Temperature state);
 
-	static std::unique_ptr<Blood> UniquePtrCreate(DirectX::XMFLOAT2 position, STATE state, DirectX::XMFLOAT2 goal);
+	static std::unique_ptr<Blood> UniquePtrCreate(DirectX::XMFLOAT2 position, Temperature state, DirectX::XMFLOAT2 goal,DirectX::XMFLOAT2* playerPos);
 
 	/// <summary>
 	/// 更新処理
@@ -49,12 +58,18 @@ public:
 	/// 現在の状態を取得
 	/// </summary>
 	/// <returns>状態</returns>
-	int GetTemperature() { return state_; }
+	int GetTemperature() { return temp_; }
 	/// <summary>
 	/// 位置を取得
 	/// </summary>
 	/// <returns>位置</returns>
 	DirectX::XMFLOAT2 GetPosition() { return position_; }
+	/// <summary>
+	/// 
+	/// </summary>
+	void SetState(State state) { state_ = (int)state; }
+
+	int GetState() { return state_; }
 
 private:
 
@@ -62,12 +77,14 @@ public:
 
 private:
 	std::map<int, Sprite*> sprites_;
-	int state_ = NONE;
-	int deadTimer = 100;
+	int temp_ = (int)Temperature::NONE;
+	int state_ = (int)State::none;
+	int deadTimer_ = 100;
 	bool isDead = false;
 	DirectX::XMFLOAT2 position_{};
 	DirectX::XMFLOAT2 goal_{};
-	DirectX::XMVECTOR oldvec{};
+	DirectX::XMVECTOR oldvec_{};
+	DirectX::XMFLOAT2* playerPos_{};
 
 	const float speed_ = 10.0f;
 };

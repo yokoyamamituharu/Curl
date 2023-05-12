@@ -12,29 +12,31 @@ Blood::~Blood()
 	sprites_.clear();
 }
 
-Blood* Blood::Create(DirectX::XMFLOAT2 position, STATE state)
+Blood* Blood::Create(DirectX::XMFLOAT2 position, Temperature temp)
 {
 	Blood* instance = new Blood();
 	instance->position_ = position;
-	instance->sprites_[solid] = Sprite::Create(UINT(ImageManager::ImageName::solidTexNumber), position);
-	instance->sprites_[liquid] = Sprite::Create(UINT(ImageManager::ImageName::liquidNumber), position);
-	instance->sprites_[gas] = Sprite::Create(UINT(ImageManager::ImageName::gasTexNumber), position);
-	instance->state_ = state;
+	instance->sprites_[(int)Temperature::solid] = Sprite::Create(UINT(ImageManager::ImageName::solidTexNumber), position);
+	instance->sprites_[(int)Temperature::liquid] = Sprite::Create(UINT(ImageManager::ImageName::liquidNumber), position);
+	instance->sprites_[(int)Temperature::gas] = Sprite::Create(UINT(ImageManager::ImageName::gasTexNumber), position);
+	instance->temp_ = (int)temp;
 	return instance;
 }
 
-std::unique_ptr<Blood> Blood::UniquePtrCreate(DirectX::XMFLOAT2 position, STATE state, DirectX::XMFLOAT2 goal)
+std::unique_ptr<Blood> Blood::UniquePtrCreate(DirectX::XMFLOAT2 position, Temperature state, DirectX::XMFLOAT2 goal, DirectX::XMFLOAT2* playerPos)
 {
 	std::unique_ptr<Blood> instance = std::make_unique<Blood>();
 	instance->position_ = position;
 	instance->goal_ = goal;
-	instance->sprites_[solid] = Sprite::Create(UINT(ImageManager::ImageName::solidTexNumber), position);
-	instance->sprites_[liquid] = Sprite::Create(UINT(ImageManager::ImageName::liquidNumber), position);
-	instance->sprites_[gas] = Sprite::Create(UINT(ImageManager::ImageName::gasTexNumber), position);
-	instance->state_ = state;
-	DirectX::XMVECTOR vec3 = { instance->goal_.x - instance->position_.x,instance->goal_.y - instance->position_.y };
-	vec3 = DirectX::XMVector3Normalize(vec3);
-	instance->oldvec = vec3;
+	instance->playerPos_ = playerPos;
+	instance->sprites_[(int)Temperature::solid] = Sprite::Create(UINT(ImageManager::ImageName::solidTexNumber), position);
+	instance->sprites_[(int)Temperature::liquid] = Sprite::Create(UINT(ImageManager::ImageName::liquidNumber), position);
+	instance->sprites_[(int)Temperature::gas] = Sprite::Create(UINT(ImageManager::ImageName::gasTexNumber), position);
+	instance->temp_ = (int)state;
+	DirectX::XMVECTOR vec = { instance->goal_.x - instance->position_.x,instance->goal_.y - instance->position_.y };
+	vec = DirectX::XMVector3Normalize(vec);
+	instance->oldvec_ = vec;
+	instance->state_ = (int)State::shot;
 	return std::move(instance);
 }
 
@@ -42,48 +44,81 @@ void Blood::Update()
 {
 	//çXêVèàóù
 	//deadTimer--;
-	if (deadTimer < 0)isDead = true;
+	if (deadTimer_ < 0)isDead = true;
 
 	if (KeyInput::GetIns()->TriggerKey(DIK_UP)) { Rising(); }
 	if (KeyInput::GetIns()->TriggerKey(DIK_DOWN)) { Decrease(); }
 
-	//ååÇîÚÇŒÇ∑
-	DirectX::XMVECTOR vec3 = { goal_.x - position_.x,goal_.y - position_.y };
-	vec3 = DirectX::XMVector3Normalize(vec3);
-	float a = vec3.m128_f32[0];
-	float b = oldvec.m128_f32[0];
-	if (fabs(a - b) <= 0.001f * fmax(1, fmax(fabs(a), fabs(b)))) {
-		DirectX::XMFLOAT2 vec2 = { vec3.m128_f32[0],vec3.m128_f32[1] };
+	DirectX::XMVECTOR vec;
+	DirectX::XMFLOAT2 vec2;
+	float a = 0, b = 0;
+
+	switch (state_)
+	{
+	case (int)State::idle:
+
+		break;
+
+	case (int)State::shot:
+		//ååÇîÚÇŒÇ∑
+		vec = { goal_.x - position_.x,goal_.y - position_.y };
+		vec = DirectX::XMVector3Normalize(vec);
+		a = vec.m128_f32[0];
+		b = oldvec_.m128_f32[0];
+		if (fabs(a - b) <= 0.001f * fmax(1, fmax(fabs(a), fabs(b)))) {
+			vec2 = { vec.m128_f32[0],vec.m128_f32[1] };
+			position_ = { position_.x + vec2.x * speed_ ,position_.y + vec2.y * speed_ };
+
+			vec = { goal_.x - position_.x,goal_.y - position_.y };
+			vec = DirectX::XMVector3Normalize(vec);
+			a = vec.m128_f32[0];
+			b = oldvec_.m128_f32[0];
+			if (fabs(a - b) >= 0.001f * fmax(1, fmax(fabs(a), fabs(b)))) {
+				position_ = goal_;
+				state_ = (int)State::idle;
+			}
+		}
+		break;
+
+	case (int)State::back:
+		vec = { playerPos_->x - position_.x,playerPos_->y - position_.y };
+		vec = DirectX::XMVector3Normalize(vec);
+		oldvec_ = vec;
+		vec2 = { vec.m128_f32[0],vec.m128_f32[1] };
 		position_ = { position_.x + vec2.x * speed_ ,position_.y + vec2.y * speed_ };
 
-		vec3 = { goal_.x - position_.x,goal_.y - position_.y };
-		vec3 = DirectX::XMVector3Normalize(vec3);
-		a = vec3.m128_f32[0];
-		b = oldvec.m128_f32[0];
+		vec = { playerPos_->x - position_.x,playerPos_->y - position_.y };
+		vec = DirectX::XMVector3Normalize(vec);
+		a = vec.m128_f32[0];
+		b = oldvec_.m128_f32[0];
 		if (fabs(a - b) >= 0.001f * fmax(1, fmax(fabs(a), fabs(b)))) {
-			position_ = goal_;
-		}		
-	}	
+			position_ = *playerPos_;
+			state_ = (int)State::heat;
+		}
+		break;
+	default:
+		break;
+	}
 
-	sprites_[state_]->SetPosition(position_);
+	sprites_[temp_]->SetPosition(position_);
 }
 
 void Blood::Rising()
 {
-	if (state_ >= gas)return;
-	state_++;
+	if (temp_ >= (int)Temperature::gas)return;
+	temp_++;
 }
 
 void Blood::Decrease()
 {
-	if (state_ <= solid)return;
-	state_--;
+	if (temp_ <= (int)Temperature::solid)return;
+	temp_--;
 }
 
 
 void Blood::Draw()
 {
-	sprites_[state_]->Draw();
+	sprites_[temp_]->Draw();
 }
 
 bool Blood::GetDead()

@@ -21,9 +21,10 @@ public: //‰æ‘œ–¼
 		solidTexNumber = 1,
 		liquidNumber,
 		gasTexNumber,
-		playerTexNumber,
 		bgTexNumber,
-		towerNumber
+		towerNumber,
+		playerTexNumber,
+		playerHeatTexNumber
 	};
 
 public: //ƒƒ“ƒoŠÖ”

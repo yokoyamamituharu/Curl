@@ -20,7 +20,7 @@ void GameScene::Initialize()
 
 	postEffectNo_ = PostEffect::NONE;
 
-	blood_ = Blood::Create({ 300,500 }, Blood::solid);
+	blood_ = Blood::Create({ 300,500 }, Blood::Temperature::solid);
 	player_ = Player::Create();
 	bgSprite_ = Sprite::Create(UINT(ImageManager::ImageName::bgTexNumber),{0,0});
 	int32_t towerHP = 10;
