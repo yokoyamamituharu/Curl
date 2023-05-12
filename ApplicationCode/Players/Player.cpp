@@ -4,6 +4,7 @@
 #include "ImageManager.h"
 #include "MouseInput.h"
 #include <math.h>
+#include "KeyInputHandler.h"
 
 Player::Player()
 {
@@ -15,6 +16,7 @@ Player::~Player()
 		delete sprite.second;
 	}
 	sprites_.clear();
+	safe_delete(handler);
 }
 
 Player* Player::Create()
@@ -25,6 +27,8 @@ Player* Player::Create()
 	instance->sprites_[(int)State::heat] = Sprite::Create(UINT(ImageManager::ImageName::playerHeatTexNumber), { 0,0 });
 	instance->sprites_[(int)State::heat]->SetSize({ 128, 128 });
 	instance->state_ = (int)State::idle;
+	instance->handler = new KeyInputHandler();
+	instance->handler->Initialize(instance);
 	return instance;
 }
 
@@ -33,10 +37,9 @@ void Player::Update()
 	bloods_.remove_if([](std::unique_ptr<Blood>& blood) {
 		return blood->GetDead();
 		});
-	float speed = 2.0f;
 	if (heat_ > 0) {
 		state_ = (int)State::heat;
-		speed += 5.0f;
+		speed_ = 7.0f;
 		heatDiray_--;
 		if (heatDiray_ <= 0) {
 			heat_--;
@@ -45,14 +48,17 @@ void Player::Update()
 	}
 	else {
 		state_ = (int)State::idle;
+		speed_ = 2.0f;
 	}
 
 
 	DirectX::XMVECTOR vec = {};
-	if (KeyInput::GetIns()->PushKey(DIK_D))	vec.m128_f32[0] += speed;
-	if (KeyInput::GetIns()->PushKey(DIK_A))	vec.m128_f32[0] -= speed;
-	if (KeyInput::GetIns()->PushKey(DIK_W))	vec.m128_f32[1] -= speed;
-	if (KeyInput::GetIns()->PushKey(DIK_S))	vec.m128_f32[1] += speed;
+	//if (KeyInput::GetIns()->PushKey(DIK_D))	vec.m128_f32[0] += speed;
+	//if (KeyInput::GetIns()->PushKey(DIK_A))	vec.m128_f32[0] -= speed;
+	//if (KeyInput::GetIns()->PushKey(DIK_W))	vec.m128_f32[1] -= speed;
+	//if (KeyInput::GetIns()->PushKey(DIK_S))	vec.m128_f32[1] += speed;
+
+	handler->PlayerHandleInput();
 
 	position_ = { position_.x + vec.m128_f32[0],position_.y + vec.m128_f32[1] };
 
@@ -114,4 +120,9 @@ void Player::Draw()
 	for (std::unique_ptr<Blood>& blood : bloods_) {
 		blood->Draw();
 	}
+}
+
+void Player::AddPlayerVector(Vector2 vec)
+{
+	position_ = { position_.x + vec.x,position_.y + vec.y };
 }

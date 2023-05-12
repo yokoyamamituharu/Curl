@@ -2,7 +2,9 @@
 #include "Sprite.h"
 #include "Blood.h"
 #include "list"
+#include "Vector2.h"
 
+class KeyInputHandler;
 class Player 
 {
 private:
@@ -28,6 +30,10 @@ public:
 
 	void Draw();
 
+	void AddPlayerVector(Vector2 vec);
+
+	float GetSpeed() { return speed_; }
+
 private:
 	std::map<int, Sprite*> sprites_;
 	std::list<std::unique_ptr<Blood>>bloods_;
@@ -38,4 +44,6 @@ private:
 	int maxHeatDiray_ = 15;
 	int heatDiray_ = maxHeatDiray_;
 	int state_ = (int)State::none;
+	KeyInputHandler* handler = nullptr;
+	float speed_ = 2.0f;
 };

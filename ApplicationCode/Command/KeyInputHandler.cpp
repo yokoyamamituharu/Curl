@@ -14,23 +14,20 @@ KeyInputHandler::~KeyInputHandler()
 	safe_delete(spaceKey_);
 }
 
-//void KeyInputHandler::Initialize(Player* player)
-//{
-//	player_ = player;
-//	KeyBindChange_W(Commands::UpMove);
-//	KeyBindChange_A(Commands::LeftMove);
-//	KeyBindChange_S(Commands::DownMove);
-//	KeyBindChange_D(Commands::RightMove);
-//	KeyBindChange_LeftClick(Commands::Shot);
-//	KeyBindChange_RightClick(Commands::Bomb);
-//	KeyBindChange_R(Commands::Reload);
-//	KeyBindChange_LShift(Commands::None);
-//	KeyBindChange_Space(Commands::None);
-//}
+void KeyInputHandler::Initialize(Player* player)
+{
+	player_ = player;
+	KeyBindChange_W(Commands::UpMove);
+	KeyBindChange_A(Commands::LeftMove);
+	KeyBindChange_S(Commands::DownMove);
+	KeyBindChange_D(Commands::RightMove);	
+	KeyBindChange_LShift(Commands::None);
+	KeyBindChange_Space(Commands::None);
+}
 
 void KeyInputHandler::PlayerHandleInput()
 {
-	/*if (KeyInput::GetIns()->PushKey(DIK_W) && wKey_ != nullptr) wKey_->Execute(player_);
+	if (KeyInput::GetIns()->PushKey(DIK_W) && wKey_ != nullptr) wKey_->Execute(player_);
 	if (KeyInput::GetIns()->PushKey(DIK_A) && aKey_ != nullptr) aKey_->Execute(player_);
 	if (KeyInput::GetIns()->PushKey(DIK_S) && sKey_ != nullptr) sKey_->Execute(player_);
 	if (KeyInput::GetIns()->PushKey(DIK_D) && dKey_ != nullptr) dKey_->Execute(player_);
@@ -38,23 +35,23 @@ void KeyInputHandler::PlayerHandleInput()
 	if (KeyInput::GetIns()->TriggerKey(DIK_LSHIFT) && leftShiftKey_ != nullptr) leftShiftKey_->Execute(player_);
 	if (KeyInput::GetIns()->TriggerKey(DIK_SPACE) && spaceKey_ != nullptr) spaceKey_->Execute(player_);
 	if (MouseInput::GetIns()->PushClick(MouseInput::MouseState::LEFT_CLICK) && leftClick_ != nullptr) leftClick_->Execute(player_);
-	if (MouseInput::GetIns()->TriggerClick(MouseInput::MouseState::RIGHT_CLICK) && rightClick_ != nullptr) rightClick_->Execute(player_);*/
+	if (MouseInput::GetIns()->TriggerClick(MouseInput::MouseState::RIGHT_CLICK) && rightClick_ != nullptr) rightClick_->Execute(player_);
 }
 
 PlayerCommand* KeyInputHandler::KeyBindChange(Commands command)
 {
 	switch (command) {
 	case Commands::LeftMove:
-		//return new LeftMoveCommand();
+		return new LeftMoveCommand();
 		break;
 	case Commands::RightMove:
-		//return new RightMoveCommand();
+		return new RightMoveCommand();
 		break;
 	case Commands::UpMove:
-		//return new UpMoveCommand();
+		return new UpMoveCommand();
 		break;
 	case Commands::DownMove:
-		//return new DownMoveCommand();
+		return new DownMoveCommand();
 		break;
 	case Commands::None:
 		return nullptr;
