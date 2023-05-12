@@ -4,10 +4,6 @@
 #include "KeyInput.h"
 #include <numeric>
 
-Blood::Blood()
-{
-}
-
 Blood::~Blood()
 {
 	for (auto sprite : sprites_) {
@@ -30,13 +26,15 @@ Blood* Blood::Create(DirectX::XMFLOAT2 position, STATE state)
 std::unique_ptr<Blood> Blood::UniquePtrCreate(DirectX::XMFLOAT2 position, STATE state, DirectX::XMFLOAT2 goal)
 {
 	std::unique_ptr<Blood> instance = std::make_unique<Blood>();
-	instance->startPosition_ = position;
 	instance->position_ = position;
 	instance->goal_ = goal;
 	instance->sprites_[solid] = Sprite::Create(UINT(ImageManager::ImageName::solidTexNumber), position);
 	instance->sprites_[liquid] = Sprite::Create(UINT(ImageManager::ImageName::liquidNumber), position);
 	instance->sprites_[gas] = Sprite::Create(UINT(ImageManager::ImageName::gasTexNumber), position);
 	instance->state_ = state;
+	DirectX::XMVECTOR vec3 = { instance->goal_.x - instance->position_.x,instance->goal_.y - instance->position_.y };
+	vec3 = DirectX::XMVector3Normalize(vec3);
+	instance->oldvec = vec3;
 	return std::move(instance);
 }
 
@@ -49,9 +47,24 @@ void Blood::Update()
 	if (KeyInput::GetIns()->TriggerKey(DIK_UP)) { Rising(); }
 	if (KeyInput::GetIns()->TriggerKey(DIK_DOWN)) { Decrease(); }
 
-	//position_ = { position_.x + vec_.x ,position_.y + vec_.y };
-	position_ = Learp(startPosition_, goal_, time_);
-	if (time_ < 1) time_ += 0.1f;
+	//ŒŒ‚ð”ò‚Î‚·
+	DirectX::XMVECTOR vec3 = { goal_.x - position_.x,goal_.y - position_.y };
+	vec3 = DirectX::XMVector3Normalize(vec3);
+	float a = vec3.m128_f32[0];
+	float b = oldvec.m128_f32[0];
+	if (fabs(a - b) <= 0.001f * fmax(1, fmax(fabs(a), fabs(b)))) {
+		DirectX::XMFLOAT2 vec2 = { vec3.m128_f32[0],vec3.m128_f32[1] };
+		position_ = { position_.x + vec2.x * speed_ ,position_.y + vec2.y * speed_ };
+
+		vec3 = { goal_.x - position_.x,goal_.y - position_.y };
+		vec3 = DirectX::XMVector3Normalize(vec3);
+		a = vec3.m128_f32[0];
+		b = oldvec.m128_f32[0];
+		if (fabs(a - b) >= 0.001f * fmax(1, fmax(fabs(a), fabs(b)))) {
+			position_ = goal_;
+		}		
+	}	
+
 	sprites_[state_]->SetPosition(position_);
 }
 
@@ -81,14 +94,4 @@ bool Blood::GetDead()
 void Blood::SetDead()
 {
 	isDead = true;
-}
-
-DirectX::XMFLOAT2 Blood::Learp(DirectX::XMFLOAT2 p, DirectX::XMFLOAT2 p2, float time)
-{
-	p2.x -= p.x;
-	p2.y -= p.y;
-	DirectX::XMFLOAT2 p3{};
-	p3.x = p2.x * time + p.x;
-	p3.y = p2.y * time + p.y;
-	return p3;
 }
