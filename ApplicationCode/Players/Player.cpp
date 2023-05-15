@@ -19,6 +19,7 @@ Player* Player::Create()
 	Player* instance = new Player();
 	instance->sprite_ = Sprite::Create(UINT(ImageManager::ImageName::playerTexNumber), { 0,0 });
 	instance->sprite_->SetSize({ 128, 128 });
+	instance->playerHp_ = 10;
 	return instance;
 }
 
@@ -36,7 +37,7 @@ void Player::Update()
 	//ŒŒ‚ğ•úo
 	Shot();
 
-	for (std::unique_ptr<Blood>& blood : bloods_) {
+	for (std::unique_ptr<Blood>& blood: bloods_) {
 		blood->Update();
 		if (KeyInput::GetIns()->TriggerKey(DIK_B)) {
 			blood->SetDead();

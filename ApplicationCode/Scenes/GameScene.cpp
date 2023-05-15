@@ -20,12 +20,13 @@ void GameScene::Initialize()
 
 	postEffectNo_ = PostEffect::NONE;
 
-	
+
 	enemys_ = new Enemys();
 	enemys_->Initialize();
+	enemy_ = new Enemy();
 	blood_ = Blood::Create({ 300,500 }, Blood::solid);
 	player_ = Player::Create();
-	bgSprite_ = Sprite::Create(UINT(ImageManager::ImageName::bgTexNumber),{0,0});
+	bgSprite_ = Sprite::Create(UINT(ImageManager::ImageName::bgTexNumber), { 0,0 });
 	int32_t towerHP = 10;
 	tower_ = new Tower;
 	tower_->Initialize(towerHP);
@@ -38,10 +39,10 @@ void GameScene::Update()
 	if (KeyInput::GetIns()->TriggerKey(DIK_UP)) { blood_->Rising(); }
 	if (KeyInput::GetIns()->TriggerKey(DIK_DOWN)) { blood_->Decrease(); }
 	blood_->Update();
-	
+	player_->bloods_;
 
-	enemys_->Update();
-	
+	enemys_->Update(tower_->GetHP(), player_->GetPlayerHp());
+
 	ground_->Update();
 	//シーン切り替え
 	SceneChange();
@@ -55,7 +56,7 @@ void GameScene::Draw()
 	postEffect_->PreDrawScene(DirectXSetting::GetIns()->GetCmdList());
 
 	//スプライト描画処理(背景)
-	Sprite::PreDraw(DirectXSetting::GetIns()->GetCmdList());	
+	Sprite::PreDraw(DirectXSetting::GetIns()->GetCmdList());
 	Sprite::PostDraw();
 
 	//3Dオブジェクト描画処理
@@ -90,11 +91,16 @@ void GameScene::Finalize()
 {
 	safe_delete(text_);
 	safe_delete(blood_);
-	enemys_->Delete();
+	//enemys_->Delete();
 	safe_delete(enemys_);
 	safe_delete(player_);
 	safe_delete(bgSprite_);
 	safe_delete(tower_);
+}
+
+void GameScene::HitEnemys()
+{
+	
 }
 
 void GameScene::SceneChange()

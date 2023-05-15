@@ -23,8 +23,7 @@ public: //‰æ‘œ–¼
 		gasTexNumber,
 		playerTexNumber,
 		bgTexNumber,
-		towerNumber
-		gasTexNumber,
+		towerNumber,
 		enemyindividual,
 		enemyLiquid,
 		enemyGas,

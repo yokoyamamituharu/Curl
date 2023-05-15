@@ -5,61 +5,45 @@
 #include "KeyInput.h"
 #include<memory>
 #include<list>
+#include"Enemy.h"
 
 using namespace std;
 
-class Enemys
+class Enemys:public Enemy
 {
 private://è»ó™
 
-	using XMFLOAT2 = DirectX::XMFLOAT2;
-	using XMVECTOR = DirectX::XMVECTOR;
-	/*template <class T> using unique_ptr = std::unique_ptr<T>;
-	template <class T> using list = std::list<T>;*/
-	//template <class T> using make_unique = std::make_unique<T>;
+	
 private:
-	struct Enemy
-	{
-		Sprite* sprite{};
-		XMFLOAT2 pos{};
-		int enemyType{};
-		bool bloodHitFlag{};
-		int bloodType{};
-		float angle{};
-		float moveLength{};
-		~Enemy();
 
-	};
-
+public:
 	enum EnemyType
 	{
-		individual,//å¬ëÃ
+		individual = 7,//å¬ëÃ
 		liquid,//âtëÃ
 		gas,//ãCëÃ
 	};
 
+	Enemys();
+	~Enemys();
 
-public:
+	static Enemys* Create();
 
-	void Initialize();
-
-	void Update();
+	void Update(int32_t towerHp,int playerHp);
 
 	void Draw();
 
-	void Delete();
+	void EnemyCreate();
 
-	~Enemys();
+	void EnemyDelete();
 
-private:
-	Sprite* sprite{};
-	XMFLOAT2 pos{};
-	int enemyType{};
-	bool bloodHitFlag{};
-	int bloodType{};
-	float angle{};
-	float moveLength{};
+	list<unique_ptr<Enemy>> Get() { return std::move(enemys3_); }
+	
+
+protected:
 	//Enemy* enemys_[36]{};
+	int enemyNumber_{};
+	int enemyCreateTime{};
 	RandCreate* randCreate_{};
 	KeyInput* keyInput_{};
 

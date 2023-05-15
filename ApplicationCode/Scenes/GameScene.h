@@ -21,6 +21,7 @@
 #include "Blood.h"
 #include "Player.h"
 #include "Tower.h"
+#include "Enemy.h"
 
 class GameScene : public BaseScene
 {
@@ -45,6 +46,8 @@ public: //メンバ関数
 	/// </summary>
 	void Finalize();
 
+	void HitEnemys();
+
 private: //メンバ関数
 	/// <summary>
 	/// シーン切り替え処理
@@ -68,6 +71,8 @@ private: //メンバ変数
 	Tower* tower_ = nullptr;
 	Sprite* bgSprite_ = nullptr;
 	
+	Enemy* enemy_{};
+
 	Enemys* enemys_{};
 };
 

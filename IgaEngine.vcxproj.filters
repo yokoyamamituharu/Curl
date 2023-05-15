@@ -233,6 +233,9 @@
     <ClCompile Include="ApplicationCode\Enemys\Enemys.cpp">
       <Filter>ソース ファイル\ApplicationCode\Enemies</Filter>
     </ClCompile>
+    <ClCompile Include="ApplicationCode\Enemys\Enemy.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Audio\Sound.h">
@@ -394,6 +397,9 @@
     </ClInclude>
     <ClInclude Include="Engine\Base\Vector2.h">
       <Filter>ソース ファイル\Engine\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationCode\Enemys\Enemy.h">
+      <Filter>ソース ファイル\ApplicationCode\Enemies</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
