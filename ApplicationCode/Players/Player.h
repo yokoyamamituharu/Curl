@@ -24,7 +24,8 @@ public:
 	int GetPlayerHp() { return playerHp_; }
 	void SetPlayerHp(int playerHp) { this->playerHp_ = playerHp; }
 
-
+	std::list<std::unique_ptr<Blood>>& GetBloods() { return bloods_;}
+	void SetBlood(std::list<std::unique_ptr<Blood>> blood) { this->bloods_ = std::move(blood); }
 protected:
 	Sprite* sprite_ = nullptr;
 	std::list<std::unique_ptr<Blood>>bloods_;

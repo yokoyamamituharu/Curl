@@ -23,6 +23,7 @@
 #include "Tower.h"
 #include "Enemy.h"
 
+#include"Collision.h"
 class GameScene : public BaseScene
 {
 public: //メンバ関数
@@ -35,6 +36,11 @@ public: //メンバ関数
 	/// 更新処理
 	/// </summary>
 	void Update();
+
+	/// <summary>
+	/// 血と敵の当たり判定
+	/// </summary>
+	void HitBloodAndEnemys();
 
 	/// <summary>
 	/// 描画処理
@@ -74,5 +80,6 @@ private: //メンバ変数
 	Enemy* enemy_{};
 
 	Enemys* enemys_{};
+	list<unique_ptr<Enemy>> enemy_1;
 };
 

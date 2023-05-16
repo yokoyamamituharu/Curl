@@ -9,7 +9,7 @@
 
 using namespace std;
 
-class Enemys:public Enemy
+class Enemys
 {
 private://è»ó™
 
@@ -31,14 +31,15 @@ public:
 
 	void Update(int32_t towerHp,int playerHp);
 
-	void Draw();
-
 	void EnemyCreate();
 
-	void EnemyDelete();
+	void EnemyHitBlood();
 
-	list<unique_ptr<Enemy>> Get() { return std::move(enemys3_); }
-	
+	void EnemyHitTower();
+
+	list<unique_ptr<Enemy>>& GetEnemys() { return enemys3_; }
+	void SetEnemys(list<unique_ptr<Enemy>> enemys) { this->enemys3_ = move(enemys); };
+	void Draw();
 
 protected:
 	//Enemy* enemys_[36]{};

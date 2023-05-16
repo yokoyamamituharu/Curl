@@ -1,6 +1,7 @@
 #include "Enemys.h"
 #include "ImageManager.h"
 #include "Enemy.h"
+#include "SafeDelete.h"
 
 Enemys::Enemys()
 {
@@ -8,6 +9,7 @@ Enemys::Enemys()
 
 Enemys::~Enemys()
 {
+	safe_delete(randCreate_);
 
 }
 
@@ -15,14 +17,78 @@ Enemys* Enemys::Create()
 {
 	Enemys* enemys = new Enemys();
 	enemys->enemyCreateTime = 200;
+	enemys->randCreate_ = new RandCreate();
+	enemys->enemyNumber_ = 0;
 
-	for (int i = 0; i < 10; i++)
+
+	return enemys;
+}
+
+void Enemys::Update(int32_t towerHp, int playerHp)
+{
+	enemyCreateTime--;
+	if ((towerHp > 0 || playerHp > 0)&& enemyNumber_ < 72&& enemyCreateTime<0)
 	{
-		enemys->enemys3_.push_back(UniqueCreate(RandCreate::sGetRandInt()));
-
+		EnemyCreate();
+		enemyNumber_++;
+		enemyCreateTime = randCreate_->getRandInt(10,100);
 	}
 
-	enemys->enemys3_.push_back(UniqueCreate());
+	for (auto& enemy : enemys3_)
+	{
+		enemy->Update();
+	}
+	EnemyHitBlood();
+	EnemyHitTower();
+}
 
-	return nullptr;
+void Enemys::EnemyCreate()
+{
+enemys3_.push_back(Enemy::UniqueCreate());
+}
+
+void Enemys::EnemyHitBlood()
+{
+	for (auto& enemy : enemys3_)
+	{
+		if (enemy->GetBloodHitFlag() == true)
+		{
+			if (enemy->GetBloodType() == enemy->GetHitBloodType())
+			{
+				enemys3_.remove(enemy);
+			}
+			else if(enemy->GetBloodType() == enemy->GetAnBloodType())
+			{
+				enemy->SetMoveAddLength(2);
+			}
+			else
+			{
+				enemy->SetMoveAddLength(0);
+			}
+		}
+
+
+	}
+}
+
+void Enemys::EnemyHitTower()
+{
+	enemys3_.remove_if([](unique_ptr<Enemy>& enemy1) {return enemy1->GetMoveLength() <= 5; });
+
+	for (auto& enemy : enemys3_)
+	{
+		if (enemy->GetTowerHitFlag() == true)
+		{
+			enemys3_.remove(enemy);
+		}
+	}
+
+}
+
+void Enemys::Draw()
+{
+	for (unique_ptr<Enemy>& enemy : enemys3_)
+	{
+		enemy->Draw();
+	}
 }

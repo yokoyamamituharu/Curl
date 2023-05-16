@@ -22,8 +22,10 @@ void GameScene::Initialize()
 
 
 	enemys_ = new Enemys();
-	enemys_->Initialize();
+	enemys_ = Enemys::Create();
 	enemy_ = new Enemy();
+	enemy_ = Enemy::Create();
+
 	blood_ = Blood::Create({ 300,500 }, Blood::solid);
 	player_ = Player::Create();
 	bgSprite_ = Sprite::Create(UINT(ImageManager::ImageName::bgTexNumber), { 0,0 });
@@ -35,17 +37,42 @@ void GameScene::Initialize()
 void GameScene::Update()
 {
 	//blood_->Update();
+	HitBloodAndEnemys();
+
 	player_->Update();
 	if (KeyInput::GetIns()->TriggerKey(DIK_UP)) { blood_->Rising(); }
 	if (KeyInput::GetIns()->TriggerKey(DIK_DOWN)) { blood_->Decrease(); }
 	blood_->Update();
-	player_->bloods_;
+
 
 	enemys_->Update(tower_->GetHP(), player_->GetPlayerHp());
+	enemy_->Update();
 
 	ground_->Update();
 	//ƒV[ƒ“Ø‚è‘Ö‚¦
 	SceneChange();
+}
+
+void GameScene::HitBloodAndEnemys()
+{
+	enemy_1 = enemys_->GetEnemys();
+	for (auto& enemy : enemy_1)
+	{
+		for (auto& blood : player_->GetBloods())
+		{
+			bool isHit = Collision::HitCircle(enemy->Getpos(), 32, blood->GetPos(), 16);
+
+			if (isHit)
+			{
+				enemy->SetBloadHitFlag(isHit);
+				enemy->SetBloodType(blood->GetTemperature());
+			}
+		}
+		
+	}
+
+	enemys_->SetEnemys(enemy_1);
+	
 }
 
 void GameScene::Draw()
@@ -69,9 +96,9 @@ void GameScene::Draw()
 	bgSprite_->Draw();
 	player_->Draw();
 	tower_->Draw();
-	blood_->Draw();
+	//blood_->Draw();
 	enemys_->Draw();
-
+	//enemy_->Draw();
 	Sprite::PostDraw();
 
 	postEffect_->PostDrawScene(DirectXSetting::GetIns()->GetCmdList());
@@ -93,6 +120,7 @@ void GameScene::Finalize()
 	safe_delete(blood_);
 	//enemys_->Delete();
 	safe_delete(enemys_);
+	safe_delete(enemy_);
 	safe_delete(player_);
 	safe_delete(bgSprite_);
 	safe_delete(tower_);
@@ -100,7 +128,7 @@ void GameScene::Finalize()
 
 void GameScene::HitEnemys()
 {
-	
+
 }
 
 void GameScene::SceneChange()

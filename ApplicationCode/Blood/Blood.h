@@ -45,6 +45,8 @@ public:
 
 	DirectX::XMFLOAT2 Learp(DirectX::XMFLOAT2 p, DirectX::XMFLOAT2 p2, float time);
 
+	DirectX::XMFLOAT2  GetPos() { return position_; }
+
 private:
 
 public:
