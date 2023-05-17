@@ -3,6 +3,7 @@
 #include "Blood.h"
 #include "list"
 #include "Vector2.h"
+#include "ScrollCamera.h"
 
 class KeyInputHandler;
 class Player 
@@ -28,12 +29,15 @@ public:
 
 	void Shot();
 
-	void Draw();
+	void Draw(ScrollCamera* scroll);
 
 	void AddPlayerVector(Vector2 vec);
 
 	float GetSpeed() { return speed_; }
 
+	Sprite* GetSprite() { return sprites_[state_]; }
+
+	void SetCamera(ScrollCamera* camera) { this->camera_ = camera; }
 private:
 	std::map<int, Sprite*> sprites_;
 	std::list<std::unique_ptr<Blood>>bloods_;
@@ -46,4 +50,5 @@ private:
 	int state_ = (int)State::none;
 	KeyInputHandler* handler = nullptr;
 	float speed_ = 2.0f;
+	ScrollCamera* camera_ = nullptr;
 };

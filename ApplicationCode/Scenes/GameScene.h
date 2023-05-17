@@ -20,6 +20,7 @@
 #include "Blood.h"
 #include "Player.h"
 #include "Tower.h"
+#include "ScrollCamera.h"
 
 class GameScene : public BaseScene
 {
@@ -66,5 +67,6 @@ private: //ƒƒ“ƒo•Ï”
 	Player* player_ = nullptr;
 	Tower* tower_ = nullptr;
 	Sprite* bgSprite_ = nullptr;
+	ScrollCamera* scrollCamera_ = nullptr;
 };
 

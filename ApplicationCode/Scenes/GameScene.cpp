@@ -26,13 +26,17 @@ void GameScene::Initialize()
 	int32_t towerHP = 10;
 	tower_ = new Tower;
 	tower_->Initialize(towerHP);
+	scrollCamera_ = ScrollCamera::Create();
+	Sprite::SetCamera(scrollCamera_);
+	player_->SetCamera(scrollCamera_);
 }
 
 void GameScene::Update()
 {
 	//blood_->Update();
 	player_->Update();
-	ground_->Update();
+	scrollCamera_->Update();
+	ground_->Update();	
 	//シーン切り替え
 	SceneChange();
 }
@@ -56,8 +60,9 @@ void GameScene::Draw()
 	//スプライト描画処理(UI等)
 	Sprite::PreDraw(DirectXSetting::GetIns()->GetCmdList());
 	bgSprite_->Draw();
-	player_->Draw();
+	player_->Draw(scrollCamera_);
 	tower_->Draw();
+	//scrollCamera->Draw(player_->GetSprite());
 	Sprite::PostDraw();
 
 	postEffect_->PostDrawScene(DirectXSetting::GetIns()->GetCmdList());
@@ -80,6 +85,7 @@ void GameScene::Finalize()
 	safe_delete(player_);
 	safe_delete(bgSprite_);
 	safe_delete(tower_);
+	safe_delete(scrollCamera_);
 }
 
 void GameScene::SceneChange()

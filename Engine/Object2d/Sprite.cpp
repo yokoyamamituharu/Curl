@@ -20,6 +20,7 @@ ComPtr<ID3D12PipelineState> Sprite::pipelineState;
 XMMATRIX Sprite::matProjection;
 ComPtr<ID3D12DescriptorHeap> Sprite::descHeap;
 ComPtr<ID3D12Resource> Sprite::texBuff[srvCount];
+ScrollCamera* Sprite::camera_ = nullptr;
 
 bool Sprite::StaticInitialize(ID3D12Device* device, int32_t window_width, int32_t window_height) {
 	//nullチェック
@@ -428,13 +429,17 @@ void Sprite::SetTextureRect(XMFLOAT2 texBase, XMFLOAT2 texSize) {
 	TransferVertices();
 }
 
-void Sprite::Draw() {
+void Sprite::Draw(ScrollCamera* camera) {
 	// ワールド行列の更新
 	this->matWorld = XMMatrixIdentity();
 	// Z軸回転
 	this->matWorld *= XMMatrixRotationZ(XMConvertToRadians(rotation));
 	// 平行移動
 	this->matWorld *= XMMatrixTranslation(position.x, position.y, 0.0f);
+	if (camera_) {
+		this->matWorld *= XMMatrixTranslation(camera_->GetPosition().x, camera_->GetPosition().y, 0.0f);
+	
+	}		
 
 	// 定数バッファに転送
 	ConstBufferData* constMap = nullptr;

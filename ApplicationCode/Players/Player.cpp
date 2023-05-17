@@ -22,9 +22,9 @@ Player::~Player()
 Player* Player::Create()
 {
 	Player* instance = new Player();
-	instance->sprites_[(int)State::idle] = Sprite::Create(UINT(ImageManager::ImageName::playerTexNumber), {0,0});
-	instance->sprites_[(int)State::idle]->SetSize({128, 128});
-	instance->sprites_[(int)State::heat] = Sprite::Create(UINT(ImageManager::ImageName::playerHeatTexNumber), { 0,0 });
+	instance->sprites_[(int)State::idle] = Sprite::Create(UINT(ImageManager::ImageName::playerTexNumber), { 0,0 },{},{0.5,0.5 });
+	instance->sprites_[(int)State::idle]->SetSize({ 128, 128 });
+	instance->sprites_[(int)State::heat] = Sprite::Create(UINT(ImageManager::ImageName::playerHeatTexNumber), { 0,0 }, {}, { 0.5,0.5 });
 	instance->sprites_[(int)State::heat]->SetSize({ 128, 128 });
 	instance->state_ = (int)State::idle;
 	instance->handler = new KeyInputHandler();
@@ -95,7 +95,8 @@ void Player::Update()
 
 void Player::Shot()
 {
-	XMFLOAT2 cursolPos = DirectX::XMFLOAT2{ float(MouseInput::GetIns()->GetMousePoint().x),float(MouseInput::GetIns()->GetMousePoint().y) };
+	XMFLOAT2 cursolPos = DirectX::XMFLOAT2{ float(MouseInput::GetIns()->GetMousePoint().x)+camera_->GetPosition().x,
+		float(MouseInput::GetIns()->GetMousePoint().y) + camera_->GetPosition().y };
 	XMFLOAT2 playerPos = position_;
 	DirectX::XMVECTOR vec3 = { cursolPos.x - playerPos.x,cursolPos.y - playerPos.y };
 	vec3 = DirectX::XMVector3Normalize(vec3);
@@ -114,9 +115,11 @@ void Player::Shot()
 	}
 }
 
-void Player::Draw()
+void Player::Draw(ScrollCamera* scroll)
 {
-	sprites_[state_]->Draw();
+	//sprites_[state_]->SetPosition({ position_.x - scroll.x , position_.y - scroll.y });
+	sprites_[state_]->Draw(scroll);
+	//sprites_[state_]->SetPosition({ position_.x + scroll.x , position_.y + scroll.y });
 	for (std::unique_ptr<Blood>& blood : bloods_) {
 		blood->Draw();
 	}
