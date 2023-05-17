@@ -8,7 +8,7 @@ Collision* Collision::GetIns()
 
 bool Collision::HitCircle(XMFLOAT2 pos1, float radius1, XMFLOAT2 pos2, float radius2)
 {
-	float temp = sqrtf(pow(pos1.x - pos2.x, 2) + pow(pos1.y - pos1.y, 2));
+	float temp = sqrtf(pow(pos1.x - pos2.x, 2) + pow(pos1.y - pos2.y, 2));
 
 	return temp < radius1 + radius2;
 }

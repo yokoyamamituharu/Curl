@@ -49,13 +49,14 @@ enemys3_.push_back(Enemy::UniqueCreate());
 
 void Enemys::EnemyHitBlood()
 {
-	for (auto& enemy : enemys3_)
+	for (unique_ptr<Enemy>& enemy : enemys3_)
 	{
 		if (enemy->GetBloodHitFlag() == true)
 		{
 			if (enemy->GetBloodType() == enemy->GetHitBloodType())
 			{
-				enemys3_.remove(enemy);
+				enemy->SetDead(1);
+				enemyNumber_--;
 			}
 			else if(enemy->GetBloodType() == enemy->GetAnBloodType())
 			{
@@ -66,22 +67,24 @@ void Enemys::EnemyHitBlood()
 				enemy->SetMoveAddLength(0);
 			}
 		}
-
-
 	}
+	enemys3_.remove_if([](std::unique_ptr<Enemy>& enemy) {return enemy->GetDead();  });
+
 }
 
 void Enemys::EnemyHitTower()
 {
-	enemys3_.remove_if([](unique_ptr<Enemy>& enemy1) {return enemy1->GetMoveLength() <= 5; });
 
 	for (auto& enemy : enemys3_)
 	{
-		if (enemy->GetTowerHitFlag() == true)
+		if (enemy->GetMoveLength() <= 5)
 		{
-			enemys3_.remove(enemy);
+			enemyNumber_--;
+
 		}
+		
 	}
+	enemys3_.remove_if([](unique_ptr<Enemy>& enemy1) {return enemy1->GetMoveLength() <= 5; });
 
 }
 

@@ -67,6 +67,9 @@ public:
 
 	XMFLOAT2 GerEnemyPos() { return pos; }
 
+	bool GetDead() { return dead; }
+	void SetDead(bool dead_) { this->dead = dead_; }
+
 protected:
 	Sprite* sprite{};
 	XMFLOAT2 pos{};
@@ -80,4 +83,5 @@ protected:
 
 	bool bloodHitFlag{};
 	bool towerHitFlag{};
+	bool dead{};
 };

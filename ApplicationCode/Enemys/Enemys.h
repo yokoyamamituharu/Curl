@@ -38,7 +38,7 @@ public:
 	void EnemyHitTower();
 
 	list<unique_ptr<Enemy>>& GetEnemys() { return enemys3_; }
-	void SetEnemys(list<unique_ptr<Enemy>> enemys) { this->enemys3_ = move(enemys); };
+	//void SetEnemys(list<unique_ptr<Enemy>> enemys) { this->enemys3_ = move(enemys); };
 	void Draw();
 
 protected:

@@ -55,8 +55,8 @@ void GameScene::Update()
 
 void GameScene::HitBloodAndEnemys()
 {
-	enemy_1 = enemys_->GetEnemys();
-	for (auto& enemy : enemy_1)
+	//enemy_1 = enemys_->GetEnemys();
+	for (auto& enemy : enemys_->GetEnemys())
 	{
 		for (auto& blood : player_->GetBloods())
 		{
@@ -71,7 +71,7 @@ void GameScene::HitBloodAndEnemys()
 		
 	}
 
-	enemys_->SetEnemys(enemy_1);
+	//enemys_->SetEnemys(enemy_1);
 	
 }
 

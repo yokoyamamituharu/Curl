@@ -80,6 +80,6 @@ private: //ƒƒ“ƒo•Ï”
 	Enemy* enemy_{};
 
 	Enemys* enemys_{};
-	list<unique_ptr<Enemy>> enemy_1;
+	
 };
 
