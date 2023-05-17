@@ -95,8 +95,8 @@ void Player::Update()
 
 void Player::Shot()
 {
-	XMFLOAT2 cursolPos = DirectX::XMFLOAT2{ float(MouseInput::GetIns()->GetMousePoint().x)+camera_->GetPosition().x,
-		float(MouseInput::GetIns()->GetMousePoint().y) + camera_->GetPosition().y };
+	XMFLOAT2 cursolPos = DirectX::XMFLOAT2{ float(MouseInput::GetIns()->GetMousePoint().x)-camera_->GetPosition().x,
+		float(MouseInput::GetIns()->GetMousePoint().y) - camera_->GetPosition().y };
 	XMFLOAT2 playerPos = position_;
 	DirectX::XMVECTOR vec3 = { cursolPos.x - playerPos.x,cursolPos.y - playerPos.y };
 	vec3 = DirectX::XMVector3Normalize(vec3);

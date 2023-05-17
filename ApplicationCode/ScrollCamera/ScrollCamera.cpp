@@ -12,18 +12,18 @@ ScrollCamera* ScrollCamera::Create()
 void ScrollCamera::Update()
 {
     float cameraSpeed = 5.0f;
-    if (KeyInput::GetIns()->PushKey(DIK_UP)) {
-        pos.y -= cameraSpeed;
-    }
-    if (KeyInput::GetIns()->PushKey(DIK_DOWN)) {
-        pos.y += cameraSpeed;
-    }
-    if (KeyInput::GetIns()->PushKey(DIK_RIGHT)) {
-        pos.x += cameraSpeed;
-    }
-    if (KeyInput::GetIns()->PushKey(DIK_LEFT)) {
-        pos.x -= cameraSpeed;
-    }
+    //if (KeyInput::GetIns()->PushKey(DIK_UP)) {
+    //    pos.y -= cameraSpeed;
+    //}
+    //if (KeyInput::GetIns()->PushKey(DIK_DOWN)) {
+    //    pos.y += cameraSpeed;
+    //}
+    //if (KeyInput::GetIns()->PushKey(DIK_RIGHT)) {
+    //    pos.x += cameraSpeed;
+    //}
+    //if (KeyInput::GetIns()->PushKey(DIK_LEFT)) {
+    //    pos.x -= cameraSpeed;
+    //}
 }
 
 void ScrollCamera::Draw(Sprite* sprite)
