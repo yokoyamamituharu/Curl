@@ -429,7 +429,7 @@ void Sprite::SetTextureRect(XMFLOAT2 texBase, XMFLOAT2 texSize) {
 	TransferVertices();
 }
 
-void Sprite::Draw(ScrollCamera* camera) {
+void Sprite::Draw() {
 	// ワールド行列の更新
 	this->matWorld = XMMatrixIdentity();
 	// Z軸回転

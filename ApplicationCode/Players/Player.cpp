@@ -118,7 +118,7 @@ void Player::Shot()
 void Player::Draw(ScrollCamera* scroll)
 {
 	//sprites_[state_]->SetPosition({ position_.x - scroll.x , position_.y - scroll.y });
-	sprites_[state_]->Draw(scroll);
+	sprites_[state_]->Draw();
 	//sprites_[state_]->SetPosition({ position_.x + scroll.x , position_.y + scroll.y });
 	for (std::unique_ptr<Blood>& blood : bloods_) {
 		blood->Draw();

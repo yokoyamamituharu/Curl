@@ -192,7 +192,7 @@ public: //メンバ関数
 	/// <summary>
 	/// 描画
 	/// </summary>
-	void Draw(ScrollCamera* camera = nullptr);	
+	void Draw();	
 
 protected: //メンバ変数
 	//頂点バッファ;
