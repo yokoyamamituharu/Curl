@@ -67,6 +67,10 @@ void Enemys::EnemyHitBlood()
 				enemy->SetMoveAddLength(0.5f);
 			}
 		}
+		else
+		{
+			enemy->SetMoveAddLength(1.f);
+		}
 	}
 	enemys3_.remove_if([](std::unique_ptr<Enemy>& enemy) {return enemy->GetDead();  });
 
@@ -80,9 +84,7 @@ void Enemys::EnemyHitTower()
 		if (enemy->GetMoveLength() <= 5)
 		{
 			enemyNumber_--;
-
 		}
-		
 	}
 	enemys3_.remove_if([](unique_ptr<Enemy>& enemy1) {return enemy1->GetMoveLength() <= 5; });
 

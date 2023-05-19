@@ -38,13 +38,23 @@ public:
 	Sprite* GetSprite() { return sprites_[state_]; }
 
 	void SetCamera(ScrollCamera* camera) { this->camera_ = camera; }
-private:
-	std::map<int, Sprite*> sprites_;
 	int GetPlayerHp() { return playerHp_; }
 	void SetPlayerHp(int playerHp) { this->playerHp_ = playerHp; }
-
 	std::list<std::unique_ptr<Blood>>& GetBloods() { return bloods_;}
+
 	void SetBlood(std::list<std::unique_ptr<Blood>> blood) { this->bloods_ = std::move(blood); }
+private:
+	std::map<int, Sprite*> sprites_;
+	XMFLOAT2 position_{};
+	float heat_ = 0;
+	int maxHeatDiray_ = 15;
+	int heatDiray_ = maxHeatDiray_;
+	int state_ = (int)State::none;
+	KeyInputHandler* handler = nullptr;
+	float speed_ = 2.0f;
+	ScrollCamera* camera_{};
+	int playerHp_ = 10;
+
 protected:
 	std::list<std::unique_ptr<Blood>>bloods_;
 	const int maxShotDiray_ = 10;

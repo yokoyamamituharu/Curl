@@ -132,9 +132,21 @@ unique_ptr<Enemy> Enemy::UniqueCreate()
 	enemy->angle = randCreate->getRandFloat(0, 359);
 	enemy->moveLength = randCreate->getRandFloat(400, 500);
 	enemy->enemyType = randCreate->getRandInt(vampire, rabbit);
-	if (enemy->enemyType == vampire){enemy->hitBloodType = liquid_1;}
-	else if (enemy->enemyType == rabbit){enemy->hitBloodType = solid_1;}
-	else {enemy->hitBloodType = gas_1;}
+	if (enemy->enemyType == vampire)
+	{
+		enemy->hitBloodType = liquid_1;
+		enemy->anBloodType = gas_1;
+	}
+	else if (enemy->enemyType == rabbit)
+	{
+		enemy->hitBloodType = gas_1;
+		enemy->anBloodType = solid_1;
+	}
+	else
+	{
+		enemy->hitBloodType = solid_1;
+		enemy->anBloodType = liquid_1;
+	}
 
 	enemy->pos.x = sin((enemy->angle * DirectX::XM_PI) / 180) * enemy->moveLength;
 	enemy->pos.y = cos((enemy->angle * DirectX::XM_PI) / 180) * enemy->moveLength;

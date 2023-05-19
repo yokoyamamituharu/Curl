@@ -24,8 +24,6 @@ public: //‰æ‘œ–¼
 		bgTexNumber,
 		towerNumber,
 		playerTexNumber,
-		bgTexNumber,
-		towerNumber,
 		enemyindividual,
 		enemyLiquid,
 		enemyGas,

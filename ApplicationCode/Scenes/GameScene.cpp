@@ -27,7 +27,7 @@ void GameScene::Initialize()
 	enemy_ = new Enemy();
 	enemy_ = Enemy::Create();
 
-	blood_ = Blood::Create({ 300,500 }, Blood::solid);
+	blood_ = Blood::Create({ 300,500 }, Blood::Temperature::solid);
 	player_ = Player::Create();
 	bgSprite_ = Sprite::Create(UINT(ImageManager::ImageName::bgTexNumber), { 0,0 });
 	int32_t towerHP = 10;
@@ -68,11 +68,12 @@ void GameScene::HitBloodAndEnemys()
 		{
 			bool isHit = Collision::HitCircle(enemy->Getpos(), 32, blood->GetPos(), 16);
 
-			if (isHit)
+			if (isHit == TRUE)
 			{
 				enemy->SetBloadHitFlag(isHit);
 				enemy->SetBloodType(blood->GetTemperature());
 			}
+			
 		}
 		
 	}
