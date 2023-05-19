@@ -6,7 +6,7 @@
 #include "ScrollCamera.h"
 
 class KeyInputHandler;
-class Player 
+class Player
 {
 private:
 	using XMFLOAT2 = DirectX::XMFLOAT2;
@@ -20,10 +20,12 @@ public:
 	};
 
 	Player();
-	
+
 	~Player();
 
 	static Player* Create();
+
+	static Player* Create(Vector2 pos, float rote, int hp, int maxBlood);
 
 	void Update();
 
@@ -40,7 +42,7 @@ public:
 	void SetCamera(ScrollCamera* camera) { this->camera_ = camera; }
 	int GetPlayerHp() { return playerHp_; }
 	void SetPlayerHp(int playerHp) { this->playerHp_ = playerHp; }
-	std::list<std::unique_ptr<Blood>>& GetBloods() { return bloods_;}
+	std::list<std::unique_ptr<Blood>>& GetBloods() { return bloods_; }
 
 	void SetBlood(std::list<std::unique_ptr<Blood>> blood) { this->bloods_ = std::move(blood); }
 private:
@@ -54,8 +56,8 @@ private:
 	float speed_ = 2.0f;
 	ScrollCamera* camera_{};
 	int playerHp_ = 10;
-
-protected:
+	int maxBlood = 0;
+	int bloodGauge = 0;
 	std::list<std::unique_ptr<Blood>>bloods_;
 	const int maxShotDiray_ = 10;
 	int shotDiray_ = maxShotDiray_;

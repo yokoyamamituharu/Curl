@@ -1,4 +1,5 @@
 #include "GameScene.h"
+#include "ExternalFileLoader.h"
 
 void GameScene::Initialize()
 {
@@ -14,10 +15,6 @@ void GameScene::Initialize()
 	//light->SetCircleShadowActive(0, true);
 	Object3d::SetLight(light_.get());
 
-	ground_ = Object3d::UniquePtrCreate(ModelManager::GetIns()->GetModel("ground"));
-	ground_->SetScale({ 10.0f, 1.0f, 10.0f });
-	ground_->SetPosition({ 0.0f, -10.0f, 0.0f });
-
 	postEffectNo_ = PostEffect::NONE;
 
 	blood_ = Blood::Create({ 300,500 }, Blood::Temperature::solid);
@@ -28,7 +25,8 @@ void GameScene::Initialize()
 	enemy_ = Enemy::Create();
 
 	blood_ = Blood::Create({ 300,500 }, Blood::Temperature::solid);
-	player_ = Player::Create();
+	//player_ = Player::Create();
+	RoadPlayer();
 	bgSprite_ = Sprite::Create(UINT(ImageManager::ImageName::bgTexNumber), { 0,0 });
 	int32_t towerHP = 10;
 	tower_ = new Tower;
@@ -45,7 +43,6 @@ void GameScene::Update()
 
 	player_->Update();
 	scrollCamera_->Update();
-	ground_->Update();	
 	if (KeyInput::GetIns()->TriggerKey(DIK_UP)) { blood_->Rising(); }
 	if (KeyInput::GetIns()->TriggerKey(DIK_DOWN)) { blood_->Decrease(); }
 	blood_->Update();
@@ -54,7 +51,6 @@ void GameScene::Update()
 	enemys_->Update(tower_->GetHP(), player_->GetPlayerHp());
 	enemy_->Update();
 
-	ground_->Update();
 	//シーン切り替え
 	SceneChange();
 }
@@ -73,13 +69,13 @@ void GameScene::HitBloodAndEnemys()
 				enemy->SetBloadHitFlag(isHit);
 				enemy->SetBloodType(blood->GetTemperature());
 			}
-			
+
 		}
-		
+
 	}
 
 	//enemys_->SetEnemys(enemy_1);
-	
+
 }
 
 void GameScene::Draw()
@@ -95,7 +91,6 @@ void GameScene::Draw()
 
 	//3Dオブジェクト描画処理
 	Object3d::PreDraw(DirectXSetting::GetIns()->GetCmdList());
-	ground_->Draw();
 	Object3d::PostDraw();
 
 	//スプライト描画処理(UI等)
@@ -149,3 +144,36 @@ void GameScene::SceneChange()
 		SceneManager::SceneChange(SceneManager::SceneName::Result);
 	}
 }
+
+void GameScene::RoadPlayer()
+{
+	std::string line;
+	Vector2 pos;
+	int rote, maxBlood, hp;
+	std::stringstream stream = ExternalFileLoader::GetIns()->ExternalFileOpen("player.txt");
+
+	while (getline(stream, line)) {
+		std::istringstream line_stream(line);
+		std::string word;
+		getline(line_stream, word, ' ');
+
+		if (word.find("#") == 0) {
+			continue;
+		}
+		if (word.find("pos") == 0) {
+			line_stream >> pos.x;
+			line_stream >> pos.y;
+		}
+		if (word.find("rote") == 0) {
+			line_stream >> rote;
+		}
+		if (word.find("maxBlood") == 0) {
+			line_stream >> maxBlood;
+		}
+		if (word.find("hp") == 0) {
+			line_stream >> hp;
+		}
+	}
+	player_ = Player::Create(pos, rote, hp, maxBlood);
+}
+

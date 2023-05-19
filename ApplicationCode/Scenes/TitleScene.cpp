@@ -15,16 +15,11 @@ void TitleScene::Initialize()
 	//light->SetCircleShadowActive(0, true);
 	Object3d::SetLight(light_.get());
 
-	ground_ = Object3d::UniquePtrCreate(ModelManager::GetIns()->GetModel("ground"));
-	ground_->SetScale({ 10.0f, 1.0f, 10.0f });
-	ground_->SetPosition({ 0.0f, -10.0f, 0.0f });
-
 	postEffectNo_ = PostEffect::NONE;
 }
 
 void TitleScene::Update()
 {
-	ground_->Update();
 	//シーン切り替え
 	SceneChange();
 }
@@ -42,7 +37,6 @@ void TitleScene::Draw()
 
 	//3Dオブジェクト描画処理
 	Object3d::PreDraw(DirectXSetting::GetIns()->GetCmdList());
-	ground_->Draw();
 	Object3d::PostDraw();
 
 	//スプライト描画処理(UI等)
