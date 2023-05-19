@@ -33,9 +33,9 @@ std::unique_ptr<Blood> Blood::UniquePtrCreate(DirectX::XMFLOAT2 position, STATE 
 	instance->startPosition_ = position;
 	instance->position_ = position;
 	instance->goal_ = goal;
-	instance->sprites_[solid] = Sprite::Create(UINT(ImageManager::ImageName::solidTexNumber), position);
-	instance->sprites_[liquid] = Sprite::Create(UINT(ImageManager::ImageName::liquidNumber), position);
-	instance->sprites_[gas] = Sprite::Create(UINT(ImageManager::ImageName::gasTexNumber), position);
+	instance->sprites_[solid] = Sprite::Create(UINT(ImageManager::ImageName::solidTexNumber), position,{ 1.f,1.f,1.f,1.f }, { 0.5f,0.5f });
+	instance->sprites_[liquid] = Sprite::Create(UINT(ImageManager::ImageName::liquidNumber), position, { 1.f,1.f,1.f,1.f }, { 0.5f,0.5f });
+	instance->sprites_[gas] = Sprite::Create(UINT(ImageManager::ImageName::gasTexNumber), position, { 1.f,1.f,1.f,1.f }, { 0.5f,0.5f });
 	instance->state_ = state;
 	return std::move(instance);
 }
@@ -57,14 +57,14 @@ void Blood::Update()
 
 void Blood::Rising()
 {
-	if (state_ >= gas)return;
-	state_++;
+	if (state_ == gas)return;
+	else state_++;
 }
 
 void Blood::Decrease()
 {
-	if (state_ <= solid)return;
-	state_--;
+	if (state_ == solid)return;
+	else state_--;
 }
 
 

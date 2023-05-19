@@ -234,7 +234,7 @@
       <Filter>ソース ファイル\ApplicationCode\Enemies</Filter>
     </ClCompile>
     <ClCompile Include="ApplicationCode\Enemys\Enemy.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\ApplicationCode\Enemies</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

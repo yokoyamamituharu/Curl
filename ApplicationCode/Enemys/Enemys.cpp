@@ -60,11 +60,11 @@ void Enemys::EnemyHitBlood()
 			}
 			else if(enemy->GetBloodType() == enemy->GetAnBloodType())
 			{
-				enemy->SetMoveAddLength(2);
+				enemy->SetMoveAddLength(2.f);
 			}
 			else
 			{
-				enemy->SetMoveAddLength(0);
+				enemy->SetMoveAddLength(0.5f);
 			}
 		}
 	}

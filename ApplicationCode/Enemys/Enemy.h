@@ -18,9 +18,9 @@ private:
 public:
 	enum EnemyType
 	{
-		individual = 7,//ŒÂ‘Ì
-		liquid,//‰t‘Ì
-		gas,//‹C‘Ì
+		vampire = 7,//ŒÂ‘Ì
+		basilisk,//‰t‘Ì
+		rabbit,//‹C‘Ì
 	};
 	enum BloodState {
 		NONE_1,
@@ -46,11 +46,11 @@ public:
 	bool GetBloodHitFlag() { return bloodHitFlag; }
 	bool GetTowerHitFlag() { return towerHitFlag; }
 
-	void SetMoveAddLength(int moveAddLength_) { this->moveAddLength = moveAddLength_; }
-	int GetMoveAddLength() { return moveAddLength; }
+	void SetMoveAddLength(float moveAddLength_) { this->moveAddLength = moveAddLength_; }
+	float GetMoveAddLength() { return moveAddLength; }
 
-	void SetMoveLength(int moveLength_) { this->moveLength = moveLength_; }
-	int GetMoveLength() { return moveLength; }
+	void SetMoveLength(float moveLength_) { this->moveLength = moveLength_; }
+	float GetMoveLength() { return moveLength; }
 
 	void SetBloodType(int bloodTipe_) { this->bloodType = bloodTipe_; }
 	int GetBloodType() { return bloodType; }
