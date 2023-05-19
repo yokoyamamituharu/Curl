@@ -5,45 +5,71 @@
 class Blood
 {
 public:
-	enum STATE {
+	enum class Temperature
+	{
 		NONE,
 		solid,
 		liquid,
 		gas
 	};
 
-	Blood();
+	enum class State {
+		none,
+		idle,
+		shot,
+		back,
+		heat
+	};
+
+	Blood() = default;
 
 	~Blood();
 
-	static Blood* Create(DirectX::XMFLOAT2 position, STATE state);
+	static Blood* Create(DirectX::XMFLOAT2 position, Temperature state);
 
-	static std::unique_ptr<Blood> UniquePtrCreate(DirectX::XMFLOAT2 position, STATE state, DirectX::XMFLOAT2 goal);
+	static std::unique_ptr<Blood> UniquePtrCreate(DirectX::XMFLOAT2 position, Temperature state, DirectX::XMFLOAT2 goal,DirectX::XMFLOAT2* playerPos);
 
 	/// <summary>
-	/// 
+	/// 更新処理
 	/// </summary>
 	void Update();
-
 	/// <summary>
 	/// 温度を上昇させる
 	/// </summary>
 	void Rising();
-
 	/// <summary>
 	/// 温度を減少させる
 	/// </summary>
 	void Decrease();
-
+	/// <summary>
+	/// 描画処理
+	/// </summary>
 	void Draw();
-
+	/// <summary>
+	/// 死亡判定を取得
+	/// </summary>
+	/// <returns>死亡判定</returns>
 	bool GetDead();
-
+	/// <summary>
+	/// 死亡判定にする
+	/// </summary>
 	void SetDead();
+	/// <summary>
+	/// 現在の状態を取得
+	/// </summary>
+	/// <returns>状態</returns>
+	int GetTemperature() { return temp_; }
+	/// <summary>
+	/// 位置を取得
+	/// </summary>
+	/// <returns>位置</returns>
+	DirectX::XMFLOAT2 GetPosition() { return position_; }
+	/// <summary>
+	/// 
+	/// </summary>
+	void SetState(State state) { state_ = (int)state; }
 
-	int GetTemperature() { return state_; }
-
-	DirectX::XMFLOAT2 Learp(DirectX::XMFLOAT2 p, DirectX::XMFLOAT2 p2, float time);
+	int GetState() { return state_; }
 
 	DirectX::XMFLOAT2  GetPos() { return position_; }
 
@@ -52,13 +78,15 @@ private:
 public:
 
 private:
-	int state_ = NONE;
-	DirectX::XMFLOAT2 startPosition_{};
-	DirectX::XMFLOAT2 position_{};
-	DirectX::XMFLOAT2 vec_{};
 	std::map<int, Sprite*> sprites_;
-	int deadTimer = 100;
+	int temp_ = (int)Temperature::NONE;
+	int state_ = (int)State::none;
+	int deadTimer_ = 100;
 	bool isDead = false;
+	DirectX::XMFLOAT2 position_{};
 	DirectX::XMFLOAT2 goal_{};
-	float time_ = 0;
+	DirectX::XMVECTOR oldvec_{};
+	DirectX::XMFLOAT2* playerPos_{};
+
+	const float speed_ = 10.0f;
 };

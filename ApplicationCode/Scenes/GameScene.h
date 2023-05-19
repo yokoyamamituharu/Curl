@@ -21,6 +21,7 @@
 #include "Blood.h"
 #include "Player.h"
 #include "Tower.h"
+#include "ScrollCamera.h"
 #include "Enemy.h"
 
 #include"Collision.h"
@@ -81,5 +82,6 @@ private: //ƒƒ“ƒo•Ï”
 
 	Enemys* enemys_{};
 	
+	ScrollCamera* scrollCamera_ = nullptr;
 };
 

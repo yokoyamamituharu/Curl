@@ -15,6 +15,8 @@ void Tower::Update()
 
 void Tower::Draw()
 {
+	DirectX::XMMATRIX mat = {};
+	tower_->SetRotation(90);
 	tower_->Draw();
 }
 

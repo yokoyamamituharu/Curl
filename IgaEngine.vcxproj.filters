@@ -93,6 +93,9 @@
     <Filter Include="ソース ファイル\ApplicationCode\Tower">
       <UniqueIdentifier>{16466b8c-9bb6-4999-8b01-0f1f9de7654e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\ApplicationCode\ScrollCamera">
+      <UniqueIdentifier>{62b739ab-18c2-492a-81e3-08fd4485c454}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -229,6 +232,9 @@
     </ClCompile>
     <ClCompile Include="Engine\Base\Vector2.cpp">
       <Filter>ソース ファイル\Engine\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationCode\ScrollCamera\ScrollCamera.cpp">
+      <Filter>ソース ファイル\ApplicationCode\ScrollCamera</Filter>
     </ClCompile>
     <ClCompile Include="ApplicationCode\Enemys\Enemys.cpp">
       <Filter>ソース ファイル\ApplicationCode\Enemies</Filter>
@@ -400,6 +406,9 @@
     </ClInclude>
     <ClInclude Include="ApplicationCode\Enemys\Enemy.h">
       <Filter>ソース ファイル\ApplicationCode\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationCode\ScrollCamera\ScrollCamera.h">
+      <Filter>ソース ファイル\ApplicationCode\ScrollCamera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -6,7 +6,7 @@
 #include "RightMoveCommand.h"
 #include "UpMoveCommand.h"
 #include "DownMoveCommand.h"
-//#include "Player.h"
+#include "Player.h"
 
 class KeyInputHandler
 {
@@ -35,7 +35,7 @@ public: //メンバ関数
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	//void Initialize(Player* player);
+	void Initialize(Player* player);
 
 	/// <summary>
 	/// プレイヤー関連のキー入力受付
@@ -105,7 +105,7 @@ private: //メンバ関数
 
 private: //メンバ変数
 	//プレイヤー
-	//Player* player_;
+	Player* player_;
 
 	//Wキーに割り当てているコマンド
 	PlayerCommand* wKey_;

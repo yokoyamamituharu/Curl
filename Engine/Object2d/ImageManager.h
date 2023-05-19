@@ -21,6 +21,8 @@ public: //‰æ‘œ–¼
 		solidTexNumber = 1,
 		liquidNumber,
 		gasTexNumber,
+		bgTexNumber,
+		towerNumber,
 		playerTexNumber,
 		bgTexNumber,
 		towerNumber,
@@ -28,6 +30,7 @@ public: //‰æ‘œ–¼
 		enemyLiquid,
 		enemyGas,
 
+		playerHeatTexNumber
 	};
 
 public: //ƒƒ“ƒoŠÖ”

@@ -1,5 +1,5 @@
 #pragma once
-//#include "Player.h"
+#include "Player.h"
 #include "PlayerCommand.h"
 
 class DownMoveCommand : public PlayerCommand
@@ -15,6 +15,6 @@ public:
 	/// コマンド実行
 	/// </summary>
 	/// <param name="player"></param>
-	//void Execute(Player* player);
+	void Execute(Player* player);
 };
 

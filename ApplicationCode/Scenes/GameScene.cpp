@@ -20,6 +20,7 @@ void GameScene::Initialize()
 
 	postEffectNo_ = PostEffect::NONE;
 
+	blood_ = Blood::Create({ 300,500 }, Blood::Temperature::solid);
 
 	enemys_ = new Enemys();
 	enemys_ = Enemys::Create();
@@ -32,6 +33,9 @@ void GameScene::Initialize()
 	int32_t towerHP = 10;
 	tower_ = new Tower;
 	tower_->Initialize(towerHP);
+	scrollCamera_ = ScrollCamera::Create();
+	Sprite::SetCamera(scrollCamera_);
+	player_->SetCamera(scrollCamera_);
 }
 
 void GameScene::Update()
@@ -40,6 +44,8 @@ void GameScene::Update()
 	HitBloodAndEnemys();
 
 	player_->Update();
+	scrollCamera_->Update();
+	ground_->Update();	
 	if (KeyInput::GetIns()->TriggerKey(DIK_UP)) { blood_->Rising(); }
 	if (KeyInput::GetIns()->TriggerKey(DIK_DOWN)) { blood_->Decrease(); }
 	blood_->Update();
@@ -94,8 +100,9 @@ void GameScene::Draw()
 	//スプライト描画処理(UI等)
 	Sprite::PreDraw(DirectXSetting::GetIns()->GetCmdList());
 	bgSprite_->Draw();
-	player_->Draw();
+	player_->Draw(scrollCamera_);
 	tower_->Draw();
+	//scrollCamera->Draw(player_->GetSprite());
 	//blood_->Draw();
 	enemys_->Draw();
 	//enemy_->Draw();
@@ -124,6 +131,7 @@ void GameScene::Finalize()
 	safe_delete(player_);
 	safe_delete(bgSprite_);
 	safe_delete(tower_);
+	safe_delete(scrollCamera_);
 }
 
 void GameScene::HitEnemys()
