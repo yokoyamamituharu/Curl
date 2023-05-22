@@ -242,6 +242,9 @@
     <ClCompile Include="ApplicationCode\Enemys\Enemy.cpp">
       <Filter>ソース ファイル\ApplicationCode\Enemies</Filter>
     </ClCompile>
+    <ClCompile Include="ApplicationCode\Enemys\BaseEnemy.cpp">
+      <Filter>ソース ファイル\ApplicationCode\Enemies</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Audio\Sound.h">
@@ -409,6 +412,9 @@
     </ClInclude>
     <ClInclude Include="ApplicationCode\ScrollCamera\ScrollCamera.h">
       <Filter>ソース ファイル\ApplicationCode\ScrollCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationCode\Enemys\BaseEnemy.h">
+      <Filter>ソース ファイル\ApplicationCode\Enemies</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

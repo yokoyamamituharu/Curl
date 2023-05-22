@@ -163,6 +163,7 @@
     <ClCompile Include="ApplicationCode\Command\RightMoveCommand.cpp" />
     <ClCompile Include="ApplicationCode\Command\UpMoveCommand.cpp" />
     <ClCompile Include="ApplicationCode\Blood\Blood.cpp" />
+    <ClCompile Include="ApplicationCode\Enemys\BaseEnemy.cpp" />
     <ClCompile Include="ApplicationCode\Enemys\Enemy.cpp" />
     <ClCompile Include="ApplicationCode\Enemys\Enemys.cpp" />
     <ClCompile Include="ApplicationCode\Maths\MotionMath.cpp" />
@@ -215,6 +216,7 @@
     <ClInclude Include="ApplicationCode\Command\RightMoveCommand.h" />
     <ClInclude Include="ApplicationCode\Command\UpMoveCommand.h" />
     <ClInclude Include="ApplicationCode\Blood\Blood.h" />
+    <ClInclude Include="ApplicationCode\Enemys\BaseEnemy.h" />
     <ClInclude Include="ApplicationCode\Enemys\Enemy.h" />
     <ClInclude Include="ApplicationCode\Enemys\Enemys.h" />
     <ClInclude Include="ApplicationCode\Maths\MotionMath.h" />
