@@ -10,6 +10,7 @@ class Player
 {
 private:
 	using XMFLOAT2 = DirectX::XMFLOAT2;
+	using XMVECTOR = DirectX::XMVECTOR;
 
 public:
 	enum class State
@@ -27,9 +28,9 @@ public:
 
 	static Player* Create(Vector2 pos, float rote, int hp, int maxBlood);
 
-	void Update();
+	void Update(ScrollCamera* camera);
 
-	void Shot();
+	void Shot(ScrollCamera* camera);
 
 	void Draw(ScrollCamera* scroll);
 
@@ -39,7 +40,6 @@ public:
 
 	Sprite* GetSprite() { return sprites_[state_]; }
 
-	void SetCamera(ScrollCamera* camera) { this->camera_ = camera; }
 	int GetPlayerHp() { return playerHp_; }
 	void SetPlayerHp(int playerHp) { this->playerHp_ = playerHp; }
 	std::list<std::unique_ptr<Blood>>& GetBloods() { return bloods_; }
@@ -49,16 +49,26 @@ private:
 	std::map<int, Sprite*> sprites_;
 	XMFLOAT2 position_{};
 	float heat_ = 0;
-	int maxHeatDiray_ = 15;
+	int maxHeatDiray_ = 0;
 	int heatDiray_ = maxHeatDiray_;
 	int state_ = (int)State::none;
-	KeyInputHandler* handler = nullptr;
+	KeyInputHandler* handler_ = nullptr;
 	float speed_ = 2.0f;
-	ScrollCamera* camera_{};
 	int playerHp_ = 10;
-	int maxBlood = 0;
-	int bloodGauge = 0;
+	int maxBlood_ = 0;
+	int bloodGauge_ = 0;
 	std::list<std::unique_ptr<Blood>>bloods_;
 	const int maxShotDiray_ = 10;
 	int shotDiray_ = maxShotDiray_;
+
+	Sprite* heatWave_ = nullptr;
+	Sprite* coldWave_ = nullptr;
+
+	bool isHeatWave = false;
+	float heatExtend = 0;
+	float heatAlpha = 1;
+
+	bool isColdWave = false;
+	float coldExtend = 0;
+	float coldAlpha = 1;
 };

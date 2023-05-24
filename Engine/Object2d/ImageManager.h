@@ -27,7 +27,8 @@ public: //‰æ‘œ–¼
 		enemyindividual,
 		enemyLiquid,
 		enemyGas,
-
+		heatWaveNumber,
+		coldWaveNumber,
 		playerHeatTexNumber
 	};
 

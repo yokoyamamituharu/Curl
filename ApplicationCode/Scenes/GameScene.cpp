@@ -33,7 +33,6 @@ void GameScene::Initialize()
 	tower_->Initialize(towerHP);
 	scrollCamera_ = ScrollCamera::Create();
 	Sprite::SetCamera(scrollCamera_);
-	player_->SetCamera(scrollCamera_);
 }
 
 void GameScene::Update()
@@ -41,15 +40,15 @@ void GameScene::Update()
 	//blood_->Update();
 	HitBloodAndEnemys();
 
-	player_->Update();
+	player_->Update(scrollCamera_);
 	scrollCamera_->Update();
 	if (KeyInput::GetIns()->TriggerKey(DIK_UP)) { blood_->Rising(); }
 	if (KeyInput::GetIns()->TriggerKey(DIK_DOWN)) { blood_->Decrease(); }
 	blood_->Update();
 
 
-	enemys_->Update(tower_->GetHP(), player_->GetPlayerHp());
-	enemy_->Update();
+	//enemys_->Update(tower_->GetHP(), player_->GetPlayerHp());
+	//enemy_->Update();
 
 	//ƒV[ƒ“Ø‚è‘Ö‚¦
 	SceneChange();
@@ -148,8 +147,8 @@ void GameScene::SceneChange()
 void GameScene::RoadPlayer()
 {
 	std::string line;
-	Vector2 pos;
-	int rote, maxBlood, hp;
+	Vector2 pos{};
+	int rote, maxBlood = 0, hp = 0;
 	std::stringstream stream = ExternalFileLoader::GetIns()->ExternalFileOpen("player.txt");
 
 	while (getline(stream, line)) {
