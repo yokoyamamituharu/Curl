@@ -109,15 +109,15 @@ void Player::Update(ScrollCamera* camera)
 		//		blood->Decrease();
 		//	}
 		//}
-		
+
 		XMFLOAT2 pos1 = position_;
 		XMFLOAT2 pos2 = blood->GetPosition();
 		//”M”g
 		float length = sqrtf((pos1.x - pos2.x) * (pos1.x - pos2.x) + (pos1.y - pos2.y) * (pos1.y - pos2.y));
-		if (heatExtend + 32 > length && isHeatWave) blood->HeatWaveOnCollision();
+		if (heatExtend / 2 + 16 > length && isHeatWave) blood->HeatWaveOnCollision();
 		//Š¦”g
 		length = sqrtf((pos1.x - pos2.x) * (pos1.x - pos2.x) + (pos1.y - pos2.y) * (pos1.y - pos2.y));
-		if (coldExtend + 32 > length && isColdWave) blood->ColdWaveOnCollision();
+		if (coldExtend / 2 + 16 > length && isColdWave) blood->ColdWaveOnCollision();
 
 		blood->Update();
 	}
