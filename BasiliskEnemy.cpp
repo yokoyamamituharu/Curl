@@ -21,11 +21,7 @@ std::unique_ptr<BasiliskEnemy> BasiliskEnemy::UniqueCreate()
 	enemy->hitBloodType = solid_1;
 	enemy->anBloodType = liquid_1;
 
-	else if (enemy->enemyType == rabbit)
-	{
-	enemy->hitBloodType = gas_1;
-	enemy->anBloodType = solid_1;
-	}
+	
 	
 	enemy->pos.x = sin((enemy->angle * DirectX::XM_PI) / 180) * enemy->moveLength;
 	enemy->pos.y = cos((enemy->angle * DirectX::XM_PI) / 180) * enemy->moveLength;
@@ -38,3 +34,13 @@ std::unique_ptr<BasiliskEnemy> BasiliskEnemy::UniqueCreate()
 	safe_delete(randCreate);
 	return move(enemy);
 }
+
+void BasiliskEnemy::Update()
+{
+}
+
+void BasiliskEnemy::Draw()
+{
+}
+
+
