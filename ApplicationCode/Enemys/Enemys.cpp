@@ -27,11 +27,11 @@ Enemys* Enemys::Create()
 void Enemys::Update(int32_t towerHp, int playerHp)
 {
 	enemyCreateTime--;
-	if ((towerHp > 0 || playerHp > 0)&& enemyNumber_ < 72&& enemyCreateTime<0)
+	if ((towerHp > 0 || playerHp > 0) && enemyNumber_ < 72 && enemyCreateTime < 0)
 	{
 		EnemyCreate();
 		enemyNumber_++;
-		enemyCreateTime = randCreate_->getRandInt(10,100);
+		enemyCreateTime = randCreate_->getRandInt(10, 100);
 	}
 
 	for (auto& enemy : enemys3_)
@@ -44,7 +44,7 @@ void Enemys::Update(int32_t towerHp, int playerHp)
 
 void Enemys::EnemyCreate()
 {
-enemys3_.push_back(Enemy::UniqueCreate());
+	enemys3_.push_back(Enemy::UniqueCreate());
 }
 
 void Enemys::EnemyHitBlood()
@@ -58,7 +58,7 @@ void Enemys::EnemyHitBlood()
 				enemy->SetDead(1);
 				enemyNumber_--;
 			}
-			else if(enemy->GetBloodType() == enemy->GetAnBloodType())
+			else if (enemy->GetBloodType() == enemy->GetAnBloodType())
 			{
 				enemy->SetMoveAddLength(2.f);
 			}
