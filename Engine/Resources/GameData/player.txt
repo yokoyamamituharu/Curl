@@ -1,0 +1,6 @@
+#プレイヤ～
+
+pos 500 500
+rote 0
+maxBlood 10
+hp 10

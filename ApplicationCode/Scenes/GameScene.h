@@ -61,13 +61,13 @@ private: //メンバ関数
 	/// </summary>
 	void SceneChange();
 
+	void RoadPlayer();
+
 private: //メンバ変数
 	//ポストエフェクト
 	std::unique_ptr<PostEffect> postEffect_;
 	//ポストエフェクト番号
 	PostEffect::PostEffectNo postEffectNo_;
-	//地面
-	std::unique_ptr<Object3d> ground_;
 	//ライト
 	std::unique_ptr<LightGroup> light_;
 	//テキスト描画

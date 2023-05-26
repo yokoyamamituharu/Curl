@@ -29,7 +29,7 @@ std::unique_ptr<Blood> Blood::UniquePtrCreate(DirectX::XMFLOAT2 position, Temper
 	instance->position_ = position;
 	instance->goal_ = goal;
 	instance->playerPos_ = playerPos;
-	instance->sprites_[(int)Temperature::solid] = Sprite::Create(UINT(ImageManager::ImageName::solidTexNumber), position, {1.f,1.f,1.f,1.f}, { 0.5,0.5 });
+	instance->sprites_[(int)Temperature::solid] = Sprite::Create(UINT(ImageManager::ImageName::solidTexNumber), position, { 1.f,1.f,1.f,1.f }, { 0.5,0.5 });
 	instance->sprites_[(int)Temperature::liquid] = Sprite::Create(UINT(ImageManager::ImageName::liquidNumber), position, { 1.f,1.f,1.f,1.f }, { 0.5,0.5 });
 	instance->sprites_[(int)Temperature::gas] = Sprite::Create(UINT(ImageManager::ImageName::gasTexNumber), position, { 1.f,1.f,1.f,1.f }, { 0.5,0.5 });
 	instance->temp_ = (int)state;
@@ -99,6 +99,9 @@ void Blood::Update()
 	default:
 		break;
 	}
+	if (tempDray > 0) {
+		tempDray--;
+	}
 
 	sprites_[temp_]->SetPosition(position_);
 }
@@ -129,4 +132,20 @@ bool Blood::GetDead()
 void Blood::SetDead()
 {
 	isDead = true;
+}
+
+void Blood::HeatWaveOnCollision()
+{
+	if (tempDray <= 0) {
+		Rising();
+		tempDray = maxTempDray;
+	}
+}
+
+void Blood::ColdWaveOnCollision()
+{
+	if (tempDray <= 0) {
+		Decrease();
+		tempDray = maxTempDray;
+	}
 }

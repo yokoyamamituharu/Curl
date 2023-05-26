@@ -73,6 +73,8 @@ public:
 
 	DirectX::XMFLOAT2  GetPos() { return position_; }
 
+	void HeatWaveOnCollision();
+	void ColdWaveOnCollision();
 private:
 
 public:
@@ -87,6 +89,7 @@ private:
 	DirectX::XMFLOAT2 goal_{};
 	DirectX::XMVECTOR oldvec_{};
 	DirectX::XMFLOAT2* playerPos_{};
-
-	const float speed_ = 10.0f;
+	const float speed_ = 30.0f;
+	int maxTempDray = 20;
+	int tempDray = 0;
 };
