@@ -47,7 +47,7 @@ void GameScene::Update()
 	blood_->Update();
 
 
-	//enemys_->Update(tower_->GetHP(), player_->GetPlayerHp());
+ 	enemys_->Update(tower_->GetHP(), player_->GetPlayerHp());
 	//enemy_->Update();
 
 	//ƒV[ƒ“Ø‚è‘Ö‚¦
@@ -68,9 +68,49 @@ void GameScene::HitBloodAndEnemys()
 				enemy->SetBloadHitFlag(isHit);
 				enemy->SetBloodType(blood->GetTemperature());
 			}
-
 		}
+	}
 
+	for (auto& vampire : enemys_->GetVampires())
+	{
+		for (auto& blood : player_->GetBloods())
+		{
+			bool isHit = Collision::HitCircle(vampire->Getpos(), 32, blood->GetPos(), 16);
+
+			if (isHit == true)
+			{
+				vampire->SetBloadHitFlag(isHit);
+				vampire->SetBloodType(blood->GetTemperature());
+			}
+		}
+	}
+
+	for (auto& basilisk : enemys_->GetBasiliskes())
+	{
+		for (auto& blood : player_->GetBloods())
+		{
+			bool isHit = Collision::HitCircle(basilisk->Getpos(), 32, blood->GetPos(), 16);
+
+			if (isHit == true)
+			{
+				basilisk->SetBloadHitFlag(isHit);
+				basilisk->SetBloodType(blood->GetTemperature());
+			}
+		}
+	}
+
+	for (auto& rabbit : enemys_->GetRabbits())
+	{
+		for (auto& blood : player_->GetBloods())
+		{
+			bool isHit = Collision::HitCircle(rabbit->Getpos(), 32, blood->GetPos(), 16);
+
+			if (isHit == true)
+			{
+				rabbit->SetBloadHitFlag(isHit);
+				rabbit->SetBloodType(blood->GetTemperature());
+			}
+		}
 	}
 
 	//enemys_->SetEnemys(enemy_1);

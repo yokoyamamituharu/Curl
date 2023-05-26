@@ -32,16 +32,28 @@ public:
 	void SetMoveLength(float moveLength_) { this->moveLength = moveLength_; }
 	float GetMoveLength() { return moveLength; }
 
+	void SetBloodType(int bloodTipe_) { this->BloodType = bloodTipe_; }
+	bool GetBloodType() { return BloodType; }
+
+	void SetHitBloodType(int hitBloodType_) { this->hitBloodType = hitBloodType_; }
+	bool GetHitBloodType() { return hitBloodType; }
+
+	void SetAnBloodType(int anBloodType_) { this->anBloodType = anBloodType_; }
+	bool GetAnBloodType() { return anBloodType; }
+
 	void SetBloadHitFlag(int bloodHitFlag_) { this->bloodHitFlag = bloodHitFlag_; }
 	bool GetBloodHitFlag() { return bloodHitFlag; }
 
 	void SetTowerHitFlag(int towerHitFlag_) { this->towerHitFlag = towerHitFlag_; }
 	bool GetTowerHitFlag() { return towerHitFlag; }
 
-	void SetGetBloodType(int getBloodType_) { this->getBloodType = getBloodType_; }
-	bool GetGetBloodType() { return getBloodType; }
+	
 
 
+	
+
+	void SetDead(bool dead_) { this->dead = dead_; }
+	bool GetDead() { return dead; }
 
 	virtual	void Update() = 0;
 
@@ -58,7 +70,7 @@ protected:
 	float moveLength{};
 	float moveAddLength = 1;
 
-	int getBloodType{};
+	int BloodType{};
 	int hitBloodType{};
 	int anBloodType{};
 

@@ -21,8 +21,8 @@ std::unique_ptr<BasiliskEnemy> BasiliskEnemy::UniqueCreate()
 	enemy->hitBloodType = solid_1;
 	enemy->anBloodType = liquid_1;
 
-	
-	
+
+
 	enemy->pos.x = sin((enemy->angle * DirectX::XM_PI) / 180) * enemy->moveLength;
 	enemy->pos.y = cos((enemy->angle * DirectX::XM_PI) / 180) * enemy->moveLength;
 	enemy->pos.x = enemy->pos.x + 640.f;
@@ -37,10 +37,18 @@ std::unique_ptr<BasiliskEnemy> BasiliskEnemy::UniqueCreate()
 
 void BasiliskEnemy::Update()
 {
+	moveLength -= moveAddLength;
+
+	pos.x = sin((angle * DirectX::XM_PI) / 180) * moveLength;
+	pos.y = cos((angle * DirectX::XM_PI) / 180) * moveLength;
+	pos.x = pos.x + 640.f;
+	pos.y = pos.y + 360.f;
+	sprite->SetPosition(pos);
 }
 
 void BasiliskEnemy::Draw()
 {
+	sprite->Draw();
 }
 
 

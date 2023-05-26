@@ -245,10 +245,13 @@
     <ClCompile Include="ApplicationCode\Enemys\BaseEnemy.cpp">
       <Filter>ソース ファイル\ApplicationCode\Enemies</Filter>
     </ClCompile>
-    <ClCompile Include="ApplicationCode\Enemys\VampireEnemy.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="ApplicationCode\Enemys\BasiliskEnemy.cpp">
+      <Filter>ソース ファイル\ApplicationCode\Enemies</Filter>
     </ClCompile>
-    <ClCompile Include="BasiliskEnemy.cpp">
+    <ClCompile Include="ApplicationCode\Enemys\VampireEnemy.cpp">
+      <Filter>ソース ファイル\ApplicationCode\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationCode\Enemys\RabbitEnemy.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -422,8 +425,13 @@
     <ClInclude Include="ApplicationCode\Enemys\BaseEnemy.h">
       <Filter>ソース ファイル\ApplicationCode\Enemies</Filter>
     </ClInclude>
-    <ClInclude Include="ApplicationCode\Enemys\VampireEnemy.h" />
-    <ClInclude Include="BasiliskEnemy.h" />
+    <ClInclude Include="ApplicationCode\Enemys\BasiliskEnemy.h">
+      <Filter>ソース ファイル\ApplicationCode\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationCode\Enemys\VampireEnemy.h">
+      <Filter>ソース ファイル\ApplicationCode\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationCode\Enemys\RabbitEnemy.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="IgaEngine.rc">

@@ -15,8 +15,6 @@ public:
 	void Draw();
 
 private:
-	XMFLOAT2 pos;
-
-
+	
 };
 
