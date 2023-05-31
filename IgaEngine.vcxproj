@@ -163,8 +163,12 @@
     <ClCompile Include="ApplicationCode\Command\RightMoveCommand.cpp" />
     <ClCompile Include="ApplicationCode\Command\UpMoveCommand.cpp" />
     <ClCompile Include="ApplicationCode\Blood\Blood.cpp" />
+    <ClCompile Include="ApplicationCode\Enemys\BaseEnemy.cpp" />
+    <ClCompile Include="ApplicationCode\Enemys\BasiliskEnemy.cpp" />
     <ClCompile Include="ApplicationCode\Enemys\Enemy.cpp" />
     <ClCompile Include="ApplicationCode\Enemys\Enemys.cpp" />
+    <ClCompile Include="ApplicationCode\Enemys\RabbitEnemy.cpp" />
+    <ClCompile Include="ApplicationCode\Enemys\VampireEnemy.cpp" />
     <ClCompile Include="ApplicationCode\Maths\MotionMath.cpp" />
     <ClCompile Include="ApplicationCode\Players\Player.cpp" />
     <ClCompile Include="ApplicationCode\Scenes\BaseScene.cpp" />
@@ -215,8 +219,12 @@
     <ClInclude Include="ApplicationCode\Command\RightMoveCommand.h" />
     <ClInclude Include="ApplicationCode\Command\UpMoveCommand.h" />
     <ClInclude Include="ApplicationCode\Blood\Blood.h" />
+    <ClInclude Include="ApplicationCode\Enemys\BaseEnemy.h" />
+    <ClInclude Include="ApplicationCode\Enemys\BasiliskEnemy.h" />
     <ClInclude Include="ApplicationCode\Enemys\Enemy.h" />
     <ClInclude Include="ApplicationCode\Enemys\Enemys.h" />
+    <ClInclude Include="ApplicationCode\Enemys\RabbitEnemy.h" />
+    <ClInclude Include="ApplicationCode\Enemys\VampireEnemy.h" />
     <ClInclude Include="ApplicationCode\Maths\MotionMath.h" />
     <ClInclude Include="ApplicationCode\Players\Player.h" />
     <ClInclude Include="ApplicationCode\Scenes\BaseScene.h" />
