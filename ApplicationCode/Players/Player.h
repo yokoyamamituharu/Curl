@@ -43,11 +43,13 @@ public:
 	int GetPlayerHp() { return playerHp_; }
 	void SetPlayerHp(int playerHp) { this->playerHp_ = playerHp; }
 	std::list<std::unique_ptr<Blood>>& GetBloods() { return bloods_; }
+	int GetBloodGauge() { return bloodGauge_; }
+	int GetMaxBloodGauge() { return maxBlood_; }
 
 	void SetBlood(std::list<std::unique_ptr<Blood>> blood) { this->bloods_ = std::move(blood); }
 private:
 	std::map<int, Sprite*> sprites_;
-	XMFLOAT2 position_{};
+	Vector2 position_{};
 	float heat_ = 0;
 	int maxHeatDiray_ = 0;
 	int heatDiray_ = maxHeatDiray_;

@@ -189,6 +189,10 @@ public: //メンバ関数
 	/// <param name="texBase">テクスチャ左上座標</param>
 	/// <param name="texSize">テクスチャサイズ</param>
 	void SetTextureRect(XMFLOAT2 texBase, XMFLOAT2 texSize);
+	/// <summary>
+	/// UIにする
+	/// </summary>
+	/// <param name="isUi"></param>
 	void SetUi(bool isUi) { this->isUi = isUi; }
 	/// <summary>
 	/// 描画

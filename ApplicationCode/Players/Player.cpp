@@ -65,6 +65,9 @@ void Player::Update(ScrollCamera* camera)
 		return blood->GetDead();
 		});
 
+	//プレイヤーのキーイベント更新
+	handler_->PlayerHandleInput();
+
 	//オーバーロード状態
 	if (heat_ > 0) {
 		state_ = (int)State::heat;
@@ -80,11 +83,10 @@ void Player::Update(ScrollCamera* camera)
 		speed_ = 2.0f;
 	}
 
-
-	handler_->PlayerHandleInput();
-
 	//血を放出
 	Shot(camera);
+
+	bloodGauge_ = maxBlood_ - bloods_.size();
 
 	for (std::unique_ptr<Blood>& blood : bloods_) {
 		if (KeyInput::GetIns()->TriggerKey(DIK_B) && blood->GetState() == (int)Blood::State::idle) {
@@ -97,18 +99,6 @@ void Player::Update(ScrollCamera* camera)
 			heat_++;
 			blood->SetDead();
 		}
-		//試しで範囲の血の温度を上下
-		//XMFLOAT2 pos1 = position_;
-		//XMFLOAT2 pos2 = blood->GetPosition();
-		//float length = sqrtf((pos1.x - pos2.x) * (pos1.x - pos2.x) + (pos1.y - pos2.y) * (pos1.y - pos2.y));
-		//if (200.0f > length) {
-		//	if (KeyInput::GetIns()->TriggerKey(DIK_0)) {
-		//		blood->Rising();
-		//	}
-		//	if (KeyInput::GetIns()->TriggerKey(DIK_9)) {
-		//		blood->Decrease();
-		//	}
-		//}
 
 		XMFLOAT2 pos1 = position_;
 		XMFLOAT2 pos2 = blood->GetPosition();
@@ -142,7 +132,7 @@ void Player::Update(ScrollCamera* camera)
 		coldWave_->SetSize({ coldExtend ,coldExtend });
 		coldWave_->SetAlpha(coldAlpha);
 		coldExtend += 40;
-		coldAlpha -= 0.1;
+		coldAlpha -= 0.1f;
 		if (coldAlpha < 0) {
 			isColdWave = false;
 			coldExtend = 0;

@@ -33,6 +33,9 @@ void GameScene::Initialize()
 	tower_->Initialize(towerHP);
 	scrollCamera_ = ScrollCamera::Create();
 	Sprite::SetCamera(scrollCamera_);
+	bloodGaugeSprite_ = Sprite::UniquePtrCreate(UINT(ImageManager::ImageName::bloodGaugeNumber), { 100,0 });
+	bloodGaugeSprite_->SetLeftSizeCorrection(true);
+	bloodGaugeSprite_->SetUi(true);
 }
 
 void GameScene::Update()
@@ -46,9 +49,11 @@ void GameScene::Update()
 	if (KeyInput::GetIns()->TriggerKey(DIK_DOWN)) { blood_->Decrease(); }
 	blood_->Update();
 
+	int b = player_->GetBloodGauge();
+	bloodGaugeSprite_->SetSize({ (float)16 * b ,16 });
 
-	//enemys_->Update(tower_->GetHP(), player_->GetPlayerHp());
-	//enemy_->Update();
+	enemys_->Update(tower_->GetHP(), player_->GetPlayerHp());
+	enemy_->Update();
 
 	//ƒV[ƒ“Ø‚è‘Ö‚¦
 	SceneChange();
@@ -100,6 +105,7 @@ void GameScene::Draw()
 	//scrollCamera->Draw(player_->GetSprite());
 	//blood_->Draw();
 	enemys_->Draw();
+	bloodGaugeSprite_->Draw();
 	//enemy_->Draw();
 	Sprite::PostDraw();
 

@@ -3,6 +3,8 @@
 #include <list>
 #include "KeyInput.h"
 #include <numeric>
+#include "Vector2.h"
+
 
 Blood::~Blood()
 {
@@ -23,7 +25,7 @@ Blood* Blood::Create(DirectX::XMFLOAT2 position, Temperature temp)
 	return instance;
 }
 
-std::unique_ptr<Blood> Blood::UniquePtrCreate(DirectX::XMFLOAT2 position, Temperature state, DirectX::XMFLOAT2 goal, DirectX::XMFLOAT2* playerPos)
+std::unique_ptr<Blood> Blood::UniquePtrCreate(Vector2 position, Temperature state, Vector2 goal, Vector2* playerPos)
 {
 	std::unique_ptr<Blood> instance = std::make_unique<Blood>();
 	instance->position_ = position;
@@ -33,8 +35,8 @@ std::unique_ptr<Blood> Blood::UniquePtrCreate(DirectX::XMFLOAT2 position, Temper
 	instance->sprites_[(int)Temperature::liquid] = Sprite::Create(UINT(ImageManager::ImageName::liquidNumber), position, { 1.f,1.f,1.f,1.f }, { 0.5,0.5 });
 	instance->sprites_[(int)Temperature::gas] = Sprite::Create(UINT(ImageManager::ImageName::gasTexNumber), position, { 1.f,1.f,1.f,1.f }, { 0.5,0.5 });
 	instance->temp_ = (int)state;
-	DirectX::XMVECTOR vec = { instance->goal_.x - instance->position_.x,instance->goal_.y - instance->position_.y };
-	vec = DirectX::XMVector3Normalize(vec);
+	Vector2 vec = instance->goal_ - *instance->playerPos_;
+	vec.normalize();
 	instance->oldvec_ = vec;
 	instance->state_ = (int)State::shot;
 	return std::move(instance);
@@ -48,11 +50,8 @@ void Blood::Update()
 
 	if (KeyInput::GetIns()->TriggerKey(DIK_UP))  Rising();
 	if (KeyInput::GetIns()->TriggerKey(DIK_DOWN))  Decrease();
-
-	DirectX::XMVECTOR vec;
-	DirectX::XMFLOAT2 vec2;
-	float a = 0, b = 0;
-
+	DirectX::XMINT4 a1{}, a2{};
+	Vector2 vec{  };
 	switch (state_)
 	{
 	case (int)State::idle:
@@ -60,40 +59,44 @@ void Blood::Update()
 		break;
 
 	case (int)State::shot:
-		//ŒŒ‚ð”ò‚Î‚·
-		vec = { goal_.x - position_.x,goal_.y - position_.y };
-		vec = DirectX::XMVector3Normalize(vec);
-		a = vec.m128_f32[0];
-		b = oldvec_.m128_f32[0];
-		if (fabs(a - b) <= 0.001f * fmax(1, fmax(fabs(a), fabs(b)))) {
-			vec2 = { vec.m128_f32[0],vec.m128_f32[1] };
-			position_ = { position_.x + vec2.x * speed_ ,position_.y + vec2.y * speed_ };
+		position_ += oldvec_ * speed_;
+		vec = goal_ - position_;
+		vec.normalize();
+		a1.x = int(vec.x * 10000) / 1000;
+		a1.y = int(vec.x * 10000) / 100 - a1.x * 10;
+		a1.z = int(vec.y * 10000) / 1000;
+		a1.w = int(vec.y * 10000) / 100 - a1.z * 10;
+		a2.x = int(oldvec_.x * 10000) / 1000;
+		a2.y = int(oldvec_.x * 10000) / 100 - a2.x * 10;
+		a2.z = int(oldvec_.y * 10000) / 1000;
+		a2.w = int(oldvec_.y * 10000) / 100 - a2.z * 10;
 
-			vec = { goal_.x - position_.x,goal_.y - position_.y };
-			vec = DirectX::XMVector3Normalize(vec);
-			a = vec.m128_f32[0];
-			b = oldvec_.m128_f32[0];
-			if (fabs(a - b) >= 0.001f * fmax(1, fmax(fabs(a), fabs(b)))) {
-				position_ = goal_;
-				state_ = (int)State::idle;
-			}
+		if (!(a1.x == a2.x && a1.y == a2.y) || !(a1.z == a2.z && a1.w == a2.w)) {
+			state_ = (int)State::idle;
+			position_ = goal_;
 		}
+
 		break;
 
 	case (int)State::back:
-		vec = { playerPos_->x - position_.x,playerPos_->y - position_.y };
-		vec = DirectX::XMVector3Normalize(vec);
+		vec = *playerPos_ - position_;
+		vec.normalize();
+		position_ += vec * speed_;
 		oldvec_ = vec;
-		vec2 = { vec.m128_f32[0],vec.m128_f32[1] };
-		position_ = { position_.x + vec2.x * speed_ ,position_.y + vec2.y * speed_ };
+		vec = *playerPos_ - position_;
+		vec.normalize();
+		a1.x = int(vec.x * 10000) / 1000;
+		a1.y = int(vec.x * 10000) / 100 - a1.x * 10;
+		a1.z = int(vec.y * 10000) / 1000;
+		a1.w = int(vec.y * 10000) / 100 - a1.z * 10;
+		a2.x = int(oldvec_.x * 10000) / 1000;
+		a2.y = int(oldvec_.x * 10000) / 100 - a2.x * 10;
+		a2.z = int(oldvec_.y * 10000) / 1000;
+		a2.w = int(oldvec_.y * 10000) / 100 - a2.z * 10;
 
-		vec = { playerPos_->x - position_.x,playerPos_->y - position_.y };
-		vec = DirectX::XMVector3Normalize(vec);
-		a = vec.m128_f32[0];
-		b = oldvec_.m128_f32[0];
-		if (fabs(a - b) >= 0.001f * fmax(1, fmax(fabs(a), fabs(b)))) {
-			position_ = *playerPos_;
+		if (!(a1.x == a2.x && a1.y == a2.y) || !(a1.z == a2.z && a1.w == a2.w)) {
 			state_ = (int)State::heat;
+			position_ = *playerPos_;
 		}
 		break;
 	default:

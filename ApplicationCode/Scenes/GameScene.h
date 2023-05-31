@@ -77,7 +77,7 @@ private: //ƒƒ“ƒo•Ï”
 	Player* player_ = nullptr;
 	Tower* tower_ = nullptr;
 	Sprite* bgSprite_ = nullptr;
-	
+	std::unique_ptr<Sprite> bloodGaugeSprite_ = nullptr;
 	Enemy* enemy_{};
 
 	Enemys* enemys_{};

@@ -2,6 +2,8 @@
 #include "Sprite.h"
 #include <vector>
 #include <map>
+#include "Vector2.h"
+
 class Blood
 {
 public:
@@ -27,7 +29,7 @@ public:
 
 	static Blood* Create(DirectX::XMFLOAT2 position, Temperature state);
 
-	static std::unique_ptr<Blood> UniquePtrCreate(DirectX::XMFLOAT2 position, Temperature state, DirectX::XMFLOAT2 goal,DirectX::XMFLOAT2* playerPos);
+	static std::unique_ptr<Blood> UniquePtrCreate(Vector2 position, Temperature state, Vector2 goal, Vector2* playerPos);
 
 	/// <summary>
 	/// çXêVèàóù
@@ -71,7 +73,7 @@ public:
 
 	int GetState() { return state_; }
 
-	DirectX::XMFLOAT2  GetPos() { return position_; }
+	Vector2  GetPos() { return position_; }
 
 	void HeatWaveOnCollision();
 	void ColdWaveOnCollision();
@@ -85,11 +87,11 @@ private:
 	int state_ = (int)State::none;
 	int deadTimer_ = 100;
 	bool isDead = false;
-	DirectX::XMFLOAT2 position_{};
-	DirectX::XMFLOAT2 goal_{};
-	DirectX::XMVECTOR oldvec_{};
-	DirectX::XMFLOAT2* playerPos_{};
-	const float speed_ = 30.0f;
+	Vector2 position_{};
+	Vector2 goal_{};
+	Vector2 oldvec_{};
+	Vector2* playerPos_{};
+	const float speed_ = 3.0f;
 	int maxTempDray = 20;
 	int tempDray = 0;
 };
