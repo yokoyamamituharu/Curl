@@ -73,7 +73,6 @@ private: //メンバ変数
 	//テキスト描画
 	TextDraw* text_;
 
-	Blood* blood_ = nullptr;
 	Player* player_ = nullptr;
 	Tower* tower_ = nullptr;
 	Sprite* bgSprite_ = nullptr;

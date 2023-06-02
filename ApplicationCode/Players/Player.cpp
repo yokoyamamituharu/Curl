@@ -17,6 +17,9 @@ Player::~Player()
 	}
 	sprites_.clear();
 	safe_delete(handler_);
+	safe_delete(handler_);
+	safe_delete(heatWave_);
+	safe_delete(coldWave_);
 }
 
 Player* Player::Create()

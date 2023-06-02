@@ -17,14 +17,12 @@ void GameScene::Initialize()
 
 	postEffectNo_ = PostEffect::NONE;
 
-	blood_ = Blood::Create({ 300,500 }, Blood::Temperature::solid);
 
 	enemys_ = new Enemys();
 	enemys_ = Enemys::Create();
 	enemy_ = new Enemy();
 	enemy_ = Enemy::Create();
 
-	blood_ = Blood::Create({ 300,500 }, Blood::Temperature::solid);
 	//player_ = Player::Create();
 	RoadPlayer();
 	bgSprite_ = Sprite::Create(UINT(ImageManager::ImageName::bgTexNumber), { 0,0 });
@@ -44,10 +42,7 @@ void GameScene::Update()
 	HitBloodAndEnemys();
 
 	player_->Update(scrollCamera_);
-	scrollCamera_->Update(player_->GetSprite()->GetPosition());
-	if (KeyInput::GetIns()->TriggerKey(DIK_UP)) { blood_->Rising(); }
-	if (KeyInput::GetIns()->TriggerKey(DIK_DOWN)) { blood_->Decrease(); }
-	blood_->Update();
+	//scrollCamera_->Update(player_->GetSprite()->GetPosition());
 
 	int b = player_->GetBloodGauge();
 	bloodGaugeSprite_->SetSize({ (float)16 * b ,16 });
@@ -165,7 +160,6 @@ void GameScene::Draw()
 void GameScene::Finalize()
 {
 	safe_delete(text_);
-	safe_delete(blood_);
 	//enemys_->Delete();
 	safe_delete(enemys_);
 	safe_delete(enemy_);
