@@ -1,5 +1,5 @@
 #pragma once
-//#include "Player.h"
+#include "Player.h"
 
 class PlayerCommand {
 public:
@@ -13,5 +13,5 @@ public: //メンバ関数
 	/// コマンド実行
 	/// </summary>
 	/// <param name="player"></param>
-	//virtual void Execute(Player* player) = 0;
+	virtual void Execute(Player* player) = 0;
 };

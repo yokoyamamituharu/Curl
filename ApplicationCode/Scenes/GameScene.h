@@ -16,11 +16,15 @@
 #include "SceneManager.h"
 #include "TextDraw.h"
 #include "JsonLoader.h"
+#include"Enemys.h"
 
 #include "Blood.h"
 #include "Player.h"
 #include "Tower.h"
+#include "ScrollCamera.h"
+#include "Enemy.h"
 
+#include"Collision.h"
 class GameScene : public BaseScene
 {
 public: //メンバ関数
@@ -35,6 +39,11 @@ public: //メンバ関数
 	void Update();
 
 	/// <summary>
+	/// 血と敵の当たり判定
+	/// </summary>
+	void HitBloodAndEnemys();
+
+	/// <summary>
 	/// 描画処理
 	/// </summary>
 	void Draw();
@@ -44,19 +53,21 @@ public: //メンバ関数
 	/// </summary>
 	void Finalize();
 
+	void HitEnemys();
+
 private: //メンバ関数
 	/// <summary>
 	/// シーン切り替え処理
 	/// </summary>
 	void SceneChange();
 
+	void RoadPlayer();
+
 private: //メンバ変数
 	//ポストエフェクト
 	std::unique_ptr<PostEffect> postEffect_;
 	//ポストエフェクト番号
 	PostEffect::PostEffectNo postEffectNo_;
-	//地面
-	std::unique_ptr<Object3d> ground_;
 	//ライト
 	std::unique_ptr<LightGroup> light_;
 	//テキスト描画
@@ -66,5 +77,11 @@ private: //メンバ変数
 	Player* player_ = nullptr;
 	Tower* tower_ = nullptr;
 	Sprite* bgSprite_ = nullptr;
+	std::unique_ptr<Sprite> bloodGaugeSprite_ = nullptr;
+	Enemy* enemy_{};
+
+	Enemys* enemys_{};
+	
+	ScrollCamera* scrollCamera_ = nullptr;
 };
 

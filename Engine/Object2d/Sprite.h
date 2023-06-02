@@ -4,6 +4,7 @@
 #include <d3d12.h>
 #include <DirectXMath.h>
 #include <memory>
+#include "ScrollCamera.h"
 
 class Sprite
 {
@@ -77,6 +78,8 @@ public: //静的メンバ関数
 	/// <returns></returns>
 	static std::unique_ptr<Sprite> UniquePtrCreate(UINT texNumber, XMFLOAT2 position, XMFLOAT4 color = { 1, 1, 1, 1 }, XMFLOAT2 anchorpoint = { 0.0f, 0.0f }, bool isFlipX = false, bool isFlipY = false);
 
+	static void SetCamera(ScrollCamera* camera) { camera_ = camera; }
+
 protected: //静的メンバ変数
 	//テクスチャの最大枚数
 	static const int32_t srvCount = 512;
@@ -98,7 +101,8 @@ protected: //静的メンバ変数
 	static ComPtr<ID3D12DescriptorHeap> descHeap;
 	//テクスチャバッファ
 	static ComPtr<ID3D12Resource> texBuff[srvCount];
-
+	//カメラ
+	static ScrollCamera* camera_;
 public: //メンバ関数
 	/// <summary>
 	/// コンストラクタ
@@ -186,9 +190,14 @@ public: //メンバ関数
 	/// <param name="texSize">テクスチャサイズ</param>
 	void SetTextureRect(XMFLOAT2 texBase, XMFLOAT2 texSize);
 	/// <summary>
+	/// UIにする
+	/// </summary>
+	/// <param name="isUi"></param>
+	void SetUi(bool isUi) { this->isUi = isUi; }
+	/// <summary>
 	/// 描画
 	/// </summary>
-	void Draw();
+	void Draw();	
 
 protected: //メンバ変数
 	//頂点バッファ;
@@ -225,6 +234,7 @@ protected: //メンバ変数
 	XMFLOAT2 texBase = { 0, 0 };
 	// テクスチャサイズ
 	XMFLOAT2 texSize = { 100, 100 };
+	bool isUi = false;
 
 private: //メンバ関数
 	/// <summary>

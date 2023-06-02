@@ -21,9 +21,16 @@ public: //‰æ‘œ–¼
 		solidTexNumber = 1,
 		liquidNumber,
 		gasTexNumber,
-		playerTexNumber,
 		bgTexNumber,
-		towerNumber
+		towerNumber,
+		playerTexNumber,
+		enemyindividual,
+		enemyLiquid,
+		enemyGas,
+		heatWaveNumber,
+		coldWaveNumber,
+		playerHeatTexNumber,
+		bloodGaugeNumber
 	};
 
 public: //ƒƒ“ƒoŠÖ”

@@ -3,10 +3,8 @@
 #include <list>
 #include "KeyInput.h"
 #include <numeric>
+#include "Vector2.h"
 
-Blood::Blood()
-{
-}
 
 Blood::~Blood()
 {
@@ -16,27 +14,31 @@ Blood::~Blood()
 	sprites_.clear();
 }
 
-Blood* Blood::Create(DirectX::XMFLOAT2 position, STATE state)
+Blood* Blood::Create(DirectX::XMFLOAT2 position, Temperature temp)
 {
 	Blood* instance = new Blood();
 	instance->position_ = position;
-	instance->sprites_[solid] = Sprite::Create(UINT(ImageManager::ImageName::solidTexNumber), position);
-	instance->sprites_[liquid] = Sprite::Create(UINT(ImageManager::ImageName::liquidNumber), position);
-	instance->sprites_[gas] = Sprite::Create(UINT(ImageManager::ImageName::gasTexNumber), position);
-	instance->state_ = state;
+	instance->sprites_[(int)Temperature::solid] = Sprite::Create(UINT(ImageManager::ImageName::solidTexNumber), position, {}, { 0.5,0.5 });
+	instance->sprites_[(int)Temperature::liquid] = Sprite::Create(UINT(ImageManager::ImageName::liquidNumber), position, {}, { 0.5,0.5 });
+	instance->sprites_[(int)Temperature::gas] = Sprite::Create(UINT(ImageManager::ImageName::gasTexNumber), position, {}, { 0.5,0.5 });
+	instance->temp_ = (int)temp;
 	return instance;
 }
 
-std::unique_ptr<Blood> Blood::UniquePtrCreate(DirectX::XMFLOAT2 position, STATE state, DirectX::XMFLOAT2 goal)
+std::unique_ptr<Blood> Blood::UniquePtrCreate(Vector2 position, Temperature state, Vector2 goal, Vector2* playerPos)
 {
 	std::unique_ptr<Blood> instance = std::make_unique<Blood>();
-	instance->startPosition_ = position;
 	instance->position_ = position;
 	instance->goal_ = goal;
-	instance->sprites_[solid] = Sprite::Create(UINT(ImageManager::ImageName::solidTexNumber), position);
-	instance->sprites_[liquid] = Sprite::Create(UINT(ImageManager::ImageName::liquidNumber), position);
-	instance->sprites_[gas] = Sprite::Create(UINT(ImageManager::ImageName::gasTexNumber), position);
-	instance->state_ = state;
+	instance->playerPos_ = playerPos;
+	instance->sprites_[(int)Temperature::solid] = Sprite::Create(UINT(ImageManager::ImageName::solidTexNumber), position, { 1.f,1.f,1.f,1.f }, { 0.5,0.5 });
+	instance->sprites_[(int)Temperature::liquid] = Sprite::Create(UINT(ImageManager::ImageName::liquidNumber), position, { 1.f,1.f,1.f,1.f }, { 0.5,0.5 });
+	instance->sprites_[(int)Temperature::gas] = Sprite::Create(UINT(ImageManager::ImageName::gasTexNumber), position, { 1.f,1.f,1.f,1.f }, { 0.5,0.5 });
+	instance->temp_ = (int)state;
+	Vector2 vec = instance->goal_ - *instance->playerPos_;
+	vec.normalize();
+	instance->oldvec_ = vec;
+	instance->state_ = (int)State::shot;
 	return std::move(instance);
 }
 
@@ -44,33 +46,85 @@ void Blood::Update()
 {
 	//çXêVèàóù
 	//deadTimer--;
-	if (deadTimer < 0)isDead = true;
+	if (deadTimer_ < 0)isDead = true;
 
-	if (KeyInput::GetIns()->TriggerKey(DIK_UP)) { Rising(); }
-	if (KeyInput::GetIns()->TriggerKey(DIK_DOWN)) { Decrease(); }
+	if (KeyInput::GetIns()->TriggerKey(DIK_UP))  Rising();
+	if (KeyInput::GetIns()->TriggerKey(DIK_DOWN))  Decrease();
+	DirectX::XMINT4 a1{}, a2{};
+	Vector2 vec{  };
+	switch (state_)
+	{
+	case (int)State::idle:
 
-	//position_ = { position_.x + vec_.x ,position_.y + vec_.y };
-	position_ = Learp(startPosition_, goal_, time_);
-	if (time_ < 1) time_ += 0.1f;
-	sprites_[state_]->SetPosition(position_);
+		break;
+
+	case (int)State::shot:
+		position_ += oldvec_ * speed_;
+		vec = goal_ - position_;
+		vec.normalize();
+		a1.x = int(vec.x * 10000) / 1000;
+		a1.y = int(vec.x * 10000) / 100 - a1.x * 10;
+		a1.z = int(vec.y * 10000) / 1000;
+		a1.w = int(vec.y * 10000) / 100 - a1.z * 10;
+		a2.x = int(oldvec_.x * 10000) / 1000;
+		a2.y = int(oldvec_.x * 10000) / 100 - a2.x * 10;
+		a2.z = int(oldvec_.y * 10000) / 1000;
+		a2.w = int(oldvec_.y * 10000) / 100 - a2.z * 10;
+
+		if (!(a1.x == a2.x && a1.y == a2.y) || !(a1.z == a2.z && a1.w == a2.w)) {
+			state_ = (int)State::idle;
+			position_ = goal_;
+		}
+
+		break;
+
+	case (int)State::back:
+		vec = *playerPos_ - position_;
+		vec.normalize();
+		position_ += vec * speed_;
+		oldvec_ = vec;
+		vec = *playerPos_ - position_;
+		vec.normalize();
+		a1.x = int(vec.x * 10000) / 1000;
+		a1.y = int(vec.x * 10000) / 100 - a1.x * 10;
+		a1.z = int(vec.y * 10000) / 1000;
+		a1.w = int(vec.y * 10000) / 100 - a1.z * 10;
+		a2.x = int(oldvec_.x * 10000) / 1000;
+		a2.y = int(oldvec_.x * 10000) / 100 - a2.x * 10;
+		a2.z = int(oldvec_.y * 10000) / 1000;
+		a2.w = int(oldvec_.y * 10000) / 100 - a2.z * 10;
+
+		if (!(a1.x == a2.x && a1.y == a2.y) || !(a1.z == a2.z && a1.w == a2.w)) {
+			state_ = (int)State::heat;
+			position_ = *playerPos_;
+		}
+		break;
+	default:
+		break;
+	}
+	if (tempDray > 0) {
+		tempDray--;
+	}
+
+	sprites_[temp_]->SetPosition(position_);
 }
 
 void Blood::Rising()
 {
-	if (state_ >= gas)return;
-	state_++;
+	if (temp_ >= (int)Temperature::gas)return;
+	temp_++;
 }
 
 void Blood::Decrease()
 {
-	if (state_ <= solid)return;
-	state_--;
+	if (temp_ <= (int)Temperature::solid)return;
+	temp_--;
 }
 
 
 void Blood::Draw()
 {
-	sprites_[state_]->Draw();
+	sprites_[temp_]->Draw();
 }
 
 bool Blood::GetDead()
@@ -83,12 +137,18 @@ void Blood::SetDead()
 	isDead = true;
 }
 
-DirectX::XMFLOAT2 Blood::Learp(DirectX::XMFLOAT2 p, DirectX::XMFLOAT2 p2, float time)
+void Blood::HeatWaveOnCollision()
 {
-	p2.x -= p.x;
-	p2.y -= p.y;
-	DirectX::XMFLOAT2 p3{};
-	p3.x = p2.x * time + p.x;
-	p3.y = p2.y * time + p.y;
-	return p3;
+	if (tempDray <= 0) {
+		Rising();
+		tempDray = maxTempDray;
+	}
+}
+
+void Blood::ColdWaveOnCollision()
+{
+	if (tempDray <= 0) {
+		Decrease();
+		tempDray = maxTempDray;
+	}
 }

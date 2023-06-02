@@ -1,4 +1,5 @@
 #include "GameScene.h"
+#include "ExternalFileLoader.h"
 
 void GameScene::Initialize()
 {
@@ -14,27 +15,111 @@ void GameScene::Initialize()
 	//light->SetCircleShadowActive(0, true);
 	Object3d::SetLight(light_.get());
 
-	ground_ = Object3d::UniquePtrCreate(ModelManager::GetIns()->GetModel("ground"));
-	ground_->SetScale({ 10.0f, 1.0f, 10.0f });
-	ground_->SetPosition({ 0.0f, -10.0f, 0.0f });
-
 	postEffectNo_ = PostEffect::NONE;
 
-	blood_ = Blood::Create({ 300,500 }, Blood::solid);
-	player_ = Player::Create();
-	bgSprite_ = Sprite::Create(UINT(ImageManager::ImageName::bgTexNumber),{0,0});
+	blood_ = Blood::Create({ 300,500 }, Blood::Temperature::solid);
+
+	enemys_ = new Enemys();
+	enemys_ = Enemys::Create();
+	enemy_ = new Enemy();
+	enemy_ = Enemy::Create();
+
+	blood_ = Blood::Create({ 300,500 }, Blood::Temperature::solid);
+	//player_ = Player::Create();
+	RoadPlayer();
+	bgSprite_ = Sprite::Create(UINT(ImageManager::ImageName::bgTexNumber), { 0,0 });
 	int32_t towerHP = 10;
 	tower_ = new Tower;
 	tower_->Initialize(towerHP);
+	scrollCamera_ = ScrollCamera::Create();
+	Sprite::SetCamera(scrollCamera_);
+	bloodGaugeSprite_ = Sprite::UniquePtrCreate(UINT(ImageManager::ImageName::bloodGaugeNumber), { 100,0 });
+	bloodGaugeSprite_->SetLeftSizeCorrection(true);
+	bloodGaugeSprite_->SetUi(true);
 }
 
 void GameScene::Update()
 {
 	//blood_->Update();
-	player_->Update();
-	ground_->Update();
+	HitBloodAndEnemys();
+
+	player_->Update(scrollCamera_);
+	scrollCamera_->Update();
+	if (KeyInput::GetIns()->TriggerKey(DIK_UP)) { blood_->Rising(); }
+	if (KeyInput::GetIns()->TriggerKey(DIK_DOWN)) { blood_->Decrease(); }
+	blood_->Update();
+
+	int b = player_->GetBloodGauge();
+	bloodGaugeSprite_->SetSize({ (float)16 * b ,16 });
+
+ 	enemys_->Update(tower_->GetHP(), player_->GetPlayerHp());
+	//enemy_->Update();
+
 	//シーン切り替え
 	SceneChange();
+}
+
+void GameScene::HitBloodAndEnemys()
+{
+	//enemy_1 = enemys_->GetEnemys();
+	for (auto& enemy : enemys_->GetEnemys())
+	{
+		for (auto& blood : player_->GetBloods())
+		{
+			bool isHit = Collision::HitCircle(enemy->Getpos(), 32, blood->GetPos(), 16);
+
+			if (isHit == TRUE)
+			{
+				enemy->SetBloadHitFlag(isHit);
+				enemy->SetBloodType(blood->GetTemperature());
+			}
+		}
+	}
+
+	for (auto& vampire : enemys_->GetVampires())
+	{
+		for (auto& blood : player_->GetBloods())
+		{
+			bool isHit = Collision::HitCircle(vampire->Getpos(), 32, blood->GetPos(), 16);
+
+			if (isHit == true)
+			{
+				vampire->SetBloadHitFlag(isHit);
+				vampire->SetBloodType(blood->GetTemperature());
+			}
+		}
+	}
+
+	for (auto& basilisk : enemys_->GetBasiliskes())
+	{
+		for (auto& blood : player_->GetBloods())
+		{
+			bool isHit = Collision::HitCircle(basilisk->Getpos(), 32, blood->GetPos(), 16);
+
+			if (isHit == true)
+			{
+				basilisk->SetBloadHitFlag(isHit);
+				basilisk->SetBloodType(blood->GetTemperature());
+			}
+		}
+	}
+
+	for (auto& rabbit : enemys_->GetRabbits())
+	{
+		for (auto& blood : player_->GetBloods())
+		{
+			bool isHit = Collision::HitCircle(rabbit->Getpos(), 32, blood->GetPos(), 16);
+
+			if (isHit == true)
+			{
+				rabbit->SetBloadHitFlag(isHit);
+				rabbit->SetBloodType(blood->GetTemperature());
+			}
+		}
+	}
+
+	//enemys_->SetEnemys(enemy_1);
+
 }
 
 void GameScene::Draw()
@@ -45,19 +130,23 @@ void GameScene::Draw()
 	postEffect_->PreDrawScene(DirectXSetting::GetIns()->GetCmdList());
 
 	//スプライト描画処理(背景)
-	Sprite::PreDraw(DirectXSetting::GetIns()->GetCmdList());	
+	Sprite::PreDraw(DirectXSetting::GetIns()->GetCmdList());
 	Sprite::PostDraw();
 
 	//3Dオブジェクト描画処理
 	Object3d::PreDraw(DirectXSetting::GetIns()->GetCmdList());
-	ground_->Draw();
 	Object3d::PostDraw();
 
 	//スプライト描画処理(UI等)
 	Sprite::PreDraw(DirectXSetting::GetIns()->GetCmdList());
 	bgSprite_->Draw();
-	player_->Draw();
+	player_->Draw(scrollCamera_);
 	tower_->Draw();
+	//scrollCamera->Draw(player_->GetSprite());
+	//blood_->Draw();
+	enemys_->Draw();
+	bloodGaugeSprite_->Draw();
+	//enemy_->Draw();
 	Sprite::PostDraw();
 
 	postEffect_->PostDrawScene(DirectXSetting::GetIns()->GetCmdList());
@@ -77,9 +166,18 @@ void GameScene::Finalize()
 {
 	safe_delete(text_);
 	safe_delete(blood_);
+	//enemys_->Delete();
+	safe_delete(enemys_);
+	safe_delete(enemy_);
 	safe_delete(player_);
 	safe_delete(bgSprite_);
 	safe_delete(tower_);
+	safe_delete(scrollCamera_);
+}
+
+void GameScene::HitEnemys()
+{
+
 }
 
 void GameScene::SceneChange()
@@ -91,3 +189,36 @@ void GameScene::SceneChange()
 		SceneManager::SceneChange(SceneManager::SceneName::Result);
 	}
 }
+
+void GameScene::RoadPlayer()
+{
+	std::string line;
+	Vector2 pos{};
+	int rote, maxBlood = 0, hp = 0;
+	std::stringstream stream = ExternalFileLoader::GetIns()->ExternalFileOpen("player.txt");
+
+	while (getline(stream, line)) {
+		std::istringstream line_stream(line);
+		std::string word;
+		getline(line_stream, word, ' ');
+
+		if (word.find("#") == 0) {
+			continue;
+		}
+		if (word.find("pos") == 0) {
+			line_stream >> pos.x;
+			line_stream >> pos.y;
+		}
+		if (word.find("rote") == 0) {
+			line_stream >> rote;
+		}
+		if (word.find("maxBlood") == 0) {
+			line_stream >> maxBlood;
+		}
+		if (word.find("hp") == 0) {
+			line_stream >> hp;
+		}
+	}
+	player_ = Player::Create(pos, rote, hp, maxBlood);
+}
+

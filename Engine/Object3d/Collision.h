@@ -6,6 +6,9 @@
 class Collision final
 {
 private:
+	using XMFLOAT2 = DirectX::XMFLOAT2;
+
+private:
 	Collision() = default;
 	~Collision() = default;
 	Collision(const Collision& obj) = delete;
@@ -19,6 +22,8 @@ public: //Ã“Iƒƒ“ƒoŠÖ”
 	static Collision* GetIns();
 
 public: //ƒƒ“ƒoŠÖ”
+
+	static bool HitCircle(XMFLOAT2 pos1, float radius1, XMFLOAT2 pos2, float radius2);
 
 	/// <summary>
 	/// ‹…‚Æ‹…‚Ì“–‚½‚è”»’è
