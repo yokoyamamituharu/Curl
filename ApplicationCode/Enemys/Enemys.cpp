@@ -106,7 +106,7 @@ void Enemys::EnemyHitBlood()
 
 	for (unique_ptr<VampireEnemy>& vampire : Vampires_)
 	{
-		if (vampire->GetBloodHitFlag() == true)
+		if (vampire->GetBloodHitFlag() == TRUE)
 		{
 			if (vampire->GetBloodType() == vampire->GetHitBloodType())
 			{
@@ -130,7 +130,7 @@ void Enemys::EnemyHitBlood()
 	Vampires_.remove_if([](std::unique_ptr<VampireEnemy>& vampire) {return vampire->GetDead();  });
 	for (unique_ptr<BasiliskEnemy>& basilisk : Basiliskes_)
 	{
-		if (basilisk->GetBloodHitFlag() == true)
+		if (basilisk->GetBloodHitFlag() == TRUE)
 		{
 			if (basilisk->GetBloodType() == basilisk->GetHitBloodType())
 			{
@@ -154,7 +154,7 @@ void Enemys::EnemyHitBlood()
 	Basiliskes_.remove_if([](std::unique_ptr<BasiliskEnemy>& basilisk) {return basilisk->GetDead();  });
 	for (unique_ptr<RabbitEnemy>& rabbit : Rabbits_)
 	{
-		if (rabbit->GetBloodHitFlag() == true)
+		if (rabbit->GetBloodHitFlag() == TRUE)
 		{
 			if (rabbit->GetBloodType() == rabbit->GetHitBloodType())
 			{
