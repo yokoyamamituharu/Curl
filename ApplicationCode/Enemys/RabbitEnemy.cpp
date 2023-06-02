@@ -38,8 +38,8 @@ void RabbitEnemy::Update()
 
 	pos.x = sin((angle * DirectX::XM_PI) / 180) * moveLength;
 	pos.y = cos((angle * DirectX::XM_PI) / 180) * moveLength;
-	pos.x = pos.x + 640.f;
-	pos.y = pos.y + 360.f;
+	pos.x = pos.x + centerPoint.x;
+	pos.y = pos.y + centerPoint.y;
 	sprite->SetPosition(pos);
 }
 
