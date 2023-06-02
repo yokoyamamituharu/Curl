@@ -437,7 +437,7 @@ void Sprite::Draw() {
 	// 平行移動
 	this->matWorld *= XMMatrixTranslation(position.x, position.y, 0.0f);
 	if (!isUi && camera_) {
-		this->matWorld *= XMMatrixTranslation(camera_->GetPosition().x, camera_->GetPosition().y, 0.0f);
+		this->matWorld *= XMMatrixTranslation(-camera_->GetPosition().x, -camera_->GetPosition().y, 0.0f);
 	}
 
 	// 定数バッファに転送

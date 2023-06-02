@@ -44,7 +44,7 @@ void GameScene::Update()
 	HitBloodAndEnemys();
 
 	player_->Update(scrollCamera_);
-	scrollCamera_->Update();
+	scrollCamera_->Update(player_->GetSprite()->GetPosition());
 	if (KeyInput::GetIns()->TriggerKey(DIK_UP)) { blood_->Rising(); }
 	if (KeyInput::GetIns()->TriggerKey(DIK_DOWN)) { blood_->Decrease(); }
 	blood_->Update();
