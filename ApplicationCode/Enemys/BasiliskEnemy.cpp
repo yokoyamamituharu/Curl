@@ -31,6 +31,7 @@ std::unique_ptr<BasiliskEnemy> BasiliskEnemy::UniqueCreate()
 	enemy->sprite->SetAnchorPoint({ 0.5f,0.5f });
 	enemy->sprite->SetPosition(enemy->pos);
 
+	enemy->moveFlag = randCreate->getRandInt(0, 1);
 	safe_delete(randCreate);
 	return move(enemy);
 }
@@ -39,10 +40,28 @@ void BasiliskEnemy::Update()
 {
 	moveLength -= moveAddLength;
 
+	if (moveFlag == TRUE)
+	{
+		angle += moveAngle;
+	}
+	else
+	{
+		angle -= moveAngle;
+
+	}
+	if (angle > maxAngle.size())
+	{
+		angle -= maxAngle.size();
+	}
+	if (angle < minAngle.size())
+	{
+		angle += maxAngle.size();
+	}
+
 	pos.x = sin((angle * DirectX::XM_PI) / 180) * moveLength;
 	pos.y = cos((angle * DirectX::XM_PI) / 180) * moveLength;
-	pos.x = pos.x + 640.f;
-	pos.y = pos.y + 360.f;
+	pos.x = pos.x + centerPoint.x;
+	pos.y = pos.y + centerPoint.y;
 	sprite->SetPosition(pos);
 }
 
