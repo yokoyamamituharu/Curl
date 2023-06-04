@@ -15,6 +15,7 @@ public:
 	void Draw();
 
 private:
-	
+	bool moveFlag{};
+	float moveAngle = 1.f;
 };
 

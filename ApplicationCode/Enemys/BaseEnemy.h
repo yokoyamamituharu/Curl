@@ -1,4 +1,5 @@
 #pragma once
+#include<array>
 #include<DirectXMath.h>
 
 #include"Sprite.h"
@@ -33,19 +34,19 @@ public:
 	float GetMoveLength() { return moveLength; }
 
 	void SetBloodType(int bloodTipe_) { this->BloodType = bloodTipe_; }
-	bool GetBloodType() { return BloodType; }
+	int GetBloodType() { return BloodType; }
 
 	void SetHitBloodType(int hitBloodType_) { this->hitBloodType = hitBloodType_; }
-	bool GetHitBloodType() { return hitBloodType; }
+	int GetHitBloodType() { return hitBloodType; }
 
 	void SetAnBloodType(int anBloodType_) { this->anBloodType = anBloodType_; }
-	bool GetAnBloodType() { return anBloodType; }
+	int GetAnBloodType() { return anBloodType; }
 
 	void SetBloadHitFlag(int bloodHitFlag_) { this->bloodHitFlag = bloodHitFlag_; }
-	bool GetBloodHitFlag() { return bloodHitFlag; }
+	int GetBloodHitFlag() { return bloodHitFlag; }
 
 	void SetTowerHitFlag(int towerHitFlag_) { this->towerHitFlag = towerHitFlag_; }
-	bool GetTowerHitFlag() { return towerHitFlag; }
+	int GetTowerHitFlag() { return towerHitFlag; }
 
 	
 
@@ -77,5 +78,10 @@ protected:
 	bool bloodHitFlag{};
 	bool towerHitFlag{};
 	bool dead{};
+
+	std::array<float, 360> maxAngle;
+	std::array<float, 0> minAngle;
+
+	XMFLOAT2 centerPoint = {640.f,360.f};
 };
 
