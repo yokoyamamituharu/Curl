@@ -1,8 +1,11 @@
 #pragma once
 #include<array>
 #include<DirectXMath.h>
+#include <vector>
 
 #include"Sprite.h"
+#include "ImageManager.h"
+
 class BaseEnemy
 {
 private:
@@ -48,23 +51,31 @@ public:
 	void SetTowerHitFlag(int towerHitFlag_) { this->towerHitFlag = towerHitFlag_; }
 	int GetTowerHitFlag() { return towerHitFlag; }
 
-	
-
-
-	
-
 	void SetDead(bool dead_) { this->dead = dead_; }
 	bool GetDead() { return dead; }
 
 	virtual	void Update() = 0;
-
 	
 	//void Create(int type);
-	
 
 	virtual void Draw() = 0;
+
+protected: //静的メンバ関数
+
+	/// <summary>
+	/// 敵画像生成
+	/// </summary>
+	/// <param name="imageName">画像名</param>
+	/// <param name="animationCount">アニメーション数</param>
+	/// <param name="enemyPos">敵座標</param>
+	/// <returns>アニメーションスプライト</returns>
+	static std::vector<Sprite*> SpritesCreate(const ImageManager::ImageName imageName, const int32_t animationCount, const Vector2& enemyPos);
+
 protected:
-	Sprite* sprite{};
+	std::vector<Sprite*> frontSprites;
+	std::vector<Sprite*> besideSprites;
+	std::vector<Sprite*> backSprites;
+
 	XMFLOAT2 pos{};
 
 	float angle{};

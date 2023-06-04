@@ -3,14 +3,20 @@
 #include"RandCreate.h"
 VampireEnemy::~VampireEnemy()
 {
-	safe_delete(sprite);
+	for (int32_t i = 0; i < frontAnimationCount; i++) {
+		safe_delete(frontSprites[i]);
+	}
+	for (int32_t i = 0; i < besideAnimationCount; i++) {
+		safe_delete(besideSprites[i]);
+	}
+	for (int32_t i = 0; i < backAnimationCount; i++) {
+		safe_delete(backSprites[i]);
+	}
 }
 
 std::unique_ptr<VampireEnemy> VampireEnemy::UniqueCreate()
 {
 	std::unique_ptr<VampireEnemy> enemy = std::make_unique<VampireEnemy>();
-
-
 	
 	RandCreate* randCreate = new RandCreate();
 	randCreate->Ins();
@@ -25,9 +31,9 @@ std::unique_ptr<VampireEnemy> VampireEnemy::UniqueCreate()
 	enemy->pos.y = cos((enemy->angle * DirectX::XM_PI) / 180) * enemy->moveLength;
 	enemy->pos.x = enemy->pos.x + 640.f;
 	enemy->pos.y = enemy->pos.y + 360.f;
-	enemy->sprite = Sprite::Create(vampire, enemy->pos);
-	enemy->sprite->SetAnchorPoint({ 0.5f,0.5f });
-	enemy->sprite->SetPosition(enemy->pos);
+	enemy->frontSprites = SpritesCreate(ImageManager::ImageName::vampire_front, frontAnimationCount, enemy->pos);
+	enemy->besideSprites = SpritesCreate(ImageManager::ImageName::vampire_beside, besideAnimationCount, enemy->pos);
+	enemy->backSprites = SpritesCreate(ImageManager::ImageName::vampire_back, backAnimationCount, enemy->pos);
 	
 	safe_delete(randCreate);
 	return move(enemy);
@@ -42,11 +48,19 @@ void VampireEnemy::Update()
 	pos.y = cos((angle * DirectX::XM_PI) / 180) * moveLength;
 	pos.x = pos.x + centerPoint.x;
 	pos.y = pos.y + centerPoint.y;
-	sprite->SetPosition(pos);
+	for (int32_t i = 0; i < frontAnimationCount; i++) {
+		frontSprites[i]->SetPosition(pos);
+	}
+	for (int32_t i = 0; i < besideAnimationCount; i++) {
+		besideSprites[i]->SetPosition(pos);
+	}
+	for (int32_t i = 0; i < backAnimationCount; i++) {
+		backSprites[i]->SetPosition(pos);
+	}
 }
 
 void VampireEnemy::Draw()
 {
-	sprite->Draw();
+	frontSprites[0]->Draw();
 }
 

@@ -4,7 +4,16 @@
 
 RabbitEnemy::~RabbitEnemy()
 {
-	safe_delete(sprite);
+	for (int32_t i = 0; i < frontAnimationCount; i++) {
+		safe_delete(frontSprites[i]);
+	}
+	for (int32_t i = 0; i < besideAnimationCount; i++)
+	{
+		safe_delete(besideSprites[i]);
+	}
+	for (int32_t i = 0; i < backAnimationCount; i++) {
+		safe_delete(backSprites[i]);
+	}
 }
 
 std::unique_ptr<RabbitEnemy> RabbitEnemy::UniqueCreate()
@@ -23,9 +32,9 @@ std::unique_ptr<RabbitEnemy> RabbitEnemy::UniqueCreate()
 	enemy->pos.y = cos((enemy->angle * DirectX::XM_PI) / 180) * enemy->moveLength;
 	enemy->pos.x = enemy->pos.x + 640.f;
 	enemy->pos.y = enemy->pos.y + 360.f;
-	enemy->sprite = Sprite::Create(rabbit, enemy->pos);
-	enemy->sprite->SetAnchorPoint({ 0.5f,0.5f });
-	enemy->sprite->SetPosition(enemy->pos);
+	enemy->frontSprites = SpritesCreate(ImageManager::ImageName::rabbit_front, frontAnimationCount, enemy->pos);
+	enemy->besideSprites = SpritesCreate(ImageManager::ImageName::rabbit_beside, besideAnimationCount, enemy->pos);
+	enemy->backSprites = SpritesCreate(ImageManager::ImageName::rabbit_back, backAnimationCount, enemy->pos);
 
 	safe_delete(randCreate);
 	return move(enemy);
@@ -40,7 +49,15 @@ void RabbitEnemy::Update()
 	pos.y = cos((angle * DirectX::XM_PI) / 180) * moveLength;
 	pos.x = pos.x + centerPoint.x;
 	pos.y = pos.y + centerPoint.y;
-	sprite->SetPosition(pos);
+	for (int32_t i = 0; i < frontAnimationCount; i++) {
+		frontSprites[i]->SetPosition(pos);
+	}
+	for (int32_t i = 0; i < besideAnimationCount; i++) {
+		besideSprites[i]->SetPosition(pos);
+	}
+	for (int32_t i = 0; i < backAnimationCount; i++) {
+		backSprites[i]->SetPosition(pos);
+	}
 }
 
 int RabbitEnemy::BloodHit(int num)
@@ -72,5 +89,5 @@ int RabbitEnemy::BloodHit(int num)
 
 void RabbitEnemy::Draw()
 {
-	sprite->Draw();
+	frontSprites[0]->Draw();
 }

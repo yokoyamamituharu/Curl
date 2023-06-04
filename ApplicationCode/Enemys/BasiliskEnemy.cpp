@@ -3,15 +3,21 @@
 #include"RandCreate.h"
 BasiliskEnemy::~BasiliskEnemy()
 {
-	safe_delete(sprite);
-
+	for (int32_t i = 0; i < frontAnimationCount; i++) {
+		safe_delete(frontSprites[i]);
+	}
+	for (int32_t i = 0; i < besideAnimationCount; i++)
+	{
+		safe_delete(besideSprites[i]);
+	}
+	for (int32_t i = 0; i < backAnimationCount; i++) {
+		safe_delete(backSprites[i]);
+	}
 }
 
 std::unique_ptr<BasiliskEnemy> BasiliskEnemy::UniqueCreate()
 {
 	std::unique_ptr<BasiliskEnemy> enemy = std::make_unique<BasiliskEnemy>();
-
-
 
 	RandCreate* randCreate = new RandCreate();
 	randCreate->Ins();
@@ -21,15 +27,13 @@ std::unique_ptr<BasiliskEnemy> BasiliskEnemy::UniqueCreate()
 	enemy->hitBloodType = solid_1;
 	enemy->anBloodType = liquid_1;
 
-
-
 	enemy->pos.x = sin((enemy->angle * DirectX::XM_PI) / 180) * enemy->moveLength;
 	enemy->pos.y = cos((enemy->angle * DirectX::XM_PI) / 180) * enemy->moveLength;
 	enemy->pos.x = enemy->pos.x + 640.f;
 	enemy->pos.y = enemy->pos.y + 360.f;
-	enemy->sprite = Sprite::Create(basilisk, enemy->pos);
-	enemy->sprite->SetAnchorPoint({ 0.5f,0.5f });
-	enemy->sprite->SetPosition(enemy->pos);
+	enemy->frontSprites = SpritesCreate(ImageManager::ImageName::basilisk_front, frontAnimationCount, enemy->pos);
+	enemy->besideSprites = SpritesCreate(ImageManager::ImageName::basilisk_beside, besideAnimationCount, enemy->pos);
+	enemy->backSprites = SpritesCreate(ImageManager::ImageName::basilisk_back, backAnimationCount, enemy->pos);
 
 	enemy->moveFlag = randCreate->getRandInt(0, 1);
 	safe_delete(randCreate);
@@ -62,12 +66,20 @@ void BasiliskEnemy::Update()
 	pos.y = cos((angle * DirectX::XM_PI) / 180) * moveLength;
 	pos.x = pos.x + centerPoint.x;
 	pos.y = pos.y + centerPoint.y;
-	sprite->SetPosition(pos);
+	for (int32_t i = 0; i < frontAnimationCount; i++) {
+		frontSprites[i]->SetPosition(pos);
+	}
+	for (int32_t i = 0; i < besideAnimationCount; i++) {
+		besideSprites[i]->SetPosition(pos);
+	}
+	for (int32_t i = 0; i < backAnimationCount; i++) {
+		backSprites[i]->SetPosition(pos);
+	}
 }
 
 void BasiliskEnemy::Draw()
 {
-	sprite->Draw();
+	frontSprites[0]->Draw();
 }
 
 
