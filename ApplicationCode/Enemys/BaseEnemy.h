@@ -71,10 +71,14 @@ protected: //静的メンバ関数
 	/// <returns>アニメーションスプライト</returns>
 	static std::vector<Sprite*> SpritesCreate(const ImageManager::ImageName imageName, const int32_t animationCount, const Vector2& enemyPos);
 
+protected: //定数
+	//アニメーション時間
+	static const int32_t animationTime = 10;
+
 protected:
-	std::vector<Sprite*> frontSprites;
-	std::vector<Sprite*> besideSprites;
-	std::vector<Sprite*> backSprites;
+	std::vector<Sprite*> frontSprites_;
+	std::vector<Sprite*> besideSprites_;
+	std::vector<Sprite*> backSprites_;
 
 	XMFLOAT2 pos{};
 
@@ -94,5 +98,13 @@ protected:
 	std::array<float, 0> minAngle;
 
 	XMFLOAT2 centerPoint = {640.f,360.f};
+	//アニメーションタイマー
+	int32_t animationTimer_ = 0;
+	//前向きアニメーションカウンター
+	int32_t frontAnimationCounter_ = 0;
+	//横向きアニメーションカウンター
+	int32_t besideAnimationCounter_ = 0;
+	//後ろ向きアニメーションカウンター
+	int32_t backAnimationCounter_ = 0;
 };
 

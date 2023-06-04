@@ -10,7 +10,7 @@ std::vector<Sprite*> BaseEnemy::SpritesCreate(const ImageManager::ImageName imag
 		sprites[i]->SetAnchorPoint({ 0.5f, 0.5f });
 		sprites[i]->SetPosition(enemyPos);
 		Vector2 texBase = { 0.0f, 0.0f };
-		texBase.x = 64.0f * (float)animationCount;
+		texBase.x = 64.0f * (float)i;
 		sprites[i]->SetSize({ 64.0f, 64.0f });
 		sprites[i]->SetTextureRect(texBase, { 64.0f, 64.0f });
 	}
