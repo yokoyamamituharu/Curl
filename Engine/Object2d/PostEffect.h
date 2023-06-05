@@ -1,5 +1,6 @@
 #pragma once
 #include "Sprite.h"
+#include "Vector3.h"
 
 class PostEffect : public Sprite
 {
@@ -30,9 +31,13 @@ public: //メンバ関数
 	PostEffect();
 
 	/// <summary>
-	/// 初期化処理
+	/// 初期化
 	/// </summary>
-	void Initialize();
+	/// <param name="LT">左上</param>
+	/// <param name="LB">左下</param>
+	/// <param name="RT">右上</param>
+	/// <param name="RB">右下</param>
+	void Initialize(const Vector3& LT, const Vector3& LB, const Vector3& RT, const Vector3& RB);
 
 	/// <summary>
 	/// 描画コマンド

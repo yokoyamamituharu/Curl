@@ -20,7 +20,8 @@ PostEffect::PostEffect() : Sprite(
 
 }
 
-void PostEffect::Initialize() {
+void PostEffect::Initialize(const Vector3& LT, const Vector3& LB, const Vector3& RT, const Vector3& RB)
+{
 	HRESULT result;
 
 	//nullチェック
@@ -39,10 +40,10 @@ void PostEffect::Initialize() {
 
 	//頂点データ
 	VertexPosUv vertices[vertNum] = {
-		{{-1.0f, -1.0f, 0.0f}, {0.0f, 1.0f}}, //左下
-		{{-1.0f, +1.0f, 0.0f}, {0.0f, 0.0f}}, //左上
-		{{+1.0f, -1.0f, 0.0f}, {1.0f, 1.0f}}, //右下
-		{{+1.0f, +1.0f, 0.0f}, {1.0f, 0.0f}}, //右上
+		{LB, {0.0f, 1.0f}}, //左下
+		{LT, {0.0f, 0.0f}}, //左上
+		{RB, {1.0f, 1.0f}}, //右下
+		{RT, {1.0f, 0.0f}}, //右上
 	};
 
 	// 頂点バッファデータ転送
