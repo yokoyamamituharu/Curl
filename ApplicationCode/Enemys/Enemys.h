@@ -5,7 +5,6 @@
 #include "KeyInput.h"
 #include<memory>
 #include<list>
-#include"Enemy.h"
 
 #include"VampireEnemy.h"
 #include"BasiliskEnemy.h"
@@ -42,7 +41,7 @@ public:
 
 	void EnemyHitTower();
 
-	list<unique_ptr<Enemy>>& GetEnemys() { return enemys3_; }
+	
 	list<unique_ptr<VampireEnemy>>& GetVampires() { return Vampires_; }
 	list<unique_ptr<BasiliskEnemy>>& GetBasiliskes() { return Basiliskes_; }
 	list<unique_ptr<RabbitEnemy>>& GetRabbits() { return Rabbits_; }
@@ -50,14 +49,14 @@ public:
 	void Draw();
 
 protected:
-	//Enemy* enemys_[36]{};
-	int enemyNumber_{};
-	int enemyCreateTime{};
-	RandCreate* randCreate_{};
+	
+	int enemyNumber_{};//oŒ»‚µ‚Ä‚¢‚é“G‚Ì‘——¿
+	int enemyCreateTime{};//¶¬ŠÔ
+	RandCreate* randCreate_{};//ƒ‰ƒ“ƒ_ƒ€
 	KeyInput* keyInput_{};
 
 	//unique_ptr<Enemy> enemys2_{};
-	list<unique_ptr<Enemy>> enemys3_{};
+	
 	list<unique_ptr<VampireEnemy>> Vampires_{};
 	list<unique_ptr<BasiliskEnemy>> Basiliskes_{};
 	list<unique_ptr<RabbitEnemy>> Rabbits_{};

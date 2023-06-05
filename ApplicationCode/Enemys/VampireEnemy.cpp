@@ -16,38 +16,53 @@ VampireEnemy::~VampireEnemy()
 
 std::unique_ptr<VampireEnemy> VampireEnemy::UniqueCreate()
 {
+	//作成開始
 	std::unique_ptr<VampireEnemy> enemy = std::make_unique<VampireEnemy>();
-	
+
+	//randの生成
 	RandCreate* randCreate = new RandCreate();
 	randCreate->Ins();
-	enemy->angle = randCreate->getRandFloat(0, 359);
-	enemy->moveLength = randCreate->getRandFloat(400, 500);
 
+	//血のタイプ代入
 	enemy->hitBloodType = liquid_1;
 	enemy->anBloodType = gas_1;
 
+	//エネミーの値代入
+	enemy->angle = randCreate->getRandFloat(0, 359);//角度のランダム代入
+	enemy->moveLength = randCreate->getRandFloat(400, 500);//movePointからどれだけ離れているかのランダム代入
 
+	//座標の計算代入
 	enemy->pos.x = sin((enemy->angle * DirectX::XM_PI) / 180) * enemy->moveLength;
 	enemy->pos.y = cos((enemy->angle * DirectX::XM_PI) / 180) * enemy->moveLength;
+	
+	//座標のずれを修正
 	enemy->pos.x = enemy->pos.x + 640.f;
 	enemy->pos.y = enemy->pos.y + 360.f;
+
 	enemy->frontSprites_ = SpritesCreate(ImageManager::ImageName::vampire_front, frontAnimationCount, enemy->pos);
 	enemy->besideSprites_ = SpritesCreate(ImageManager::ImageName::vampire_beside, besideAnimationCount, enemy->pos);
 	enemy->backSprites_ = SpritesCreate(ImageManager::ImageName::vampire_back, backAnimationCount, enemy->pos);
-	
+
+	//randの開放
 	safe_delete(randCreate);
+
+	//エネミー代入
 	return move(enemy);
 }
 
 void VampireEnemy::Update()
 {
-
+	//距離の計算
 	moveLength -= moveAddLength;
 
+	//座標の計算代入
 	pos.x = sin((angle * DirectX::XM_PI) / 180) * moveLength;
 	pos.y = cos((angle * DirectX::XM_PI) / 180) * moveLength;
+
+	//座標のずれを修正
 	pos.x = pos.x + movePoint.x;
 	pos.y = pos.y + movePoint.y;
+
 	for (int32_t i = 0; i < frontAnimationCount; i++) {
 		frontSprites_[i]->SetPosition(pos);
 	}

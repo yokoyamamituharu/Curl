@@ -239,9 +239,6 @@
     <ClCompile Include="ApplicationCode\Enemys\Enemys.cpp">
       <Filter>ソース ファイル\ApplicationCode\Enemies</Filter>
     </ClCompile>
-    <ClCompile Include="ApplicationCode\Enemys\Enemy.cpp">
-      <Filter>ソース ファイル\ApplicationCode\Enemies</Filter>
-    </ClCompile>
     <ClCompile Include="ApplicationCode\Enemys\BaseEnemy.cpp">
       <Filter>ソース ファイル\ApplicationCode\Enemies</Filter>
     </ClCompile>
@@ -252,7 +249,7 @@
       <Filter>ソース ファイル\ApplicationCode\Enemies</Filter>
     </ClCompile>
     <ClCompile Include="ApplicationCode\Enemys\RabbitEnemy.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\ApplicationCode\Enemies</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -416,9 +413,6 @@
     <ClInclude Include="Engine\Base\Vector2.h">
       <Filter>ソース ファイル\Engine\Base</Filter>
     </ClInclude>
-    <ClInclude Include="ApplicationCode\Enemys\Enemy.h">
-      <Filter>ソース ファイル\ApplicationCode\Enemies</Filter>
-    </ClInclude>
     <ClInclude Include="ApplicationCode\ScrollCamera\ScrollCamera.h">
       <Filter>ソース ファイル\ApplicationCode\ScrollCamera</Filter>
     </ClInclude>
@@ -431,7 +425,9 @@
     <ClInclude Include="ApplicationCode\Enemys\VampireEnemy.h">
       <Filter>ソース ファイル\ApplicationCode\Enemies</Filter>
     </ClInclude>
-    <ClInclude Include="ApplicationCode\Enemys\RabbitEnemy.h" />
+    <ClInclude Include="ApplicationCode\Enemys\RabbitEnemy.h">
+      <Filter>ソース ファイル\ApplicationCode\Enemies</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="IgaEngine.rc">

@@ -22,7 +22,7 @@
 #include "Player.h"
 #include "Tower.h"
 #include "ScrollCamera.h"
-#include "Enemy.h"
+
 
 #include"Collision.h"
 class GameScene : public BaseScene
@@ -78,8 +78,7 @@ private: //ƒƒ“ƒo•Ï”
 	Tower* tower_ = nullptr;
 	Sprite* bgSprite_ = nullptr;
 	std::unique_ptr<Sprite> bloodGaugeSprite_ = nullptr;
-	Enemy* enemy_{};
-
+	
 	Enemys* enemys_{};
 	
 	ScrollCamera* scrollCamera_ = nullptr;
