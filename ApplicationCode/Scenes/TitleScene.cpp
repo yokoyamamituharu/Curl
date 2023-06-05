@@ -3,8 +3,12 @@
 
 void TitleScene::Initialize()
 {
+	const Vector3 LB = { -1.0f, -1.0f, 0.0f };
+	const Vector3 LT = { -1.0f, +1.0f, 0.0f };
+	const Vector3 RB = { +1.0f, -1.0f, 0.0f };
+	const Vector3 RT = { +1.0f, +1.0f, 0.0f };
 	postEffect_ = std::make_unique<PostEffect>();
-	postEffect_->Initialize();
+	postEffect_->Initialize(LT, LB, RT, RB);
 
 	light_ = LightGroup::UniquePtrCreate();
 	for (int32_t i = 0; i < 3; i++) {
