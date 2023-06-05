@@ -54,6 +54,9 @@ public:
 	void SetDead(bool dead_) { this->dead = dead_; }
 	bool GetDead() { return dead; }
 
+	void SetMovePoint(XMFLOAT2 pos) { this->movePoint = pos; }
+	XMFLOAT2 GetMovePoint() { return movePoint; }
+
 	virtual	void Update() = 0;
 	
 	//void Create(int type);
@@ -97,7 +100,8 @@ protected:
 	std::array<float, 360> maxAngle;
 	std::array<float, 0> minAngle;
 
-	XMFLOAT2 centerPoint = {640.f,360.f};
+	//移動先座標
+	XMFLOAT2 movePoint = {640.f,360.f};
 	//アニメーションタイマー
 	int32_t animationTimer_ = 0;
 	//前向きアニメーションカウンター

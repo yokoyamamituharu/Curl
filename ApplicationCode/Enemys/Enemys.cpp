@@ -29,7 +29,7 @@ void Enemys::Update(int32_t towerHp, int playerHp)
 	enemyCreateTime--;
 	if ((towerHp > 0 || playerHp > 0) && enemyNumber_ < 72 && enemyCreateTime < 0)
 	{
-		EnemyCreate();
+		EnemyCreate(3);
 		enemyNumber_++;
 		enemyCreateTime = randCreate_->getRandInt(10, 100);
 	}
@@ -54,21 +54,40 @@ void Enemys::Update(int32_t towerHp, int playerHp)
 	EnemyHitTower();
 }
 
-void Enemys::EnemyCreate()
+void Enemys::EnemyCreate(const int phase)
 {
+	//出現乱数設定
 	int temp = randCreate_->getRandInt(1, 6);
 
-	if (temp == 1|| temp == 4)
-	{
+	//フェーズ1(ヴァンパイア)
+	if (phase == 1) {
 		Vampires_.push_back(VampireEnemy::UniqueCreate());
 	}
-	if (temp == 2 || temp == 5)
-	{
-		Basiliskes_.push_back(BasiliskEnemy::UniqueCreate());
+	//フェーズ2（ヴァンパイア、ウサギ）
+	else if (phase == 2) {
+		if (temp == 1 || temp == 4 || temp == 3)
+		{
+			Vampires_.push_back(VampireEnemy::UniqueCreate());
+		}
+		if (temp == 2 || temp == 5 || temp == 6)
+		{
+			Rabbits_.push_back(RabbitEnemy::UniqueCreate());
+		}
 	}
-	if (temp == 3 || temp == 6)
-	{
-		Rabbits_.push_back(RabbitEnemy::UniqueCreate());
+	//フェーズ3（ヴァンパイア、ウサギ、バジリスク）
+	else if (phase == 3) {
+		if (temp == 1 || temp == 4)
+		{
+			Vampires_.push_back(VampireEnemy::UniqueCreate());
+		}
+		if (temp == 2 || temp == 5)
+		{
+			Basiliskes_.push_back(BasiliskEnemy::UniqueCreate());
+		}
+		if (temp == 3 || temp == 6)
+		{
+			Rabbits_.push_back(RabbitEnemy::UniqueCreate());
+		}
 	}
 	/*else
 	{

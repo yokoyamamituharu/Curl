@@ -35,7 +35,7 @@ public:
 
 	void Update(int32_t towerHp,int playerHp);
 
-	void EnemyCreate();
+	void EnemyCreate(const int phase);
 
 	void EnemyHitBlood();
 

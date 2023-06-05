@@ -64,8 +64,8 @@ void BasiliskEnemy::Update()
 
 	pos.x = sin((angle * DirectX::XM_PI) / 180) * moveLength;
 	pos.y = cos((angle * DirectX::XM_PI) / 180) * moveLength;
-	pos.x = pos.x + centerPoint.x;
-	pos.y = pos.y + centerPoint.y;
+	pos.x = pos.x + movePoint.x;
+	pos.y = pos.y + movePoint.y;
 	for (int32_t i = 0; i < frontAnimationCount; i++) {
 		frontSprites_[i]->SetPosition(pos);
 	}
@@ -96,9 +96,16 @@ void BasiliskEnemy::Draw()
 		backAnimationCounter_ = 0;
 	}
 
-	frontSprites_[frontAnimationCounter_]->Draw();
-	//besideSprites_[besideAnimationCounter_]->Draw();
-	//backSprites_[backAnimationCounter_]->Draw();
+	//アングルで移動方向を判定し、判定した方向に向いたアニメーションを使用
+	if (angle > 45 && angle < 135) {
+		backSprites_[backAnimationCounter_]->Draw();
+	}
+	else if (angle > 225 && angle < 270) {
+		frontSprites_[frontAnimationCounter_]->Draw();
+	}
+	else {
+		besideSprites_[besideAnimationCounter_]->Draw();
+	}
 }
 
 
