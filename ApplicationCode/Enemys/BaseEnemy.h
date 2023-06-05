@@ -1,8 +1,11 @@
 #pragma once
 #include<array>
 #include<DirectXMath.h>
+#include <vector>
 
 #include"Sprite.h"
+#include "ImageManager.h"
+
 class BaseEnemy
 {
 private:
@@ -48,23 +51,35 @@ public:
 	void SetTowerHitFlag(int towerHitFlag_) { this->towerHitFlag = towerHitFlag_; }
 	int GetTowerHitFlag() { return towerHitFlag; }
 
-	
-
-
-	
-
 	void SetDead(bool dead_) { this->dead = dead_; }
 	bool GetDead() { return dead; }
 
 	virtual	void Update() = 0;
-
 	
 	//void Create(int type);
-	
 
 	virtual void Draw() = 0;
+
+protected: //静的メンバ関数
+
+	/// <summary>
+	/// 敵画像生成
+	/// </summary>
+	/// <param name="imageName">画像名</param>
+	/// <param name="animationCount">アニメーション数</param>
+	/// <param name="enemyPos">敵座標</param>
+	/// <returns>アニメーションスプライト</returns>
+	static std::vector<Sprite*> SpritesCreate(const ImageManager::ImageName imageName, const int32_t animationCount, const Vector2& enemyPos);
+
+protected: //定数
+	//アニメーション時間
+	static const int32_t animationTime = 10;
+
 protected:
-	Sprite* sprite{};
+	std::vector<Sprite*> frontSprites_;
+	std::vector<Sprite*> besideSprites_;
+	std::vector<Sprite*> backSprites_;
+
 	XMFLOAT2 pos{};
 
 	float angle{};
@@ -83,5 +98,13 @@ protected:
 	std::array<float, 0> minAngle;
 
 	XMFLOAT2 centerPoint = {640.f,360.f};
+	//アニメーションタイマー
+	int32_t animationTimer_ = 0;
+	//前向きアニメーションカウンター
+	int32_t frontAnimationCounter_ = 0;
+	//横向きアニメーションカウンター
+	int32_t besideAnimationCounter_ = 0;
+	//後ろ向きアニメーションカウンター
+	int32_t backAnimationCounter_ = 0;
 };
 

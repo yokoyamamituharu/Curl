@@ -3,14 +3,20 @@
 #include"RandCreate.h"
 VampireEnemy::~VampireEnemy()
 {
-	safe_delete(sprite);
+	for (int32_t i = 0; i < frontAnimationCount; i++) {
+		safe_delete(frontSprites_[i]);
+	}
+	for (int32_t i = 0; i < besideAnimationCount; i++) {
+		safe_delete(besideSprites_[i]);
+	}
+	for (int32_t i = 0; i < backAnimationCount; i++) {
+		safe_delete(backSprites_[i]);
+	}
 }
 
 std::unique_ptr<VampireEnemy> VampireEnemy::UniqueCreate()
 {
 	std::unique_ptr<VampireEnemy> enemy = std::make_unique<VampireEnemy>();
-
-
 	
 	RandCreate* randCreate = new RandCreate();
 	randCreate->Ins();
@@ -25,9 +31,9 @@ std::unique_ptr<VampireEnemy> VampireEnemy::UniqueCreate()
 	enemy->pos.y = cos((enemy->angle * DirectX::XM_PI) / 180) * enemy->moveLength;
 	enemy->pos.x = enemy->pos.x + 640.f;
 	enemy->pos.y = enemy->pos.y + 360.f;
-	enemy->sprite = Sprite::Create(vampire, enemy->pos);
-	enemy->sprite->SetAnchorPoint({ 0.5f,0.5f });
-	enemy->sprite->SetPosition(enemy->pos);
+	enemy->frontSprites_ = SpritesCreate(ImageManager::ImageName::vampire_front, frontAnimationCount, enemy->pos);
+	enemy->besideSprites_ = SpritesCreate(ImageManager::ImageName::vampire_beside, besideAnimationCount, enemy->pos);
+	enemy->backSprites_ = SpritesCreate(ImageManager::ImageName::vampire_back, backAnimationCount, enemy->pos);
 	
 	safe_delete(randCreate);
 	return move(enemy);
@@ -42,11 +48,38 @@ void VampireEnemy::Update()
 	pos.y = cos((angle * DirectX::XM_PI) / 180) * moveLength;
 	pos.x = pos.x + centerPoint.x;
 	pos.y = pos.y + centerPoint.y;
-	sprite->SetPosition(pos);
+	for (int32_t i = 0; i < frontAnimationCount; i++) {
+		frontSprites_[i]->SetPosition(pos);
+	}
+	for (int32_t i = 0; i < besideAnimationCount; i++) {
+		besideSprites_[i]->SetPosition(pos);
+	}
+	for (int32_t i = 0; i < backAnimationCount; i++) {
+		backSprites_[i]->SetPosition(pos);
+	}
 }
 
 void VampireEnemy::Draw()
 {
-	sprite->Draw();
+	if (++animationTimer_ > animationTime) {
+		frontAnimationCounter_++;
+		besideAnimationCounter_++;
+		backAnimationCounter_++;
+		animationTimer_ = 0;
+	}
+
+	if (frontAnimationCounter_ >= frontAnimationCount) {
+		frontAnimationCounter_ = 0;
+	}
+	if (besideAnimationCounter_ >= besideAnimationCount) {
+		besideAnimationCounter_ = 0;
+	}
+	if (backAnimationCounter_ >= backAnimationCount) {
+		backAnimationCounter_ = 0;
+	}
+
+	frontSprites_[frontAnimationCounter_]->Draw();
+	//besideSprites_[besideAnimationCounter_]->Draw();
+	//backSprites_[backAnimationCounter_]->Draw();
 }
 

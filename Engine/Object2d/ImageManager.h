@@ -30,7 +30,16 @@ public: //‰æ‘œ–¼
 		heatWaveNumber,
 		coldWaveNumber,
 		playerHeatTexNumber,
-		bloodGaugeNumber
+		bloodGaugeNumber,
+		vampire_front,
+		vampire_beside,
+		vampire_back,
+		basilisk_front,
+		basilisk_beside,
+		basilisk_back,
+		rabbit_front,
+		rabbit_beside,
+		rabbit_back
 	};
 
 public: //ƒƒ“ƒoŠÖ”

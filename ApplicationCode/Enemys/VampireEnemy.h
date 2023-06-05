@@ -15,7 +15,13 @@ public:
 
 	void Draw();
 
-private:
+private: //定数
+	//前向きアニメーション画像
+	static const int32_t frontAnimationCount = 6;
+	//横向きアニメーション画像
+	static const int32_t besideAnimationCount = 4;
+	//後ろ向きアニメーション画像
+	static const int32_t backAnimationCount = 6;
 
 };
 

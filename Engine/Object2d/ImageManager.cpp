@@ -20,4 +20,13 @@ void ImageManager::Initialize() {
 	Sprite::LoadTexture(int32_t(ImageName::enemyindividual), L"Engine/Resources/Images/enemy(1).png");
 	Sprite::LoadTexture(int32_t(ImageName::enemyLiquid), L"Engine/Resources/Images/enemy(2).png");
 	Sprite::LoadTexture(int32_t(ImageName::enemyGas), L"Engine/Resources/Images/enemy(3).png");
+	Sprite::LoadTexture(int32_t(ImageName::vampire_front), L"Engine/Resources/Images/vampire_front.png");
+	Sprite::LoadTexture(int32_t(ImageName::vampire_beside), L"Engine/Resources/Images/vampire_beside.png");
+	Sprite::LoadTexture(int32_t(ImageName::vampire_back), L"Engine/Resources/Images/vampire_back.png");
+	Sprite::LoadTexture(int32_t(ImageName::basilisk_front), L"Engine/Resources/Images/basilisk_front.png");
+	Sprite::LoadTexture(int32_t(ImageName::basilisk_beside), L"Engine/Resources/Images/basilisk_beside.png");
+	Sprite::LoadTexture(int32_t(ImageName::basilisk_back), L"Engine/Resources/Images/basilisk_back.png");
+	Sprite::LoadTexture(int32_t(ImageName::rabbit_front), L"Engine/Resources/Images/rabbit_front.png");
+	Sprite::LoadTexture(int32_t(ImageName::rabbit_beside), L"Engine/Resources/Images/rabbit_beside.png");
+	Sprite::LoadTexture(int32_t(ImageName::rabbit_back), L"Engine/Resources/Images/rabbit_back.png");
 }

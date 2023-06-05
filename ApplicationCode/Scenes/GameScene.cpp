@@ -3,8 +3,12 @@
 
 void GameScene::Initialize()
 {
+	const Vector3 LB = { -1.0f, -0.5f, 0.0f };
+	const Vector3 LT = { -1.0f, +1.0f, 0.0f };
+	const Vector3 RB = { +0.5f, -0.5f, 0.0f };
+	const Vector3 RT = { +0.5f, +1.0f, 0.0f };
 	postEffect_ = std::make_unique<PostEffect>();
-	postEffect_->Initialize();
+	postEffect_->Initialize(LT, LB, RT, RB);
 
 	light_ = LightGroup::UniquePtrCreate();
 	for (int32_t i = 0; i < 3; i++) {
@@ -47,7 +51,7 @@ void GameScene::Update()
 	int b = player_->GetBloodGauge();
 	bloodGaugeSprite_->SetSize({ (float)16 * b ,16 });
 
- 	enemys_->Update(tower_->GetHP(), player_->GetPlayerHp());
+	enemys_->Update(tower_->GetHP(), player_->GetPlayerHp());
 	//enemy_->Update();
 
 	//ÉVÅ[ÉìêÿÇËë÷Ç¶
