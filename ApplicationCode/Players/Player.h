@@ -57,7 +57,7 @@ private:
 	int heatDiray_ = maxHeatDiray_;
 	int state_ = (int)State::none;
 	KeyInputHandler* handler_ = nullptr;
-	float speed_ = 2.0f;
+	float speed_ = 4.0f;
 	int playerHp_ = 10;
 	int maxBlood_ = 0;
 	int bloodGauge_ = 0;

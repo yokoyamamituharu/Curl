@@ -62,14 +62,16 @@ void GameScene::Update()
 			pose_ = false;
 		}
 	}
-	
-	player_->Update(scrollCamera_);
-	//scrollCamera_->Update(player_->GetSprite()->GetPosition());
+	else {
 
-	int b = player_->GetBloodGauge();
-	bloodGaugeSprite_->SetSize({ (float)16 * b ,16 });
+		player_->Update(scrollCamera_);
+		//scrollCamera_->Update(player_->GetSprite()->GetPosition());
 
-	enemys_->Update(tower_->GetHP(), player_->GetPlayerHp());
+		int b = player_->GetBloodGauge();
+		bloodGaugeSprite_->SetSize({ (float)16 * b ,16 });
+
+		enemys_->Update(tower_->GetHP(), player_->GetPlayerHp());
+	}
 	//enemy_->Update();
 
 //シーン切り替え
@@ -164,7 +166,7 @@ void GameScene::Draw()
 	DirectXSetting::GetIns()->beginDrawWithDirect2D();
 	//テキスト描画範囲
 	D2D1_RECT_F textDrawRange = { 0, 0, 500, 500 };
-	text_->Draw("meiryo", "white", L"ゲームシーン\n左クリックでタイトルシーン\n右クリックでリザルトシーン", textDrawRange);
+	//text_->Draw("meiryo", "white", L"ゲームシーン\n左クリックでタイトルシーン\n右クリックでリザルトシーン", textDrawRange);
 	DirectXSetting::GetIns()->endDrawWithDirect2D();
 
 	DirectXSetting::GetIns()->PreDraw(backColor);
