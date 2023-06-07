@@ -5,15 +5,18 @@
 class VampireEnemy: public BaseEnemy
 {
 private:
-
+	
+	
+	
+	
 
 public:
-	~VampireEnemy();
-	static std::unique_ptr<VampireEnemy> UniqueCreate();
+	~VampireEnemy();//削除
+	static std::unique_ptr<VampireEnemy> UniqueCreate();//作成
 
-	void Update();
+	void Update();// 更新
 
-	void Draw();
+	void Draw();//描画
 
 private: //定数
 	//前向きアニメーション画像

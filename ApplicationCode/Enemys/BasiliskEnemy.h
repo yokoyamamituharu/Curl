@@ -4,15 +4,18 @@ class BasiliskEnemy : public BaseEnemy
 {
 
 private:
-
+	
+	
+	
+	
 
 public:
-	~BasiliskEnemy();
-	static std::unique_ptr<BasiliskEnemy> UniqueCreate();
+	~BasiliskEnemy();//削除
+	static std::unique_ptr<BasiliskEnemy> UniqueCreate();//作成
 
-	void Update();
+	void Update();// 更新
 
-	void Draw();
+	void Draw();//描画
 
 private: //定数
 	//前向きアニメーション数
@@ -24,7 +27,7 @@ private: //定数
 
 private: //メンバ変数
 
-	bool moveFlag{};
-	float moveAngle = 1.f;
+	bool moveFlag{};//左右どっちに回るかのフラグ
+	float moveAngle = 1.f;//アングル加算値
 };
 

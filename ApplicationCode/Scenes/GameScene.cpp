@@ -24,9 +24,8 @@ void GameScene::Initialize()
 
 	enemys_ = new Enemys();
 	enemys_ = Enemys::Create();
-	enemy_ = new Enemy();
-	enemy_ = Enemy::Create();
-
+	
+	blood_ = Blood::Create({ 300,500 }, Blood::Temperature::solid);
 	//player_ = Player::Create();
 	RoadPlayer();
 	bgSprite_ = Sprite::Create(UINT(ImageManager::ImageName::bgTexNumber), { 0,0 });
@@ -60,21 +59,7 @@ void GameScene::Update()
 
 void GameScene::HitBloodAndEnemys()
 {
-	//enemy_1 = enemys_->GetEnemys();
-	for (auto& enemy : enemys_->GetEnemys())
-	{
-		for (auto& blood : player_->GetBloods())
-		{
-			bool isHit = Collision::HitCircle(enemy->Getpos(), 32, blood->GetPos(), 16);
-
-			if (isHit == TRUE)
-			{
-				enemy->SetBloadHitFlag(isHit);
-				enemy->SetBloodType(blood->GetTemperature());
-			}
-		}
-	}
-
+	
 	for (auto& vampire : enemys_->GetVampires())
 	{
 		for (auto& blood : player_->GetBloods())
@@ -166,7 +151,7 @@ void GameScene::Finalize()
 	safe_delete(text_);
 	//enemys_->Delete();
 	safe_delete(enemys_);
-	safe_delete(enemy_);
+	
 	safe_delete(player_);
 	safe_delete(bgSprite_);
 	safe_delete(tower_);

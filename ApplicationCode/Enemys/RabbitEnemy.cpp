@@ -18,37 +18,52 @@ RabbitEnemy::~RabbitEnemy()
 
 std::unique_ptr<RabbitEnemy> RabbitEnemy::UniqueCreate()
 {
+	//作成開始
 	std::unique_ptr<RabbitEnemy> enemy = std::make_unique<RabbitEnemy>();
 
+	//randの生成
 	RandCreate* randCreate = new RandCreate();
 	randCreate->Ins();
-	enemy->angle = randCreate->getRandFloat(0, 359);
-	enemy->moveLength = randCreate->getRandFloat(400, 500);
-
+	//血のタイプ代入
 	enemy->hitBloodType = gas_1;
 	enemy->anBloodType = solid_1;
 
+	//エネミーの値代入
+	enemy->angle = randCreate->getRandFloat(0, 359);//角度のランダム代入
+	enemy->moveLength = randCreate->getRandFloat(400, 500);//movePointからどれだけ離れているかのランダム代入
+
+	//座標の計算代入
 	enemy->pos.x = sin((enemy->angle * DirectX::XM_PI) / 180) * enemy->moveLength;
 	enemy->pos.y = cos((enemy->angle * DirectX::XM_PI) / 180) * enemy->moveLength;
+	
+	//座標のずれを修正
 	enemy->pos.x = enemy->pos.x + 640.f;
 	enemy->pos.y = enemy->pos.y + 360.f;
+
 	enemy->frontSprites_ = SpritesCreate(ImageManager::ImageName::rabbit_front, frontAnimationCount, enemy->pos);
 	enemy->besideSprites_ = SpritesCreate(ImageManager::ImageName::rabbit_beside, besideAnimationCount, enemy->pos);
 	enemy->backSprites_ = SpritesCreate(ImageManager::ImageName::rabbit_back, backAnimationCount, enemy->pos);
 
+	//randの開放
 	safe_delete(randCreate);
+
+	//エネミー代入
 	return move(enemy);
-	
 }
 
 void RabbitEnemy::Update()
 {
+	//距離の計算
 	moveLength -= moveAddLength;
 
+	//座標の計算代入
 	pos.x = sin((angle * DirectX::XM_PI) / 180) * moveLength;
 	pos.y = cos((angle * DirectX::XM_PI) / 180) * moveLength;
-	pos.x = pos.x + centerPoint.x;
-	pos.y = pos.y + centerPoint.y;
+
+	//座標のずれを修正
+	pos.x = pos.x + movePoint.x;
+	pos.y = pos.y + movePoint.y;
+
 	for (int32_t i = 0; i < frontAnimationCount; i++) {
 		frontSprites_[i]->SetPosition(pos);
 	}
@@ -106,7 +121,14 @@ void RabbitEnemy::Draw()
 		backAnimationCounter_ = 0;
 	}
 
-	frontSprites_[frontAnimationCounter_]->Draw();
-	//besideSprites_[besideAnimationCounter_]->Draw();
-	//backSprites_[backAnimationCounter_]->Draw();
+	//アングルで移動方向を判定し、判定した方向に向いたアニメーションを使用
+	if (angle > 45 && angle < 135) {
+		backSprites_[backAnimationCounter_]->Draw();
+	}
+	else if (angle > 225 && angle < 270) {
+		frontSprites_[frontAnimationCounter_]->Draw();
+	}
+	else {
+		besideSprites_[besideAnimationCounter_]->Draw();
+	}
 }
