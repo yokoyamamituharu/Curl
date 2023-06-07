@@ -19,6 +19,9 @@ void TitleScene::Initialize()
 	//light->SetCircleShadowActive(0, true);
 	Object3d::SetLight(light_.get());
 
+	title_ = Sprite::Create(23, {});
+	title_->SetSize({ 400*2,400*2 });
+
 	postEffectNo_ = PostEffect::NONE;
 }
 
@@ -37,6 +40,7 @@ void TitleScene::Draw()
 
 	//スプライト描画処理(背景)
 	Sprite::PreDraw(DirectXSetting::GetIns()->GetCmdList());
+	title_->Draw();
 	Sprite::PostDraw();
 
 	//3Dオブジェクト描画処理
@@ -63,6 +67,7 @@ void TitleScene::Draw()
 void TitleScene::Finalize()
 {
 	safe_delete(text_);
+	safe_delete(title_);
 }
 
 void TitleScene::SceneChange()

@@ -6,8 +6,8 @@ class ImageManager final
 private:
 	ImageManager() = default;
 	~ImageManager() = default;
-	ImageManager(const ImageManager & obj) = delete;
-	ImageManager& operator=(const ImageManager & obj) = delete;
+	ImageManager(const ImageManager& obj) = delete;
+	ImageManager& operator=(const ImageManager& obj) = delete;
 
 public: //Ã“Iƒƒ“ƒoŠÖ”
 	/// <summary>
@@ -39,7 +39,8 @@ public: //‰æ‘œ–¼
 		basilisk_back,
 		rabbit_front,
 		rabbit_beside,
-		rabbit_back
+		rabbit_back,
+		TitleLog
 	};
 
 public: //ƒƒ“ƒoŠÖ”

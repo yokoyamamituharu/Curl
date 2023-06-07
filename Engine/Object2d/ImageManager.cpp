@@ -29,4 +29,5 @@ void ImageManager::Initialize() {
 	Sprite::LoadTexture(int32_t(ImageName::rabbit_front), L"Engine/Resources/Images/rabbit_front.png");
 	Sprite::LoadTexture(int32_t(ImageName::rabbit_beside), L"Engine/Resources/Images/rabbit_beside.png");
 	Sprite::LoadTexture(int32_t(ImageName::rabbit_back), L"Engine/Resources/Images/rabbit_back.png");
+	Sprite::LoadTexture(int32_t(ImageName::TitleLog), L"Engine/Resources/Images/TitleLog.png");
 }
