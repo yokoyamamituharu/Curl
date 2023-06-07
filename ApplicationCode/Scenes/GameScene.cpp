@@ -3,10 +3,10 @@
 
 void GameScene::Initialize()
 {
-	const Vector3 LB = { -1.0f, -0.5f, 0.0f };
+	const Vector3 LB = { -1.0f, -1.0f, 0.0f };
 	const Vector3 LT = { -1.0f, +1.0f, 0.0f };
-	const Vector3 RB = { +0.5f, -0.5f, 0.0f };
-	const Vector3 RT = { +0.5f, +1.0f, 0.0f };
+	const Vector3 RB = { +1.0f, -1.0f, 0.0f };
+	const Vector3 RT = { +1.0f, +1.0f, 0.0f };
 	postEffect_ = std::make_unique<PostEffect>();
 	postEffect_->Initialize(LT, LB, RT, RB);
 
@@ -30,6 +30,9 @@ void GameScene::Initialize()
 	//player_ = Player::Create();
 	RoadPlayer();
 	bgSprite_ = Sprite::Create(UINT(ImageManager::ImageName::bgTexNumber), { 0,0 });
+	GameSprite1 = Sprite::Create(UINT(ImageManager::ImageName::GameUI_01), { 0,0 });
+	GameSprite2 = Sprite::Create(UINT(ImageManager::ImageName::GameUI_02), { 0,0 });
+	GameSprite3 = Sprite::Create(UINT(ImageManager::ImageName::GameUI_03), { 0,0 });
 	int32_t towerHP = 10;
 	tower_ = new Tower;
 	tower_->Initialize(towerHP);
@@ -130,11 +133,15 @@ void GameScene::Draw()
 	bgSprite_->Draw();
 	player_->Draw(scrollCamera_);
 	tower_->Draw();
+
 	//scrollCamera->Draw(player_->GetSprite());
 	//blood_->Draw();
 	enemys_->Draw();
 	bloodGaugeSprite_->Draw();
 	//enemy_->Draw();
+	GameSprite1->Draw();
+	GameSprite2->Draw();
+	GameSprite3->Draw();
 	Sprite::PostDraw();
 
 	postEffect_->PostDrawScene(DirectXSetting::GetIns()->GetCmdList());
@@ -150,6 +157,7 @@ void GameScene::Draw()
 	DirectXSetting::GetIns()->PostDraw();
 }
 
+
 void GameScene::Finalize()
 {
 	safe_delete(text_);
@@ -159,6 +167,9 @@ void GameScene::Finalize()
 	
 	safe_delete(player_);
 	safe_delete(bgSprite_);
+	safe_delete(GameSprite1);
+	safe_delete(GameSprite2);
+	safe_delete(GameSprite3);
 	safe_delete(tower_);
 	safe_delete(scrollCamera_);
 }

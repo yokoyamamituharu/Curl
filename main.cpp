@@ -84,7 +84,6 @@ int32_t WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int32_t)
 		// DirectX毎フレーム処理　ここまで
 		// ４．描画コマンドここから
 		scene->Draw();
-
 	}
 
 	//scene解放

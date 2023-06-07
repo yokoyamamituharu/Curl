@@ -47,7 +47,6 @@ public: //ƒƒ“ƒoŠÖ”
 	/// •`‰æˆ—
 	/// </summary>
 	void Draw();
-
 	/// <summary>
 	/// I—¹ˆ—
 	/// </summary>
@@ -77,6 +76,9 @@ private: //ƒƒ“ƒo•Ï”
 	Player* player_ = nullptr;
 	Tower* tower_ = nullptr;
 	Sprite* bgSprite_ = nullptr;
+	Sprite* GameSprite1 = nullptr;
+	Sprite* GameSprite2 = nullptr;
+	Sprite* GameSprite3 = nullptr;
 	std::unique_ptr<Sprite> bloodGaugeSprite_ = nullptr;
 	
 	Enemys* enemys_{};

@@ -39,7 +39,10 @@ public: //‰æ‘œ–¼
 		basilisk_back,
 		rabbit_front,
 		rabbit_beside,
-		rabbit_back
+		rabbit_back,
+		GameUI_01,
+		GameUI_02,
+		GameUI_03,
 	};
 
 public: //ƒƒ“ƒoŠÖ”
