@@ -147,9 +147,6 @@ void GameScene::Draw()
 	tower_->Draw();
 	bloodGaugeSprite_->Draw();
 	//enemy_->Draw();
-	GameSprite1->Draw();
-	GameSprite2->Draw();
-	GameSprite3->Draw();
 	enemys_->Draw();
 	button_->Draw();
 	poseButton_->Draw();
@@ -157,6 +154,9 @@ void GameScene::Draw()
 		poseBackButton_->Draw();
 		titleButton_->Draw();
 	}
+	GameSprite1->Draw();
+	GameSprite2->Draw();
+	GameSprite3->Draw();
 	Sprite::PostDraw();
 
 	postEffect_->PostDrawScene(DirectXSetting::GetIns()->GetCmdList());
