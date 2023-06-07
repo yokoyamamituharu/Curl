@@ -57,12 +57,26 @@ void RabbitEnemy::Update()
 	moveLength -= moveAddLength;
 
 	//座標の計算代入
-	pos.x = sin((angle * DirectX::XM_PI) / 180) * moveLength;
-	pos.y = cos((angle * DirectX::XM_PI) / 180) * moveLength;
-
+	pos.y = sin((angle * DirectX::XM_PI) / 180) * moveLength;
+	pos.x = cos((angle * DirectX::XM_PI) / 180) * moveLength;
 	//座標のずれを修正
 	pos.x = pos.x + movePoint.x;
 	pos.y = pos.y + movePoint.y;
+
+	//アングルで移動方向を判定し、判定した方向に向いたアニメーションを使用
+	if (angle > 45 && angle < 135) {
+		useAnimation = AnimationType::back;
+	}
+	else if (angle > 225 && angle < 270) {
+		useAnimation = AnimationType::front;
+	}
+	else if(angle >= 135 && angle <= 225) {
+		useAnimation = AnimationType::rightSide;
+	}
+	else {
+		useAnimation = AnimationType::ReftSide;
+
+	}
 
 	for (int32_t i = 0; i < frontAnimationCount; i++) {
 		frontSprites_[i]->SetPosition(pos);
@@ -122,13 +136,18 @@ void RabbitEnemy::Draw()
 	}
 
 	//アングルで移動方向を判定し、判定した方向に向いたアニメーションを使用
-	if (angle > 45 && angle < 135) {
+	if (useAnimation == AnimationType::back) {
 		backSprites_[backAnimationCounter_]->Draw();
 	}
-	else if (angle > 225 && angle < 270) {
+	else if (useAnimation == AnimationType::front) {
 		frontSprites_[frontAnimationCounter_]->Draw();
 	}
+	else if (useAnimation == AnimationType::rightSide) {
+		besideSprites_[besideAnimationCounter_]->SetIsFlipX(true);
+		besideSprites_[besideAnimationCounter_]->Draw();
+	}
 	else {
+		besideSprites_[besideAnimationCounter_]->SetIsFlipX(false);
 		besideSprites_[besideAnimationCounter_]->Draw();
 	}
 }

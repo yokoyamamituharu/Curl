@@ -25,6 +25,8 @@ private: //定数
 	//後ろ向きアニメーション数
 	static const int32_t backAnimationCount = 6;
 
+	int useAnimation = 0;
+
 private: //メンバ変数
 
 	bool moveFlag{};//左右どっちに回るかのフラグ

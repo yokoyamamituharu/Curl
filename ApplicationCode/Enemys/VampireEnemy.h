@@ -26,5 +26,6 @@ private: //定数
 	//後ろ向きアニメーション画像
 	static const int32_t backAnimationCount = 6;
 
+	int useAnimation = 0;
 };
 

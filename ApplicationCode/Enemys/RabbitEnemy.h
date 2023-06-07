@@ -25,5 +25,7 @@ private: //定数
 	static const int32_t besideAnimationCount = 3;
 	//後ろ向きアニメーション画像
 	static const int32_t backAnimationCount = 3;
+
+	int useAnimation = 0;
 };
 
