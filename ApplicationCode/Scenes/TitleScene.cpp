@@ -60,6 +60,7 @@ void TitleScene::Draw()
 	DirectXSetting::GetIns()->PostDraw();
 }
 
+
 void TitleScene::Finalize()
 {
 	safe_delete(text_);
