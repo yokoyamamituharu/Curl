@@ -33,4 +33,12 @@ void ImageManager::Initialize() {
 	Sprite::LoadTexture(int32_t(ImageName::GameUI_02), L"Engine/Resources/Images/thermometer.png");
 	Sprite::LoadTexture(int32_t(ImageName::GameUI_03), L"Engine/Resources/Images/temperatureValue.png");
 	Sprite::LoadTexture(int32_t(ImageName::TitleLog), L"Engine/Resources/Images/TitleLog.png");
+	Sprite::LoadTexture(int32_t(ImageName::ManualButton), L"Engine/Resources/Images/ManualButton.png");
+	Sprite::LoadTexture(int32_t(ImageName::StartButton), L"Engine/Resources/Images/StartButton.png");
+	Sprite::LoadTexture(int32_t(ImageName::Pause), L"Engine/Resources/Images/pause.png");
+	Sprite::LoadTexture(int32_t(ImageName::TitleBack), L"Engine/Resources/Images/titleBack.png");
+	Sprite::LoadTexture(int32_t(ImageName::Clear), L"Engine/Resources/Images/clear.png");
+	Sprite::LoadTexture(int32_t(ImageName::Back), L"Engine/Resources/Images/Back.png");
+	Sprite::LoadTexture(int32_t(ImageName::Manual), L"Engine/Resources/Images/Manual.png");
+	
 }

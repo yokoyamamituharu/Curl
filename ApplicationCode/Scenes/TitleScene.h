@@ -59,6 +59,8 @@ private: //ƒƒ“ƒo•Ï”
 	TextDraw* text_;
 
 	Sprite* title_{};
+	Sprite* manual_{};
+	bool manualFlag = 0;
 	std::unique_ptr<Button> gameButton_;
 	std::unique_ptr<Button> manualButton_;
 };

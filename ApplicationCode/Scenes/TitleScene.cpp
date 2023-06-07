@@ -18,19 +18,20 @@ void TitleScene::Initialize()
 	}
 	//light->SetCircleShadowActive(0, true);
 	Object3d::SetLight(light_.get());
-
-	title_ = Sprite::Create(23, {});
+	manualFlag = 0;
+	title_ = Sprite::Create((UINT)ImageManager::ImageName::TitleLog, {});
 	title_->SetSize({ 400*2,400*2 });
-
+	manual_ = Sprite::Create((UINT)ImageManager::ImageName::Manual, {});
+	manual_->SetSize({ 400 * 2,400 * 2 });
 	postEffectNo_ = PostEffect::NONE;
-	gameButton_ = Button::CreateUniqueButton(ImageManager::ImageName::basilisk_front, { 300,400 }, { 100,100 }, 0);
-	manualButton_ = Button::CreateUniqueButton(ImageManager::ImageName::basilisk_beside, { 300,600 }, { 100,100 }, 0);
+	gameButton_ = Button::CreateUniqueButton(ImageManager::ImageName::StartButton, { 1000,400 }, { 100,100 }, 0);
+	manualButton_ = Button::CreateUniqueButton(ImageManager::ImageName::ManualButton, { 1000,600 }, { 100,100 }, 0);
 }
 
 void TitleScene::Update()
 {
 	gameButton_->Update();
-	manualButton_->Update();
+	if(manualFlag == 0)manualButton_->Update();
 	//シーン切り替え
 	SceneChange();
 }
@@ -44,7 +45,10 @@ void TitleScene::Draw()
 
 	//スプライト描画処理(背景)
 	Sprite::PreDraw(DirectXSetting::GetIns()->GetCmdList());
-	title_->Draw();
+	
+	if(manualFlag ==0)title_->Draw();
+	if (manualFlag == 1)manual_->Draw();
+
 	Sprite::PostDraw();
 
 	//3Dオブジェクト描画処理
@@ -54,7 +58,7 @@ void TitleScene::Draw()
 	//スプライト描画処理(UI等)
 	Sprite::PreDraw(DirectXSetting::GetIns()->GetCmdList());
 	gameButton_->Draw();
-	manualButton_->Draw();
+	if (manualFlag == 0)manualButton_->Draw();
 	Sprite::PostDraw();
 
 	postEffect_->PostDrawScene(DirectXSetting::GetIns()->GetCmdList());
@@ -81,8 +85,10 @@ void TitleScene::SceneChange()
 {
 	if (gameButton_->GetIsClick()) {
 		SceneManager::SceneChange(SceneManager::SceneName::Game);
+
 	}
 	else if (manualButton_->GetIsClick()) {
-		SceneManager::SceneChange(SceneManager::SceneName::Result);
+
+		manualFlag = 1;
 	}
 }
