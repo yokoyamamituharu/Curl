@@ -19,7 +19,8 @@ Enemys* Enemys::Create()
 	enemys->enemyCreateTime = 200;
 	enemys->randCreate_ = new RandCreate();
 	enemys->enemyNumber_ = 0;
-
+	enemys->deadCount = 0;
+	enemys->gameFlag = 0;
 
 	return enemys;
 }
@@ -28,7 +29,7 @@ void Enemys::Update(int32_t towerHp, int playerHp)
 {
 	//生成時間の減産
 	enemyCreateTime--;
-
+	if (deadCount >= 30)gameFlag = TRUE;
 	//生成時間が0未満かつ砦,プレイヤーのHPが1以上かつ総量が72未満の場合敵を生成
 	if ((towerHp > 0 || playerHp > 0) && enemyNumber_ < 72 && enemyCreateTime < 0)
 	{
@@ -110,6 +111,8 @@ void Enemys::EnemyHitBlood()
 				vampire->SetDead(TRUE);
 				//敵の総量を減らす
 				enemyNumber_--;
+				//死亡カウント
+				deadCount++;
 			}
 			
 			//血のタイプが得意かどうか
@@ -146,6 +149,8 @@ void Enemys::EnemyHitBlood()
 			{
 				basilisk->SetDead(TRUE);
 				enemyNumber_--;
+				deadCount++;
+
 			}
 			else if (basilisk->GetBloodType() == basilisk->GetAnBloodType())
 			{
@@ -170,6 +175,8 @@ void Enemys::EnemyHitBlood()
 			{
 				rabbit->SetDead(TRUE);
 				enemyNumber_--;
+				deadCount++;
+
 			}
 			else if (rabbit->GetBloodType() == rabbit->GetAnBloodType())
 			{

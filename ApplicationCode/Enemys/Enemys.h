@@ -41,7 +41,8 @@ public:
 
 	void EnemyHitTower();
 
-	
+	bool GetGameFlag() { return gameFlag; }
+
 	list<unique_ptr<VampireEnemy>>& GetVampires() { return Vampires_; }
 	list<unique_ptr<BasiliskEnemy>>& GetBasiliskes() { return Basiliskes_; }
 	list<unique_ptr<RabbitEnemy>>& GetRabbits() { return Rabbits_; }
@@ -61,6 +62,8 @@ protected:
 	list<unique_ptr<BasiliskEnemy>> Basiliskes_{};
 	list<unique_ptr<RabbitEnemy>> Rabbits_{};
 
+	int deadCount = 0;
+	bool gameFlag = 0;
 
 };
 

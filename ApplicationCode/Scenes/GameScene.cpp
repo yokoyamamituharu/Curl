@@ -176,6 +176,10 @@ void GameScene::HitEnemys()
 
 void GameScene::SceneChange()
 {
+	if (enemys_->GetGameFlag())
+	{
+		SceneManager::SceneChange(SceneManager::SceneName::Result);
+	}
 	//if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
 	//	SceneManager::SceneChange(SceneManager::SceneName::Title);
 	//}
