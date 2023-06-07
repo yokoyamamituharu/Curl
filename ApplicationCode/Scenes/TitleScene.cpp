@@ -23,10 +23,14 @@ void TitleScene::Initialize()
 	title_->SetSize({ 400*2,400*2 });
 
 	postEffectNo_ = PostEffect::NONE;
+	gameButton_ = Button::CreateUniqueButton(ImageManager::ImageName::basilisk_front, { 300,400 }, { 100,100 }, 0);
+	manualButton_ = Button::CreateUniqueButton(ImageManager::ImageName::basilisk_beside, { 300,600 }, { 100,100 }, 0);
 }
 
 void TitleScene::Update()
 {
+	gameButton_->Update();
+	manualButton_->Update();
 	//シーン切り替え
 	SceneChange();
 }
@@ -49,6 +53,8 @@ void TitleScene::Draw()
 
 	//スプライト描画処理(UI等)
 	Sprite::PreDraw(DirectXSetting::GetIns()->GetCmdList());
+	gameButton_->Draw();
+	manualButton_->Draw();
 	Sprite::PostDraw();
 
 	postEffect_->PostDrawScene(DirectXSetting::GetIns()->GetCmdList());
@@ -73,10 +79,10 @@ void TitleScene::Finalize()
 
 void TitleScene::SceneChange()
 {
-	if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
-		SceneManager::SceneChange(SceneManager::SceneName::Result);
-	}
-	if (MouseInput::GetIns()->TriggerClick(MouseInput::RIGHT_CLICK)) {
+	if (gameButton_->GetIsClick()) {
 		SceneManager::SceneChange(SceneManager::SceneName::Game);
+	}
+	else if (manualButton_->GetIsClick()) {
+		SceneManager::SceneChange(SceneManager::SceneName::Result);
 	}
 }

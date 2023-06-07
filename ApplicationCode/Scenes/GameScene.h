@@ -23,7 +23,7 @@
 #include "Tower.h"
 #include "ScrollCamera.h"
 
-
+#include "Button.h"
 #include"Collision.h"
 class GameScene : public BaseScene
 {
@@ -83,5 +83,12 @@ private: //ƒƒ“ƒo•Ï”
 	Enemys* enemys_{};
 	
 	ScrollCamera* scrollCamera_ = nullptr;
+
+	std::unique_ptr<Button> button_;
+	std::unique_ptr<Button>	poseButton_;
+	std::unique_ptr<Button>	poseBackButton_;
+	std::unique_ptr<Button>	titleButton_;
+
+	bool pose_ = false;
 };
 

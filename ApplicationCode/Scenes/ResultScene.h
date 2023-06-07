@@ -16,7 +16,7 @@
 #include "MotionMath.h"
 #include "TextDraw.h"
 #include "JsonLoader.h"
-
+#include "Button.h"
 class ResultScene : public BaseScene
 {
 public: //メンバ関数
@@ -55,5 +55,6 @@ private: //メンバ変数
 	std::unique_ptr<LightGroup> light_;
 	//テキスト描画
 	TextDraw* text_;
+	std::unique_ptr<Button>titleButton_;
 };
 

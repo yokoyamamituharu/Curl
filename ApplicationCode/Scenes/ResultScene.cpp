@@ -19,10 +19,12 @@ void ResultScene::Initialize()
 	Object3d::SetLight(light_.get());
 
 	postEffectNo_ = PostEffect::NONE;
+	titleButton_ = Button::CreateUniqueButton(ImageManager::ImageName::rabbit_front, { 300,400 }, { 100,100 }, 0);
 }
 
 void ResultScene::Update()
 {
+	titleButton_->Update();
 	//シーン切り替え
 	SceneChange();
 }
@@ -44,6 +46,7 @@ void ResultScene::Draw()
 
 	//スプライト描画処理(UI等)
 	Sprite::PreDraw(DirectXSetting::GetIns()->GetCmdList());
+	titleButton_->Draw();
 	Sprite::PostDraw();
 
 	postEffect_->PostDrawScene(DirectXSetting::GetIns()->GetCmdList());

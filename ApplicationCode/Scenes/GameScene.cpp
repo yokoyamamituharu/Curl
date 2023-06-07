@@ -24,7 +24,7 @@ void GameScene::Initialize()
 
 	enemys_ = new Enemys();
 	enemys_ = Enemys::Create();
-	
+
 	//blood_ = Blood::Create({ 300,500 }, Blood::Temperature::solid);
 	//player_ = Player::Create();
 	RoadPlayer();
@@ -40,12 +40,28 @@ void GameScene::Initialize()
 	bloodGaugeSprite_ = Sprite::UniquePtrCreate(UINT(ImageManager::ImageName::bloodGaugeNumber), { 100,0 });
 	bloodGaugeSprite_->SetLeftSizeCorrection(true);
 	bloodGaugeSprite_->SetUi(true);
+	button_ = Button::CreateUniqueButton(ImageManager::ImageName::vampire_front, { 100,100 }, { 100,100 }, 0);
+	poseButton_ = Button::CreateUniqueButton(ImageManager::ImageName::vampire_beside, { 0,0 }, { 100,100 }, 0);
+	poseBackButton_ = Button::CreateUniqueButton(ImageManager::ImageName::vampire_front, { 300,300 }, { 100,100 }, 0);
+	titleButton_ = Button::CreateUniqueButton(ImageManager::ImageName::vampire_back, { 300,400 }, { 100,100 }, 0);
 }
 
 void GameScene::Update()
 {
 	//blood_->Update();
 	HitBloodAndEnemys();
+	button_->Update();
+	poseButton_->Update();
+	if (poseButton_->GetIsClick()) {
+		pose_ = true;
+	}
+	if (pose_) {
+		poseBackButton_->Update();
+		titleButton_->Update();
+		if (poseBackButton_->GetIsClick()) {
+			pose_ = false;
+		}
+	}
 
 	player_->Update(scrollCamera_);
 	//scrollCamera_->Update(player_->GetSprite()->GetPosition());
@@ -56,13 +72,13 @@ void GameScene::Update()
 	enemys_->Update(tower_->GetHP(), player_->GetPlayerHp());
 	//enemy_->Update();
 
-	//シーン切り替え
+//シーン切り替え
 	SceneChange();
 }
 
 void GameScene::HitBloodAndEnemys()
 {
-	
+
 	for (auto& vampire : enemys_->GetVampires())
 	{
 		for (auto& blood : player_->GetBloods())
@@ -129,15 +145,18 @@ void GameScene::Draw()
 	bgSprite_->Draw();
 	player_->Draw(scrollCamera_);
 	tower_->Draw();
-
-	//scrollCamera->Draw(player_->GetSprite());
-	//blood_->Draw();
-	enemys_->Draw();
 	bloodGaugeSprite_->Draw();
 	//enemy_->Draw();
 	GameSprite1->Draw();
 	GameSprite2->Draw();
 	GameSprite3->Draw();
+	enemys_->Draw();
+	button_->Draw();
+	poseButton_->Draw();
+	if (pose_) {
+		poseBackButton_->Draw();
+		titleButton_->Draw();
+	}
 	Sprite::PostDraw();
 
 	postEffect_->PostDrawScene(DirectXSetting::GetIns()->GetCmdList());
@@ -159,7 +178,7 @@ void GameScene::Finalize()
 	safe_delete(text_);
 	//enemys_->Delete();
 	safe_delete(enemys_);
-	
+
 	safe_delete(player_);
 	safe_delete(bgSprite_);
 	safe_delete(GameSprite1);
@@ -176,16 +195,12 @@ void GameScene::HitEnemys()
 
 void GameScene::SceneChange()
 {
-	if (enemys_->GetGameFlag())
-	{
+	if (pose_ && titleButton_->GetIsClick()) {
+		SceneManager::SceneChange(SceneManager::SceneName::Title);
+	}
+	else if (pose_ && button_->GetIsClick()) {
 		SceneManager::SceneChange(SceneManager::SceneName::Result);
 	}
-	//if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
-	//	SceneManager::SceneChange(SceneManager::SceneName::Title);
-	//}
-	//if (MouseInput::GetIns()->TriggerClick(MouseInput::RIGHT_CLICK)) {
-	//	SceneManager::SceneChange(SceneManager::SceneName::Result);
-	//}
 }
 
 void GameScene::RoadPlayer()

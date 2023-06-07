@@ -16,7 +16,7 @@
 #include "TextDraw.h"
 #include "SceneManager.h"
 #include "JsonLoader.h"
-
+#include "Button.h"
 class TitleScene : public BaseScene
 {
 public: //ƒƒ“ƒoŠÖ”
@@ -59,4 +59,6 @@ private: //ƒƒ“ƒo•Ï”
 	TextDraw* text_;
 
 	Sprite* title_{};
+	std::unique_ptr<Button> gameButton_;
+	std::unique_ptr<Button> manualButton_;
 };
