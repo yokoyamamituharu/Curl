@@ -1,6 +1,6 @@
 #include "Enemys.h"
 #include "ImageManager.h"
-#include "Enemy.h"
+
 #include "SafeDelete.h"
 
 Enemys::Enemys()
@@ -26,49 +26,67 @@ Enemys* Enemys::Create()
 
 void Enemys::Update(int32_t towerHp, int playerHp)
 {
+	//生成時間の減産
 	enemyCreateTime--;
+
+	//生成時間が0未満かつ砦,プレイヤーのHPが1以上かつ総量が72未満の場合敵を生成
 	if ((towerHp > 0 || playerHp > 0) && enemyNumber_ < 72 && enemyCreateTime < 0)
 	{
-		EnemyCreate();
+		//敵を生成
+		EnemyCreate(3);
+		//敵の総量を加算
 		enemyNumber_++;
+		//発生時間ランダム代入
 		enemyCreateTime = randCreate_->getRandInt(10, 100);
 	}
 
-	for (auto& enemy : enemys3_)
-	{
-		enemy->Update();
-	}
-	for (auto& enemy : Vampires_)
-	{
-		enemy->Update();
-	}
-	for (auto& enemy : Basiliskes_)
-	{
-		enemy->Update();
-	}
-	for (auto& enemy : Rabbits_)
-	{
-		enemy->Update();
-	}
+	
+	//敵せれぞれの更新
+	for (auto& vampire : Vampires_)vampire->Update();
+	for (auto& basilisk : Basiliskes_)basilisk->Update();
+	for (auto& rabbit : Rabbits_)rabbit->Update();
+
+	//血との当たり判定
 	EnemyHitBlood();
+
+	//砦都の当たり判定
 	EnemyHitTower();
 }
 
-void Enemys::EnemyCreate()
+void Enemys::EnemyCreate(const int phase)
 {
+	//出現乱数設定
 	int temp = randCreate_->getRandInt(1, 6);
 
-	if (temp == 1|| temp == 4)
-	{
+	//フェーズ1(ヴァンパイア)
+	if (phase == 1) {
 		Vampires_.push_back(VampireEnemy::UniqueCreate());
 	}
-	if (temp == 2 || temp == 5)
-	{
-		Basiliskes_.push_back(BasiliskEnemy::UniqueCreate());
+	//フェーズ2（ヴァンパイア、ウサギ）
+	else if (phase == 2) {
+		if (temp == 1 || temp == 4 || temp == 3)
+		{
+			Vampires_.push_back(VampireEnemy::UniqueCreate());
+		}
+		if (temp == 2 || temp == 5 || temp == 6)
+		{
+			Rabbits_.push_back(RabbitEnemy::UniqueCreate());
+		}
 	}
-	if (temp == 3 || temp == 6)
-	{
-		Rabbits_.push_back(RabbitEnemy::UniqueCreate());
+	//フェーズ3（ヴァンパイア、ウサギ、バジリスク）
+	else if (phase == 3) {
+		if (temp == 1 || temp == 4)
+		{
+			Vampires_.push_back(VampireEnemy::UniqueCreate());
+		}
+		if (temp == 2 || temp == 5)
+		{
+			Basiliskes_.push_back(BasiliskEnemy::UniqueCreate());
+		}
+		if (temp == 3 || temp == 6)
+		{
+			Rabbits_.push_back(RabbitEnemy::UniqueCreate());
+		}
 	}
 	/*else
 	{
@@ -79,55 +97,47 @@ void Enemys::EnemyCreate()
 
 void Enemys::EnemyHitBlood()
 {
-	for (unique_ptr<Enemy>& enemy : enemys3_)
-	{
-		if (enemy->GetBloodHitFlag() == true)
-		{
-			if (enemy->GetBloodType() == enemy->GetHitBloodType())
-			{
-				enemy->SetDead(1);
-				enemyNumber_--;
-			}
-			else if (enemy->GetBloodType() == enemy->GetAnBloodType())
-			{
-				enemy->SetMoveAddLength(2.f);
-			}
-			else
-			{
-				enemy->SetMoveAddLength(0.5f);
-			}
-		}
-		else
-		{
-			enemy->SetMoveAddLength(1.f);
-		}
-	}
-	enemys3_.remove_if([](std::unique_ptr<Enemy>& enemy) {return enemy->GetDead();  });
 
 	for (unique_ptr<VampireEnemy>& vampire : Vampires_)
 	{
+		//血と当たっている
 		if (vampire->GetBloodHitFlag() == TRUE)
 		{
+			//血のタイプが苦手かどうか
 			if (vampire->GetBloodType() == vampire->GetHitBloodType())
 			{
+				//敵の死亡フラグを立てる
 				vampire->SetDead(TRUE);
+				//敵の総量を減らす
 				enemyNumber_--;
 			}
+			
+			//血のタイプが得意かどうか
 			else if (vampire->GetBloodType() == vampire->GetAnBloodType())
 			{
+				//敵の強化
 				vampire->SetMoveAddLength(2.f);
 			}
+
+			//血のタイプがどちらでもない
 			else
 			{
+				//敵の弱体化
 				vampire->SetMoveAddLength(0.5f);
 			}
 		}
+		//血と当たっていない
 		else
 		{
+			//そのまま
 			vampire->SetMoveAddLength(1.f);
 		}
 	}
+
+	//死亡フラグが立っていたらデリート
 	Vampires_.remove_if([](std::unique_ptr<VampireEnemy>& vampire) {return vampire->GetDead();  });
+
+	//以下同文
 	for (unique_ptr<BasiliskEnemy>& basilisk : Basiliskes_)
 	{
 		if (basilisk->GetBloodHitFlag() == TRUE)
@@ -182,24 +192,20 @@ void Enemys::EnemyHitBlood()
 
 void Enemys::EnemyHitTower()
 {
-
-	//for (auto& enemy : enemys3_)
-	//{
-	//	if (enemy->GetMoveLength() <= 5.f)
-	//	{
-	//		enemyNumber_--;
-	//	}
-	//}
-	//enemys3_.remove_if([](unique_ptr<Enemy>& enemy1) {return enemy1->GetMoveLength() <= 5; });
-
+	//砦との当たり判定
 	for (auto& vampire : Vampires_)
 	{
+		//砦との距離が5.f以下かどうか
 		if (vampire->GetMoveLength() <= 5.f)
 		{
+			//敵の総量減算
 			enemyNumber_--;
 		}
 	}
+	//砦との距離が5.f以下だったらデリート
 	Vampires_.remove_if([](unique_ptr<VampireEnemy>& vampire) {return vampire->GetMoveLength() <= 5; });
+	
+	//以下同文
 	for (auto& basilisk : Basiliskes_)
 	{
 		if (basilisk->GetMoveLength() <= 5.f)
@@ -221,11 +227,6 @@ void Enemys::EnemyHitTower()
 
 void Enemys::Draw()
 {
-	for (unique_ptr<Enemy>& enemy : enemys3_)
-	{
-		enemy->Draw();
-	}
-
 	for (unique_ptr<VampireEnemy>& vampire : Vampires_)
 	{
 		vampire->Draw();

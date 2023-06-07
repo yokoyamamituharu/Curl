@@ -16,56 +16,68 @@ BasiliskEnemy::~BasiliskEnemy()
 }
 
 std::unique_ptr<BasiliskEnemy> BasiliskEnemy::UniqueCreate()
-{
+{//作成開始
 	std::unique_ptr<BasiliskEnemy> enemy = std::make_unique<BasiliskEnemy>();
 
+	//randの生成
 	RandCreate* randCreate = new RandCreate();
 	randCreate->Ins();
-	enemy->angle = randCreate->getRandFloat(0, 359);
-	enemy->moveLength = randCreate->getRandFloat(400, 500);
 
+	//血のタイプ代入
 	enemy->hitBloodType = solid_1;
 	enemy->anBloodType = liquid_1;
 
+	//エネミーの値代入
+	enemy->angle = randCreate->getRandFloat(0, 359);//角度のランダム代入
+	enemy->moveLength = randCreate->getRandFloat(400, 500);//movePointからどれだけ離れているかのランダム代入
+
+	//座標の計算代入
 	enemy->pos.x = sin((enemy->angle * DirectX::XM_PI) / 180) * enemy->moveLength;
 	enemy->pos.y = cos((enemy->angle * DirectX::XM_PI) / 180) * enemy->moveLength;
+
+	//座標のずれを修正
 	enemy->pos.x = enemy->pos.x + 640.f;
 	enemy->pos.y = enemy->pos.y + 360.f;
+
 	enemy->frontSprites_ = SpritesCreate(ImageManager::ImageName::basilisk_front, frontAnimationCount, enemy->pos);
 	enemy->besideSprites_ = SpritesCreate(ImageManager::ImageName::basilisk_beside, besideAnimationCount, enemy->pos);
 	enemy->backSprites_ = SpritesCreate(ImageManager::ImageName::basilisk_back, backAnimationCount, enemy->pos);
 
 	enemy->moveFlag = randCreate->getRandInt(0, 1);
+
+
+	//randの開放
 	safe_delete(randCreate);
+
+	//エネミー代入
 	return move(enemy);
 }
 
+
 void BasiliskEnemy::Update()
 {
+
+	//フラグが立っているとアングルが加算そうでなければ減算
+	if (moveFlag == TRUE)angle += moveAngle;
+	else angle -= moveAngle;
+
+	//アングルが360を超えたら360引く
+	if (angle > maxAngle.size())angle -= maxAngle.size();
+	
+	//アングルが0を下回ったら360足す
+	if (angle < minAngle.size())angle += maxAngle.size();
+
+	//距離の計算
 	moveLength -= moveAddLength;
 
-	if (moveFlag == TRUE)
-	{
-		angle += moveAngle;
-	}
-	else
-	{
-		angle -= moveAngle;
-
-	}
-	if (angle > maxAngle.size())
-	{
-		angle -= maxAngle.size();
-	}
-	if (angle < minAngle.size())
-	{
-		angle += maxAngle.size();
-	}
-
+	//座標の計算代入
 	pos.x = sin((angle * DirectX::XM_PI) / 180) * moveLength;
 	pos.y = cos((angle * DirectX::XM_PI) / 180) * moveLength;
-	pos.x = pos.x + centerPoint.x;
-	pos.y = pos.y + centerPoint.y;
+
+	//座標のずれを修正
+	pos.x = pos.x + movePoint.x;
+	pos.y = pos.y + movePoint.y;
+
 	for (int32_t i = 0; i < frontAnimationCount; i++) {
 		frontSprites_[i]->SetPosition(pos);
 	}
@@ -96,9 +108,16 @@ void BasiliskEnemy::Draw()
 		backAnimationCounter_ = 0;
 	}
 
-	frontSprites_[frontAnimationCounter_]->Draw();
-	//besideSprites_[besideAnimationCounter_]->Draw();
-	//backSprites_[backAnimationCounter_]->Draw();
+	//アングルで移動方向を判定し、判定した方向に向いたアニメーションを使用
+	if (angle > 45 && angle < 135) {
+		backSprites_[backAnimationCounter_]->Draw();
+	}
+	else if (angle > 225 && angle < 270) {
+		frontSprites_[frontAnimationCounter_]->Draw();
+	}
+	else {
+		besideSprites_[besideAnimationCounter_]->Draw();
+	}
 }
 
 

@@ -3,17 +3,20 @@
 class RabbitEnemy :public BaseEnemy
 {
 private:
-
+	
+	
+	
+	
 
 public:
-	~RabbitEnemy();
-	static std::unique_ptr<RabbitEnemy> UniqueCreate();
+	~RabbitEnemy();//削除
+	static std::unique_ptr<RabbitEnemy> UniqueCreate();//作成
 
-	void Update();
+	void Update();// 更新
 
 	int BloodHit(int num);
 
-	void Draw();
+	void Draw();//描画
 
 private: //定数
 	//前向きアニメーション画像
