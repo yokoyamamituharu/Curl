@@ -41,9 +41,9 @@ void GameScene::Initialize()
 	bloodGaugeSprite_->SetLeftSizeCorrection(true);
 	bloodGaugeSprite_->SetUi(true);
 	button_ = Button::CreateUniqueButton(ImageManager::ImageName::vampire_front, { 100,100 }, { 100,100 }, 0);
-	poseButton_ = Button::CreateUniqueButton(ImageManager::ImageName::vampire_beside, { 0,0 }, { 100,100 }, 0);
-	poseBackButton_ = Button::CreateUniqueButton(ImageManager::ImageName::vampire_front, { 300,300 }, { 100,100 }, 0);
-	titleButton_ = Button::CreateUniqueButton(ImageManager::ImageName::vampire_back, { 300,400 }, { 100,100 }, 0);
+	poseButton_ = Button::CreateUniqueButton(ImageManager::ImageName::Pause, { 64,24 }, { 100,100 }, 0);
+	poseBackButton_ = Button::CreateUniqueButton(ImageManager::ImageName::Back, { 300,300 }, { 100,100 }, 0);
+	titleButton_ = Button::CreateUniqueButton(ImageManager::ImageName::TitleBack, { 300,400 }, { 100,100 }, 0);
 }
 
 void GameScene::Update()
@@ -62,7 +62,7 @@ void GameScene::Update()
 			pose_ = false;
 		}
 	}
-
+	
 	player_->Update(scrollCamera_);
 	//scrollCamera_->Update(player_->GetSprite()->GetPosition());
 
@@ -151,7 +151,7 @@ void GameScene::Draw()
 	GameSprite2->Draw();
 	GameSprite3->Draw();
 	enemys_->Draw();
-	button_->Draw();
+	//button_->Draw();
 	poseButton_->Draw();
 	if (pose_) {
 		poseBackButton_->Draw();
@@ -200,6 +200,11 @@ void GameScene::SceneChange()
 	}
 	else if (pose_ && button_->GetIsClick()) {
 		SceneManager::SceneChange(SceneManager::SceneName::Result);
+	}
+	if (enemys_->GetGameFlag() == 1)
+	{
+		SceneManager::SceneChange(SceneManager::SceneName::Result);
+
 	}
 }
 
