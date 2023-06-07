@@ -32,4 +32,5 @@ void ImageManager::Initialize() {
 	Sprite::LoadTexture(int32_t(ImageName::GameUI_01), L"Engine/Resources/Images/UIBack.png");
 	Sprite::LoadTexture(int32_t(ImageName::GameUI_02), L"Engine/Resources/Images/thermometer.png");
 	Sprite::LoadTexture(int32_t(ImageName::GameUI_03), L"Engine/Resources/Images/temperatureValue.png");
+	Sprite::LoadTexture(int32_t(ImageName::TitleLog), L"Engine/Resources/Images/TitleLog.png");
 }

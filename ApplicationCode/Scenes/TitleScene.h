@@ -57,4 +57,6 @@ private: //メンバ変数
 	std::unique_ptr<LightGroup> light_;
 	//テキスト描画
 	TextDraw* text_;
+
+	Sprite* title_{};
 };
