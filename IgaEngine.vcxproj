@@ -177,6 +177,7 @@
     <ClCompile Include="ApplicationCode\Scenes\TitleScene.cpp" />
     <ClCompile Include="ApplicationCode\ScrollCamera\ScrollCamera.cpp" />
     <ClCompile Include="ApplicationCode\Tower\Tower.cpp" />
+    <ClCompile Include="ApplicationCode\UI\Button.cpp" />
     <ClCompile Include="Engine\Audio\Sound.cpp" />
     <ClCompile Include="Engine\Audio\SoundManager.cpp" />
     <ClCompile Include="Engine\Base\DirectXSetting.cpp" />
@@ -232,6 +233,7 @@
     <ClInclude Include="ApplicationCode\Scenes\TitleScene.h" />
     <ClInclude Include="ApplicationCode\ScrollCamera\ScrollCamera.h" />
     <ClInclude Include="ApplicationCode\Tower\Tower.h" />
+    <ClInclude Include="ApplicationCode\UI\Button.h" />
     <ClInclude Include="Engine\Audio\Sound.h" />
     <ClInclude Include="Engine\Audio\SoundManager.h" />
     <ClInclude Include="Engine\Base\DirectXSetting.h" />
