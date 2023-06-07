@@ -26,6 +26,14 @@ protected:
 		liquid_1,
 		gas_1
 	};
+
+	enum AnimationType 
+	{
+		front,
+		rightSide,
+		back,
+		ReftSide,
+	};
 public:
 	virtual ~BaseEnemy() {};//ƒfƒŠ[ƒg
 
