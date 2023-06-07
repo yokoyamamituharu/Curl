@@ -68,8 +68,9 @@ void Player::Update(ScrollCamera* camera)
 		return blood->GetDead();
 		});
 
+	Move(camera);
 	//プレイヤーのキーイベント更新
-	handler_->PlayerHandleInput();
+	//handler_->PlayerHandleInput();
 
 	//オーバーロード状態
 	if (heat_ > 0) {
@@ -93,9 +94,9 @@ void Player::Update(ScrollCamera* camera)
 
 	for (std::unique_ptr<Blood>& blood : bloods_) {
 		if (KeyInput::GetIns()->TriggerKey(DIK_B) && blood->GetState() == (int)Blood::State::idle) {
-			blood->SetDead();
+			//blood->SetDead();
 		}
-		if (KeyInput::GetIns()->TriggerKey(DIK_G) && blood->GetTemperature() == (int)Blood::Temperature::liquid) {
+		if (MouseInput::GetIns()->PushClick(MouseInput::RIGHT_CLICK) && blood->GetTemperature() == (int)Blood::Temperature::liquid) {
 			blood->SetState(Blood::State::back);
 		}
 		if (blood->GetState() == (int)Blood::State::heat) {
@@ -159,7 +160,7 @@ void Player::Shot(ScrollCamera* camera)
 	vec3 = DirectX::XMVector3Normalize(vec3);
 	XMFLOAT2 vec2 = { vec3.m128_f32[0],vec3.m128_f32[1] };
 
-	if (KeyInput::GetIns()->PushKey(DIK_SPACE) && shotDiray_ <= 0) {
+	if (MouseInput::GetIns()->PushClick(MouseInput::LEFT_CLICK) && shotDiray_ <= 0) {
 		bloods_.push_back(Blood::UniquePtrCreate({ position_ }, Blood::Temperature::solid, cursolPos, &position_));
 		shotDiray_ = maxShotDiray_;
 	}
@@ -181,4 +182,18 @@ void Player::Draw(ScrollCamera* scroll)
 void Player::AddPlayerVector(Vector2 vec)
 {
 	position_ = { position_.x + vec.x,position_.y + vec.y };
+}
+
+void Player::Move(ScrollCamera* camera)
+{
+	Vector2 cursolPos = DirectX::XMFLOAT2{ float(MouseInput::GetIns()->GetMousePoint().x) - camera->GetPosition().x,
+	float(MouseInput::GetIns()->GetMousePoint().y) - camera->GetPosition().y };
+	Vector2 playerPos = position_;
+	DirectX::XMVECTOR vec3 = { cursolPos.x - playerPos.x,cursolPos.y - playerPos.y };
+	vec3 = DirectX::XMVector3Normalize(vec3);
+	Vector2 vec2 = { vec3.m128_f32[0],vec3.m128_f32[1] };
+
+	if (KeyInput::GetIns()->PushKey(DIK_W)) {
+		AddPlayerVector(vec2*speed_);
+	}
 }
