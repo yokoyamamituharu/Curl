@@ -3,10 +3,10 @@
 
 void GameScene::Initialize()
 {
-	const Vector3 LB = { -1.0f, -0.5f, 0.0f };
+	const Vector3 LB = { -1.0f, -1.0f, 0.0f };
 	const Vector3 LT = { -1.0f, +1.0f, 0.0f };
-	const Vector3 RB = { +0.5f, -0.5f, 0.0f };
-	const Vector3 RT = { +0.5f, +1.0f, 0.0f };
+	const Vector3 RB = { +1.0f, -1.0f, 0.0f };
+	const Vector3 RT = { +1.0f, +1.0f, 0.0f };
 	postEffect_ = std::make_unique<PostEffect>();
 	postEffect_->Initialize(LT, LB, RT, RB);
 
@@ -21,12 +21,11 @@ void GameScene::Initialize()
 
 	postEffectNo_ = PostEffect::NONE;
 
-	blood_ = Blood::Create({ 300,500 }, Blood::Temperature::solid);
 
 	enemys_ = new Enemys();
 	enemys_ = Enemys::Create();
 	
-	blood_ = Blood::Create({ 300,500 }, Blood::Temperature::solid);
+	//blood_ = Blood::Create({ 300,500 }, Blood::Temperature::solid);
 	//player_ = Player::Create();
 	RoadPlayer();
 	bgSprite_ = Sprite::Create(UINT(ImageManager::ImageName::bgTexNumber), { 0,0 });
@@ -46,10 +45,7 @@ void GameScene::Update()
 	HitBloodAndEnemys();
 
 	player_->Update(scrollCamera_);
-	scrollCamera_->Update();
-	if (KeyInput::GetIns()->TriggerKey(DIK_UP)) { blood_->Rising(); }
-	if (KeyInput::GetIns()->TriggerKey(DIK_DOWN)) { blood_->Decrease(); }
-	blood_->Update();
+	//scrollCamera_->Update(player_->GetSprite()->GetPosition());
 
 	int b = player_->GetBloodGauge();
 	bloodGaugeSprite_->SetSize({ (float)16 * b ,16 });
@@ -153,7 +149,6 @@ void GameScene::Draw()
 void GameScene::Finalize()
 {
 	safe_delete(text_);
-	safe_delete(blood_);
 	//enemys_->Delete();
 	safe_delete(enemys_);
 	
@@ -170,12 +165,12 @@ void GameScene::HitEnemys()
 
 void GameScene::SceneChange()
 {
-	if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
-		SceneManager::SceneChange(SceneManager::SceneName::Title);
-	}
-	if (MouseInput::GetIns()->TriggerClick(MouseInput::RIGHT_CLICK)) {
-		SceneManager::SceneChange(SceneManager::SceneName::Result);
-	}
+	//if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
+	//	SceneManager::SceneChange(SceneManager::SceneName::Title);
+	//}
+	//if (MouseInput::GetIns()->TriggerClick(MouseInput::RIGHT_CLICK)) {
+	//	SceneManager::SceneChange(SceneManager::SceneName::Result);
+	//}
 }
 
 void GameScene::RoadPlayer()

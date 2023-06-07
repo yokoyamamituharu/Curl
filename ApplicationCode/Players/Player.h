@@ -36,6 +36,8 @@ public:
 
 	void AddPlayerVector(Vector2 vec);
 
+	void Move(ScrollCamera* camera);
+
 	float GetSpeed() { return speed_; }
 
 	Sprite* GetSprite() { return sprites_[state_]; }
@@ -73,4 +75,6 @@ private:
 	bool isColdWave = false;
 	float coldExtend = 0;
 	float coldAlpha = 1;
+
+	Vector2 playerToCoursol_{};
 };

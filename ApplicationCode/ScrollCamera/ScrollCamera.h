@@ -11,20 +11,14 @@ public:
 
 	static ScrollCamera* Create();
 
-	void Update();
+	void Update(Vector2  adulationTarget = {});
 
 	void SetPosition(Vector2 pos) { this->pos = pos; }
 
 	Vector2 GetPosition() { return pos; }
 
-	void Draw(Sprite* sprite);
 private:
-	using XMFLOAT2 = DirectX::XMFLOAT2;
-	using XMFLOAT3 = DirectX::XMFLOAT3;
-	using XMFLOAT4 = DirectX::XMFLOAT4;
-	using XMVECTOR = DirectX::XMVECTOR;
-	using XMMATRIX = DirectX::XMMATRIX;
 
-private:	
+private:
 	Vector2 pos{};
 };
