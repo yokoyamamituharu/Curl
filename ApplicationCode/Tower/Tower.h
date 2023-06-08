@@ -44,6 +44,8 @@ public: //メンバ関数
 	/// <returns>HP</returns>
 	int32_t GetHP() { return hp_; }
 
+	Vector2 GetPos() { return pos_; }
+
 	/// <summary>
 	/// タワーオブジェクト取得
 	/// </summary>

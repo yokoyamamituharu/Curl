@@ -50,6 +50,7 @@ void GameScene::Update()
 {
 	//blood_->Update();
 	HitBloodAndEnemys();
+	HitTowerAndEnemys();
 	button_->Update();
 	poseButton_->Update();
 	if (poseButton_->GetIsClick()) {
@@ -125,6 +126,41 @@ void GameScene::HitBloodAndEnemys()
 
 	//enemys_->SetEnemys(enemy_1);
 
+}
+
+void GameScene::HitTowerAndEnemys()
+{
+	for (auto& vampire : enemys_->GetVampires())
+	{
+		bool isHit = Collision::HitCircle(vampire->Getpos(), 32, tower_->GetPos(), 16);
+		if (isHit)
+		{
+			tower_->OnCollision();
+			vampire->OnCollision();
+		}
+	}
+
+	for (auto& basilisk : enemys_->GetBasiliskes())
+	{
+		bool isHit = Collision::HitCircle(basilisk->Getpos(), 32, tower_->GetPos(), 16);
+		if (isHit)
+		{
+			tower_->OnCollision();
+			basilisk->OnCollision();
+
+		}
+	}
+
+	for (auto& rabbit : enemys_->GetRabbits())
+	{
+		bool isHit = Collision::HitCircle(rabbit->Getpos(), 32, tower_->GetPos(), 16);
+		if (isHit)
+		{
+			tower_->OnCollision();
+			rabbit->OnCollision();
+
+		}
+	}
 }
 
 void GameScene::Draw()
@@ -204,6 +240,10 @@ void GameScene::SceneChange()
 		SceneManager::SceneChange(SceneManager::SceneName::Result);
 	}
 	else if (enemys_->GetGameFlag() == 1)
+	{
+		SceneManager::SceneChange(SceneManager::SceneName::Result);
+	}
+	else if (tower_->GetHP() <= 0)
 	{
 		SceneManager::SceneChange(SceneManager::SceneName::Result);
 

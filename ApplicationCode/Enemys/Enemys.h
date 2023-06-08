@@ -38,8 +38,9 @@ public:
 
 	void EnemyHitBlood();
 
-
 	void EnemyHitTower();
+
+	void EnemysDead();
 
 	bool GetGameFlag() { return gameFlag; }
 

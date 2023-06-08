@@ -11,6 +11,7 @@ void Tower::Initialize(int32_t hp)
 
 void Tower::Update()
 {
+
 }
 
 void Tower::Draw()

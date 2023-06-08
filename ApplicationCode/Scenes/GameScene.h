@@ -44,6 +44,11 @@ public: //ƒƒ“ƒoŠÖ”
 	void HitBloodAndEnemys();
 
 	/// <summary>
+	/// Ô‚Æ“G‚Ì“–‚½‚è”»’è
+	/// </summary>
+	void HitTowerAndEnemys();
+
+	/// <summary>
 	/// •`‰æˆ—
 	/// </summary>
 	void Draw();

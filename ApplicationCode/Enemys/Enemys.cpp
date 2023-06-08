@@ -50,8 +50,11 @@ void Enemys::Update(int32_t towerHp, int playerHp)
 	//ŒŒ‚Æ‚Ì“–‚½‚è”»’è
 	EnemyHitBlood();
 
-	//Ô“s‚Ì“–‚½‚è”»’è
-	EnemyHitTower();
+	//Ô‚Æ‚Ì“–‚½‚è”»’è
+	//EnemyHitTower();
+
+	//€–Sˆ—
+	EnemysDead();
 }
 
 void Enemys::EnemyCreate(const int phase)
@@ -108,7 +111,7 @@ void Enemys::EnemyHitBlood()
 			if (vampire->GetBloodType() == vampire->GetHitBloodType())
 			{
 				//“G‚Ì€–Sƒtƒ‰ƒO‚ğ—§‚Ä‚é
-				vampire->SetDead(TRUE);
+				vampire->OnCollision();
 				//“G‚Ì‘—Ê‚ğŒ¸‚ç‚·
 				enemyNumber_--;
 				//€–SƒJƒEƒ“ƒg
@@ -138,7 +141,7 @@ void Enemys::EnemyHitBlood()
 	}
 
 	//€–Sƒtƒ‰ƒO‚ª—§‚Á‚Ä‚¢‚½‚çƒfƒŠ[ƒg
-	Vampires_.remove_if([](std::unique_ptr<VampireEnemy>& vampire) {return vampire->GetDead();  });
+	//Vampires_.remove_if([](std::unique_ptr<VampireEnemy>& vampire) {return vampire->GetDead();  });
 
 	//ˆÈ‰º“¯•¶
 	for (unique_ptr<BasiliskEnemy>& basilisk : Basiliskes_)
@@ -147,7 +150,7 @@ void Enemys::EnemyHitBlood()
 		{
 			if (basilisk->GetBloodType() == basilisk->GetHitBloodType())
 			{
-				basilisk->SetDead(TRUE);
+				basilisk->OnCollision();
 				enemyNumber_--;
 				deadCount++;
 
@@ -166,14 +169,14 @@ void Enemys::EnemyHitBlood()
 			basilisk->SetMoveAddLength(1.f);
 		}
 	}
-	Basiliskes_.remove_if([](std::unique_ptr<BasiliskEnemy>& basilisk) {return basilisk->GetDead();  });
+	//Basiliskes_.remove_if([](std::unique_ptr<BasiliskEnemy>& basilisk) {return basilisk->GetDead();  });
 	for (unique_ptr<RabbitEnemy>& rabbit : Rabbits_)
 	{
 		if (rabbit->GetBloodHitFlag() == TRUE)
 		{
 			if (rabbit->GetBloodType() == rabbit->GetHitBloodType())
 			{
-				rabbit->SetDead(TRUE);
+				rabbit->OnCollision();
 				enemyNumber_--;
 				deadCount++;
 
@@ -192,7 +195,7 @@ void Enemys::EnemyHitBlood()
 			rabbit->SetMoveAddLength(1.f);
 		}
 	}
-	Rabbits_.remove_if([](std::unique_ptr<RabbitEnemy>& rabbit) {return rabbit->GetDead();  });
+	//Rabbits_.remove_if([](std::unique_ptr<RabbitEnemy>& rabbit) {return rabbit->GetDead();  });
 }
 
 
@@ -229,6 +232,14 @@ void Enemys::EnemyHitTower()
 		}
 	}
 	Rabbits_.remove_if([](unique_ptr<RabbitEnemy>& rabbit) {return rabbit->GetMoveLength() <= 5; });
+
+}
+
+void Enemys::EnemysDead()
+{
+	Vampires_.remove_if([](std::unique_ptr<VampireEnemy>& vampire) {return vampire->GetDead();  });
+	Basiliskes_.remove_if([](std::unique_ptr<BasiliskEnemy>& basilisk) {return basilisk->GetDead();  });
+	Rabbits_.remove_if([](std::unique_ptr<RabbitEnemy>& rabbit) {return rabbit->GetDead();  });
 
 }
 
