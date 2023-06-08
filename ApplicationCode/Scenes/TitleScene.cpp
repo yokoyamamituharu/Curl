@@ -78,6 +78,7 @@ void TitleScene::Finalize()
 {
 	safe_delete(text_);
 	safe_delete(title_);
+	safe_delete(manual_);
 }
 
 void TitleScene::SceneChange()
