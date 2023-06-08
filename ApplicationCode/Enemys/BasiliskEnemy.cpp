@@ -56,7 +56,6 @@ std::unique_ptr<BasiliskEnemy> BasiliskEnemy::UniqueCreate()
 
 void BasiliskEnemy::Update()
 {
-
 	//フラグが立っているとアングルが加算そうでなければ減算
 	if (moveFlag == TRUE)angle += moveAngle;
 	else angle -= moveAngle;
