@@ -35,7 +35,7 @@ std::unique_ptr<Blood> Blood::UniquePtrCreate(Vector2 position, Temperature stat
 	instance->sprites_[(int)Temperature::liquid] = Sprite::Create(UINT(ImageManager::ImageName::liquidNumber), position, { 1.f,1.f,1.f,1.f }, { 0.5,0.5 });
 	instance->sprites_[(int)Temperature::gas] = Sprite::Create(UINT(ImageManager::ImageName::gasTexNumber), position, { 1.f,1.f,1.f,1.f }, { 0.5,0.5 });
 	instance->temp_ = (int)state;
-	Vector2 vec = instance->targetPos_ - *instance->playerPos_;
+	Vector2 vec = instance->targetPos_ - instance->position_;
 	vec.normalize();
 	instance->oldvec_ = vec;
 	instance->state_ = (int)State::shot;
