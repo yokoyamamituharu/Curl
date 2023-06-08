@@ -2,6 +2,11 @@
 #include "KeyInput.h"
 #include "Sprite.h"
 
+ScrollCamera::~ScrollCamera()
+{
+    Sprite::SetCamera(nullptr);
+}
+
 ScrollCamera* ScrollCamera::Create()
 {
     ScrollCamera* instance = new ScrollCamera();
