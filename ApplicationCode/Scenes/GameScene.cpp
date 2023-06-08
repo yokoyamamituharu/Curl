@@ -203,7 +203,7 @@ void GameScene::SceneChange()
 	else if (pose_ && button_->GetIsClick()) {
 		SceneManager::SceneChange(SceneManager::SceneName::Result);
 	}
-	if (enemys_->GetGameFlag() == 1)
+	else if (enemys_->GetGameFlag() == 1)
 	{
 		SceneManager::SceneChange(SceneManager::SceneName::Result);
 
