@@ -40,7 +40,6 @@ void GameScene::Initialize()
 	bloodGaugeSprite_ = Sprite::UniquePtrCreate(UINT(ImageManager::ImageName::bloodGaugeNumber), { 100,0 });
 	bloodGaugeSprite_->SetLeftSizeCorrection(true);
 	bloodGaugeSprite_->SetUi(true);
-	button_ = Button::CreateUniqueButton(ImageManager::ImageName::vampire_front, { 100,100 }, { 100,100 }, 0);
 	poseButton_ = Button::CreateUniqueButton(ImageManager::ImageName::Pause, { 64,24 }, { 100,100 }, 0);
 	poseBackButton_ = Button::CreateUniqueButton(ImageManager::ImageName::Back, { 300,300 }, { 100,100 }, 0);
 	titleButton_ = Button::CreateUniqueButton(ImageManager::ImageName::TitleBack, { 300,400 }, { 100,100 }, 0);
@@ -51,8 +50,9 @@ void GameScene::Update()
 	//blood_->Update();
 	HitBloodAndEnemys();
 	HitTowerAndEnemys();
-	button_->Update();
+	
 	poseButton_->Update();
+	tower_->Update();
 	if (poseButton_->GetIsClick()) {
 		pose_ = true;
 	}
@@ -236,16 +236,13 @@ void GameScene::SceneChange()
 	if (pose_ && titleButton_->GetIsClick()) {
 		SceneManager::SceneChange(SceneManager::SceneName::Title);
 	}
-	else if (pose_ && button_->GetIsClick()) {
-		SceneManager::SceneChange(SceneManager::SceneName::Result);
-	}
 	else if (enemys_->GetGameFlag() == 1)
 	{
 		SceneManager::SceneChange(SceneManager::SceneName::Result);
 	}
 	else if (tower_->GetHP() <= 0)
 	{
-		SceneManager::SceneChange(SceneManager::SceneName::Result);
+		SceneManager::SceneChange(SceneManager::SceneName::Over);
 
 	}
 }

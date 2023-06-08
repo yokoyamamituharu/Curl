@@ -57,6 +57,9 @@ private: //メンバ変数
 	int32_t hp_;
 	//座標
 	Vector2 pos_;
+
+	bool hit;
+	int hitTime;
 	//タワーオブジェクト
 	std::unique_ptr<Sprite> tower_;
 
