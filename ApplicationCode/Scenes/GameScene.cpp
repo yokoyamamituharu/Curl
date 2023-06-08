@@ -32,6 +32,7 @@ void GameScene::Initialize()
 	GameSprite1 = Sprite::Create(UINT(ImageManager::ImageName::GameUI_01), { 0,0 });
 	GameSprite2 = Sprite::Create(UINT(ImageManager::ImageName::GameUI_02), { 0,0 });
 	GameSprite3 = Sprite::Create(UINT(ImageManager::ImageName::GameUI_03), { 0,0 });
+	manual = Sprite::Create(UINT(ImageManager::ImageName::Manual), { 300,0 });
 	int32_t towerHP = 10;
 	tower_ = new Tower;
 	tower_->Initialize(towerHP);
@@ -41,8 +42,8 @@ void GameScene::Initialize()
 	bloodGaugeSprite_->SetLeftSizeCorrection(true);
 	bloodGaugeSprite_->SetUi(true);
 	poseButton_ = Button::CreateUniqueButton(ImageManager::ImageName::Pause, { 64,24 }, { 100,100 }, 0);
-	poseBackButton_ = Button::CreateUniqueButton(ImageManager::ImageName::Back, { 300,300 }, { 100,100 }, 0);
-	titleButton_ = Button::CreateUniqueButton(ImageManager::ImageName::TitleBack, { 300,400 }, { 100,100 }, 0);
+	poseBackButton_ = Button::CreateUniqueButton(ImageManager::ImageName::Back, { 100,300 }, { 100,100 }, 0);
+	titleButton_ = Button::CreateUniqueButton(ImageManager::ImageName::TitleBack, { 100,400 }, { 100,100 }, 0);
 }
 
 void GameScene::Update()
@@ -186,14 +187,15 @@ void GameScene::Draw()
 	bloodGaugeSprite_->Draw();
 	//enemy_->Draw();
 	enemys_->Draw();
-	poseButton_->Draw();
-	if (pose_) {
-		poseBackButton_->Draw();
-		titleButton_->Draw();
-	}
+	poseButton_->Draw();	
 	GameSprite1->Draw();
 	GameSprite2->Draw();
 	GameSprite3->Draw();
+	if (pose_) {
+		poseBackButton_->Draw();
+		titleButton_->Draw();
+		manual->Draw();
+	}
 	Sprite::PostDraw();
 
 	postEffect_->PostDrawScene(DirectXSetting::GetIns()->GetCmdList());
