@@ -51,7 +51,9 @@ public: //‰æ‘œ–¼
 		Clear,
 		Back,
 		Manual,
-		gameOver
+		gameOver,
+		wolfForwardWalk,
+		wolfBackwardWalk
 	};
 
 public: //ƒƒ“ƒoŠÖ”
