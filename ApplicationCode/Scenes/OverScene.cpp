@@ -19,7 +19,7 @@ void OverScene::Initialize()
 	Object3d::SetLight(light_.get());
 
 	postEffectNo_ = PostEffect::NONE;
-	over = Sprite::Create((UINT)ImageManager::ImageName::Clear, { 500,400 });
+	over = Sprite::Create((UINT)ImageManager::ImageName::gameOver, { 500,400 });
 	titleButton_ = Button::CreateUniqueButton(ImageManager::ImageName::TitleBack, { 300,400 }, { 100,100 }, 0);
 }
 
