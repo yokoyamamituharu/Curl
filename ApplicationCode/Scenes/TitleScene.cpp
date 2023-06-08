@@ -22,7 +22,6 @@ void TitleScene::Initialize()
 	title_ = Sprite::Create((UINT)ImageManager::ImageName::TitleLog, {});
 	title_->SetSize({ 400*2,400*2 });
 	manual_ = Sprite::Create((UINT)ImageManager::ImageName::Manual, {});
-	manual_->SetSize({ 400 * 2,400 * 2 });
 	postEffectNo_ = PostEffect::NONE;
 	gameButton_ = Button::CreateUniqueButton(ImageManager::ImageName::StartButton, { 1000,400 }, { 100,100 }, 0);
 	manualButton_ = Button::CreateUniqueButton(ImageManager::ImageName::ManualButton, { 1000,600 }, { 100,100 }, 0);
