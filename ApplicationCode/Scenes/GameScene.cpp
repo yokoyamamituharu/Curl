@@ -150,7 +150,7 @@ void GameScene::Draw()
 	bloodGaugeSprite_->Draw();
 	//enemy_->Draw();
 	enemys_->Draw();
-	//button_->Draw();
+	button_->Draw();
 	poseButton_->Draw();
 	if (pose_) {
 		poseBackButton_->Draw();

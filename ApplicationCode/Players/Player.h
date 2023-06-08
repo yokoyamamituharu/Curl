@@ -75,6 +75,4 @@ private:
 	bool isColdWave = false;
 	float coldExtend = 0;
 	float coldAlpha = 1;
-
-	Vector2 playerToCoursol_{};
 };

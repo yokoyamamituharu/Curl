@@ -50,7 +50,8 @@ public: //‰æ‘œ–¼
 		TitleBack,
 		Clear,
 		Back,
-		Manual
+		Manual,
+		gameOver
 	};
 
 public: //ƒƒ“ƒoŠÖ”

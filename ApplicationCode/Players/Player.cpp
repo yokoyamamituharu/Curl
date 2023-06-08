@@ -153,15 +153,11 @@ void Player::Update(ScrollCamera* camera)
 void Player::Shot(ScrollCamera* camera)
 {
 	if (bloods_.size() >= maxBlood_) return;
-	XMFLOAT2 cursolPos = DirectX::XMFLOAT2{ float(MouseInput::GetIns()->GetMousePoint().x) - camera->GetPosition().x,
-		float(MouseInput::GetIns()->GetMousePoint().y) - camera->GetPosition().y };
-	XMFLOAT2 playerPos = position_;
-	DirectX::XMVECTOR vec3 = { cursolPos.x - playerPos.x,cursolPos.y - playerPos.y };
-	vec3 = DirectX::XMVector3Normalize(vec3);
-	XMFLOAT2 vec2 = { vec3.m128_f32[0],vec3.m128_f32[1] };
-
 	if (MouseInput::GetIns()->PushClick(MouseInput::LEFT_CLICK) && shotDiray_ <= 0) {
-		bloods_.push_back(Blood::UniquePtrCreate({ position_ }, Blood::Temperature::solid, cursolPos, &position_));
+		XMFLOAT2 cursolPos = DirectX::XMFLOAT2{ float(MouseInput::GetIns()->GetMousePoint().x) - camera->GetPosition().x,
+			float(MouseInput::GetIns()->GetMousePoint().y) - camera->GetPosition().y };
+
+		bloods_.push_back(Blood::UniquePtrCreate({ position_ }, Blood::Temperature::liquid, cursolPos, &position_));
 		shotDiray_ = maxShotDiray_;
 	}
 	else {
@@ -194,6 +190,6 @@ void Player::Move(ScrollCamera* camera)
 	Vector2 vec2 = { vec3.m128_f32[0],vec3.m128_f32[1] };
 
 	if (KeyInput::GetIns()->PushKey(DIK_W)) {
-		AddPlayerVector(vec2*speed_);
+		AddPlayerVector(vec2 * speed_);
 	}
 }

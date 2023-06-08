@@ -40,5 +40,6 @@ void ImageManager::Initialize() {
 	Sprite::LoadTexture(int32_t(ImageName::Clear), L"Engine/Resources/Images/clear.png");
 	Sprite::LoadTexture(int32_t(ImageName::Back), L"Engine/Resources/Images/Back.png");
 	Sprite::LoadTexture(int32_t(ImageName::Manual), L"Engine/Resources/Images/Manual.png");
+	Sprite::LoadTexture(int32_t(ImageName::gameOver), L"Engine/Resources/Images/GameOver.png");
 	
 }
