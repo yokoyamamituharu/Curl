@@ -93,6 +93,7 @@ private:
 	bool isColdWave = false;
 	float coldExtend = 0;
 	float coldAlpha = 1;
+	bool isRecall_ = false;
 
 	float angle = 0;
 	int useAnimation = 0;

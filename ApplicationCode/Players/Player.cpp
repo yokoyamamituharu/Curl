@@ -106,6 +106,8 @@ void Player::Update(ScrollCamera* camera)
 		speed_ = 2.0f;
 	}
 
+	Wave();
+
 	//ŒŒ‚ð•úo
 	Shot(camera);
 	//ŒŒ‚ÌŽc—Ê
@@ -115,7 +117,7 @@ void Player::Update(ScrollCamera* camera)
 		if (KeyInput::GetIns()->TriggerKey(DIK_B) && blood->GetState() == (int)Blood::State::idle) {
 			//blood->SetDead();
 		}
-		if (MouseInput::GetIns()->PushClick(MouseInput::RIGHT_CLICK) && blood->GetTemperature() == (int)Blood::Temperature::liquid) {
+		if (isRecall_ && blood->GetTemperature() == (int)Blood::Temperature::liquid) {
 			blood->SetState(Blood::State::back);
 		}
 		if (blood->GetState() == (int)Blood::State::heat) {
@@ -133,9 +135,7 @@ void Player::Update(ScrollCamera* camera)
 		if (coldExtend / 2 + 16 > length && isColdWave) blood->ColdWaveOnCollision();
 
 		blood->Update();
-	}
-
-	Wave();
+	}	
 	heatWave_->SetPosition(position_);
 	coldWave_->SetPosition(position_);
 	sprites_[state_]->SetPosition(position_);
@@ -222,6 +222,8 @@ void Player::Move(ScrollCamera* camera)
 
 void Player::Wave()
 {
+	//–ˆƒtƒŒ[ƒ€Å‰‚Éfalse‚É‚·‚é
+	isRecall_ = false;
 	//”M”g‚ð•úŽË
 	if (KeyInput::GetIns()->TriggerKey(DIK_E)) isHeatWave = true;
 	//Š¦”g‚ð•úŽË
@@ -230,10 +232,11 @@ void Player::Wave()
 	if (isHeatWave) {
 		heatWave_->SetSize({ heatExtend ,heatExtend });
 		heatWave_->SetAlpha(heatAlpha);
-		heatExtend += 40;
+		heatExtend += 240;
 		heatAlpha -= 0.1;
 		if (heatAlpha < 0) {
 			isHeatWave = false;
+			isRecall_ = true;
 			heatExtend = 0;
 			heatAlpha = 1;
 		}
@@ -241,10 +244,11 @@ void Player::Wave()
 	if (isColdWave) {
 		coldWave_->SetSize({ coldExtend ,coldExtend });
 		coldWave_->SetAlpha(coldAlpha);
-		coldExtend += 40;
+		coldExtend += 240;
 		coldAlpha -= 0.1f;
 		if (coldAlpha < 0) {
 			isColdWave = false;
+			isRecall_ = true;
 			coldExtend = 0;
 			coldAlpha = 1;
 		}

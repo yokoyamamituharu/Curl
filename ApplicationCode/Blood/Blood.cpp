@@ -52,6 +52,12 @@ void Blood::Update()
 	if (KeyInput::GetIns()->TriggerKey(DIK_DOWN))  Decrease();
 	DirectX::XMINT4 a1{}, a2{};
 	Vector2 vec{  };
+
+	//ó‘Ô‚ª‰t‘Ì‚¶‚á‚È‚­‚È‚Á‚½‚ç‰ñû‚ğ’â~
+	if (state_ == (int)State::back && temp_ != (int)Temperature::liquid) {
+		state_ = (int)State::idle;
+	}
+
 	switch (state_)
 	{
 	case (int)State::idle:
