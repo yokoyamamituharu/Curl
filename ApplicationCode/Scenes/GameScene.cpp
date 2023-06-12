@@ -217,7 +217,8 @@ void GameScene::Finalize()
 	safe_delete(text_);
 	//enemys_->Delete();
 	safe_delete(enemys_);
-
+	safe_delete(manual);
+	
 	safe_delete(player_);
 	safe_delete(bgSprite_);
 	safe_delete(GameSprite1);
@@ -243,7 +244,7 @@ void GameScene::SceneChange()
 	}
 	else if (tower_->GetHP() <= 0)
 	{
-		SceneManager::SceneChange(SceneManager::SceneName::Over);
+		//SceneManager::SceneChange(SceneManager::SceneName::Over);
 
 	}
 }
