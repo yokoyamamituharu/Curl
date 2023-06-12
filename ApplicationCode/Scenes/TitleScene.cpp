@@ -20,7 +20,7 @@ void TitleScene::Initialize()
 	Object3d::SetLight(light_.get());
 	manualFlag = 0;
 	title_ = Sprite::Create((UINT)ImageManager::ImageName::TitleLog, {});
-	title_->SetSize({ 400*2,400*2 });
+	//title_->SetSize({ 400*2,400*2 });
 	manual_ = Sprite::Create((UINT)ImageManager::ImageName::Manual, {});
 	postEffectNo_ = PostEffect::NONE;
 	gameButton_ = Button::CreateUniqueButton(ImageManager::ImageName::StartButton, { 1000,400 }, { 100,100 }, 0);
