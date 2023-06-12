@@ -43,5 +43,6 @@ void ImageManager::Initialize() {
 	Sprite::LoadTexture(int32_t(ImageName::gameOver), L"Engine/Resources/Images/GameOver.png");
 	Sprite::LoadTexture(int32_t(ImageName::wolfForwardWalk), L"Engine/Resources/Images/wolfForwardWalk.png");
 	Sprite::LoadTexture(int32_t(ImageName::wolfBackwardWalk), L"Engine/Resources/Images/wolfBackwardWalk.png");
+	Sprite::LoadTexture(int32_t(ImageName::reticle), L"Engine/Resources/Images/reticle.png");
 	
 }

@@ -53,7 +53,8 @@ public: //‰æ‘œ–¼
 		Manual,
 		gameOver,
 		wolfForwardWalk,
-		wolfBackwardWalk
+		wolfBackwardWalk,
+		reticle
 	};
 
 public: //ƒƒ“ƒoŠÖ”

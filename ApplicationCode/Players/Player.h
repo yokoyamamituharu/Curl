@@ -85,6 +85,9 @@ private:
 
 	Sprite* heatWave_ = nullptr;
 	Sprite* coldWave_ = nullptr;
+	
+	Sprite* reticle_ = nullptr;
+
 
 	bool isHeatWave = false;
 	float heatExtend = 0;

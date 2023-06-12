@@ -30,6 +30,7 @@ Player::~Player()
 	safe_delete(handler_);
 	safe_delete(handler_);
 	safe_delete(heatWave_);
+	safe_delete(reticle_);
 	safe_delete(coldWave_);
 }
 
@@ -60,6 +61,9 @@ Player* Player::Create(Vector2 pos, float rote, int hp, int maxBlood)
 	instance->heatWave_->SetPosition({ 500,500 });
 	instance->coldWave_ = Sprite::Create(UINT(ImageManager::ImageName::coldWaveNumber), { 0,0 }, { 1,1,1,1 }, { 0.5,0.5 });
 	instance->coldWave_->SetPosition({ 500,500 });
+	instance->reticle_ = Sprite::Create(UINT(ImageManager::ImageName::reticle), { 0,0 }, { 1,1,1,1 }, { 0.5,0.5 });
+	instance->reticle_->SetPosition({ 500,500 });
+
 	instance->state_ = (int)State::idle;
 	instance->handler_ = new KeyInputHandler();
 	instance->handler_->Initialize(instance);
@@ -74,6 +78,10 @@ Player* Player::Create(Vector2 pos, float rote, int hp, int maxBlood)
 
 void Player::Update(ScrollCamera* camera)
 {
+	XMFLOAT2 mouse;
+	mouse.x = (float)MouseInput::GetIns()->GetMousePoint().x;
+	mouse.y = (float)MouseInput::GetIns()->GetMousePoint().y;
+	reticle_->SetPosition(mouse);
 	//ƒtƒ‰ƒO‚ª—§‚Á‚Ä‚¢‚éŒŒ‚ğÁ‚·
 	bloods_.remove_if([](std::unique_ptr<Blood>& blood) {
 		return blood->GetDead();
@@ -188,7 +196,7 @@ void Player::Draw(ScrollCamera* scroll)
 		frontSprites_[frontAnimationCounter_]->Draw();
 	}
 
-
+	reticle_->Draw();
 	if (isHeatWave) heatWave_->Draw();
 	if (isColdWave) coldWave_->Draw();
 }

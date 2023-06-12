@@ -56,11 +56,14 @@ void GameScene::Update()
 	tower_->Update();
 	if (poseButton_->GetIsClick()) {
 		pose_ = true;
+		ShowCursor(true);
+
 	}
 	if (pose_) {
 		poseBackButton_->Update();
 		titleButton_->Update();
 		if (poseBackButton_->GetIsClick()) {
+			ShowCursor(false);
 			pose_ = false;
 		}
 	}
