@@ -56,7 +56,7 @@ void TitleScene::Draw()
 
 	//スプライト描画処理(UI等)
 	Sprite::PreDraw(DirectXSetting::GetIns()->GetCmdList());
-	gameButton_->Draw();
+	//gameButton_->Draw();
 	if (manualFlag == 0)manualButton_->Draw();
 	Sprite::PostDraw();
 
@@ -70,6 +70,11 @@ void TitleScene::Draw()
 
 	DirectXSetting::GetIns()->PreDraw(backColor);
 	postEffect_->Draw(DirectXSetting::GetIns()->GetCmdList(), 60.0f, postEffectNo_, true);
+
+	Sprite::PreDraw(DirectXSetting::GetIns()->GetCmdList());
+	gameButton_->Draw();
+	Sprite::PostDraw();
+
 	DirectXSetting::GetIns()->PostDraw();
 }
 
