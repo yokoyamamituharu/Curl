@@ -3,10 +3,10 @@
 
 void GameScene::Initialize()
 {
-	const Vector3 LB = { -1.0f, -1.0f, 0.0f };
+	const Vector3 LB = { -1.0f, -0.5f, 0.0f };
 	const Vector3 LT = { -1.0f, +1.0f, 0.0f };
-	const Vector3 RB = { +1.0f, -1.0f, 0.0f };
-	const Vector3 RT = { +1.0f, +1.0f, 0.0f };
+	const Vector3 RB = { +0.5f, -0.5f, 0.0f };
+	const Vector3 RT = { +0.5f, +1.0f, 0.0f };
 	postEffect_ = std::make_unique<PostEffect>();
 	postEffect_->Initialize(LT, LB, RT, RB);
 
@@ -44,6 +44,10 @@ void GameScene::Initialize()
 	poseButton_ = Button::CreateUniqueButton(ImageManager::ImageName::Pause, { 64,24 }, { 100,100 }, 0);
 	poseBackButton_ = Button::CreateUniqueButton(ImageManager::ImageName::Back, { 100,300 }, { 100,100 }, 0);
 	titleButton_ = Button::CreateUniqueButton(ImageManager::ImageName::TitleBack, { 100,400 }, { 100,100 }, 0);
+
+	camera2D = new Camera2D();
+	camera2D->InitializeCamera(WinApp::window_width, WinApp::window_height);
+	Sprite::SetCamera2D(camera2D);
 }
 
 void GameScene::Update()
@@ -51,7 +55,7 @@ void GameScene::Update()
 	//blood_->Update();
 	HitBloodAndEnemys();
 	HitTowerAndEnemys();
-	
+
 	poseButton_->Update();
 	tower_->Update();
 	if (poseButton_->GetIsClick()) {
@@ -75,8 +79,19 @@ void GameScene::Update()
 		enemys_->Update(tower_->GetHP(), player_->GetPlayerHp());
 	}
 	//enemy_->Update();
+	DirectX::XMVECTOR LB = { -1.0f, -0.5f, 0.0f };
+	DirectX::XMVECTOR LT = { -1.0f, +1.0f, 0.0f };
+	DirectX::XMVECTOR RB = { +0.5f, -0.5f, 0.0f };
+	DirectX::XMVECTOR RT = { +0.5f, +1.0f, 0.0f };
 
-//シーン切り替え
+	DirectX::XMVECTOR LB2 = DirectX::XMVector3TransformCoord(LB, camera2D->GetMatViewPort());
+	DirectX::XMVECTOR LT2 = DirectX::XMVector3TransformCoord(LT, camera2D->GetMatViewPort());
+	DirectX::XMVECTOR RB2 = DirectX::XMVector3TransformCoord(RB, camera2D->GetMatViewPort());
+	DirectX::XMVECTOR RT2 = DirectX::XMVector3TransformCoord(RT, camera2D->GetMatViewPort());
+
+
+
+	//シーン切り替え
 	SceneChange();
 }
 
@@ -187,7 +202,7 @@ void GameScene::Draw()
 	bloodGaugeSprite_->Draw();
 	//enemy_->Draw();
 	enemys_->Draw();
-	poseButton_->Draw();	
+	poseButton_->Draw();
 	GameSprite1->Draw();
 	GameSprite2->Draw();
 	GameSprite3->Draw();
@@ -218,7 +233,7 @@ void GameScene::Finalize()
 	//enemys_->Delete();
 	safe_delete(enemys_);
 	safe_delete(manual);
-	
+
 	safe_delete(player_);
 	safe_delete(bgSprite_);
 	safe_delete(GameSprite1);
@@ -226,6 +241,8 @@ void GameScene::Finalize()
 	safe_delete(GameSprite3);
 	safe_delete(tower_);
 	safe_delete(scrollCamera_);
+	safe_delete(camera2D);
+	Sprite::SetCamera2D(nullptr);
 }
 
 void GameScene::HitEnemys()

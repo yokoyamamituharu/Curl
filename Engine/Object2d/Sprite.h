@@ -5,6 +5,7 @@
 #include <DirectXMath.h>
 #include <memory>
 #include "ScrollCamera.h"
+#include "Camera2D.h"
 
 class Sprite
 {
@@ -79,6 +80,7 @@ public: //静的メンバ関数
 	static std::unique_ptr<Sprite> UniquePtrCreate(UINT texNumber, XMFLOAT2 position, XMFLOAT4 color = { 1, 1, 1, 1 }, XMFLOAT2 anchorpoint = { 0.0f, 0.0f }, bool isFlipX = false, bool isFlipY = false);
 
 	static void SetCamera(ScrollCamera* camera) { camera_ = camera; }
+	static void SetCamera2D(Camera2D* camera) { camera2D = camera; }
 
 protected: //静的メンバ変数
 	//テクスチャの最大枚数
@@ -103,6 +105,7 @@ protected: //静的メンバ変数
 	static ComPtr<ID3D12Resource> texBuff[srvCount];
 	//カメラ
 	static ScrollCamera* camera_;
+	static Camera2D* camera2D;
 public: //メンバ関数
 	/// <summary>
 	/// コンストラクタ
@@ -234,8 +237,7 @@ protected: //メンバ変数
 	XMFLOAT2 texBase = { 0, 0 };
 	// テクスチャサイズ
 	XMFLOAT2 texSize = { 100, 100 };
-	bool isUi = false;
-
+	bool isUi = false;	
 private: //メンバ関数
 	/// <summary>
 	/// 頂点データ転送
