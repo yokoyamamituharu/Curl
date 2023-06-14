@@ -3,10 +3,10 @@
 
 void GameScene::Initialize()
 {
-	const Vector3 LB = { -1.0f, -0.5f, 0.0f };
+	const Vector3 LB = { -1.0f, -0.7f, 0.0f };
 	const Vector3 LT = { -1.0f, +1.0f, 0.0f };
-	const Vector3 RB = { +0.5f, -0.5f, 0.0f };
-	const Vector3 RT = { +0.5f, +1.0f, 0.0f };
+	const Vector3 RB = { +0.85f, -0.7f, 0.0f };
+	const Vector3 RT = { +0.85f, +1.0f, 0.0f };
 	postEffect_ = std::make_unique<PostEffect>();
 	postEffect_->Initialize(LT, LB, RT, RB);
 
@@ -20,7 +20,6 @@ void GameScene::Initialize()
 	Object3d::SetLight(light_.get());
 
 	postEffectNo_ = PostEffect::NONE;
-
 
 	enemys_ = new Enemys();
 	enemys_ = Enemys::Create();
@@ -199,9 +198,24 @@ void GameScene::Draw()
 	bgSprite_->Draw();
 	player_->Draw(scrollCamera_);
 	tower_->Draw();
-	bloodGaugeSprite_->Draw();
 	//enemy_->Draw();
 	enemys_->Draw();
+	Sprite::PostDraw();
+	postEffect_->PostDrawScene(DirectXSetting::GetIns()->GetCmdList());
+
+	DirectXSetting::GetIns()->beginDrawWithDirect2D();
+	//テキスト描画範囲
+	D2D1_RECT_F textDrawRange = { 0, 0, 500, 500 };
+	//text_->Draw("meiryo", "white", L"ゲームシーン\n左クリックでタイトルシーン\n右クリックでリザルトシーン", textDrawRange);
+	DirectXSetting::GetIns()->endDrawWithDirect2D();
+
+	DirectXSetting::GetIns()->PreDraw(backColor);
+	//ポストエフェクト描画
+	postEffect_->Draw(DirectXSetting::GetIns()->GetCmdList(), 60.0f, postEffectNo_, true);
+
+	//ポストエフェクトをかけないスプライト描画処理(UI等)
+	Sprite::PreDraw(DirectXSetting::GetIns()->GetCmdList());
+	bloodGaugeSprite_->Draw();
 	poseButton_->Draw();
 	GameSprite1->Draw();
 	GameSprite2->Draw();
@@ -212,17 +226,6 @@ void GameScene::Draw()
 		manual->Draw();
 	}
 	Sprite::PostDraw();
-
-	postEffect_->PostDrawScene(DirectXSetting::GetIns()->GetCmdList());
-
-	DirectXSetting::GetIns()->beginDrawWithDirect2D();
-	//テキスト描画範囲
-	D2D1_RECT_F textDrawRange = { 0, 0, 500, 500 };
-	//text_->Draw("meiryo", "white", L"ゲームシーン\n左クリックでタイトルシーン\n右クリックでリザルトシーン", textDrawRange);
-	DirectXSetting::GetIns()->endDrawWithDirect2D();
-
-	DirectXSetting::GetIns()->PreDraw(backColor);
-	postEffect_->Draw(DirectXSetting::GetIns()->GetCmdList(), 60.0f, postEffectNo_, true);
 	DirectXSetting::GetIns()->PostDraw();
 }
 
