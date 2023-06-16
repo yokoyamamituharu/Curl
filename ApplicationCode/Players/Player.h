@@ -48,6 +48,8 @@ public:
 
 	void Wave();
 
+	void SetPosition(Vector2 position) { position_ = position; }
+
 	float GetSpeed() { return speed_; }
 
 	Sprite* GetSprite() { return sprites_[state_]; }

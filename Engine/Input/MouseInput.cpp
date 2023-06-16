@@ -38,6 +38,8 @@ void MouseInput::Update() {
 		//取得したカーソルの位置をウィンドウ上の位置に変換
 		ScreenToClient(winApp->GetHwnd(), &mousePoint);
 	}
+
+
 }
 
 bool MouseInput::PushClick(BYTE mouseClick) {

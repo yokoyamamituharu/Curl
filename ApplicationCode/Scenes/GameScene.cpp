@@ -68,7 +68,20 @@ void GameScene::Update()
 		}
 	}
 	else {
+		DirectX::XMVECTOR LB = { -1.0f, -0.7f, 0.0f };
+		DirectX::XMVECTOR LT = { -1.0f, +1.0f, 0.0f };
+		DirectX::XMVECTOR RB = { +0.85f, -0.7f, 0.0f };
+		DirectX::XMVECTOR RT = { +0.85f, +1.0f, 0.0f };
 
+		DirectX::XMVECTOR LB2 = DirectX::XMVector3TransformCoord(LB, camera2D->GetMatViewPort());
+		DirectX::XMVECTOR LT2 = DirectX::XMVector3TransformCoord(LT, camera2D->GetMatViewPort());
+		DirectX::XMVECTOR RB2 = DirectX::XMVector3TransformCoord(RB, camera2D->GetMatViewPort());
+		DirectX::XMVECTOR RT2 = DirectX::XMVector3TransformCoord(RT, camera2D->GetMatViewPort());
+
+		float otoko = RB2.m128_f32[0] / (float)WinApp::window_width;
+		float otoko2 = RB2.m128_f32[1] / (float)WinApp::window_height;
+		player_->SetPosition({ MouseInput::GetIns()->GetMousePoint().x * otoko,MouseInput::GetIns()->GetMousePoint().y * otoko2 });
+		//player_->SetPosition({ MouseInput::GetIns()->GetMousePoint().x + MouseInput::GetIns()->GetMousePoint().x * (1.0f - otoko + 0.005f),MouseInput::GetIns()->GetMousePoint().y + MouseInput::GetIns()->GetMousePoint().y * (1.0f - otoko2 + 0.005f) });
 		player_->Update(scrollCamera_);
 		//scrollCamera_->Update(player_->GetSprite()->GetPosition());
 
@@ -78,17 +91,6 @@ void GameScene::Update()
 		enemys_->Update(tower_->GetHP(), player_->GetPlayerHp());
 	}
 	//enemy_->Update();
-	DirectX::XMVECTOR LB = { -1.0f, -0.5f, 0.0f };
-	DirectX::XMVECTOR LT = { -1.0f, +1.0f, 0.0f };
-	DirectX::XMVECTOR RB = { +0.5f, -0.5f, 0.0f };
-	DirectX::XMVECTOR RT = { +0.5f, +1.0f, 0.0f };
-
-	DirectX::XMVECTOR LB2 = DirectX::XMVector3TransformCoord(LB, camera2D->GetMatViewPort());
-	DirectX::XMVECTOR LT2 = DirectX::XMVector3TransformCoord(LT, camera2D->GetMatViewPort());
-	DirectX::XMVECTOR RB2 = DirectX::XMVector3TransformCoord(RB, camera2D->GetMatViewPort());
-	DirectX::XMVECTOR RT2 = DirectX::XMVector3TransformCoord(RT, camera2D->GetMatViewPort());
-
-
 
 	//シーン切り替え
 	SceneChange();
@@ -206,7 +208,29 @@ void GameScene::Draw()
 	DirectXSetting::GetIns()->beginDrawWithDirect2D();
 	//テキスト描画範囲
 	D2D1_RECT_F textDrawRange = { 0, 0, 500, 500 };
+	D2D1_RECT_F textDrawRange2 = { 0, 100, 500, 500 };
 	//text_->Draw("meiryo", "white", L"ゲームシーン\n左クリックでタイトルシーン\n右クリックでリザルトシーン", textDrawRange);
+	DirectX::XMVECTOR LB = { -1.0f, -0.7f, 0.0f };
+	DirectX::XMVECTOR LT = { -1.0f, +1.0f, 0.0f };
+	DirectX::XMVECTOR RB = { +0.85f, -0.7f, 0.0f };
+	DirectX::XMVECTOR RT = { +0.85f, +1.0f, 0.0f };
+	DirectX::XMVECTOR LB2 = DirectX::XMVector3TransformCoord(LB, camera2D->GetMatViewPort());
+	DirectX::XMVECTOR LT2 = DirectX::XMVector3TransformCoord(LT, camera2D->GetMatViewPort());
+	DirectX::XMVECTOR RB2 = DirectX::XMVector3TransformCoord(RB, camera2D->GetMatViewPort());
+	DirectX::XMVECTOR RT2 = DirectX::XMVector3TransformCoord(RT, camera2D->GetMatViewPort());
+
+	float otoko = RB2.m128_f32[0] / WinApp::window_width;
+	float otoko2 = RB2.m128_f32[1] / WinApp::window_height;
+
+	std::wstring unti = std::to_wstring(MouseInput::GetIns()->GetMousePoint().x * otoko);
+	std::wstring unti2 = std::to_wstring(MouseInput::GetIns()->GetMousePoint().y * otoko2);
+	std::wstring tintin = std::to_wstring(player_->GetSprite()->GetPosition().x);
+	std::wstring tintin2 = std::to_wstring(player_->GetSprite()->GetPosition().y);
+
+	int ketu = MouseInput::GetIns()->GetMousePoint().x;
+
+	text_->Draw("meiryo", "white", unti + L"\n" + unti2, textDrawRange);
+	text_->Draw("meiryo", "white", tintin + L"\n" + tintin2, textDrawRange2);
 	DirectXSetting::GetIns()->endDrawWithDirect2D();
 
 	DirectXSetting::GetIns()->PreDraw(backColor);
@@ -217,9 +241,9 @@ void GameScene::Draw()
 	Sprite::PreDraw(DirectXSetting::GetIns()->GetCmdList());
 	bloodGaugeSprite_->Draw();
 	poseButton_->Draw();
-	GameSprite1->Draw();
-	GameSprite2->Draw();
-	GameSprite3->Draw();
+	//GameSprite1->Draw();
+	//GameSprite2->Draw();
+	//GameSprite3->Draw();
 	if (pose_) {
 		poseBackButton_->Draw();
 		titleButton_->Draw();
