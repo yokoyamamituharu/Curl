@@ -84,6 +84,7 @@ private: //ƒƒ“ƒo•Ï”
 	Sprite* GameSprite1 = nullptr;
 	Sprite* GameSprite2 = nullptr;
 	Sprite* GameSprite3 = nullptr;
+	Sprite* playerHp = nullptr;
 	Sprite* manual = nullptr;
 	std::unique_ptr<Sprite> bloodGaugeSprite_ = nullptr;
 	
