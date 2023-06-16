@@ -117,9 +117,11 @@ void Player::Update(ScrollCamera* camera)
 		if (KeyInput::GetIns()->TriggerKey(DIK_B) && blood->GetState() == (int)Blood::State::idle) {
 			//blood->SetDead();
 		}
+		//血を戻す
 		if (isRecall_ && blood->GetTemperature() == (int)Blood::Temperature::liquid) {
 			blood->SetState(Blood::State::back);
 		}
+		//血がプレイヤーの位置に戻ったらプレイヤーの体温を上げ（未実装）血を消す
 		if (blood->GetState() == (int)Blood::State::heat) {
 			heat_++;
 			blood->SetDead();
