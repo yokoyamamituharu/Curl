@@ -137,7 +137,7 @@ void Player::Update(ScrollCamera* camera)
 		if (coldExtend / 2 + 16 > length && isColdWave) blood->ColdWaveOnCollision();
 
 		blood->Update();
-	}	
+	}
 	heatWave_->SetPosition(position_);
 	coldWave_->SetPosition(position_);
 	sprites_[state_]->SetPosition(position_);
@@ -153,10 +153,9 @@ void Player::Shot(ScrollCamera* camera)
 {
 	if (bloods_.size() >= maxBlood_) return;
 	if (MouseInput::GetIns()->PushClick(MouseInput::LEFT_CLICK) && shotDiray_ <= 0) {
-		XMFLOAT2 cursolPos = DirectX::XMFLOAT2{ float(MouseInput::GetIns()->GetMousePoint().x) - camera->GetPosition().x,
-			float(MouseInput::GetIns()->GetMousePoint().y) - camera->GetPosition().y };
+		Vector2 cursolPos = MouseInput::GetIns()->ClientToPostEffect() + camera->GetPosition();
 
-		bloods_.push_back(Blood::UniquePtrCreate({ position_.x,position_.y -30}, Blood::Temperature::liquid, cursolPos, &position_));
+		bloods_.push_back(Blood::UniquePtrCreate({ position_.x,position_.y - 30 }, Blood::Temperature::liquid, cursolPos, &position_));
 		shotDiray_ = maxShotDiray_;
 	}
 	else {
@@ -202,8 +201,10 @@ void Player::AddPlayerVector(Vector2 vec)
 
 void Player::Move(ScrollCamera* camera)
 {
-	Vector2 cursolPos = DirectX::XMFLOAT2{ float(MouseInput::GetIns()->GetMousePoint().x) - camera->GetPosition().x,
-	float(MouseInput::GetIns()->GetMousePoint().y) - camera->GetPosition().y };
+	float wariaiX = 0.925;
+	float wariaiY = 0.85;
+
+	Vector2 cursolPos = MouseInput::GetIns()->ClientToPostEffect() + camera->GetPosition();
 	Vector2 playerPos = position_;
 	DirectX::XMVECTOR vec3 = { cursolPos.x - playerPos.x,cursolPos.y - playerPos.y };
 	vec3 = DirectX::XMVector3Normalize(vec3);
