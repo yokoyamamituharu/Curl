@@ -96,6 +96,9 @@
     <Filter Include="ソース ファイル\ApplicationCode\Tower\ScrollCamera">
       <UniqueIdentifier>{62b739ab-18c2-492a-81e3-08fd4485c454}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\ApplicationCode\Camera2D">
+      <UniqueIdentifier>{de6e12ef-d9d8-4443-83c5-2ec1b4cf23d0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -256,6 +259,9 @@
     </ClCompile>
     <ClCompile Include="ApplicationCode\Scenes\OverScene.cpp">
       <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera2D.cpp">
+      <Filter>ソース ファイル\ApplicationCode\Camera2D</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -439,6 +445,9 @@
     </ClInclude>
     <ClInclude Include="ApplicationCode\Scenes\OverScene.h">
       <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationCode\Camera2D\Camera2D.h">
+      <Filter>ソース ファイル\ApplicationCode\Camera2D</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
