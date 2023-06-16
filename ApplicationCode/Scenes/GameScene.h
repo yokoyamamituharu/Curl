@@ -25,6 +25,7 @@
 
 #include "Button.h"
 #include"Collision.h"
+#include "Camera2D.h"
 class GameScene : public BaseScene
 {
 public: //ƒƒ“ƒoŠÖ”
@@ -96,5 +97,6 @@ private: //ƒƒ“ƒo•Ï”
 	std::unique_ptr<Button>	titleButton_;
 
 	bool pose_ = false;
+	Camera2D* camera2D = nullptr;
 };
 

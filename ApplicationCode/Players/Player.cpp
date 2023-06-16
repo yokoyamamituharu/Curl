@@ -114,6 +114,8 @@ void Player::Update(ScrollCamera* camera)
 		speed_ = 2.0f;
 	}
 
+	Wave();
+
 	//血を放出
 	Shot(camera);
 	//血の残量
@@ -123,9 +125,11 @@ void Player::Update(ScrollCamera* camera)
 		if (KeyInput::GetIns()->TriggerKey(DIK_B) && blood->GetState() == (int)Blood::State::idle) {
 			//blood->SetDead();
 		}
-		if (MouseInput::GetIns()->PushClick(MouseInput::RIGHT_CLICK) && blood->GetTemperature() == (int)Blood::Temperature::liquid) {
+		//血を戻す
+		if (isRecall_ && blood->GetTemperature() == (int)Blood::Temperature::liquid) {
 			blood->SetState(Blood::State::back);
 		}
+		//血がプレイヤーの位置に戻ったらプレイヤーの体温を上げ（未実装）血を消す
 		if (blood->GetState() == (int)Blood::State::heat) {
 			heat_++;
 			blood->SetDead();
@@ -141,9 +145,7 @@ void Player::Update(ScrollCamera* camera)
 		if (coldExtend / 2 + 16 > length && isColdWave) blood->ColdWaveOnCollision();
 
 		blood->Update();
-	}
-
-	Wave();
+	}	
 	heatWave_->SetPosition(position_);
 	coldWave_->SetPosition(position_);
 	sprites_[state_]->SetPosition(position_);
@@ -230,6 +232,8 @@ void Player::Move(ScrollCamera* camera)
 
 void Player::Wave()
 {
+	//毎フレーム最初にfalseにする
+	isRecall_ = false;
 	//熱波を放射
 	if (KeyInput::GetIns()->TriggerKey(DIK_E)) isHeatWave = true;
 	//寒波を放射
@@ -238,10 +242,11 @@ void Player::Wave()
 	if (isHeatWave) {
 		heatWave_->SetSize({ heatExtend ,heatExtend });
 		heatWave_->SetAlpha(heatAlpha);
-		heatExtend += 40;
+		heatExtend += 240;
 		heatAlpha -= 0.1;
 		if (heatAlpha < 0) {
 			isHeatWave = false;
+			isRecall_ = true;
 			heatExtend = 0;
 			heatAlpha = 1;
 		}
@@ -249,10 +254,11 @@ void Player::Wave()
 	if (isColdWave) {
 		coldWave_->SetSize({ coldExtend ,coldExtend });
 		coldWave_->SetAlpha(coldAlpha);
-		coldExtend += 40;
+		coldExtend += 240;
 		coldAlpha -= 0.1f;
 		if (coldAlpha < 0) {
 			isColdWave = false;
+			isRecall_ = true;
 			coldExtend = 0;
 			coldAlpha = 1;
 		}

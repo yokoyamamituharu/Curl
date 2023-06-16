@@ -48,6 +48,8 @@ public:
 
 	void Wave();
 
+	void SetPosition(Vector2 position) { position_ = position; }
+
 	float GetSpeed() { return speed_; }
 
 	Sprite* GetSprite() { return sprites_[state_]; }
@@ -96,6 +98,7 @@ private:
 	bool isColdWave = false;
 	float coldExtend = 0;
 	float coldAlpha = 1;
+	bool isRecall_ = false;
 
 	float angle = 0;
 	int useAnimation = 0;

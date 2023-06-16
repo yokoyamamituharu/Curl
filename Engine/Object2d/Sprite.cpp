@@ -21,6 +21,7 @@ XMMATRIX Sprite::matProjection;
 ComPtr<ID3D12DescriptorHeap> Sprite::descHeap;
 ComPtr<ID3D12Resource> Sprite::texBuff[srvCount];
 ScrollCamera* Sprite::camera_ = nullptr;
+Camera2D* Sprite::camera2D = nullptr;
 
 bool Sprite::StaticInitialize(ID3D12Device* device, int32_t window_width, int32_t window_height) {
 	//nullチェック
@@ -444,10 +445,19 @@ void Sprite::Draw() {
 	ConstBufferData* constMap = nullptr;
 	HRESULT result = constBuff->Map(0, nullptr, (void**)&constMap);
 	color.w = alpha;
-	if (SUCCEEDED(result)) {
-		constMap->mat = matWorld * matProjection;
-		constMap->color = color;
-		this->constBuff->Unmap(0, nullptr);
+	if (camera2D == nullptr) {
+		if (SUCCEEDED(result)) {
+			constMap->mat = matWorld * matProjection;
+			constMap->color = color;
+			this->constBuff->Unmap(0, nullptr);
+		}
+	}
+	else {
+		if (SUCCEEDED(result)) {
+			constMap->mat = matWorld * camera2D->GetMatView() * camera2D->GetMatProjection();
+			constMap->color = color;
+			this->constBuff->Unmap(0, nullptr);
+		}
 	}
 
 	//頂点バッファの設定
