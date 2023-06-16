@@ -19,7 +19,8 @@ void ResultScene::Initialize()
 	Object3d::SetLight(light_.get());
 
 	postEffectNo_ = PostEffect::NONE;
-	titleButton_ = Button::CreateUniqueButton(ImageManager::ImageName::rabbit_front, { 300,400 }, { 100,100 }, 0);
+	Crear = Sprite::Create((UINT)ImageManager::ImageName::Clear, { 500,400 });
+	titleButton_ = Button::CreateUniqueButton(ImageManager::ImageName::TitleBack, { 300,400 }, { 100,100 }, 0);
 }
 
 void ResultScene::Update()
@@ -46,7 +47,9 @@ void ResultScene::Draw()
 
 	//スプライト描画処理(UI等)
 	Sprite::PreDraw(DirectXSetting::GetIns()->GetCmdList());
+	
 	titleButton_->Draw();
+	Crear->Draw();
 	Sprite::PostDraw();
 
 	postEffect_->PostDrawScene(DirectXSetting::GetIns()->GetCmdList());
@@ -54,7 +57,7 @@ void ResultScene::Draw()
 	DirectXSetting::GetIns()->beginDrawWithDirect2D();
 	//テキスト描画範囲
 	D2D1_RECT_F textDrawRange = { 0, 0, 500, 500 };
-	text_->Draw("meiryo", "white", L"リザルトシーン\n左クリックでゲームシーン\n右クリックでタイトルシーン", textDrawRange);
+	//text_->Draw("meiryo", "white", L"リザルトシーン\n左クリックでゲームシーン\n右クリックでタイトルシーン", textDrawRange);
 	DirectXSetting::GetIns()->endDrawWithDirect2D();
 
 	DirectXSetting::GetIns()->PreDraw(backColor);
@@ -69,10 +72,9 @@ void ResultScene::Finalize()
 
 void ResultScene::SceneChange()
 {
-	if (MouseInput::GetIns()->TriggerClick(MouseInput::LEFT_CLICK)) {
-		SceneManager::SceneChange(SceneManager::SceneName::Game);
-	}
-	if (MouseInput::GetIns()->TriggerClick(MouseInput::RIGHT_CLICK)) {
+	if (titleButton_->GetIsClick() == 1)
+	{
 		SceneManager::SceneChange(SceneManager::SceneName::Title);
 	}
+	
 }

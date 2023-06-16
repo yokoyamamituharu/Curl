@@ -9,6 +9,7 @@
 #include "KeyInput.h"
 #include "SafeDelete.h"
 #include "TextDraw.h"
+#include"OverScene.h"
 
 class SceneManager
 {
@@ -21,6 +22,7 @@ public: //ƒV[ƒ“ŠÇ—”Ô†
 		Title,
 		Game,
 		Result,
+		Over,
 		None
 	};
 

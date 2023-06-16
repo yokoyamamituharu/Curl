@@ -254,6 +254,9 @@
     <ClCompile Include="ApplicationCode\UI\Button.cpp">
       <Filter>ソース ファイル\ApplicationCode\UI</Filter>
     </ClCompile>
+    <ClCompile Include="ApplicationCode\Scenes\OverScene.cpp">
+      <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Audio\Sound.h">
@@ -433,6 +436,9 @@
     </ClInclude>
     <ClInclude Include="ApplicationCode\UI\Button.h">
       <Filter>ソース ファイル\ApplicationCode\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationCode\Scenes\OverScene.h">
+      <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -7,7 +7,7 @@ class ScrollCamera
 {
 public:
 	ScrollCamera() = default;
-	~ScrollCamera() = default;
+	~ScrollCamera();
 
 	static ScrollCamera* Create();
 

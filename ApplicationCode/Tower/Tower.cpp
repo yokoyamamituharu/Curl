@@ -3,6 +3,8 @@
 
 void Tower::Initialize(int32_t hp)
 {
+	hit = 0;
+	hitTime = 10;
 	hp_ = hp;
 	pos_ = { 640, 360 };
 	tower_ = Sprite::UniquePtrCreate((UINT)ImageManager::ImageName::towerNumber, pos_);
@@ -11,16 +13,30 @@ void Tower::Initialize(int32_t hp)
 
 void Tower::Update()
 {
+	if (hit)
+	{
+		hitTime--;
+		if (hitTime < 0)
+		{
+			hit = 0;
+			hitTime = 10;
+		}
+	}
 }
 
 void Tower::Draw()
 {
 	DirectX::XMMATRIX mat = {};
 	//tower_->SetRotation(90);
-	tower_->Draw();
+	if (hitTime % 2 == 0)
+	{
+		tower_->Draw();
+
+	}
 }
 
 void Tower::OnCollision()
 {
+	hit = 1;
 	hp_--;
 }

@@ -25,17 +25,17 @@ Blood* Blood::Create(DirectX::XMFLOAT2 position, Temperature temp)
 	return instance;
 }
 
-std::unique_ptr<Blood> Blood::UniquePtrCreate(Vector2 position, Temperature state, Vector2 goal, Vector2* playerPos)
+std::unique_ptr<Blood> Blood::UniquePtrCreate(Vector2 position, Temperature state, Vector2 targetPos_, Vector2* playerPos)
 {
 	std::unique_ptr<Blood> instance = std::make_unique<Blood>();
 	instance->position_ = position;
-	instance->goal_ = goal;
+	instance->targetPos_ = targetPos_;
 	instance->playerPos_ = playerPos;
 	instance->sprites_[(int)Temperature::solid] = Sprite::Create(UINT(ImageManager::ImageName::solidTexNumber), position, { 1.f,1.f,1.f,1.f }, { 0.5,0.5 });
 	instance->sprites_[(int)Temperature::liquid] = Sprite::Create(UINT(ImageManager::ImageName::liquidNumber), position, { 1.f,1.f,1.f,1.f }, { 0.5,0.5 });
 	instance->sprites_[(int)Temperature::gas] = Sprite::Create(UINT(ImageManager::ImageName::gasTexNumber), position, { 1.f,1.f,1.f,1.f }, { 0.5,0.5 });
 	instance->temp_ = (int)state;
-	Vector2 vec = instance->goal_ - *instance->playerPos_;
+	Vector2 vec = instance->targetPos_ - instance->position_;
 	vec.normalize();
 	instance->oldvec_ = vec;
 	instance->state_ = (int)State::shot;
@@ -60,7 +60,7 @@ void Blood::Update()
 
 	case (int)State::shot:
 		position_ += oldvec_ * speed_;
-		vec = goal_ - position_;
+		vec = targetPos_ - position_;
 		vec.normalize();
 		a1.x = int(vec.x * 10000) / 1000;
 		a1.y = int(vec.x * 10000) / 100 - a1.x * 10;
@@ -73,7 +73,7 @@ void Blood::Update()
 
 		if (!(a1.x == a2.x && a1.y == a2.y) || !(a1.z == a2.z && a1.w == a2.w)) {
 			state_ = (int)State::idle;
-			position_ = goal_;
+			position_ = targetPos_;
 		}
 
 		break;

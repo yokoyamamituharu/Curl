@@ -44,6 +44,8 @@ public: //メンバ関数
 	/// <returns>HP</returns>
 	int32_t GetHP() { return hp_; }
 
+	Vector2 GetPos() { return pos_; }
+
 	/// <summary>
 	/// タワーオブジェクト取得
 	/// </summary>
@@ -55,6 +57,9 @@ private: //メンバ変数
 	int32_t hp_;
 	//座標
 	Vector2 pos_;
+
+	bool hit;
+	int hitTime;
 	//タワーオブジェクト
 	std::unique_ptr<Sprite> tower_;
 

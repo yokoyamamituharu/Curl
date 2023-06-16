@@ -3,10 +3,10 @@
 
 void GameScene::Initialize()
 {
-	const Vector3 LB = { -1.0f, -1.0f, 0.0f };
+	const Vector3 LB = { -1.0f, -0.7f, 0.0f };
 	const Vector3 LT = { -1.0f, +1.0f, 0.0f };
-	const Vector3 RB = { +1.0f, -1.0f, 0.0f };
-	const Vector3 RT = { +1.0f, +1.0f, 0.0f };
+	const Vector3 RB = { +0.85f, -0.7f, 0.0f };
+	const Vector3 RT = { +0.85f, +1.0f, 0.0f };
 	postEffect_ = std::make_unique<PostEffect>();
 	postEffect_->Initialize(LT, LB, RT, RB);
 
@@ -21,7 +21,6 @@ void GameScene::Initialize()
 
 	postEffectNo_ = PostEffect::NONE;
 
-
 	enemys_ = new Enemys();
 	enemys_ = Enemys::Create();
 
@@ -32,6 +31,7 @@ void GameScene::Initialize()
 	GameSprite1 = Sprite::Create(UINT(ImageManager::ImageName::GameUI_01), { 0,0 });
 	GameSprite2 = Sprite::Create(UINT(ImageManager::ImageName::GameUI_02), { 0,0 });
 	GameSprite3 = Sprite::Create(UINT(ImageManager::ImageName::GameUI_03), { 0,0 });
+	manual = Sprite::Create(UINT(ImageManager::ImageName::Manual), { 300,0 });
 	int32_t towerHP = 10;
 	tower_ = new Tower;
 	tower_->Initialize(towerHP);
@@ -40,18 +40,19 @@ void GameScene::Initialize()
 	bloodGaugeSprite_ = Sprite::UniquePtrCreate(UINT(ImageManager::ImageName::bloodGaugeNumber), { 100,0 });
 	bloodGaugeSprite_->SetLeftSizeCorrection(true);
 	bloodGaugeSprite_->SetUi(true);
-	button_ = Button::CreateUniqueButton(ImageManager::ImageName::vampire_front, { 100,100 }, { 100,100 }, 0);
-	poseButton_ = Button::CreateUniqueButton(ImageManager::ImageName::vampire_beside, { 0,0 }, { 100,100 }, 0);
-	poseBackButton_ = Button::CreateUniqueButton(ImageManager::ImageName::vampire_front, { 300,300 }, { 100,100 }, 0);
-	titleButton_ = Button::CreateUniqueButton(ImageManager::ImageName::vampire_back, { 300,400 }, { 100,100 }, 0);
+	poseButton_ = Button::CreateUniqueButton(ImageManager::ImageName::Pause, { 64,24 }, { 100,100 }, 0);
+	poseBackButton_ = Button::CreateUniqueButton(ImageManager::ImageName::Back, { 100,300 }, { 100,100 }, 0);
+	titleButton_ = Button::CreateUniqueButton(ImageManager::ImageName::TitleBack, { 100,400 }, { 100,100 }, 0);
 }
 
 void GameScene::Update()
 {
 	//blood_->Update();
 	HitBloodAndEnemys();
-	button_->Update();
+	HitTowerAndEnemys();
+	
 	poseButton_->Update();
+	tower_->Update();
 	if (poseButton_->GetIsClick()) {
 		pose_ = true;
 	}
@@ -62,14 +63,16 @@ void GameScene::Update()
 			pose_ = false;
 		}
 	}
+	else {
 
-	player_->Update(scrollCamera_);
-	//scrollCamera_->Update(player_->GetSprite()->GetPosition());
+		player_->Update(scrollCamera_);
+		//scrollCamera_->Update(player_->GetSprite()->GetPosition());
 
-	int b = player_->GetBloodGauge();
-	bloodGaugeSprite_->SetSize({ (float)16 * b ,16 });
+		int b = player_->GetBloodGauge();
+		bloodGaugeSprite_->SetSize({ (float)16 * b ,16 });
 
-	enemys_->Update(tower_->GetHP(), player_->GetPlayerHp());
+		enemys_->Update(tower_->GetHP(), player_->GetPlayerHp());
+	}
 	//enemy_->Update();
 
 //シーン切り替え
@@ -125,6 +128,41 @@ void GameScene::HitBloodAndEnemys()
 
 }
 
+void GameScene::HitTowerAndEnemys()
+{
+	for (auto& vampire : enemys_->GetVampires())
+	{
+		bool isHit = Collision::HitCircle(vampire->Getpos(), 32, tower_->GetPos(), 16);
+		if (isHit)
+		{
+			tower_->OnCollision();
+			vampire->OnCollision();
+		}
+	}
+
+	for (auto& basilisk : enemys_->GetBasiliskes())
+	{
+		bool isHit = Collision::HitCircle(basilisk->Getpos(), 32, tower_->GetPos(), 16);
+		if (isHit)
+		{
+			tower_->OnCollision();
+			basilisk->OnCollision();
+
+		}
+	}
+
+	for (auto& rabbit : enemys_->GetRabbits())
+	{
+		bool isHit = Collision::HitCircle(rabbit->Getpos(), 32, tower_->GetPos(), 16);
+		if (isHit)
+		{
+			tower_->OnCollision();
+			rabbit->OnCollision();
+
+		}
+	}
+}
+
 void GameScene::Draw()
 {
 	//背景色
@@ -145,30 +183,34 @@ void GameScene::Draw()
 	bgSprite_->Draw();
 	player_->Draw(scrollCamera_);
 	tower_->Draw();
-	bloodGaugeSprite_->Draw();
 	//enemy_->Draw();
 	enemys_->Draw();
-	button_->Draw();
-	poseButton_->Draw();
-	if (pose_) {
-		poseBackButton_->Draw();
-		titleButton_->Draw();
-	}
-	GameSprite1->Draw();
-	GameSprite2->Draw();
-	GameSprite3->Draw();
 	Sprite::PostDraw();
-
 	postEffect_->PostDrawScene(DirectXSetting::GetIns()->GetCmdList());
 
 	DirectXSetting::GetIns()->beginDrawWithDirect2D();
 	//テキスト描画範囲
 	D2D1_RECT_F textDrawRange = { 0, 0, 500, 500 };
-	text_->Draw("meiryo", "white", L"ゲームシーン\n左クリックでタイトルシーン\n右クリックでリザルトシーン", textDrawRange);
+	//text_->Draw("meiryo", "white", L"ゲームシーン\n左クリックでタイトルシーン\n右クリックでリザルトシーン", textDrawRange);
 	DirectXSetting::GetIns()->endDrawWithDirect2D();
 
 	DirectXSetting::GetIns()->PreDraw(backColor);
+	//ポストエフェクト描画
 	postEffect_->Draw(DirectXSetting::GetIns()->GetCmdList(), 60.0f, postEffectNo_, true);
+
+	//ポストエフェクトをかけないスプライト描画処理(UI等)
+	Sprite::PreDraw(DirectXSetting::GetIns()->GetCmdList());
+	bloodGaugeSprite_->Draw();
+	poseButton_->Draw();
+	GameSprite1->Draw();
+	GameSprite2->Draw();
+	GameSprite3->Draw();
+	if (pose_) {
+		poseBackButton_->Draw();
+		titleButton_->Draw();
+		manual->Draw();
+	}
+	Sprite::PostDraw();
 	DirectXSetting::GetIns()->PostDraw();
 }
 
@@ -178,7 +220,8 @@ void GameScene::Finalize()
 	safe_delete(text_);
 	//enemys_->Delete();
 	safe_delete(enemys_);
-
+	safe_delete(manual);
+	
 	safe_delete(player_);
 	safe_delete(bgSprite_);
 	safe_delete(GameSprite1);
@@ -198,8 +241,14 @@ void GameScene::SceneChange()
 	if (pose_ && titleButton_->GetIsClick()) {
 		SceneManager::SceneChange(SceneManager::SceneName::Title);
 	}
-	else if (pose_ && button_->GetIsClick()) {
+	else if (enemys_->GetGameFlag() == 1)
+	{
 		SceneManager::SceneChange(SceneManager::SceneName::Result);
+	}
+	else if (tower_->GetHP() <= 0)
+	{
+		//SceneManager::SceneChange(SceneManager::SceneName::Over);
+
 	}
 }
 

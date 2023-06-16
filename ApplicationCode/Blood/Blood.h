@@ -29,7 +29,7 @@ public:
 
 	static Blood* Create(DirectX::XMFLOAT2 position, Temperature state);
 
-	static std::unique_ptr<Blood> UniquePtrCreate(Vector2 position, Temperature state, Vector2 goal, Vector2* playerPos);
+	static std::unique_ptr<Blood> UniquePtrCreate(Vector2 position, Temperature state, Vector2 targetPos_, Vector2* playerPos);
 
 	/// <summary>
 	/// çXêVèàóù
@@ -88,10 +88,10 @@ private:
 	int deadTimer_ = 100;
 	bool isDead = false;
 	Vector2 position_{};
-	Vector2 goal_{};
+	Vector2 targetPos_{};
 	Vector2 oldvec_{};
 	Vector2* playerPos_{};
-	const float speed_ = 3.0f;
+	const float speed_ = 5.0f;
 	int maxTempDray = 20;
 	int tempDray = 0;
 };

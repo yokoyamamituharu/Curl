@@ -17,6 +17,7 @@
 #include "TextDraw.h"
 #include "JsonLoader.h"
 #include "Button.h"
+
 class ResultScene : public BaseScene
 {
 public: //メンバ関数
@@ -56,5 +57,6 @@ private: //メンバ変数
 	//テキスト描画
 	TextDraw* text_;
 	std::unique_ptr<Button>titleButton_;
+	Sprite* Crear{};
 };
 

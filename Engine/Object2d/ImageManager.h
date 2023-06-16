@@ -43,7 +43,17 @@ public: //‰æ‘œ–¼
 		GameUI_01,
 		GameUI_02,
 		GameUI_03,
-		TitleLog
+		TitleLog,
+		ManualButton,
+		StartButton,
+		Pause,
+		TitleBack,
+		Clear,
+		Back,
+		Manual,
+		gameOver,
+		wolfForwardWalk,
+		wolfBackwardWalk
 	};
 
 public: //ƒƒ“ƒoŠÖ”

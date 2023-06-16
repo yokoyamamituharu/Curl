@@ -59,6 +59,11 @@ void SceneManager::SceneChange(SceneName scene) {
 		nowScene = new ResultScene();
 		nowScene->Initialize();
 		break;
+
+	case SceneName::Over:
+		nowScene = new OverScene();
+		nowScene->Initialize();
+		break;
 	default:
 		break;
 	}

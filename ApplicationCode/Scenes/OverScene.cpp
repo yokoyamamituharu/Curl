@@ -1,7 +1,6 @@
-#include "TitleScene.h"
-#include <random>
+#include "OverScene.h"
 
-void TitleScene::Initialize()
+void OverScene::Initialize()
 {
 	const Vector3 LB = { -1.0f, -1.0f, 0.0f };
 	const Vector3 LT = { -1.0f, +1.0f, 0.0f };
@@ -18,24 +17,20 @@ void TitleScene::Initialize()
 	}
 	//light->SetCircleShadowActive(0, true);
 	Object3d::SetLight(light_.get());
-	manualFlag = 0;
-	title_ = Sprite::Create((UINT)ImageManager::ImageName::TitleLog, {});
-	//title_->SetSize({ 400*2,400*2 });
-	manual_ = Sprite::Create((UINT)ImageManager::ImageName::Manual, {});
+
 	postEffectNo_ = PostEffect::NONE;
-	gameButton_ = Button::CreateUniqueButton(ImageManager::ImageName::StartButton, { 1000,400 }, { 100,100 }, 0);
-	manualButton_ = Button::CreateUniqueButton(ImageManager::ImageName::ManualButton, { 1000,600 }, { 100,100 }, 0);
+	over = Sprite::Create((UINT)ImageManager::ImageName::gameOver, { 500,400 });
+	titleButton_ = Button::CreateUniqueButton(ImageManager::ImageName::TitleBack, { 300,400 }, { 100,100 }, 0);
 }
 
-void TitleScene::Update()
+void OverScene::Update()
 {
-	gameButton_->Update();
-	if(manualFlag == 0)manualButton_->Update();
+	titleButton_->Update();
 	//シーン切り替え
 	SceneChange();
 }
 
-void TitleScene::Draw()
+void OverScene::Draw()
 {
 	//背景色
 	const DirectX::XMFLOAT4 backColor = { 0.5f,0.25f, 0.5f, 0.0f };
@@ -44,10 +39,6 @@ void TitleScene::Draw()
 
 	//スプライト描画処理(背景)
 	Sprite::PreDraw(DirectXSetting::GetIns()->GetCmdList());
-	
-	if(manualFlag ==0)title_->Draw();
-	if (manualFlag == 1)manual_->Draw();
-
 	Sprite::PostDraw();
 
 	//3Dオブジェクト描画処理
@@ -56,8 +47,9 @@ void TitleScene::Draw()
 
 	//スプライト描画処理(UI等)
 	Sprite::PreDraw(DirectXSetting::GetIns()->GetCmdList());
-	//gameButton_->Draw();
-	if (manualFlag == 0)manualButton_->Draw();
+
+	titleButton_->Draw();
+	over->Draw();
 	Sprite::PostDraw();
 
 	postEffect_->PostDrawScene(DirectXSetting::GetIns()->GetCmdList());
@@ -65,35 +57,24 @@ void TitleScene::Draw()
 	DirectXSetting::GetIns()->beginDrawWithDirect2D();
 	//テキスト描画範囲
 	D2D1_RECT_F textDrawRange = { 0, 0, 500, 500 };
-	//text_->Draw("meiryo", "white", L"タイトルシーン\n左クリックでリザルトシーン\n右クリックでゲームシーン", textDrawRange);
+	//text_->Draw("meiryo", "white", L"リザルトシーン\n左クリックでゲームシーン\n右クリックでタイトルシーン", textDrawRange);
 	DirectXSetting::GetIns()->endDrawWithDirect2D();
 
 	DirectXSetting::GetIns()->PreDraw(backColor);
 	postEffect_->Draw(DirectXSetting::GetIns()->GetCmdList(), 60.0f, postEffectNo_, true);
-
-	Sprite::PreDraw(DirectXSetting::GetIns()->GetCmdList());
-	gameButton_->Draw();
-	Sprite::PostDraw();
-
 	DirectXSetting::GetIns()->PostDraw();
 }
 
-
-void TitleScene::Finalize()
+void OverScene::Finalize()
 {
 	safe_delete(text_);
-	safe_delete(title_);
-	safe_delete(manual_);
 }
 
-void TitleScene::SceneChange()
+void OverScene::SceneChange()
 {
-	if (gameButton_->GetIsClick()) {
-		SceneManager::SceneChange(SceneManager::SceneName::Game);
-
+	if (titleButton_->GetIsClick() == 1)
+	{
+		SceneManager::SceneChange(SceneManager::SceneName::Title);
 	}
-	else if (manualButton_->GetIsClick()) {
 
-		manualFlag = 1;
-	}
 }

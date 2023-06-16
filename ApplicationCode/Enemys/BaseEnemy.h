@@ -66,6 +66,8 @@ public:
 	void SetMovePoint(XMFLOAT2 pos) { this->movePoint = pos; }//守られている砦座標代入
 	XMFLOAT2 GetMovePoint() { return movePoint; }//守られている砦座標取得
 
+	void OnCollision() { dead = true; }
+
 	virtual	void Update() = 0;//更新
 
 	//void Create(int type);

@@ -12,21 +12,15 @@
 #include "ParticleManager.h"
 #include "LightGroup.h"
 #include "DebugText.h"
-#include "MotionMath.h"
 #include "SceneManager.h"
+#include "MotionMath.h"
 #include "TextDraw.h"
 #include "JsonLoader.h"
-#include"Enemys.h"
-
-#include "Blood.h"
-#include "Player.h"
-#include "Tower.h"
-#include "ScrollCamera.h"
-
 #include "Button.h"
-#include"Collision.h"
-class GameScene : public BaseScene
+class OverScene :
+    public BaseScene
 {
+
 public: //メンバ関数
 	/// <summary>
 	/// 初期化関数
@@ -39,33 +33,20 @@ public: //メンバ関数
 	void Update();
 
 	/// <summary>
-	/// 血と敵の当たり判定
-	/// </summary>
-	void HitBloodAndEnemys();
-
-	/// <summary>
-	/// 砦と敵の当たり判定
-	/// </summary>
-	void HitTowerAndEnemys();
-
-	/// <summary>
 	/// 描画処理
 	/// </summary>
 	void Draw();
+
 	/// <summary>
 	/// 終了処理
 	/// </summary>
 	void Finalize();
-
-	void HitEnemys();
 
 private: //メンバ関数
 	/// <summary>
 	/// シーン切り替え処理
 	/// </summary>
 	void SceneChange();
-
-	void RoadPlayer();
 
 private: //メンバ変数
 	//ポストエフェクト
@@ -76,25 +57,7 @@ private: //メンバ変数
 	std::unique_ptr<LightGroup> light_;
 	//テキスト描画
 	TextDraw* text_;
-
-	Player* player_ = nullptr;
-	Tower* tower_ = nullptr;
-	Sprite* bgSprite_ = nullptr;
-	Sprite* GameSprite1 = nullptr;
-	Sprite* GameSprite2 = nullptr;
-	Sprite* GameSprite3 = nullptr;
-	Sprite* manual = nullptr;
-	std::unique_ptr<Sprite> bloodGaugeSprite_ = nullptr;
-	
-	Enemys* enemys_{};
-	
-	ScrollCamera* scrollCamera_ = nullptr;
-
-	
-	std::unique_ptr<Button>	poseButton_;
-	std::unique_ptr<Button>	poseBackButton_;
-	std::unique_ptr<Button>	titleButton_;
-
-	bool pose_ = false;
+	std::unique_ptr<Button>titleButton_;
+	Sprite* over{};
 };
 
