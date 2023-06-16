@@ -3,6 +3,7 @@
 #include "KeyInput.h"
 #include "ImageManager.h"
 #include "MouseInput.h"
+#include "PadInput.h"
 #include <math.h>
 #include "KeyInputHandler.h"
 #include "BaseEnemy.h"
@@ -113,6 +114,10 @@ void Player::Update(ScrollCamera* camera)
 	//ŒŒ‚Ìc—Ê
 	bloodGauge_ = maxBlood_ - bloods_.size();
 
+	/// <summary>
+	///ƒQ[ƒ€‚É‚ÍŠÖŒW‚È‚¢
+	/// </summary>
+	/// <param name="camera"></param>
 	for (std::unique_ptr<Blood>& blood : bloods_) {
 		if (KeyInput::GetIns()->TriggerKey(DIK_B) && blood->GetState() == (int)Blood::State::idle) {
 			//blood->SetDead();
@@ -152,7 +157,7 @@ void Player::Update(ScrollCamera* camera)
 void Player::Shot(ScrollCamera* camera)
 {
 	if (bloods_.size() >= maxBlood_) return;
-	if (MouseInput::GetIns()->PushClick(MouseInput::LEFT_CLICK) && shotDiray_ <= 0) {
+	if (MouseInput::GetIns()->PushClick(MouseInput::LEFT_CLICK) || PadInput::GetIns()->TriggerButton(PadInput::Button_RS) && shotDiray_ <= 0) {
 		XMFLOAT2 cursolPos = DirectX::XMFLOAT2{ float(MouseInput::GetIns()->GetMousePoint().x) - camera->GetPosition().x,
 			float(MouseInput::GetIns()->GetMousePoint().y) - camera->GetPosition().y };
 
@@ -209,7 +214,7 @@ void Player::Move(ScrollCamera* camera)
 	vec3 = DirectX::XMVector3Normalize(vec3);
 	Vector2 vec2 = { vec3.m128_f32[0],vec3.m128_f32[1] };
 
-	if (KeyInput::GetIns()->PushKey(DIK_W)) {
+	if (KeyInput::GetIns()->PushKey(DIK_W) || PadInput::GetIns()->leftStickY() <= -0.5f) {
 		AddPlayerVector(vec2 * speed_);
 		if (vec2.y > 0) {
 			//‰º‚ÉˆÚ“®

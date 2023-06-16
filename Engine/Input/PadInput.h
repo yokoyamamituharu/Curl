@@ -23,7 +23,12 @@ public: //enum
 		Button_View,
 		Button_Menu,
 		Button_LS,
-		Button_RS
+		Button_RS,
+		Stick_Up,
+		Stick_Down,
+		Stick_Left,
+		Stick_Right,
+		Button_Max,
 	};
 
 	enum PadCrossKey {
@@ -36,6 +41,21 @@ public: //enum
 		CrossKey_LowerLeft = 22500,
 		CrossKey_Left = 27000,
 		CrossKey_UpperLeft = 31500
+	};
+
+	enum ButtonState {
+		ButtonStateNone,
+		ButtonStateDown,
+		ButtonStatePush,
+		ButtonStateUp,
+		ButtonStateMax,
+	};
+
+	//ゲームパッドデバイスの作成-デバイス列挙の結果を受け取る構造体
+	struct DeviceEnumParameter
+	{
+		LPDIRECTINPUTDEVICE8* GamePadDevice;
+		int FindCount;
 	};
 
 private: //エイリアス
@@ -57,6 +77,14 @@ private:
 	/// コピーコンストラクタを禁止
 	/// </summary>
 	PadInput(const PadInput& obj) = delete;
+
+	static BOOL CALLBACK DeviceFindCallBack(LPCDIDEVICEINSTANCE lpddi, LPVOID pvRef);
+
+	static BOOL SetUpGamePadProperty(LPDIRECTINPUTDEVICE8 device);
+
+	static BOOL SetUpCooperativeLevel(LPDIRECTINPUTDEVICE8 device);
+
+	static BOOL StartGamePadControl();
 
 	/// <summary>
 	/// 代入演算子を禁止
@@ -95,16 +123,34 @@ public: //メンバ関数
 	/// <returns>インスタンス</returns>
 	static PadInput* GetIns();
 
+	float leftStickX();
+	float leftStickY();
+
+	float rightStickX();
+	float rightStickY();
+
+	static float getLeftX();
+	static float getLeftY();
+
+	static float getRightX();
+	static float getRightY();
+
 private: //メンバ変数
 	//DirectInputのインスタンス
 	ComPtr<IDirectInput8> dinput;
 	//コントローラのデバイス
-	ComPtr<IDirectInputDevice8> devPad;
+	static LPDIRECTINPUTDEVICE8 devPad;
 	//コントローラの情報
-	DIJOYSTATE padState;
+	static DIJOYSTATE padState;
 	DIJOYSTATE prePadState;
+	ButtonState p_ButtonState[Button_Max];
+
+	static LPDIRECTINPUT8 p_Interface;
+
+	const int unresponsive_range = 200;
+
 	//WindowsAPI
-	WinApp* winApp = nullptr;
+	static WinApp* winApp;
 };
 
 
