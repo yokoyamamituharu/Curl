@@ -29,9 +29,15 @@ DirectX::XMFLOAT2 Collision::HitCrossWindows(XMFLOAT2 enemyPos, int flag)
 		//XmaxYmin		(x4,y4)
 		//center		(x1,y1)
 		//enemyPos		(x3,y3)
-		XMFLOAT2 temp = CrossLinePoint(center, XminYmin,
-			enemyPos, XmaxYmin);
-		return temp;
+		bool isHit = CrossLine(center, XminYmin, enemyPos, XmaxYmin);
+
+		if (isHit)
+		{
+			XMFLOAT2 temp = CrossLinePoint(center, XminYmin,
+				enemyPos, XmaxYmin);
+			return temp;
+		}
+		
 	}
 	else if (flag == 1)
 	{
@@ -40,9 +46,14 @@ DirectX::XMFLOAT2 Collision::HitCrossWindows(XMFLOAT2 enemyPos, int flag)
 		//XmaxYmax		(x4,y4)
 		//center		(x1,y1)
 		//enemyPos		(x3,y3)
-		XMFLOAT2 temp = CrossLinePoint(center, XmaxYmin,
-			enemyPos, XmaxYmax);
-		return temp;
+		bool isHit = CrossLine(center, XmaxYmin,enemyPos, XmaxYmax);
+
+		if (isHit)
+		{
+			XMFLOAT2 temp = CrossLinePoint(center, XmaxYmin,
+				enemyPos, XmaxYmax);
+			return temp;
+		}
 	}
 	else if (flag == 2)
 	{
@@ -51,9 +62,14 @@ DirectX::XMFLOAT2 Collision::HitCrossWindows(XMFLOAT2 enemyPos, int flag)
 		//XminYmax		(x4,y4)
 		//center		(x1,y1)
 		//enemyPos		(x3,y3)
-		XMFLOAT2 temp = CrossLinePoint(center, XmaxYmax,
-			enemyPos, XminYmax);
-		return temp;
+		bool isHit = CrossLine(center, XmaxYmax,enemyPos, XminYmax);
+
+		if (isHit)
+		{
+			XMFLOAT2 temp = CrossLinePoint(center, XmaxYmax,
+				enemyPos, XminYmax);
+			return temp;
+		}
 	}
 	else if (flag == 3)
 	{
@@ -62,9 +78,14 @@ DirectX::XMFLOAT2 Collision::HitCrossWindows(XMFLOAT2 enemyPos, int flag)
 		//XminYmin		(x4,y4)
 		//center		(x1,y1)
 		//enemyPos		(x3,y3)
-		XMFLOAT2 temp = CrossLinePoint(center, XminYmax,
-			enemyPos, XminYmin);
-		return temp;
+		bool isHit = CrossLine(center, XminYmax,enemyPos, XminYmin);
+
+		if (isHit)
+		{
+			XMFLOAT2 temp = CrossLinePoint(center, XminYmax,
+				enemyPos, XminYmin);
+			return temp;
+		}
 	}
 	else
 	{

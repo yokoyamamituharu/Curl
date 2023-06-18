@@ -76,6 +76,8 @@ public:
 
 protected: //Ã“Iƒƒ“ƒoŠÖ”
 
+	void WordMarker();
+
 	/// <summary>
 	/// “G‰æ‘œ¶¬
 	/// </summary>

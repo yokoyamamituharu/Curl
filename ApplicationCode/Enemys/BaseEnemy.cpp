@@ -1,5 +1,6 @@
 #include "BaseEnemy.h"
 #include "SafeDelete.h"
+#include"Collision.h"
 
 std::vector<Sprite*> BaseEnemy::SpritesCreate(const ImageManager::ImageName imageName, const int32_t animationCount, const Vector2& enemyPos)
 {
@@ -15,4 +16,77 @@ std::vector<Sprite*> BaseEnemy::SpritesCreate(const ImageManager::ImageName imag
 		sprites[i]->SetTextureRect(texBase, { 64.0f, 64.0f });
 	}
 	return sprites;
+}
+
+void BaseEnemy::WordMarker()
+{
+
+	if (pos.x < 0)
+	{
+		if (pos.y <= (float)(WinApp::window_height / 2))
+		{
+			if (pos.y > 0)
+			{
+				//3
+			}
+			else
+			{
+				//0
+			}
+			
+		}
+		else
+		{
+			if (pos.y < WinApp::window_height)
+			{
+				//3
+			}
+			else
+			{
+				//2
+			}
+			
+		}
+	}
+
+	if (pos.x > WinApp::window_width)
+	{
+		if (pos.y <= (float)(WinApp::window_height / 2))
+		{
+			if (pos.y > 0)
+			{
+				//0
+			}
+			else
+			{
+				//1
+			}
+
+		}
+		else
+		{
+			if (pos.y < WinApp::window_height)
+			{
+				//1
+			}
+			else
+			{
+				//2
+			}
+
+		}
+		
+	}
+
+	if (pos.y < 0)
+	{
+
+	}
+
+	if (pos.y > WinApp::window_height)
+	{
+
+	}
+
+
 }
