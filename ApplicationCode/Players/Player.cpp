@@ -157,10 +157,8 @@ void Player::Update(ScrollCamera* camera)
 void Player::Shot(ScrollCamera* camera)
 {
 	if (bloods_.size() >= maxBlood_) return;
-	if (MouseInput::GetIns()->PushClick(MouseInput::LEFT_CLICK) || PadInput::GetIns()->TriggerButton(PadInput::Button_RS) && shotDiray_ <= 0) {
+	if (MouseInput::GetIns()->PushClick(MouseInput::LEFT_CLICK) && shotDiray_ <= 0 || PadInput::GetIns()->TriggerButton(PadInput::Button_RS) && shotDiray_ <= 0) {
 		Vector2 cursolPos = MouseInput::GetIns()->ClientToPostEffect() + camera->GetPosition();
-
-
 		bloods_.push_back(Blood::UniquePtrCreate({ position_.x,position_.y - 30 }, Blood::Temperature::liquid, cursolPos, &position_));
 		shotDiray_ = maxShotDiray_;
 	}

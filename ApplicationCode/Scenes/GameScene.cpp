@@ -81,7 +81,7 @@ void GameScene::Update()
 		enemys_->Update(tower_->GetHP(), player_->GetPlayerHp());
 	}
 	//enemy_->Update();
-	scrollCamera_->Update();
+	scrollCamera_->Update(player_->GetSprite()->GetPosition());
 	//ƒV[ƒ“Ø‚è‘Ö‚¦
 	SceneChange();
 }
@@ -260,7 +260,7 @@ void GameScene::SceneChange()
 	}
 	else if (tower_->GetHP() <= 0)
 	{
-		//SceneManager::SceneChange(SceneManager::SceneName::Over);
+		SceneManager::SceneChange(SceneManager::SceneName::Over);
 
 	}
 }
