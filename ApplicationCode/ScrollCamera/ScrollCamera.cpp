@@ -42,10 +42,10 @@ void ScrollCamera::Update(Vector2  adulationTarge)
 	if (adulationTarge.y > minPos.y) {
 		pos.y = adulationTarge.y - minPos.y;
 	}
-	if (adulationTarge.x > maxPos.x) {
+	if (pos.x > maxPos.x) {
 		pos.x = maxPos.x;
 	}
-	if (adulationTarge.y > maxPos.y) {
+	if (pos.y > maxPos.y) {
 		pos.y = maxPos.y;
 	}
 }

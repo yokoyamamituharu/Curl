@@ -31,10 +31,14 @@ void GameScene::Initialize()
 	GameSprite1 = Sprite::Create(UINT(ImageManager::ImageName::GameUI_01), { 0,0 });
 	GameSprite2 = Sprite::Create(UINT(ImageManager::ImageName::GameUI_02), { 0,0 });
 	GameSprite3 = Sprite::Create(UINT(ImageManager::ImageName::GameUI_03), { 0,0 });
+	GameSprite1->SetUi(true);
+	GameSprite2->SetUi(true);
 	playerHp = Sprite::Create(UINT(ImageManager::ImageName::playerHp), { 0,0 });
+	playerHp->SetUi(true);
 
 
 	manual = Sprite::Create(UINT(ImageManager::ImageName::Manual), { 300,0 });
+	manual->SetUi(true);
 	int32_t towerHP = 10;
 	tower_ = new Tower;
 	tower_->Initialize(towerHP);
