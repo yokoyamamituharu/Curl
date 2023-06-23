@@ -66,6 +66,7 @@ Player* Player::Create(Vector2 pos, float rote, int hp, int maxBlood)
 	instance->bloodGauge_ = maxBlood;
 	instance->frontSprites_ = Player::SpritesCreateP((int)ImageManager::ImageName::wolfForwardWalk, frontAnimationCount, instance->position_);
 	instance->backSprites_ = Player::SpritesCreateP((int)ImageManager::ImageName::wolfBackwardWalk, backAnimationCount, instance->position_);
+	instance->useAnimation = (int)AnimationType::front;
 	return instance;
 }
 
@@ -78,12 +79,12 @@ void Player::Update(ScrollCamera* camera)
 
 	isMove_ = Move(camera);
 	//アングルで移動方向を判定し、判定した方向に向いたアニメーションを使用
-	if (angle == 10) {
-		useAnimation = (int)AnimationType::front;
-	}
-	else if (angle == 0) {
-		useAnimation = (int)AnimationType::back;
-	}
+	//if (angle == 10) {
+	//	useAnimation = (int)AnimationType::front;
+	//}
+	//else if (angle == 0) {
+	//	useAnimation = (int)AnimationType::back;
+	//}
 
 	//プレイヤーのキーイベント更新
 	//handler_->PlayerHandleInput();
@@ -189,6 +190,17 @@ void Player::Draw(ScrollCamera* scroll)
 	if (backAnimationCounter_ >= backAnimationCount) {
 		backAnimationCounter_ = 0;
 	}
+	
+	//左右の向きを決定
+	if (useDirectionSide == (int)AnimationType::RightSide) {
+		frontSprites_[frontAnimationCounter_]->SetIsFlipX(true);
+		backSprites_[backAnimationCounter_]->SetIsFlipX(false);
+	}
+	else if (useDirectionSide == (int)AnimationType::LeftSide) {
+		frontSprites_[frontAnimationCounter_]->SetIsFlipX(false);
+		backSprites_[backAnimationCounter_]->SetIsFlipX(true);
+	}
+
 	//アングルで移動方向を判定し、判定した方向に向いたアニメーションを使用
 	if (useAnimation == (int)AnimationType::back) {
 		backSprites_[backAnimationCounter_]->Draw();
@@ -219,11 +231,17 @@ bool Player::Move(ScrollCamera* camera)
 		AddPlayerVector(vec2 * speed_);
 		if (vec2.y > 0) {
 			//下に移動
-			angle = 10;
+			useAnimation = (int)AnimationType::front;
 		}
 		else if (vec2.y < 0) {
 			//上に移動
-			angle = 0;
+			useAnimation = (int)AnimationType::back;
+		}
+		if (vec2.x > 0) {
+			useDirectionSide = (int)AnimationType::RightSide;
+		}
+		else if (vec2.x < 0) {
+			useDirectionSide = (int)AnimationType::LeftSide;
 		}
 		return true;
 	}

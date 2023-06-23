@@ -24,9 +24,9 @@ public:
 	{
 		none,
 		front,
-		rightSide,
+		RightSide,
 		back,
-		ReftSide,
+		LeftSide,
 	};
 
 	Player() = default;
