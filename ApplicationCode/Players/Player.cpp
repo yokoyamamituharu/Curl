@@ -225,23 +225,26 @@ bool Player::Move(ScrollCamera* camera)
 	if (KeyInput::GetIns()->PushKey(DIK_W) || PadInput::GetIns()->leftStickY() <= -0.5f) {
 		Vector2 cursolPos = MouseInput::GetIns()->ClientToPostEffect() + camera->GetPosition();
 		Vector2 playerPos = position_;
-		DirectX::XMVECTOR vec3 = { cursolPos.x - playerPos.x,cursolPos.y - playerPos.y };
-		vec3 = DirectX::XMVector3Normalize(vec3);
-		Vector2 vec2 = { vec3.m128_f32[0],vec3.m128_f32[1] };
-		AddPlayerVector(vec2 * speed_);
-		if (vec2.y > 0) {
-			//‰º‚ÉˆÚ“®
-			useAnimation = (int)AnimationType::front;
-		}
-		else if (vec2.y < 0) {
-			//ã‚ÉˆÚ“®
-			useAnimation = (int)AnimationType::back;
-		}
-		if (vec2.x > 0) {
-			useDirectionSide = (int)AnimationType::RightSide;
-		}
-		else if (vec2.x < 0) {
-			useDirectionSide = (int)AnimationType::LeftSide;
+		float length = sqrtf((cursolPos.x - playerPos.x) * (cursolPos.x - playerPos.x) + (cursolPos.y - playerPos.y) * (cursolPos.y - playerPos.y));
+		//ƒvƒŒƒCƒ„[‚ÌƒKƒNƒKƒN–hŽ~
+		if (length > 1) {
+			Vector2 vec = cursolPos - playerPos;
+			vec.normalize();
+			AddPlayerVector(vec * speed_);
+			if (vec.y > 0) {
+				//‰º‚ÉˆÚ“®
+				useAnimation = (int)AnimationType::front;
+			}
+			else if (vec.y < 0) {
+				//ã‚ÉˆÚ“®
+				useAnimation = (int)AnimationType::back;
+			}
+			if (vec.x > 0) {
+				useDirectionSide = (int)AnimationType::RightSide;
+			}
+			else if (vec.x < 0) {
+				useDirectionSide = (int)AnimationType::LeftSide;
+			}
 		}
 		return true;
 	}
