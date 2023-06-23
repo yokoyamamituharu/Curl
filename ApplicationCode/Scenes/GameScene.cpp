@@ -31,13 +31,16 @@ void GameScene::Initialize()
 	GameSprite1 = Sprite::Create(UINT(ImageManager::ImageName::GameUI_01), { 0,0 });
 	GameSprite2 = Sprite::Create(UINT(ImageManager::ImageName::GameUI_02), { 0,0 });
 	GameSprite3 = Sprite::Create(UINT(ImageManager::ImageName::GameUI_03), { 0,0 });
+	playerHp = Sprite::Create(UINT(ImageManager::ImageName::playerHp), { 0,0 });
+
+
 	manual = Sprite::Create(UINT(ImageManager::ImageName::Manual), { 300,0 });
 	int32_t towerHP = 10;
 	tower_ = new Tower;
 	tower_->Initialize(towerHP);
 	scrollCamera_ = ScrollCamera::Create();
 	Sprite::SetCamera(scrollCamera_);
-	bloodGaugeSprite_ = Sprite::UniquePtrCreate(UINT(ImageManager::ImageName::bloodGaugeNumber), { 100,0 });
+	bloodGaugeSprite_ = Sprite::UniquePtrCreate(UINT(ImageManager::ImageName::bloodGaugeNumber), { 99,656 });
 	bloodGaugeSprite_->SetLeftSizeCorrection(true);
 	bloodGaugeSprite_->SetUi(true);
 	poseButton_ = Button::CreateUniqueButton(ImageManager::ImageName::Pause, { 64,24 }, { 100,100 }, 0);
@@ -75,12 +78,13 @@ void GameScene::Update()
 		//scrollCamera_->Update(player_->GetSprite()->GetPosition());
 
 		int b = player_->GetBloodGauge();
-		bloodGaugeSprite_->SetSize({ (float)16 * b ,16 });
+
+		bloodGaugeSprite_->SetSize({ (float)109 * b ,27 });
 
 		enemys_->Update(tower_->GetHP(), player_->GetPlayerHp());
 	}
 	//enemy_->Update();
-
+	scrollCamera_->Update(player_->GetSprite()->GetPosition());
 	//シーン切り替え
 	SceneChange();
 }
@@ -197,7 +201,6 @@ void GameScene::Draw()
 	DirectXSetting::GetIns()->beginDrawWithDirect2D();
 	//テキスト描画範囲
 	D2D1_RECT_F textDrawRange = { 0, 0, 500, 500 };
-	D2D1_RECT_F textDrawRange2 = { 0, 100, 500, 500 };
 	//text_->Draw("meiryo", "white", L"ゲームシーン\n左クリックでタイトルシーン\n右クリックでリザルトシーン", textDrawRange);
 
 	DirectXSetting::GetIns()->endDrawWithDirect2D();
@@ -208,11 +211,13 @@ void GameScene::Draw()
 
 	//ポストエフェクトをかけないスプライト描画処理(UI等)
 	Sprite::PreDraw(DirectXSetting::GetIns()->GetCmdList());
-	bloodGaugeSprite_->Draw();
 	poseButton_->Draw();
-	//GameSprite1->Draw();
-	//GameSprite2->Draw();
+	GameSprite1->Draw();
+	GameSprite2->Draw();
 	//GameSprite3->Draw();
+	bloodGaugeSprite_->Draw();
+	playerHp->Draw();
+
 	if (pose_) {
 		poseBackButton_->Draw();
 		titleButton_->Draw();
@@ -235,6 +240,7 @@ void GameScene::Finalize()
 	safe_delete(GameSprite1);
 	safe_delete(GameSprite2);
 	safe_delete(GameSprite3);
+	safe_delete(playerHp);
 	safe_delete(tower_);
 	safe_delete(scrollCamera_);
 	safe_delete(camera2D);
@@ -257,7 +263,7 @@ void GameScene::SceneChange()
 	}
 	else if (tower_->GetHP() <= 0)
 	{
-		//SceneManager::SceneChange(SceneManager::SceneName::Over);
+		SceneManager::SceneChange(SceneManager::SceneName::Over);
 
 	}
 }

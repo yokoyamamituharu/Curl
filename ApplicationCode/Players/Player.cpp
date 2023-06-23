@@ -3,6 +3,7 @@
 #include "KeyInput.h"
 #include "ImageManager.h"
 #include "MouseInput.h"
+#include "PadInput.h"
 #include <math.h>
 #include "KeyInputHandler.h"
 #include "BaseEnemy.h"
@@ -121,6 +122,10 @@ void Player::Update(ScrollCamera* camera)
 	//ŒŒ‚Ìc—Ê
 	bloodGauge_ = maxBlood_ - bloods_.size();
 
+	/// <summary>
+	///ƒQ[ƒ€‚É‚ÍŠÖŒW‚È‚¢
+	/// </summary>
+	/// <param name="camera"></param>
 	for (std::unique_ptr<Blood>& blood : bloods_) {
 		if (KeyInput::GetIns()->TriggerKey(DIK_B) && blood->GetState() == (int)Blood::State::idle) {
 			//blood->SetDead();
@@ -145,7 +150,7 @@ void Player::Update(ScrollCamera* camera)
 		if (coldExtend / 2 + 16 > length && isColdWave) blood->ColdWaveOnCollision();
 
 		blood->Update();
-	}	
+	}
 	heatWave_->SetPosition(position_);
 	coldWave_->SetPosition(position_);
 	sprites_[state_]->SetPosition(position_);
@@ -160,11 +165,9 @@ void Player::Update(ScrollCamera* camera)
 void Player::Shot(ScrollCamera* camera)
 {
 	if (bloods_.size() >= maxBlood_) return;
-	if (MouseInput::GetIns()->PushClick(MouseInput::LEFT_CLICK) && shotDiray_ <= 0) {
-		XMFLOAT2 cursolPos = DirectX::XMFLOAT2{ float(MouseInput::GetIns()->GetMousePoint().x) - camera->GetPosition().x,
-			float(MouseInput::GetIns()->GetMousePoint().y) - camera->GetPosition().y };
-
-		bloods_.push_back(Blood::UniquePtrCreate({ position_.x,position_.y -30}, Blood::Temperature::liquid, cursolPos, &position_));
+	if (MouseInput::GetIns()->PushClick(MouseInput::LEFT_CLICK) && shotDiray_ <= 0 || PadInput::GetIns()->TriggerButton(PadInput::Button_RS) && shotDiray_ <= 0) {
+		Vector2 cursolPos = MouseInput::GetIns()->ClientToPostEffect() + camera->GetPosition();
+		bloods_.push_back(Blood::UniquePtrCreate({ position_.x,position_.y - 30 }, Blood::Temperature::liquid, cursolPos, &position_));
 		shotDiray_ = maxShotDiray_;
 	}
 	else {
@@ -210,14 +213,16 @@ void Player::AddPlayerVector(Vector2 vec)
 
 void Player::Move(ScrollCamera* camera)
 {
-	Vector2 cursolPos = DirectX::XMFLOAT2{ float(MouseInput::GetIns()->GetMousePoint().x) - camera->GetPosition().x,
-	float(MouseInput::GetIns()->GetMousePoint().y) - camera->GetPosition().y };
+	float wariaiX = 0.925;
+	float wariaiY = 0.85;
+
+	Vector2 cursolPos = MouseInput::GetIns()->ClientToPostEffect() + camera->GetPosition();
 	Vector2 playerPos = position_;
 	DirectX::XMVECTOR vec3 = { cursolPos.x - playerPos.x,cursolPos.y - playerPos.y };
 	vec3 = DirectX::XMVector3Normalize(vec3);
 	Vector2 vec2 = { vec3.m128_f32[0],vec3.m128_f32[1] };
 
-	if (KeyInput::GetIns()->PushKey(DIK_W)) {
+	if (KeyInput::GetIns()->PushKey(DIK_W) || PadInput::GetIns()->leftStickY() <= -0.5f) {
 		AddPlayerVector(vec2 * speed_);
 		if (vec2.y > 0) {
 			//‰º‚ÉˆÚ“®
