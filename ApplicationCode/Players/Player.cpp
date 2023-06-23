@@ -12,10 +12,6 @@ int32_t Player::frontAnimationCount = 6;
 int32_t Player::backAnimationCount = 6;
 int32_t Player::animationTime = 10;
 
-Player::Player()
-{
-}
-
 Player::~Player()
 {
 	for (auto sprite : sprites_) {
@@ -107,11 +103,12 @@ void Player::Update(ScrollCamera* camera)
 		speed_ = 2.0f;
 	}
 
+	//熱波、寒波の処理
 	Wave();
 
 	//血を放出
 	Shot(camera);
-	//血の残量
+	//使える血の残量を計算
 	bloodGauge_ = maxBlood_ - bloods_.size();
 
 	/// <summary>
@@ -141,8 +138,10 @@ void Player::Update(ScrollCamera* camera)
 		length = sqrtf((pos1.x - pos2.x) * (pos1.x - pos2.x) + (pos1.y - pos2.y) * (pos1.y - pos2.y));
 		if (coldExtend / 2 + 16 > length && isColdWave) blood->ColdWaveOnCollision();
 
+		//血の更新処理
 		blood->Update();
 	}
+	//スプライトの座標の更新
 	heatWave_->SetPosition(position_);
 	coldWave_->SetPosition(position_);
 	sprites_[state_]->SetPosition(position_);
@@ -156,6 +155,7 @@ void Player::Update(ScrollCamera* camera)
 
 void Player::Shot(ScrollCamera* camera)
 {
+	//血を最大数だしてたら処理しない
 	if (bloods_.size() >= maxBlood_) return;
 	if (MouseInput::GetIns()->PushClick(MouseInput::LEFT_CLICK) && shotDiray_ <= 0 || PadInput::GetIns()->TriggerButton(PadInput::Button_RS) && shotDiray_ <= 0) {
 		Vector2 cursolPos = MouseInput::GetIns()->ClientToPostEffect() + camera->GetPosition();
@@ -169,9 +169,12 @@ void Player::Shot(ScrollCamera* camera)
 
 void Player::Draw(ScrollCamera* scroll)
 {
+	//血の描画
 	for (std::unique_ptr<Blood>& blood : bloods_) {
 		blood->Draw();
 	}
+
+	//アニメーションの処理
 	if (++animationTimer_ > animationTime) {
 		frontAnimationCounter_++;
 		backAnimationCounter_++;
@@ -184,7 +187,6 @@ void Player::Draw(ScrollCamera* scroll)
 	if (backAnimationCounter_ >= backAnimationCount) {
 		backAnimationCounter_ = 0;
 	}
-	//sprites_[state_]->Draw();
 	//アングルで移動方向を判定し、判定した方向に向いたアニメーションを使用
 	if (useAnimation == (int)AnimationType::back) {
 		backSprites_[backAnimationCounter_]->Draw();
@@ -193,8 +195,9 @@ void Player::Draw(ScrollCamera* scroll)
 		frontSprites_[frontAnimationCounter_]->Draw();
 	}
 
-
+	//熱波の描画
 	if (isHeatWave) heatWave_->Draw();
+	//寒波の描画
 	if (isColdWave) coldWave_->Draw();
 }
 

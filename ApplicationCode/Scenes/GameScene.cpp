@@ -1,5 +1,6 @@
 #include "GameScene.h"
 #include "ExternalFileLoader.h"
+#include "KeyInput.h"
 
 void GameScene::Initialize()
 {
@@ -64,6 +65,11 @@ void GameScene::Update()
 
 	poseButton_->Update();
 	tower_->Update();
+
+	if (KeyInput::GetIns()->TriggerKey(DIK_M)) {
+		debugMuteki = !debugMuteki;
+	}
+
 	if (poseButton_->GetIsClick()) {
 		pose_ = true;
 	}
@@ -262,7 +268,7 @@ void GameScene::SceneChange()
 	{
 		SceneManager::SceneChange(SceneManager::SceneName::Result);
 	}
-	else if (tower_->GetHP() <= 0)
+	else if (tower_->GetHP() <= 0 && !debugMuteki)
 	{
 		SceneManager::SceneChange(SceneManager::SceneName::Over);
 
