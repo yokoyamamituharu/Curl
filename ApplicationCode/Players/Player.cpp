@@ -76,7 +76,7 @@ void Player::Update(ScrollCamera* camera)
 		return blood->GetDead();
 		});
 
-	Move(camera);
+	isMove_ = Move(camera);
 	//アングルで移動方向を判定し、判定した方向に向いたアニメーションを使用
 	if (angle == 10) {
 		useAnimation = (int)AnimationType::front;
@@ -155,7 +155,7 @@ void Player::Update(ScrollCamera* camera)
 
 void Player::Shot(ScrollCamera* camera)
 {
-	//血を最大数だしてたら処理しない
+	//血を最大数出していたら処理をスキップ
 	if (bloods_.size() >= maxBlood_) return;
 	if (MouseInput::GetIns()->PushClick(MouseInput::LEFT_CLICK) && shotDiray_ <= 0 || PadInput::GetIns()->TriggerButton(PadInput::Button_RS) && shotDiray_ <= 0) {
 		Vector2 cursolPos = MouseInput::GetIns()->ClientToPostEffect() + camera->GetPosition();
@@ -175,10 +175,12 @@ void Player::Draw(ScrollCamera* scroll)
 	}
 
 	//アニメーションの処理
-	if (++animationTimer_ > animationTime) {
-		frontAnimationCounter_++;
-		backAnimationCounter_++;
-		animationTimer_ = 0;
+	if (isMove_ ) {
+		if (++animationTimer_ > animationTime) {
+			frontAnimationCounter_++;
+			backAnimationCounter_++;
+			animationTimer_ = 0;
+		}
 	}
 
 	if (frontAnimationCounter_ >= frontAnimationCount) {
@@ -206,18 +208,14 @@ void Player::AddPlayerVector(Vector2 vec)
 	position_ = { position_.x + vec.x,position_.y + vec.y };
 }
 
-void Player::Move(ScrollCamera* camera)
+bool Player::Move(ScrollCamera* camera)
 {
-	float wariaiX = 0.925;
-	float wariaiY = 0.85;
-
-	Vector2 cursolPos = MouseInput::GetIns()->ClientToPostEffect() + camera->GetPosition();
-	Vector2 playerPos = position_;
-	DirectX::XMVECTOR vec3 = { cursolPos.x - playerPos.x,cursolPos.y - playerPos.y };
-	vec3 = DirectX::XMVector3Normalize(vec3);
-	Vector2 vec2 = { vec3.m128_f32[0],vec3.m128_f32[1] };
-
 	if (KeyInput::GetIns()->PushKey(DIK_W) || PadInput::GetIns()->leftStickY() <= -0.5f) {
+		Vector2 cursolPos = MouseInput::GetIns()->ClientToPostEffect() + camera->GetPosition();
+		Vector2 playerPos = position_;
+		DirectX::XMVECTOR vec3 = { cursolPos.x - playerPos.x,cursolPos.y - playerPos.y };
+		vec3 = DirectX::XMVector3Normalize(vec3);
+		Vector2 vec2 = { vec3.m128_f32[0],vec3.m128_f32[1] };
 		AddPlayerVector(vec2 * speed_);
 		if (vec2.y > 0) {
 			//下に移動
@@ -227,7 +225,10 @@ void Player::Move(ScrollCamera* camera)
 			//上に移動
 			angle = 0;
 		}
+		return true;
 	}
+
+	return false;
 }
 
 void Player::Wave()

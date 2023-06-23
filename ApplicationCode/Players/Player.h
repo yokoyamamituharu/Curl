@@ -22,6 +22,7 @@ public:
 
 	enum class AnimationType
 	{
+		none,
 		front,
 		rightSide,
 		back,
@@ -125,7 +126,9 @@ private:
 	/// <summary>
 	/// 移動
 	/// </summary>
-	void Move(ScrollCamera* camera);
+	/// <param name="camera"></param>
+	/// <returns>移動処理を実行したかどうか</returns>
+	bool Move(ScrollCamera* camera);
 
 	/// <summary>
 	/// 熱波、寒波の更新
@@ -166,8 +169,10 @@ private:
 	float coldAlpha = 1;
 	bool isRecall_ = false;
 
+	bool isMove_ = false;
 	float angle = 0;
 	int useAnimation = 0;
+	int useDirectionSide = 0;
 	//アニメーションタイマー
 	int32_t animationTimer_ = 0;
 	//前向きアニメーションカウンター
