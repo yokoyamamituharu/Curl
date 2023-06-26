@@ -18,75 +18,24 @@ std::vector<Sprite*> BaseEnemy::SpritesCreate(const ImageManager::ImageName imag
 	return sprites;
 }
 
-void BaseEnemy::WordMarker()
+void BaseEnemy::WorldMarker(XMFLOAT2 playerPos)
 {
-
-	if (pos.x < 0)
+	
+	if (pos.x <= -32.f || pos.x >= (float)WinApp::window_width + 32.f)
 	{
-		if (pos.y <= (float)(WinApp::window_height / 2))
-		{
-			if (pos.y > 0)
-			{
-				//3
-			}
-			else
-			{
-				//0
-			}
-			
-		}
-		else
-		{
-			if (pos.y < WinApp::window_height)
-			{
-				//3
-			}
-			else
-			{
-				//2
-			}
-			
-		}
+		widthFlag = true;
 	}
 
-	if (pos.x > WinApp::window_width)
+	if (pos.y <= -32.f || pos.y >= (float)WinApp::window_height + 32.f)
 	{
-		if (pos.y <= (float)(WinApp::window_height / 2))
-		{
-			if (pos.y > 0)
-			{
-				//0
-			}
-			else
-			{
-				//1
-			}
-
-		}
-		else
-		{
-			if (pos.y < WinApp::window_height)
-			{
-				//1
-			}
-			else
-			{
-				//2
-			}
-
-		}
-		
+		heightFlag = true;
 	}
 
-	if (pos.y < 0)
+	if (widthFlag == true || heightFlag == true)
 	{
 
-	}
-
-	if (pos.y > WinApp::window_height)
-	{
+		//atan2(pos.x - ((float)WinApp::window_width / 2), pos.y - ((float)WinApp::window_height / 2));
+		atan2(pos.x - playerPos.x, pos.y - playerPos.y);
 
 	}
-
-
 }

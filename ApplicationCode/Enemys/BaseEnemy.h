@@ -76,7 +76,7 @@ public:
 
 protected: //静的メンバ関数
 
-	void WordMarker();
+	void WorldMarker(XMFLOAT2 playerPos);
 
 	/// <summary>
 	/// 敵画像生成
@@ -110,6 +110,8 @@ protected:
 	bool towerHitFlag{};//砦との当たり判定フラグ
 	bool dead{};//
 
+	bool widthFlag{};
+	bool heightFlag{};
 	std::array<float, 360> maxAngle;//角度最大値
 	std::array<float, 0> minAngle;//角度最小値
 

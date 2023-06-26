@@ -15,81 +15,9 @@ bool Collision::HitCircle(XMFLOAT2 pos1, float radius1, XMFLOAT2 pos2, float rad
 
 DirectX::XMFLOAT2 Collision::HitCrossWindows(XMFLOAT2 enemyPos, int flag)
 {
-	XMFLOAT2 XminYmin = { 0,0 };
-	XMFLOAT2 XmaxYmin = { WinApp::window_width,0 };
-	XMFLOAT2 XminYmax = { 0, WinApp::window_height };
-	XMFLOAT2 XmaxYmax = { WinApp::window_width,WinApp::window_height };
-
-	XMFLOAT2 center = { XmaxYmax.x / 2,XmaxYmax.y / 2 };
-
-	if (flag == 0)
+	if (enemyPos.x <= -32.f || enemyPos.x >= (float)WinApp::window_width + 32.f)
 	{
-		//XminYmin&&XmaxYminの場合
-		//XminYmin		(x2,y2)
-		//XmaxYmin		(x4,y4)
-		//center		(x1,y1)
-		//enemyPos		(x3,y3)
-		bool isHit = CrossLine(center, XminYmin, enemyPos, XmaxYmin);
 
-		if (isHit)
-		{
-			XMFLOAT2 temp = CrossLinePoint(center, XminYmin,
-				enemyPos, XmaxYmin);
-			return temp;
-		}
-		
-	}
-	else if (flag == 1)
-	{
-		//XmaxYmin&&XmaxYmaxの場合
-		//XmaxYmin		(x2,y2)
-		//XmaxYmax		(x4,y4)
-		//center		(x1,y1)
-		//enemyPos		(x3,y3)
-		bool isHit = CrossLine(center, XmaxYmin,enemyPos, XmaxYmax);
-
-		if (isHit)
-		{
-			XMFLOAT2 temp = CrossLinePoint(center, XmaxYmin,
-				enemyPos, XmaxYmax);
-			return temp;
-		}
-	}
-	else if (flag == 2)
-	{
-		//XmaxYmax&&XminYmaxの場合
-		//XmaxYmax		(x2,y2)
-		//XminYmax		(x4,y4)
-		//center		(x1,y1)
-		//enemyPos		(x3,y3)
-		bool isHit = CrossLine(center, XmaxYmax,enemyPos, XminYmax);
-
-		if (isHit)
-		{
-			XMFLOAT2 temp = CrossLinePoint(center, XmaxYmax,
-				enemyPos, XminYmax);
-			return temp;
-		}
-	}
-	else if (flag == 3)
-	{
-		//XminYmax&&XminYminの場合
-		//XminYmax		(x2,y2)
-		//XminYmin		(x4,y4)
-		//center		(x1,y1)
-		//enemyPos		(x3,y3)
-		bool isHit = CrossLine(center, XminYmax,enemyPos, XminYmin);
-
-		if (isHit)
-		{
-			XMFLOAT2 temp = CrossLinePoint(center, XminYmax,
-				enemyPos, XminYmin);
-			return temp;
-		}
-	}
-	else
-	{
-		return { NULL, NULL };
 	}
 }
 
