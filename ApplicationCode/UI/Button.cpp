@@ -30,6 +30,7 @@ void Button::Initialize(ImageManager::ImageName imageName, const Vector2& pos, c
 	button_->SetRotation(rot_);
 	button_->SetAlpha(alpha_);
 	button_->SetAnchorPoint({ 0.5f, 0.5f });
+	button_->SetUi(true);
 }
 
 void Button::Update()

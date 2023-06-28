@@ -1,5 +1,6 @@
 #include "GameScene.h"
 #include "ExternalFileLoader.h"
+#include "KeyInput.h"
 
 void GameScene::Initialize()
 {
@@ -31,10 +32,14 @@ void GameScene::Initialize()
 	GameSprite1 = Sprite::Create(UINT(ImageManager::ImageName::GameUI_01), { 0,0 });
 	GameSprite2 = Sprite::Create(UINT(ImageManager::ImageName::GameUI_02), { 0,0 });
 	GameSprite3 = Sprite::Create(UINT(ImageManager::ImageName::GameUI_03), { 0,0 });
+	GameSprite1->SetUi(true);
+	GameSprite2->SetUi(true);
 	playerHp = Sprite::Create(UINT(ImageManager::ImageName::playerHp), { 0,0 });
+	playerHp->SetUi(true);
 
 
 	manual = Sprite::Create(UINT(ImageManager::ImageName::Manual), { 300,0 });
+	manual->SetUi(true);
 	int32_t towerHP = 10;
 	tower_ = new Tower;
 	tower_->Initialize(towerHP);
@@ -60,6 +65,11 @@ void GameScene::Update()
 
 	poseButton_->Update();
 	tower_->Update();
+
+	if (KeyInput::GetIns()->TriggerKey(DIK_M)) {
+		debugMuteki = !debugMuteki;
+	}
+
 	if (poseButton_->GetIsClick()) {
 		pose_ = true;
 	}
@@ -81,7 +91,7 @@ void GameScene::Update()
 		enemys_->Update(tower_->GetHP(), player_->GetPlayerHp());
 	}
 	//enemy_->Update();
-	scrollCamera_->Update(player_->GetSprite()->GetPosition());
+	scrollCamera_->Update(player_->GetPosition());
 	//シーン切り替え
 	SceneChange();
 }
@@ -198,7 +208,9 @@ void GameScene::Draw()
 	DirectXSetting::GetIns()->beginDrawWithDirect2D();
 	//テキスト描画範囲
 	D2D1_RECT_F textDrawRange = { 0, 0, 500, 500 };
-	//text_->Draw("meiryo", "white", L"ゲームシーン\n左クリックでタイトルシーン\n右クリックでリザルトシーン", textDrawRange);
+	std::wstring wstr1 = std::to_wstring(player_->GetPosition().x);
+	std::wstring wstr2 = std::to_wstring(player_->GetPosition().y);
+	text_->Draw("meiryo", "white", wstr1 + L"\n" + wstr2, textDrawRange);
 
 	DirectXSetting::GetIns()->endDrawWithDirect2D();
 
@@ -258,7 +270,7 @@ void GameScene::SceneChange()
 	{
 		SceneManager::SceneChange(SceneManager::SceneName::Result);
 	}
-	else if (tower_->GetHP() <= 0)
+	else if (tower_->GetHP() <= 0 && !debugMuteki)
 	{
 		SceneManager::SceneChange(SceneManager::SceneName::Over);
 
