@@ -74,9 +74,9 @@ public:
 	float GetSpeed() { return speed_; }
 
 	/// <summary>
-	/// スプライトの取得
+	/// 座標の取得
 	/// </summary>
-	Sprite* GetSprite() { return sprites_[state_]; }
+	Vector2 GetPosition() { return position_; }
 
 	/// <summary>
 	/// プレイヤーのHPの取得
@@ -115,7 +115,7 @@ private:
 	/// <param name="animationCount"></param>
 	/// <param name="enemyPos"></param>
 	/// <returns></returns>
-	static std::vector<Sprite*> SpritesCreateP(int imageName, int32_t animationCount, Vector2& enemyPos);
+	static std::vector<Sprite*> SpritesCreateP(int imageName, int32_t animationCount, Vector2& pos);
 
 	/// <summary>
 	/// 血の発射
@@ -142,7 +142,6 @@ private:
 private:
 	std::vector<Sprite*> frontSprites_;
 	std::vector<Sprite*> backSprites_;
-	std::map<int, Sprite*> sprites_;
 	Vector2 position_{};
 	float heat_ = 0;
 	int maxHeatDiray_ = 0;

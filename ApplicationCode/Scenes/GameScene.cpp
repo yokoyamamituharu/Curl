@@ -91,7 +91,7 @@ void GameScene::Update()
 		enemys_->Update(tower_->GetHP(), player_->GetPlayerHp());
 	}
 	//enemy_->Update();
-	scrollCamera_->Update(player_->GetSprite()->GetPosition());
+	scrollCamera_->Update(player_->GetPosition());
 	//シーン切り替え
 	SceneChange();
 }
@@ -208,7 +208,9 @@ void GameScene::Draw()
 	DirectXSetting::GetIns()->beginDrawWithDirect2D();
 	//テキスト描画範囲
 	D2D1_RECT_F textDrawRange = { 0, 0, 500, 500 };
-	//text_->Draw("meiryo", "white", L"ゲームシーン\n左クリックでタイトルシーン\n右クリックでリザルトシーン", textDrawRange);
+	std::wstring wstr1 = std::to_wstring(player_->GetPosition().x);
+	std::wstring wstr2 = std::to_wstring(player_->GetPosition().y);
+	text_->Draw("meiryo", "white", wstr1 + L"\n" + wstr2, textDrawRange);
 
 	DirectXSetting::GetIns()->endDrawWithDirect2D();
 

@@ -14,10 +14,6 @@ int32_t Player::animationTime = 10;
 
 Player::~Player()
 {
-	for (auto sprite : sprites_) {
-		delete sprite.second;
-	}
-	sprites_.clear();
 	for (int32_t i = 0; i < frontAnimationCount; i++) {
 		safe_delete(frontSprites_[i]);
 	}
@@ -30,14 +26,14 @@ Player::~Player()
 	safe_delete(coldWave_);
 }
 
-std::vector<Sprite*> Player::SpritesCreateP(int imageName, int32_t animationCount, Vector2& enemyPos)
+std::vector<Sprite*> Player::SpritesCreateP(int imageName, int32_t animationCount, Vector2& pos)
 {
 	std::vector<Sprite*> sprites;
 
 	for (int32_t i = 0; i < animationCount; i++) {
-		sprites.push_back(Sprite::Create((UINT)imageName, enemyPos));
+		sprites.push_back(Sprite::Create((UINT)imageName, pos));
 		sprites[i]->SetAnchorPoint({ 0.5f, 0.5f });
-		sprites[i]->SetPosition(enemyPos);
+		sprites[i]->SetPosition(pos);
 		Vector2 texBase = { 0.0f, 0.0f };
 		texBase.x = 128 * (float)i;
 		sprites[i]->SetSize({ 128.0f, 128.0f });
@@ -49,10 +45,6 @@ std::vector<Sprite*> Player::SpritesCreateP(int imageName, int32_t animationCoun
 Player* Player::Create(Vector2 pos, float rote, int hp, int maxBlood)
 {
 	Player* instance = new Player();
-	instance->sprites_[(int)State::idle] = Sprite::Create(UINT(ImageManager::ImageName::playerTexNumber), { 0,0 }, { 1,1,1,1 }, { 0.5,0.5 });
-	instance->sprites_[(int)State::idle]->SetSize({ 128, 128 });
-	instance->sprites_[(int)State::heat] = Sprite::Create(UINT(ImageManager::ImageName::playerHeatTexNumber), { 0,0 }, { 1,1,1,1 }, { 0.5,0.5 });
-	instance->sprites_[(int)State::heat]->SetSize({ 128, 128 });
 	instance->heatWave_ = Sprite::Create(UINT(ImageManager::ImageName::heatWaveNumber), { 0,0 }, { 1,1,1,1 }, { 0.5,0.5 });
 	instance->heatWave_->SetPosition({ 500,500 });
 	instance->coldWave_ = Sprite::Create(UINT(ImageManager::ImageName::coldWaveNumber), { 0,0 }, { 1,1,1,1 }, { 0.5,0.5 });
@@ -78,13 +70,28 @@ void Player::Update(ScrollCamera* camera)
 		});
 
 	isMove_ = Move(camera);
+
+	//画面外に出ないようにする処理			
+	if (position_.x < ScrollCamera::GetMinScreenEdge().x + 32.0f) {
+		position_.x = ScrollCamera::GetMinScreenEdge().x + 32.0f;
+	}
+	if (position_.y < ScrollCamera::GetMinScreenEdge().y + 32.0f) {
+		position_.y = ScrollCamera::GetMinScreenEdge().y + 32.0f;
+	}
+
+	if (position_.x > ScrollCamera::GetMaxScreenEdge().x - 32.0f) {
+		position_.x = ScrollCamera::GetMaxScreenEdge().x - 32.0f;
+	}
+	if (position_.y > ScrollCamera::GetMaxScreenEdge().y - 32.0f) {
+		position_.y = ScrollCamera::GetMaxScreenEdge().y - 32.0f;
+	}
 	//アングルで移動方向を判定し、判定した方向に向いたアニメーションを使用
-	//if (angle == 10) {
-	//	useAnimation = (int)AnimationType::front;
-	//}
-	//else if (angle == 0) {
-	//	useAnimation = (int)AnimationType::back;
-	//}
+	if (angle == 10) {
+		useAnimation = (int)AnimationType::front;
+	}
+	else if (angle == 0) {
+		useAnimation = (int)AnimationType::back;
+	}
 
 	//プレイヤーのキーイベント更新
 	//handler_->PlayerHandleInput();
@@ -145,7 +152,6 @@ void Player::Update(ScrollCamera* camera)
 	//スプライトの座標の更新
 	heatWave_->SetPosition(position_);
 	coldWave_->SetPosition(position_);
-	sprites_[state_]->SetPosition(position_);
 	for (int32_t i = 0; i < frontAnimationCount; i++) {
 		frontSprites_[i]->SetPosition(position_);
 	}
@@ -176,7 +182,7 @@ void Player::Draw(ScrollCamera* scroll)
 	}
 
 	//アニメーションの処理
-	if (isMove_ ) {
+	if (isMove_) {
 		if (++animationTimer_ > animationTime) {
 			frontAnimationCounter_++;
 			backAnimationCounter_++;
@@ -190,7 +196,7 @@ void Player::Draw(ScrollCamera* scroll)
 	if (backAnimationCounter_ >= backAnimationCount) {
 		backAnimationCounter_ = 0;
 	}
-	
+
 	//左右の向きを決定
 	if (useDirectionSide == (int)AnimationType::RightSide) {
 		frontSprites_[frontAnimationCounter_]->SetIsFlipX(true);
@@ -225,12 +231,14 @@ bool Player::Move(ScrollCamera* camera)
 	if (KeyInput::GetIns()->PushKey(DIK_W) || PadInput::GetIns()->leftStickY() <= -0.5f) {
 		Vector2 cursolPos = MouseInput::GetIns()->ClientToPostEffect() + camera->GetPosition();
 		Vector2 playerPos = position_;
+		//プレイヤーと目的地（カーソルの位置）が近かったら移動処理をしない（プレイヤーがカーソルの位置で往復を繰り返してしまうから）
 		float length = sqrtf((cursolPos.x - playerPos.x) * (cursolPos.x - playerPos.x) + (cursolPos.y - playerPos.y) * (cursolPos.y - playerPos.y));
-		//プレイヤーのガクガク防止
-		if (length > 1) {
+		if (length > 1.0f) {
 			Vector2 vec = cursolPos - playerPos;
 			vec.normalize();
 			AddPlayerVector(vec * speed_);
+
+			//使う画像を選ぶ
 			if (vec.y > 0) {
 				//下に移動
 				useAnimation = (int)AnimationType::front;
@@ -240,9 +248,11 @@ bool Player::Move(ScrollCamera* camera)
 				useAnimation = (int)AnimationType::back;
 			}
 			if (vec.x > 0) {
+				//右に移動
 				useDirectionSide = (int)AnimationType::RightSide;
 			}
 			else if (vec.x < 0) {
+				//左に移動
 				useDirectionSide = (int)AnimationType::LeftSide;
 			}
 		}
