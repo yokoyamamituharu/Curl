@@ -12,8 +12,7 @@ int32_t Player::frontAnimationCount = 6;
 int32_t Player::backAnimationCount = 6;
 int32_t Player::animationTime = 10;
 
-Player::~Player()
-{
+Player::~Player() {
 	for (int32_t i = 0; i < frontAnimationCount; i++) {
 		safe_delete(frontSprites_[i]);
 	}
@@ -26,8 +25,7 @@ Player::~Player()
 	safe_delete(coldWave_);
 }
 
-std::vector<Sprite*> Player::SpritesCreateP(int imageName, int32_t animationCount, Vector2& pos)
-{
+std::vector<Sprite*> Player::SpritesCreateP(int imageName, int32_t animationCount, Vector2& pos) {
 	std::vector<Sprite*> sprites;
 
 	for (int32_t i = 0; i < animationCount; i++) {
@@ -42,8 +40,7 @@ std::vector<Sprite*> Player::SpritesCreateP(int imageName, int32_t animationCoun
 	return sprites;
 }
 
-Player* Player::Create(Vector2 pos, float rote, int hp, int maxBlood)
-{
+Player* Player::Create(Vector2 pos, float rote, int hp, int maxBlood) {
 	Player* instance = new Player();
 	instance->heatWave_ = Sprite::Create(UINT(ImageManager::ImageName::heatWaveNumber), { 0,0 }, { 1,1,1,1 }, { 0.5,0.5 });
 	instance->heatWave_->SetPosition({ 500,500 });
@@ -62,8 +59,7 @@ Player* Player::Create(Vector2 pos, float rote, int hp, int maxBlood)
 	return instance;
 }
 
-void Player::Update(ScrollCamera* camera)
-{
+void Player::Update(ScrollCamera* camera) {
 	//フラグが立っている血を消す
 	bloods_.remove_if([](std::unique_ptr<Blood>& blood) {
 		return blood->GetDead();
@@ -88,28 +84,28 @@ void Player::Update(ScrollCamera* camera)
 	//アングルで移動方向を判定し、判定した方向に向いたアニメーションを使用
 	if (angle == 10) {
 		useAnimation = (int)AnimationType::front;
-	}
-	else if (angle == 0) {
+	} else if (angle == 0) {
 		useAnimation = (int)AnimationType::back;
 	}
 
 	//プレイヤーのキーイベント更新
 	//handler_->PlayerHandleInput();
 
+	// 消して良いやつ
 	//オーバーロード状態
-	if (heat_ > 0) {
-		state_ = (int)State::heat;
-		speed_ = 7.0f;
-		heatDiray_--;
-		if (heatDiray_ <= 0) {
-			heat_--;
-			heatDiray_ = maxHeatDiray_;
-		}
-	}
-	else {
-		state_ = (int)State::idle;
-		speed_ = 2.0f;
-	}
+	//if (heat_ > 0) {
+	//	state_ = (int)State::heat;
+	//	speed_ = 7.0f;
+	//	heatDiray_--;
+	//	// 時間で減らしていく
+	//	if (heatDiray_ <= 0) {
+	//		heat_--;
+	//		heatDiray_ = maxHeatDiray_;
+	//	}
+	//} else {
+	//	state_ = (int)State::idle;
+	//	speed_ = 2.0f;
+	//}
 
 	//熱波、寒波の処理
 	Wave();
@@ -118,6 +114,29 @@ void Player::Update(ScrollCamera* camera)
 	Shot(camera);
 	//使える血の残量を計算
 	bloodGauge_ = maxBlood_ - bloods_.size();
+
+	// 体温が100貯まったら
+	if (ultGage >= 5) {
+		ultState = true;
+		// 体温が0以下になったら
+	} else if (0 >= ultGage) {
+		ultState = false;
+	}
+
+	// トールビョーン状態かステータスを変える
+	if (ultState == true) {
+		speed_ = 7.0f;		// スピードを上げる
+		ultDiray--;
+		// 時間でゲージ減らす
+		if (ultDiray <= 0) {
+			ultGage--;			// ゲージを下げていく
+			ultDiray = maxUltDiray;
+		}
+
+	} else if (ultState == false) {
+		speed_ = 2.0f; // 元のスピードに戻す
+	}
+
 
 	/// <summary>
 	///ゲームには関係ない
@@ -133,7 +152,10 @@ void Player::Update(ScrollCamera* camera)
 		}
 		//血がプレイヤーの位置に戻ったらプレイヤーの体温を上げ（未実装）血を消す
 		if (blood->GetState() == (int)Blood::State::heat) {
-			heat_++;
+			// ゲージを増やしていく
+			// UIが未実装なのでコメントアウト
+			// ultGage++;
+
 			blood->SetDead();
 		}
 
@@ -160,22 +182,19 @@ void Player::Update(ScrollCamera* camera)
 	}
 }
 
-void Player::Shot(ScrollCamera* camera)
-{
+void Player::Shot(ScrollCamera* camera) {
 	//血を最大数出していたら処理をスキップ
 	if (bloods_.size() >= maxBlood_) return;
 	if (MouseInput::GetIns()->PushClick(MouseInput::LEFT_CLICK) && shotDiray_ <= 0 || PadInput::GetIns()->TriggerButton(PadInput::Button_RS) && shotDiray_ <= 0) {
 		Vector2 cursolPos = MouseInput::GetIns()->ClientToPostEffect() + camera->GetPosition();
 		bloods_.push_back(Blood::UniquePtrCreate({ position_.x,position_.y - 30 }, Blood::Temperature::liquid, cursolPos, &position_));
 		shotDiray_ = maxShotDiray_;
-	}
-	else {
+	} else {
 		shotDiray_--;
 	}
 }
 
-void Player::Draw(ScrollCamera* scroll)
-{
+void Player::Draw(ScrollCamera* scroll) {
 	//血の描画
 	for (std::unique_ptr<Blood>& blood : bloods_) {
 		blood->Draw();
@@ -201,8 +220,7 @@ void Player::Draw(ScrollCamera* scroll)
 	if (useDirectionSide == (int)AnimationType::RightSide) {
 		frontSprites_[frontAnimationCounter_]->SetIsFlipX(true);
 		backSprites_[backAnimationCounter_]->SetIsFlipX(false);
-	}
-	else if (useDirectionSide == (int)AnimationType::LeftSide) {
+	} else if (useDirectionSide == (int)AnimationType::LeftSide) {
 		frontSprites_[frontAnimationCounter_]->SetIsFlipX(false);
 		backSprites_[backAnimationCounter_]->SetIsFlipX(true);
 	}
@@ -210,8 +228,7 @@ void Player::Draw(ScrollCamera* scroll)
 	//アングルで移動方向を判定し、判定した方向に向いたアニメーションを使用
 	if (useAnimation == (int)AnimationType::back) {
 		backSprites_[backAnimationCounter_]->Draw();
-	}
-	else if (useAnimation == (int)AnimationType::front) {
+	} else if (useAnimation == (int)AnimationType::front) {
 		frontSprites_[frontAnimationCounter_]->Draw();
 	}
 
@@ -221,13 +238,11 @@ void Player::Draw(ScrollCamera* scroll)
 	if (isColdWave) coldWave_->Draw();
 }
 
-void Player::AddPlayerVector(Vector2 vec)
-{
+void Player::AddPlayerVector(Vector2 vec) {
 	position_ = { position_.x + vec.x,position_.y + vec.y };
 }
 
-bool Player::Move(ScrollCamera* camera)
-{
+bool Player::Move(ScrollCamera* camera) {
 	if (KeyInput::GetIns()->PushKey(DIK_W) || PadInput::GetIns()->leftStickY() <= -0.5f) {
 		Vector2 cursolPos = MouseInput::GetIns()->ClientToPostEffect() + camera->GetPosition();
 		Vector2 playerPos = position_;
@@ -242,16 +257,14 @@ bool Player::Move(ScrollCamera* camera)
 			if (vec.y > 0) {
 				//下に移動
 				useAnimation = (int)AnimationType::front;
-			}
-			else if (vec.y < 0) {
+			} else if (vec.y < 0) {
 				//上に移動
 				useAnimation = (int)AnimationType::back;
 			}
 			if (vec.x > 0) {
 				//右に移動
 				useDirectionSide = (int)AnimationType::RightSide;
-			}
-			else if (vec.x < 0) {
+			} else if (vec.x < 0) {
 				//左に移動
 				useDirectionSide = (int)AnimationType::LeftSide;
 			}
@@ -262,8 +275,7 @@ bool Player::Move(ScrollCamera* camera)
 	return false;
 }
 
-void Player::Wave()
-{
+void Player::Wave() {
 	//毎フレーム最初にfalseにする
 	isRecall_ = false;
 	//熱波を放射

@@ -159,14 +159,22 @@ private:
 	Sprite* heatWave_ = nullptr;
 	Sprite* coldWave_ = nullptr;
 
+	// ”M”g
 	bool isHeatWave = false;
 	float heatExtend = 0;
 	float heatAlpha = 1;
 
+	// Š¦”g
 	bool isColdWave = false;
 	float coldExtend = 0;
 	float coldAlpha = 1;
 	bool isRecall_ = false;
+
+	// ƒg[ƒ‹ƒrƒ‡[ƒ“ó‘Ô
+	bool ultState = false;
+	float ultGage = 0;
+	const float maxUltDiray = 60;
+	float ultDiray = maxUltDiray;
 
 	bool isMove_ = false;
 	float angle = 0;
