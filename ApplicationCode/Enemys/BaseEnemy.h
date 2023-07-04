@@ -110,8 +110,12 @@ protected:
 	bool towerHitFlag{};//砦との当たり判定フラグ
 	bool dead{};//
 
-	bool widthFlag{};
-	bool heightFlag{};
+	bool minWidthFlag{};
+	bool minHeightFlag{};
+	bool maxWidthFlag{};
+	bool maxHeightFlag{};
+
+
 	std::array<float, 360> maxAngle;//角度最大値
 	std::array<float, 0> minAngle;//角度最小値
 

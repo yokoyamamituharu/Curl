@@ -21,21 +21,71 @@ std::vector<Sprite*> BaseEnemy::SpritesCreate(const ImageManager::ImageName imag
 void BaseEnemy::WorldMarker(XMFLOAT2 playerPos)
 {
 	
-	if (pos.x <= -32.f || pos.x >= (float)WinApp::window_width + 32.f)
+	if (pos.x <= -32.f )
 	{
-		widthFlag = true;
+		minWidthFlag = true;
+	}
+	else if (pos.x >= (float)WinApp::window_width + 32.f)
+	{
+		maxWidthFlag = true;
+
 	}
 
-	if (pos.y <= -32.f || pos.y >= (float)WinApp::window_height + 32.f)
+	if (pos.y <= -32.f)
 	{
-		heightFlag = true;
+		minHeightFlag = true;
+	}
+	else if (pos.y >= (float)WinApp::window_height + 32.f)
+	{
+		maxHeightFlag = true;
+
 	}
 
-	if (widthFlag == true || heightFlag == true)
+	if (minWidthFlag == true || maxWidthFlag == true || minHeightFlag == true || maxHeightFlag == true)
 	{
+		if (minWidthFlag == true || minHeightFlag == false || maxHeightFlag == false)
+		{
+			//3
+		}
+		else if (minWidthFlag == true || minHeightFlag == true || maxHeightFlag == false)
+		{
+			//0
+		}
+		else if (minWidthFlag == true || minHeightFlag == false || maxHeightFlag == true)
+		{
+			//2
+		}
+
+
+		if (maxWidthFlag == true || minHeightFlag == false || maxHeightFlag == false)
+		{
+			//1
+		}
+		else if (maxWidthFlag == true || minHeightFlag == true || maxHeightFlag == false)
+		{
+			//0
+		}
+		else if (maxWidthFlag == true || minHeightFlag == false || maxHeightFlag == true)
+		{
+			//2
+		}
+
+
+		if (minHeightFlag == true || minWidthFlag == false || maxWidthFlag == false)
+		{
+			//0
+		}
+		else if (minHeightFlag == true || minWidthFlag == true || maxWidthFlag == false)
+		{
+			//0
+		}
+		else if (minHeightFlag == true || minWidthFlag == false || maxWidthFlag == true)
+		{
+			//2
+		}
 
 		//atan2(pos.x - ((float)WinApp::window_width / 2), pos.y - ((float)WinApp::window_height / 2));
-		atan2(pos.x - playerPos.x, pos.y - playerPos.y);
+		float temp = atan2f(pos.x - playerPos.x, pos.y - playerPos.y);
 
 	}
 }
