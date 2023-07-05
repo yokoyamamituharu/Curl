@@ -31,6 +31,7 @@ public: //‰æ‘œ–¼
 		coldWaveNumber,
 		playerHeatTexNumber,
 		bloodGaugeNumber,
+		ultGaugeNumber,
 		vampire_front,
 		vampire_beside,
 		vampire_back,

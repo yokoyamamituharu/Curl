@@ -107,6 +107,16 @@ public:
 	/// <returns></returns>
 	int GetMaxBloodGauge() { return maxBlood_; }	
 
+	/// <summary>
+	/// ウルトゲージの値を取得
+	/// </summary>
+	float GetUltGauge() { return ultGauge; }
+
+	/// <summary>
+	/// ウルト最大値
+	/// </summary>
+	float GetUltMaxGauge() { return ultMaxGauge; }
+
 private:
 	/// <summary>
 	/// アニメーション画像の生成
@@ -170,10 +180,11 @@ private:
 	float coldAlpha = 1;
 	bool isRecall_ = false;
 
-	// トールビョーン状態
-	bool ultState = false;
-	float ultGage = 0;
-	const float maxUltDiray = 60;
+	// ウルト状態
+	bool ultState = false;			// ゲージ状態
+	float ultGauge = 0;				// ゲージ値
+	const float ultMaxGauge = 10;	// ゲージ最大値
+	const float maxUltDiray = 60;	// ゲージが減る速度
 	float ultDiray = maxUltDiray;
 
 	bool isMove_ = false;

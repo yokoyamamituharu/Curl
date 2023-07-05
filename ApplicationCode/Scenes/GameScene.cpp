@@ -45,9 +45,15 @@ void GameScene::Initialize()
 	tower_->Initialize(towerHP);
 	scrollCamera_ = ScrollCamera::Create();
 	Sprite::SetCamera(scrollCamera_);
+	// 血の量
 	bloodGaugeSprite_ = Sprite::UniquePtrCreate(UINT(ImageManager::ImageName::bloodGaugeNumber), { 99,656 });
 	bloodGaugeSprite_->SetLeftSizeCorrection(true);
 	bloodGaugeSprite_->SetUi(true);
+	// 体温
+	ultGaugeSprite = Sprite::UniquePtrCreate(UINT(ImageManager::ImageName::ultGaugeNumber), { 1196,375 });
+	ultGaugeSprite->SetLeftSizeCorrection(true);
+	ultGaugeSprite->SetUi(true);
+
 	poseButton_ = Button::CreateUniqueButton(ImageManager::ImageName::Pause, { 64,24 }, { 100,100 }, 0);
 	poseBackButton_ = Button::CreateUniqueButton(ImageManager::ImageName::Back, { 100,300 }, { 100,100 }, 0);
 	titleButton_ = Button::CreateUniqueButton(ImageManager::ImageName::TitleBack, { 100,400 }, { 100,100 }, 0);
@@ -85,8 +91,11 @@ void GameScene::Update()
 		//scrollCamera_->Update(player_->GetSprite()->GetPosition());
 
 		int b = player_->GetBloodGauge();
-
-		bloodGaugeSprite_->SetSize({ (float)109 * b ,27 });
+		//						横幅(1090)を10で割った数,縦幅
+		bloodGaugeSprite_->SetSize({ (float)109 * b ,27 });							// 血量バーの大きさを変える
+		float u = player_->GetUltGauge();
+		 const float ultSpriteMaxSizeX = 36.f; const float ultSpriteMaxSizeY = 336.f;
+		ultGaugeSprite->SetSize({ ultSpriteMaxSizeX,(ultSpriteMaxSizeY / player_ ->GetUltMaxGauge()) * -u});	// 体温バーの大きさを変える
 
 		enemys_->Update(tower_->GetHP(), player_->GetPlayerHp());
 	}
@@ -222,6 +231,7 @@ void GameScene::Draw()
 	Sprite::PreDraw(DirectXSetting::GetIns()->GetCmdList());
 	poseButton_->Draw();
 	GameSprite1->Draw();
+	ultGaugeSprite->Draw();
 	GameSprite2->Draw();
 	//GameSprite3->Draw();
 	bloodGaugeSprite_->Draw();

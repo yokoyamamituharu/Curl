@@ -115,28 +115,29 @@ void Player::Update(ScrollCamera* camera) {
 	//使える血の残量を計算
 	bloodGauge_ = maxBlood_ - bloods_.size();
 
-	// 体温が100貯まったら
-	if (ultGage >= 5) {
+	// 体温最大でウルト状態
+	if (ultGauge >= ultMaxGauge) {
 		ultState = true;
-		// 体温が0以下になったら
-	} else if (0 >= ultGage) {
+		// 体温0でウルト解除
+	} else if (0 >= ultGauge) {
 		ultState = false;
 	}
 
-	// トールビョーン状態かステータスを変える
+
+	// ウルト状態かステータスを変える
 	if (ultState == true) {
-		speed_ = 7.0f;		// スピードを上げる
+		speed_ = 5.0f;		// スピードを上げる
 		ultDiray--;
 		// 時間でゲージ減らす
 		if (ultDiray <= 0) {
-			ultGage--;			// ゲージを下げていく
+			ultGauge--;			// ゲージを下げていく
 			ultDiray = maxUltDiray;
 		}
-
 	} else if (ultState == false) {
 		speed_ = 2.0f; // 元のスピードに戻す
 	}
 
+	
 
 	/// <summary>
 	///ゲームには関係ない
@@ -150,12 +151,17 @@ void Player::Update(ScrollCamera* camera) {
 		if (isRecall_ && blood->GetTemperature() == (int)Blood::Temperature::liquid) {
 			blood->SetState(Blood::State::back);
 		}
-		//血がプレイヤーの位置に戻ったらプレイヤーの体温を上げ（未実装）血を消す
+		//血がプレイヤーの位置に戻ったらプレイヤーの体温を上げ血を消す
 		if (blood->GetState() == (int)Blood::State::heat) {
-			// ゲージを増やしていく
-			// UIが未実装なのでコメントアウト
-			// ultGage++;
+			// ウルト状態でなければゲージを増やしていく
+			if (ultState == false) {
+				ultGauge++;
 
+				// 体温が最大値を超えないようにする
+				if (ultGauge > ultMaxGauge) {
+					ultGauge = ultMaxGauge;
+				}
+			}
 			blood->SetDead();
 		}
 
