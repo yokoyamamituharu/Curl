@@ -27,6 +27,8 @@
 #include "Collision.h"
 #include "Timer.h"
 
+#include "Camera2D.h"
+
 class GameScene : public BaseScene
 {
 public: //ƒƒ“ƒoŠÖ”
@@ -85,9 +87,11 @@ private: //ƒƒ“ƒo•Ï”
 	Sprite* GameSprite1 = nullptr;
 	Sprite* GameSprite2 = nullptr;
 	Sprite* GameSprite3 = nullptr;
+	Sprite* playerHp = nullptr;
 	Sprite* manual = nullptr;
 	Timer* timer_;
 	std::unique_ptr<Sprite> bloodGaugeSprite_ = nullptr;
+	std::unique_ptr<Sprite> ultGaugeSprite = nullptr;
 	
 	Enemys* enemys_{};
 	
@@ -99,5 +103,7 @@ private: //ƒƒ“ƒo•Ï”
 	std::unique_ptr<Button>	titleButton_;
 
 	bool pose_ = false;
+	bool debugMuteki = false;
+	Camera2D* camera2D = nullptr;
 };
 

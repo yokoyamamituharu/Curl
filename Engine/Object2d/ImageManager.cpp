@@ -17,6 +17,7 @@ void ImageManager::Initialize() {
 	Sprite::LoadTexture(int32_t(ImageName::heatWaveNumber), L"Engine/Resources/Images/heatWave.png");
 	Sprite::LoadTexture(int32_t(ImageName::coldWaveNumber), L"Engine/Resources/Images/coldWave.png");
 	Sprite::LoadTexture(int32_t(ImageName::bloodGaugeNumber), L"Engine/Resources/Images/bloodGauge.png");
+	Sprite::LoadTexture(int32_t(ImageName::ultGaugeNumber), L"Engine/Resources/Images/bloodGauge.png");
 	Sprite::LoadTexture(int32_t(ImageName::enemyindividual), L"Engine/Resources/Images/enemy(1).png");
 	Sprite::LoadTexture(int32_t(ImageName::enemyLiquid), L"Engine/Resources/Images/enemy(2).png");
 	Sprite::LoadTexture(int32_t(ImageName::enemyGas), L"Engine/Resources/Images/enemy(3).png");
@@ -32,6 +33,7 @@ void ImageManager::Initialize() {
 	Sprite::LoadTexture(int32_t(ImageName::GameUI_01), L"Engine/Resources/Images/UIBack.png");
 	Sprite::LoadTexture(int32_t(ImageName::GameUI_02), L"Engine/Resources/Images/thermometer.png");
 	Sprite::LoadTexture(int32_t(ImageName::GameUI_03), L"Engine/Resources/Images/temperatureValue.png");
+	Sprite::LoadTexture(int32_t(ImageName::playerHp), L"Engine/Resources/Images/hp.png");
 	Sprite::LoadTexture(int32_t(ImageName::TitleLog), L"Engine/Resources/Images/TitleLog.png");
 	Sprite::LoadTexture(int32_t(ImageName::ManualButton), L"Engine/Resources/Images/ManualButton.png");
 	Sprite::LoadTexture(int32_t(ImageName::StartButton), L"Engine/Resources/Images/StartButton.png");

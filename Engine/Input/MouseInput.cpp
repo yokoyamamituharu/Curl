@@ -6,6 +6,12 @@ MouseInput* MouseInput::GetIns()
 	return &instance;
 }
 
+Vector2 MouseInput::ClientToPostEffect()
+{
+	return Vector2({ float(MouseInput::GetIns()->GetMousePoint().x) * 1.078f,
+			float(MouseInput::GetIns()->GetMousePoint().y) * 1.18f });
+}
+
 void MouseInput::Initialize(WinApp* winApp) {
 	HRESULT result = S_FALSE;
 
@@ -33,11 +39,38 @@ void MouseInput::Update() {
 		result = devMouse->Acquire();
 		//マウスの入力情報を取得する
 		result = devMouse->GetDeviceState(sizeof(DIMOUSESTATE), &mouseState);
+
+		HWND hwnd = GetForegroundWindow();
+		RECT rect;
+		GetWindowRect(hwnd, &rect);
+		//SetWindowPos(
+		//	hwnd,
+		//	0,
+		//	rect.left,
+		//	rect.top,
+		//	1184,
+		//	612,
+		//	0
+		//);
 		//マウスカーソルの位置を取得
 		GetCursorPos(&mousePoint);
 		//取得したカーソルの位置をウィンドウ上の位置に変換
 		ScreenToClient(winApp->GetHwnd(), &mousePoint);
+
+
+		//SetWindowPos(
+		//	hwnd,
+		//	0,
+		//	rect.left,
+		//	rect.top,
+		//	WinApp::window_width,
+		//	WinApp::window_height,
+		//	0
+		//);
+		int i = 0;
 	}
+
+
 }
 
 bool MouseInput::PushClick(BYTE mouseClick) {

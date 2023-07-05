@@ -38,7 +38,7 @@ void WinApp::Initialize() {
 
 	// ウィンドウオブジェクトの生成
 	hwnd = CreateWindow(w.lpszClassName, // クラス名
-		L"AngelicIron",         // タイトルバーの文字
+		L"転血",         // タイトルバーの文字
 		windowStyle,        // 標準的なウィンドウスタイル
 		display_width / 6,              // 表示X座標（OSに任せる）
 		display_height / 6,              // 表示Y座標（OSに任せる）

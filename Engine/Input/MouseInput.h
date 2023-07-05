@@ -6,7 +6,7 @@
 
 #define DIRECTINPUT_VERSION     0x0800   // DirectInputのバージョン指定
 #include <dinput.h>
-
+#include "Vector2.h"
 #pragma comment(lib, "dinput8.lib")
 #pragma comment(lib, "dxguid.lib")
 
@@ -88,6 +88,8 @@ public: //メンバ関数
 	/// </summary>
 	/// <returns>1フレームでの移動量</returns>
 	float GetMouseYVelocity() { return (float)mouseState.lY; }
+
+	Vector2 ClientToPostEffect();
 
 private: //メンバ変数
 	//DirectInputのインスタンス
