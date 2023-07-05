@@ -53,7 +53,10 @@ public: //‰æ‘œ–¼
 		Manual,
 		gameOver,
 		wolfForwardWalk,
-		wolfBackwardWalk
+		wolfBackwardWalk,
+		watch,
+		watch_BigHand,
+		watch_LittleHand
 	};
 
 public: //ƒƒ“ƒoŠÖ”

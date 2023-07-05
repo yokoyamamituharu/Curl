@@ -210,6 +210,7 @@
     <ClCompile Include="Engine\Object3d\ParticleManager.cpp" />
     <ClCompile Include="Engine\Object3d\Shapes.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ApplicationCode\Command\Command.h" />
@@ -273,6 +274,7 @@
     <ClInclude Include="Engine\Object3d\Object3d.h" />
     <ClInclude Include="Engine\Object3d\ParticleManager.h" />
     <ClInclude Include="Engine\Object3d\Shapes.h" />
+    <ClInclude Include="Timer.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="IgaEngine.rc" />

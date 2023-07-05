@@ -43,5 +43,7 @@ void ImageManager::Initialize() {
 	Sprite::LoadTexture(int32_t(ImageName::gameOver), L"Engine/Resources/Images/GameOver.png");
 	Sprite::LoadTexture(int32_t(ImageName::wolfForwardWalk), L"Engine/Resources/Images/wolfForwardWalk.png");
 	Sprite::LoadTexture(int32_t(ImageName::wolfBackwardWalk), L"Engine/Resources/Images/wolfBackwardWalk.png");
-	
+	Sprite::LoadTexture(int32_t(ImageName::watch), L"Engine/Resources/Images/Watch.png");
+	Sprite::LoadTexture(int32_t(ImageName::watch_BigHand), L"Engine/Resources/Images/Watch_BigHand.png");
+	Sprite::LoadTexture(int32_t(ImageName::watch_LittleHand), L"Engine/Resources/Images/Watch_LittleHand.png");
 }
