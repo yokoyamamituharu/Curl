@@ -43,6 +43,9 @@ void GameScene::Initialize()
 	poseButton_ = Button::CreateUniqueButton(ImageManager::ImageName::Pause, { 64,24 }, { 100,100 }, 0);
 	poseBackButton_ = Button::CreateUniqueButton(ImageManager::ImageName::Back, { 100,300 }, { 100,100 }, 0);
 	titleButton_ = Button::CreateUniqueButton(ImageManager::ImageName::TitleBack, { 100,400 }, { 100,100 }, 0);
+
+	timer_ = new Timer();
+	timer_->Initialize(360);
 }
 
 void GameScene::Update()
@@ -50,6 +53,7 @@ void GameScene::Update()
 	//blood_->Update();
 	HitBloodAndEnemys();
 	HitTowerAndEnemys();
+	timer_->Update();
 	
 	poseButton_->Update();
 	tower_->Update();
@@ -210,6 +214,7 @@ void GameScene::Draw()
 		titleButton_->Draw();
 		manual->Draw();
 	}
+	timer_->Draw();
 	Sprite::PostDraw();
 	DirectXSetting::GetIns()->PostDraw();
 }
@@ -221,7 +226,7 @@ void GameScene::Finalize()
 	//enemys_->Delete();
 	safe_delete(enemys_);
 	safe_delete(manual);
-	
+	safe_delete(timer_);
 	safe_delete(player_);
 	safe_delete(bgSprite_);
 	safe_delete(GameSprite1);

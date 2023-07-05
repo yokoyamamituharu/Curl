@@ -179,6 +179,7 @@
     <ClCompile Include="ApplicationCode\ScrollCamera\ScrollCamera.cpp" />
     <ClCompile Include="ApplicationCode\Tower\Tower.cpp" />
     <ClCompile Include="ApplicationCode\UI\Button.cpp" />
+    <ClCompile Include="ApplicationCode\UI\Timer.cpp" />
     <ClCompile Include="Engine\Audio\Sound.cpp" />
     <ClCompile Include="Engine\Audio\SoundManager.cpp" />
     <ClCompile Include="Engine\Base\DirectXSetting.cpp" />
@@ -210,7 +211,6 @@
     <ClCompile Include="Engine\Object3d\ParticleManager.cpp" />
     <ClCompile Include="Engine\Object3d\Shapes.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ApplicationCode\Command\Command.h" />
@@ -237,6 +237,7 @@
     <ClInclude Include="ApplicationCode\ScrollCamera\ScrollCamera.h" />
     <ClInclude Include="ApplicationCode\Tower\Tower.h" />
     <ClInclude Include="ApplicationCode\UI\Button.h" />
+    <ClInclude Include="ApplicationCode\UI\Timer.h" />
     <ClInclude Include="Engine\Audio\Sound.h" />
     <ClInclude Include="Engine\Audio\SoundManager.h" />
     <ClInclude Include="Engine\Base\DirectXSetting.h" />
@@ -274,7 +275,6 @@
     <ClInclude Include="Engine\Object3d\Object3d.h" />
     <ClInclude Include="Engine\Object3d\ParticleManager.h" />
     <ClInclude Include="Engine\Object3d\Shapes.h" />
-    <ClInclude Include="Timer.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="IgaEngine.rc" />

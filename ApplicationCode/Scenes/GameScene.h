@@ -24,7 +24,9 @@
 #include "ScrollCamera.h"
 
 #include "Button.h"
-#include"Collision.h"
+#include "Collision.h"
+#include "Timer.h"
+
 class GameScene : public BaseScene
 {
 public: //ƒƒ“ƒoŠÖ”
@@ -84,6 +86,7 @@ private: //ƒƒ“ƒo•Ï”
 	Sprite* GameSprite2 = nullptr;
 	Sprite* GameSprite3 = nullptr;
 	Sprite* manual = nullptr;
+	Timer* timer_;
 	std::unique_ptr<Sprite> bloodGaugeSprite_ = nullptr;
 	
 	Enemys* enemys_{};
