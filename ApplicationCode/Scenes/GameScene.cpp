@@ -1,5 +1,6 @@
 #include "GameScene.h"
 #include "ExternalFileLoader.h"
+#include "KeyInput.h"
 
 void GameScene::Initialize()
 {
@@ -31,18 +32,28 @@ void GameScene::Initialize()
 	GameSprite1 = Sprite::Create(UINT(ImageManager::ImageName::GameUI_01), { 0,0 });
 	GameSprite2 = Sprite::Create(UINT(ImageManager::ImageName::GameUI_02), { 0,0 });
 	GameSprite3 = Sprite::Create(UINT(ImageManager::ImageName::GameUI_03), { 0,0 });
+	GameSprite1->SetUi(true);
+	GameSprite2->SetUi(true);
 	playerHp = Sprite::Create(UINT(ImageManager::ImageName::playerHp), { 0,0 });
+	playerHp->SetUi(true);
 
 
 	manual = Sprite::Create(UINT(ImageManager::ImageName::Manual), { 300,0 });
+	manual->SetUi(true);
 	int32_t towerHP = 10;
 	tower_ = new Tower;
 	tower_->Initialize(towerHP);
 	scrollCamera_ = ScrollCamera::Create();
 	Sprite::SetCamera(scrollCamera_);
+	// 血の量
 	bloodGaugeSprite_ = Sprite::UniquePtrCreate(UINT(ImageManager::ImageName::bloodGaugeNumber), { 99,656 });
 	bloodGaugeSprite_->SetLeftSizeCorrection(true);
 	bloodGaugeSprite_->SetUi(true);
+	// 体温
+	ultGaugeSprite = Sprite::UniquePtrCreate(UINT(ImageManager::ImageName::ultGaugeNumber), { 1196,375 });
+	ultGaugeSprite->SetLeftSizeCorrection(true);
+	ultGaugeSprite->SetUi(true);
+
 	poseButton_ = Button::CreateUniqueButton(ImageManager::ImageName::Pause, { 64,24 }, { 100,100 }, 0);
 	poseBackButton_ = Button::CreateUniqueButton(ImageManager::ImageName::Back, { 100,300 }, { 100,100 }, 0);
 	titleButton_ = Button::CreateUniqueButton(ImageManager::ImageName::TitleBack, { 100,400 }, { 100,100 }, 0);
@@ -60,6 +71,11 @@ void GameScene::Update()
 
 	poseButton_->Update();
 	tower_->Update();
+
+	if (KeyInput::GetIns()->TriggerKey(DIK_M)) {
+		debugMuteki = !debugMuteki;
+	}
+
 	if (poseButton_->GetIsClick()) {
 		pose_ = true;
 		ShowCursor(true);
@@ -78,13 +94,16 @@ void GameScene::Update()
 		//scrollCamera_->Update(player_->GetSprite()->GetPosition());
 
 		int b = player_->GetBloodGauge();
-
-		bloodGaugeSprite_->SetSize({ (float)109 * b ,27 });
+		//						横幅(1090)を10で割った数,縦幅
+		bloodGaugeSprite_->SetSize({ (float)109 * b ,27 });							// 血量バーの大きさを変える
+		float u = player_->GetUltGauge();
+		 const float ultSpriteMaxSizeX = 36.f; const float ultSpriteMaxSizeY = 336.f;
+		ultGaugeSprite->SetSize({ ultSpriteMaxSizeX,(ultSpriteMaxSizeY / player_ ->GetUltMaxGauge()) * -u});	// 体温バーの大きさを変える
 
 		enemys_->Update(tower_->GetHP(), player_->GetPlayerHp());
 	}
 	//enemy_->Update();
-	scrollCamera_->Update(player_->GetSprite()->GetPosition());
+	scrollCamera_->Update(player_->GetPosition());
 	//シーン切り替え
 	SceneChange();
 }
@@ -201,7 +220,9 @@ void GameScene::Draw()
 	DirectXSetting::GetIns()->beginDrawWithDirect2D();
 	//テキスト描画範囲
 	D2D1_RECT_F textDrawRange = { 0, 0, 500, 500 };
-	//text_->Draw("meiryo", "white", L"ゲームシーン\n左クリックでタイトルシーン\n右クリックでリザルトシーン", textDrawRange);
+	std::wstring wstr1 = std::to_wstring(player_->GetPosition().x);
+	std::wstring wstr2 = std::to_wstring(player_->GetPosition().y);
+	text_->Draw("meiryo", "white", wstr1 + L"\n" + wstr2, textDrawRange);
 
 	DirectXSetting::GetIns()->endDrawWithDirect2D();
 
@@ -213,6 +234,7 @@ void GameScene::Draw()
 	Sprite::PreDraw(DirectXSetting::GetIns()->GetCmdList());
 	poseButton_->Draw();
 	GameSprite1->Draw();
+	ultGaugeSprite->Draw();
 	GameSprite2->Draw();
 	//GameSprite3->Draw();
 	bloodGaugeSprite_->Draw();
@@ -261,7 +283,7 @@ void GameScene::SceneChange()
 	{
 		SceneManager::SceneChange(SceneManager::SceneName::Result);
 	}
-	else if (tower_->GetHP() <= 0)
+	else if (tower_->GetHP() <= 0 && !debugMuteki)
 	{
 		SceneManager::SceneChange(SceneManager::SceneName::Over);
 
