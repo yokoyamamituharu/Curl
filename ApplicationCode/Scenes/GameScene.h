@@ -80,14 +80,15 @@ private: //ÉÅÉìÉoïœêî
 
 	Player* player_ = nullptr;
 	Tower* tower_ = nullptr;
-	Sprite* bgSprite_ = nullptr;
-	Sprite* GameSprite1 = nullptr;
-	Sprite* GameSprite2 = nullptr;
-	Sprite* GameSprite3 = nullptr;
+	std::unique_ptr<Sprite> bgSprite_ = nullptr;
+	std::unique_ptr<Sprite> GameSprite1_ = nullptr;
+	std::unique_ptr<Sprite> GameSprite2_ = nullptr;
+	std::unique_ptr<Sprite> GameSprite3_ = nullptr;
 	Sprite* playerHp = nullptr;
-	Sprite* manual = nullptr;
+	std::unique_ptr<Sprite> manual_ = nullptr;
 	std::unique_ptr<Sprite> bloodGaugeSprite_ = nullptr;
-	std::unique_ptr<Sprite> ultGaugeSprite = nullptr;
+	std::unique_ptr<Sprite> ultGaugeSprite_ = nullptr;
+	std::unique_ptr<Sprite> overheatSprite_ = nullptr;
 	
 	Enemys* enemys_{};
 	

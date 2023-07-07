@@ -28,18 +28,18 @@ void GameScene::Initialize()
 	//blood_ = Blood::Create({ 300,500 }, Blood::Temperature::solid);
 	//player_ = Player::Create();
 	RoadPlayer();
-	bgSprite_ = Sprite::Create(UINT(ImageManager::ImageName::bgTexNumber), { 0,0 });
-	GameSprite1 = Sprite::Create(UINT(ImageManager::ImageName::GameUI_01), { 0,0 });
-	GameSprite2 = Sprite::Create(UINT(ImageManager::ImageName::GameUI_02), { 0,0 });
-	GameSprite3 = Sprite::Create(UINT(ImageManager::ImageName::GameUI_03), { 0,0 });
-	GameSprite1->SetUi(true);
-	GameSprite2->SetUi(true);
+	bgSprite_ = Sprite::UniquePtrCreate(UINT(ImageManager::ImageName::bgTexNumber), { 0,0 });
+	GameSprite1_ = Sprite::UniquePtrCreate(UINT(ImageManager::ImageName::GameUI_01), { 0,0 });
+	GameSprite2_ = Sprite::UniquePtrCreate(UINT(ImageManager::ImageName::GameUI_02), { 0,0 });
+	GameSprite3_ = Sprite::UniquePtrCreate(UINT(ImageManager::ImageName::GameUI_03), { 0,0 });
+	GameSprite1_->SetUi(true);
+	GameSprite2_->SetUi(true);
 	playerHp = Sprite::Create(UINT(ImageManager::ImageName::playerHp), { 0,0 });
 	playerHp->SetUi(true);
 
 
-	manual = Sprite::Create(UINT(ImageManager::ImageName::Manual), { 300,0 });
-	manual->SetUi(true);
+	manual_ = Sprite::UniquePtrCreate(UINT(ImageManager::ImageName::Manual), { 300,0 });
+	manual_->SetUi(true);
 	int32_t towerHP = 10;
 	tower_ = new Tower;
 	tower_->Initialize(towerHP);
@@ -50,9 +50,13 @@ void GameScene::Initialize()
 	bloodGaugeSprite_->SetLeftSizeCorrection(true);
 	bloodGaugeSprite_->SetUi(true);
 	// 体温
-	ultGaugeSprite = Sprite::UniquePtrCreate(UINT(ImageManager::ImageName::ultGaugeNumber), { 1196,375 });
-	ultGaugeSprite->SetLeftSizeCorrection(true);
-	ultGaugeSprite->SetUi(true);
+	ultGaugeSprite_ = Sprite::UniquePtrCreate(UINT(ImageManager::ImageName::ultGaugeNumber), { 1196,375 });
+	ultGaugeSprite_->SetLeftSizeCorrection(true);
+	ultGaugeSprite_->SetUi(true);
+	// オーバーヒート状態
+	overheatSprite_ = Sprite::UniquePtrCreate(UINT(ImageManager::ImageName::overheatNumber), { 1196,375 });
+	overheatSprite_->SetLeftSizeCorrection(true);
+	overheatSprite_->SetUi(true);
 
 	poseButton_ = Button::CreateUniqueButton(ImageManager::ImageName::Pause, { 64,24 }, { 100,100 }, 0);
 	poseBackButton_ = Button::CreateUniqueButton(ImageManager::ImageName::Back, { 100,300 }, { 100,100 }, 0);
@@ -95,7 +99,9 @@ void GameScene::Update()
 		bloodGaugeSprite_->SetSize({ (float)109 * b ,27 });							// 血量バーの大きさを変える
 		float u = player_->GetUltGauge();
 		 const float ultSpriteMaxSizeX = 36.f; const float ultSpriteMaxSizeY = 336.f;
-		ultGaugeSprite->SetSize({ ultSpriteMaxSizeX,(ultSpriteMaxSizeY / player_ ->GetUltMaxGauge()) * -u});	// 体温バーの大きさを変える
+		ultGaugeSprite_->SetSize({ ultSpriteMaxSizeX,(ultSpriteMaxSizeY / player_ ->GetUltMaxGauge()) * -u});	// 体温バーの大きさを変える
+		
+		overheatSprite_->SetSize({ ultSpriteMaxSizeX,(ultSpriteMaxSizeY / player_ ->GetUltMaxGauge()) * -u});	// 体温バーの大きさを変える
 
 		enemys_->Update(tower_->GetHP(), player_->GetPlayerHp());
 	}
@@ -230,17 +236,20 @@ void GameScene::Draw()
 	//ポストエフェクトをかけないスプライト描画処理(UI等)
 	Sprite::PreDraw(DirectXSetting::GetIns()->GetCmdList());
 	poseButton_->Draw();
-	GameSprite1->Draw();
-	ultGaugeSprite->Draw();
-	GameSprite2->Draw();
-	//GameSprite3->Draw();
+	GameSprite1_->Draw();
+	ultGaugeSprite_->Draw();
+	if (player_->GetUltState()) {
+		overheatSprite_->Draw();
+	}
+	GameSprite2_->Draw();
+	//GameSprite3_->Draw();
 	bloodGaugeSprite_->Draw();
 	playerHp->Draw();
 
 	if (pose_) {
 		poseBackButton_->Draw();
 		titleButton_->Draw();
-		manual->Draw();
+		manual_->Draw();
 	}
 	Sprite::PostDraw();
 	DirectXSetting::GetIns()->PostDraw();
@@ -252,13 +261,7 @@ void GameScene::Finalize()
 	safe_delete(text_);
 	//enemys_->Delete();
 	safe_delete(enemys_);
-	safe_delete(manual);
-
 	safe_delete(player_);
-	safe_delete(bgSprite_);
-	safe_delete(GameSprite1);
-	safe_delete(GameSprite2);
-	safe_delete(GameSprite3);
 	safe_delete(playerHp);
 	safe_delete(tower_);
 	safe_delete(scrollCamera_);
