@@ -55,7 +55,7 @@ Player* Player::Create(Vector2 pos, float rote, int hp, int maxBlood) {
 	instance->bloodGauge_ = maxBlood;
 	instance->frontSprites_ = Player::SpritesCreateP((int)ImageManager::ImageName::wolfForwardWalk, frontAnimationCount, instance->position_);
 	instance->backSprites_ = Player::SpritesCreateP((int)ImageManager::ImageName::wolfBackwardWalk, backAnimationCount, instance->position_);
-	instance->useAnimation = (int)AnimationType::front;
+	instance->useAnimation_ = (int)AnimationType::front;
 	return instance;
 }
 
@@ -85,22 +85,6 @@ void Player::Update(ScrollCamera* camera) {
 	//プレイヤーのキーイベント更新
 	//handler_->PlayerHandleInput();
 
-	// 消して良いやつ
-	//オーバーロード状態
-	//if (heat_ > 0) {
-	//	state_ = (int)State::heat;
-	//	speed_ = 7.0f;
-	//	heatDiray_--;
-	//	// 時間で減らしていく
-	//	if (heatDiray_ <= 0) {
-	//		heat_--;
-	//		heatDiray_ = maxHeatDiray_;
-	//	}
-	//} else {
-	//	state_ = (int)State::idle;
-	//	speed_ = 2.0f;
-	//}
-
 	//熱波、寒波の処理
 	Wave();
 
@@ -111,16 +95,26 @@ void Player::Update(ScrollCamera* camera) {
 
 	// 体温最大でウルト状態
 	if (ultGauge >= ultMaxGauge) {
+		//一回だけ実行する処理		
+		if (ultState == false) {
+			maxBlood_ += 20;
+			speed_ += 4;
+		}
 		ultState = true;
 		// 体温0でウルト解除
 	} else if (0 >= ultGauge) {
+		if (ultState)
+		{
+			maxBlood_ -= 10;
+			speed_ -= 2;
+		}
 		ultState = false;
 	}
 
 
-	// ウルト状態かステータスを変える
+	// ウルト状態ならステータスを変える
 	if (ultState == true) {
-		speed_ = 5.0f;		// スピードを上げる
+		//speed_ = 5.0f;		// スピードを上げる
 		ultDiray--;
 		// 時間でゲージ減らす
 		if (ultDiray <= 0) {
@@ -128,7 +122,7 @@ void Player::Update(ScrollCamera* camera) {
 			ultDiray = maxUltDiray;
 		}
 	} else if (ultState == false) {
-		speed_ = 2.0f; // 元のスピードに戻す
+		//speed_ = initSpeed_; // 元のスピードに戻す
 	}
 
 	
@@ -163,10 +157,10 @@ void Player::Update(ScrollCamera* camera) {
 		XMFLOAT2 pos2 = blood->GetPosition();
 		//熱波と血の当たり判定
 		float length = sqrtf((pos1.x - pos2.x) * (pos1.x - pos2.x) + (pos1.y - pos2.y) * (pos1.y - pos2.y));
-		if (heatExtend / 2 + 16 > length && isHeatWave) blood->HeatWaveOnCollision();
+		if (heatExtend_ / 2 + 16 > length && isHeatWave_) blood->HeatWaveOnCollision();
 		//寒波と血の当たり判定
 		length = sqrtf((pos1.x - pos2.x) * (pos1.x - pos2.x) + (pos1.y - pos2.y) * (pos1.y - pos2.y));
-		if (coldExtend / 2 + 16 > length && isColdWave) blood->ColdWaveOnCollision();
+		if (coldExtend_ / 2 + 16 > length && isColdWave_) blood->ColdWaveOnCollision();
 
 		//血の更新処理
 		blood->Update();
@@ -217,25 +211,25 @@ void Player::Draw(ScrollCamera* scroll) {
 	}
 
 	//左右の向きを決定
-	if (useDirectionSide == (int)AnimationType::RightSide) {
+	if (useDirectionSide_ == (int)AnimationType::RightSide) {
 		frontSprites_[frontAnimationCounter_]->SetIsFlipX(true);
 		backSprites_[backAnimationCounter_]->SetIsFlipX(false);
-	} else if (useDirectionSide == (int)AnimationType::LeftSide) {
+	} else if (useDirectionSide_ == (int)AnimationType::LeftSide) {
 		frontSprites_[frontAnimationCounter_]->SetIsFlipX(false);
 		backSprites_[backAnimationCounter_]->SetIsFlipX(true);
 	}
 
 	//アングルで移動方向を判定し、判定した方向に向いたアニメーションを使用
-	if (useAnimation == (int)AnimationType::back) {
+	if (useAnimation_ == (int)AnimationType::back) {
 		backSprites_[backAnimationCounter_]->Draw();
-	} else if (useAnimation == (int)AnimationType::front) {
+	} else if (useAnimation_ == (int)AnimationType::front) {
 		frontSprites_[frontAnimationCounter_]->Draw();
 	}
 
 	//熱波の描画
-	if (isHeatWave) heatWave_->Draw();
+	if (isHeatWave_) heatWave_->Draw();
 	//寒波の描画
-	if (isColdWave) coldWave_->Draw();
+	if (isColdWave_) coldWave_->Draw();
 }
 
 void Player::AddPlayerVector(Vector2 vec) {
@@ -256,17 +250,17 @@ bool Player::Move(ScrollCamera* camera) {
 			//使う画像を選ぶ
 			if (vec.y > 0) {
 				//下に移動
-				useAnimation = (int)AnimationType::front;
+				useAnimation_ = (int)AnimationType::front;
 			} else if (vec.y < 0) {
 				//上に移動
-				useAnimation = (int)AnimationType::back;
+				useAnimation_ = (int)AnimationType::back;
 			}
 			if (vec.x > 0) {
 				//右に移動
-				useDirectionSide = (int)AnimationType::RightSide;
+				useDirectionSide_ = (int)AnimationType::RightSide;
 			} else if (vec.x < 0) {
 				//左に移動
-				useDirectionSide = (int)AnimationType::LeftSide;
+				useDirectionSide_ = (int)AnimationType::LeftSide;
 			}
 		}
 		return true;
@@ -279,32 +273,32 @@ void Player::Wave() {
 	//毎フレーム最初にfalseにする
 	isRecall_ = false;
 	//熱波を放射
-	if (KeyInput::GetIns()->TriggerKey(DIK_E)) isHeatWave = true;
+	if (KeyInput::GetIns()->TriggerKey(DIK_E)) isHeatWave_ = true;
 	//寒波を放射
-	if (KeyInput::GetIns()->TriggerKey(DIK_Q)) isColdWave = true;
+	if (KeyInput::GetIns()->TriggerKey(DIK_Q)) isColdWave_ = true;
 
-	if (isHeatWave) {
-		heatWave_->SetSize({ heatExtend ,heatExtend });
-		heatWave_->SetAlpha(heatAlpha);
-		heatExtend += 240;
-		heatAlpha -= 0.1;
-		if (heatAlpha < 0) {
-			isHeatWave = false;
+	if (isHeatWave_) {
+		heatWave_->SetSize({ heatExtend_ ,heatExtend_ });
+		heatWave_->SetAlpha(heatAlpha_);
+		heatExtend_ += 240;
+		heatAlpha_ -= 0.1;
+		if (heatAlpha_ < 0) {
+			isHeatWave_ = false;
 			isRecall_ = true;
-			heatExtend = 0;
-			heatAlpha = 1;
+			heatExtend_ = 0;
+			heatAlpha_ = 1;
 		}
 	}
-	if (isColdWave) {
-		coldWave_->SetSize({ coldExtend ,coldExtend });
-		coldWave_->SetAlpha(coldAlpha);
-		coldExtend += 240;
-		coldAlpha -= 0.1f;
-		if (coldAlpha < 0) {
-			isColdWave = false;
+	if (isColdWave_) {
+		coldWave_->SetSize({ coldExtend_ ,coldExtend_ });
+		coldWave_->SetAlpha(coldAlpha_);
+		coldExtend_ += 240;
+		coldAlpha_ -= 0.1f;
+		if (coldAlpha_ < 0) {
+			isColdWave_ = false;
 			isRecall_ = true;
-			coldExtend = 0;
-			coldAlpha = 1;
+			coldExtend_ = 0;
+			coldAlpha_ = 1;
 		}
 	}
 }
