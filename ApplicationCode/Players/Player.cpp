@@ -60,15 +60,12 @@ Player* Player::Create(Vector2 pos, float rote, int hp, int maxBlood) {
 	instance->frontSprites_ = Player::SpritesCreateP((int)ImageManager::ImageName::wolfForwardWalk, frontAnimationCount, instance->position_);
 	instance->backSprites_ = Player::SpritesCreateP((int)ImageManager::ImageName::wolfBackwardWalk, backAnimationCount, instance->position_);
 	instance->useAnimation_ = (int)AnimationType::front;
+	instance->reticle_->SetUi(true);
 	return instance;
 }
 
 void Player::Update(ScrollCamera* camera) {
-
-	XMFLOAT2 mouse;
-	mouse.x = (float)MouseInput::GetIns()->GetMousePoint().x;
-	mouse.y = (float)MouseInput::GetIns()->GetMousePoint().y;
-	reticle_->SetPosition(mouse);
+	reticle_->SetPosition(MouseInput::GetIns()->ClientToPostEffect());
 	//フラグが立っている血を消す
 	bloods_.remove_if([](std::unique_ptr<Blood>& blood) {
 		return blood->GetDead();
@@ -234,7 +231,7 @@ void Player::Draw(ScrollCamera* scroll) {
 	} else if (useAnimation_ == (int)AnimationType::front) {
 		frontSprites_[frontAnimationCounter_]->Draw();
 	}
-
+	//レティクルの描画
 	reticle_->Draw();
 	//熱波の描画
 	if (isHeatWave_) heatWave_->Draw();
