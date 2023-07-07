@@ -57,7 +57,7 @@ void GameScene::Initialize()
 	poseButton_ = Button::CreateUniqueButton(ImageManager::ImageName::Pause, { 64,24 }, { 100,100 }, 0);
 	poseBackButton_ = Button::CreateUniqueButton(ImageManager::ImageName::Back, { 100,300 }, { 100,100 }, 0);
 	titleButton_ = Button::CreateUniqueButton(ImageManager::ImageName::TitleBack, { 100,400 }, { 100,100 }, 0);
-
+	
 	camera2D = new Camera2D();
 	camera2D->InitializeCamera(WinApp::window_width, WinApp::window_height);
 	Sprite::SetCamera2D(camera2D);
@@ -102,10 +102,13 @@ void GameScene::Update()
 
 		enemys_->Update(tower_->GetHP(), player_->GetPlayerHp());
 	}
+
+	
 	//enemy_->Update();
 	scrollCamera_->Update(player_->GetPosition());
 	//シーン切り替え
 	SceneChange();
+
 }
 
 void GameScene::HitBloodAndEnemys()
@@ -220,9 +223,17 @@ void GameScene::Draw()
 	DirectXSetting::GetIns()->beginDrawWithDirect2D();
 	//テキスト描画範囲
 	D2D1_RECT_F textDrawRange = { 0, 0, 500, 500 };
+	
 	std::wstring wstr1 = std::to_wstring(player_->GetPosition().x);
 	std::wstring wstr2 = std::to_wstring(player_->GetPosition().y);
-	text_->Draw("meiryo", "white", wstr1 + L"\n" + wstr2, textDrawRange);
+	
+	DirectX::XMVECTOR vec = { scrollCamera_->GetPosition().x,scrollCamera_->GetPosition().y };
+	vec = DirectX::XMVector3TransformCoord(vec, Camera::GetMatViewPort());
+
+	std::wstring wstr3 = std::to_wstring(vec.m128_f32[0]);
+	std::wstring wstr4 = std::to_wstring(vec.m128_f32[1]);
+	text_->Draw("meiryo", "white", wstr1 + L"\n" + wstr2 + L"\n" + wstr3 + L"\n" + wstr4, textDrawRange);
+	
 
 	DirectXSetting::GetIns()->endDrawWithDirect2D();
 

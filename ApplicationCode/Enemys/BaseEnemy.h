@@ -76,7 +76,7 @@ public:
 
 protected: //静的メンバ関数
 
-	void WorldMarker(XMFLOAT2 playerPos);
+	void WorldMarker(XMFLOAT2 camera);
 
 	/// <summary>
 	/// 敵画像生成
@@ -97,6 +97,11 @@ protected:
 	std::vector<Sprite*> backSprites_;
 
 	XMFLOAT2 pos{};//座標
+
+	XMVECTOR markerAdd{};
+	float markerLength = 1;
+	XMFLOAT2 markerPos{};
+	float markerAngle{};
 
 	float angle{};//角度
 	float moveLength{};//距離

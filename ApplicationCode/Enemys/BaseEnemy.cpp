@@ -18,74 +18,92 @@ std::vector<Sprite*> BaseEnemy::SpritesCreate(const ImageManager::ImageName imag
 	return sprites;
 }
 
-void BaseEnemy::WorldMarker(XMFLOAT2 playerPos)
+void BaseEnemy::WorldMarker(XMFLOAT2 camera)
 {
+
+#pragma region 描画がスクリーンの外で行われているかの判定
+
+	//スクリーンの最小値　- 32
+	//スクリーンの最大値　+ 32
+	//上の二つの中にプレイヤーがいるかの判定
+
+#pragma endregion 描画がスクリーンの外で行われているかの判定
+
+#pragma region マーカーを出すための処理
+
+	//上の判定で外にいた場合
+
+	//ホーミング弾と似た処理
 	
-	if (pos.x <= -32.f )
+	XMVECTOR vec;
+
+	vec.m128_f32[0] = (camera.x - pos.x);
+	vec.m128_f32[1] = (camera.y - pos.y);
+	vec = DirectX::XMVector2Normalize(vec);
+
+	markerAdd.m128_f32[0] = vec.m128_f32[0] * markerLength;
+	markerAdd.m128_f32[1] = vec.m128_f32[1] * markerLength;
+
+	markerPos.x = pos.x + markerAdd.m128_f32[0];
+	markerPos.y = pos.y + markerAdd.m128_f32[1];
+
+#ifdef フラグ処理
+
+	if (pos.x < /*スクリーンの最小値 - 32*/)
 	{
-		minWidthFlag = true;
+		if (markerPos.x >/*スクリーンの最小値 - 32*/)
+		{
+			markerAngle = atan2f(pos.x - camera.x, pos.y - camera.y);
+
+			//フラグの終了
+		}
 	}
-	else if (pos.x >= (float)WinApp::window_width + 32.f)
+	else if (pos.x > /*スクリーンの最大値 + 32*/)
 	{
-		maxWidthFlag = true;
+		if (markerPos.x </*スクリーンの最小値 + 32*/)
+		{
+			markerAngle = atan2f(pos.x - camera.x, pos.y - camera.y);
 
+			//フラグの終了
+		}
 	}
-
-	if (pos.y <= -32.f)
+	else
 	{
-		minHeightFlag = true;
-	}
-	else if (pos.y >= (float)WinApp::window_height + 32.f)
-	{
-		maxHeightFlag = true;
-
-	}
-
-	if (minWidthFlag == true || maxWidthFlag == true || minHeightFlag == true || maxHeightFlag == true)
-	{
-		if (minWidthFlag == true || minHeightFlag == false || maxHeightFlag == false)
-		{
-			//3
-		}
-		else if (minWidthFlag == true || minHeightFlag == true || maxHeightFlag == false)
-		{
-			//0
-		}
-		else if (minWidthFlag == true || minHeightFlag == false || maxHeightFlag == true)
-		{
-			//2
-		}
-
-
-		if (maxWidthFlag == true || minHeightFlag == false || maxHeightFlag == false)
-		{
-			//1
-		}
-		else if (maxWidthFlag == true || minHeightFlag == true || maxHeightFlag == false)
-		{
-			//0
-		}
-		else if (maxWidthFlag == true || minHeightFlag == false || maxHeightFlag == true)
-		{
-			//2
-		}
-
-
-		if (minHeightFlag == true || minWidthFlag == false || maxWidthFlag == false)
-		{
-			//0
-		}
-		else if (minHeightFlag == true || minWidthFlag == true || maxWidthFlag == false)
-		{
-			//0
-		}
-		else if (minHeightFlag == true || minWidthFlag == false || maxWidthFlag == true)
-		{
-			//2
-		}
-
-		//atan2(pos.x - ((float)WinApp::window_width / 2), pos.y - ((float)WinApp::window_height / 2));
-		float temp = atan2f(pos.x - playerPos.x, pos.y - playerPos.y);
 
 	}
+
+	if (pos.y < /*スクリーンの最小値 - 32*/)
+	{
+		if (markerPos.y >/*スクリーンの最小値 - 32*/)
+		{
+			markerAngle = atan2f(pos.x - camera.x, pos.y - camera.y);
+
+			//フラグの終了
+		}
+	}
+	else if (pos.y > /*スクリーンの最大値 + 32*/)
+	{
+		if (markerPos.y </*スクリーンの最小値 + 32*/)
+		{
+			markerAngle = atan2f(pos.x - camera.x, pos.y - camera.y);
+
+			//フラグの終了
+		}
+	}
+	else
+	{
+
+	}
+#endif // フラグ処理
+
+	
+
+
+#pragma endregion マーカーを出すための処理
+
+
+	//atan2(pos.x - ((float)WinApp::window_width / 2), pos.y - ((float)WinApp::window_height / 2));
+	
+
+
 }

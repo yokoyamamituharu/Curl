@@ -64,8 +64,7 @@ Player* Player::Create(Vector2 pos, float rote, int hp, int maxBlood) {
 }
 
 void Player::Update(ScrollCamera* camera) {
-void Player::Update(ScrollCamera* camera)
-{
+
 	XMFLOAT2 mouse;
 	mouse.x = (float)MouseInput::GetIns()->GetMousePoint().x;
 	mouse.y = (float)MouseInput::GetIns()->GetMousePoint().y;
