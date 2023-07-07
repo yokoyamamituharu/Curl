@@ -2,11 +2,12 @@
 #include "Object3d.h"
 #include "Vector3.h"
 #include "DirectXMath.h"
-
+#include"WinApp.h"
 class Collision final
 {
 private:
 	using XMFLOAT2 = DirectX::XMFLOAT2;
+	using XMVECTOR = DirectX::XMVECTOR;
 
 private:
 	Collision() = default;
@@ -25,6 +26,11 @@ public: //ÉÅÉìÉoä÷êî
 
 	static bool HitCircle(XMFLOAT2 pos1, float radius1, XMFLOAT2 pos2, float radius2);
 
+	static XMFLOAT2 HitCrossWindows(XMFLOAT2 enemyPos,int flag);
+	
+	static bool CrossLine(XMFLOAT2 pos1, XMFLOAT2 pos2, XMFLOAT2 pos3, XMFLOAT2 pos4);
+
+	static XMFLOAT2 CrossLinePoint(XMFLOAT2 pos1, XMFLOAT2 pos2, XMFLOAT2 pos3, XMFLOAT2 pos4);
 	/// <summary>
 	/// ãÖÇ∆ãÖÇÃìñÇΩÇËîªíË
 	/// </summary>

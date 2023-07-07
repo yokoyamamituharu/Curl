@@ -28,7 +28,7 @@ void SceneManager::Finalize() {
 	//ベースシーン解放
 	safe_delete(nowScene);
 	//カーソル可視化
-	//ShowCursor(true);
+	ShowCursor(true);
 }
 
 void SceneManager::AddScore(const int32_t score) {
@@ -54,6 +54,7 @@ void SceneManager::SceneChange(SceneName scene) {
 	case SceneName::Game:
 		nowScene = new GameScene();
 		nowScene->Initialize();
+		ShowCursor(false);
 		break;
 	case SceneName::Result:
 		nowScene = new ResultScene();

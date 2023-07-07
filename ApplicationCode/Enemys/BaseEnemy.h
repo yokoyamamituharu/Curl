@@ -76,6 +76,8 @@ public:
 
 protected: //静的メンバ関数
 
+	void WorldMarker(XMFLOAT2 camera);
+
 	/// <summary>
 	/// 敵画像生成
 	/// </summary>
@@ -96,6 +98,11 @@ protected:
 
 	XMFLOAT2 pos{};//座標
 
+	XMVECTOR markerAdd{};
+	float markerLength = 1;
+	XMFLOAT2 markerPos{};
+	float markerAngle{};
+
 	float angle{};//角度
 	float moveLength{};//距離
 	float moveAddLength = 1;//加算距離
@@ -107,6 +114,12 @@ protected:
 	bool bloodHitFlag{};//血との当たり判定フラグ
 	bool towerHitFlag{};//砦との当たり判定フラグ
 	bool dead{};//
+
+	bool minWidthFlag{};
+	bool minHeightFlag{};
+	bool maxWidthFlag{};
+	bool maxHeightFlag{};
+
 
 	std::array<float, 360> maxAngle;//角度最大値
 	std::array<float, 0> minAngle;//角度最小値

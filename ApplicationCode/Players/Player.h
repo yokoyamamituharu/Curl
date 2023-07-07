@@ -172,6 +172,9 @@ private:
 
 	Sprite* heatWave_ = nullptr;
 	Sprite* coldWave_ = nullptr;
+	
+	Sprite* reticle_ = nullptr;
+
 
 	bool isRecall_ = false;
 	// ”M”g
