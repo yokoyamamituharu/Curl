@@ -24,8 +24,11 @@
 #include "ScrollCamera.h"
 
 #include "Button.h"
-#include"Collision.h"
+#include "Collision.h"
+#include "Timer.h"
+
 #include "Camera2D.h"
+
 class GameScene : public BaseScene
 {
 public: //ƒƒ“ƒoŠÖ”
@@ -85,6 +88,7 @@ private: //ƒƒ“ƒo•Ï”
 	std::unique_ptr<Sprite> GameSprite2_ = nullptr;
 	std::unique_ptr<Sprite> GameSprite3_ = nullptr;
 	Sprite* playerHp = nullptr;
+	Timer* timer_;
 	std::unique_ptr<Sprite> manual_ = nullptr;
 	std::unique_ptr<Sprite> bloodGaugeSprite_ = nullptr;
 	std::unique_ptr<Sprite> ultGaugeSprite_ = nullptr;

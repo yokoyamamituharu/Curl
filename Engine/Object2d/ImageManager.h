@@ -57,6 +57,9 @@ public: //‰æ‘œ–¼
 		gameOver,
 		wolfForwardWalk,
 		wolfBackwardWalk,
+		watch,
+		watch_BigHand,
+		watch_LittleHand,
 		reticle
 	};
 

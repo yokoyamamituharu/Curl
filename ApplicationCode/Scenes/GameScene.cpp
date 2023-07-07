@@ -65,6 +65,9 @@ void GameScene::Initialize()
 	camera2D = new Camera2D();
 	camera2D->InitializeCamera(WinApp::window_width, WinApp::window_height);
 	Sprite::SetCamera2D(camera2D);
+
+	timer_ = new Timer();
+	timer_->Initialize(60 * 20);
 }
 
 void GameScene::Update()
@@ -72,12 +75,22 @@ void GameScene::Update()
 	//blood_->Update();
 	HitBloodAndEnemys();
 	HitTowerAndEnemys();
+	timer_->Update();
 
 	poseButton_->Update();
 	tower_->Update();
 
 	if (KeyInput::GetIns()->TriggerKey(DIK_M)) {
 		debugMuteki = !debugMuteki;
+	}
+	if (KeyInput::GetIns()->TriggerKey(DIK_O)) {
+		timer_->SetIsWatchOpen(true);
+	}
+	else if (KeyInput::GetIns()->TriggerKey(DIK_C)) {
+		timer_->SetIsWatchOpen(false);
+	}
+	if (KeyInput::GetIns()->TriggerKey(DIK_S)) {
+		timer_->SetIsTimerStart(true);
 	}
 
 	if (poseButton_->GetIsClick()) {
@@ -265,6 +278,7 @@ void GameScene::Draw()
 		titleButton_->Draw();
 		manual_->Draw();
 	}
+	timer_->Draw();
 	Sprite::PostDraw();
 	DirectXSetting::GetIns()->PostDraw();
 }
@@ -275,6 +289,7 @@ void GameScene::Finalize()
 	safe_delete(text_);
 	//enemys_->Delete();
 	safe_delete(enemys_);
+	safe_delete(timer_);
 	safe_delete(player_);
 	safe_delete(playerHp);
 	safe_delete(tower_);
