@@ -90,9 +90,9 @@ void GameScene::Update()
 		player_->Update(scrollCamera_);
 		//scrollCamera_->Update(player_->GetSprite()->GetPosition());
 
-		int b = player_->GetBloodGauge();
+		int bloodGauge = player_->GetBloodGauge();
 		//						横幅(1090)を10で割った数,縦幅
-		bloodGaugeSprite_->SetSize({ (float)109 * b ,27 });							// 血量バーの大きさを変える
+		bloodGaugeSprite_->SetSize({ (float)1090/player_->GetMaxBloodGauge()* bloodGauge,27});							// 血量バーの大きさを変える
 		float u = player_->GetUltGauge();
 		 const float ultSpriteMaxSizeX = 36.f; const float ultSpriteMaxSizeY = 336.f;
 		ultGaugeSprite->SetSize({ ultSpriteMaxSizeX,(ultSpriteMaxSizeY / player_ ->GetUltMaxGauge()) * -u});	// 体温バーの大きさを変える

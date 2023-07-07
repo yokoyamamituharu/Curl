@@ -81,12 +81,6 @@ void Player::Update(ScrollCamera* camera) {
 	if (position_.y > ScrollCamera::GetMaxScreenEdge().y - 32.0f) {
 		position_.y = ScrollCamera::GetMaxScreenEdge().y - 32.0f;
 	}
-	//アングルで移動方向を判定し、判定した方向に向いたアニメーションを使用
-	if (angle == 10) {
-		useAnimation = (int)AnimationType::front;
-	} else if (angle == 0) {
-		useAnimation = (int)AnimationType::back;
-	}
 
 	//プレイヤーのキーイベント更新
 	//handler_->PlayerHandleInput();
