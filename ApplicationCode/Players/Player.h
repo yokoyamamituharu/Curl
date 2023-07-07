@@ -117,6 +117,12 @@ public:
 	/// </summary>
 	float GetUltMaxGauge() { return ultMaxGauge; }
 
+	/// <summary>
+	/// ウルト状態
+	/// </summary>
+	/// <returns></returns>
+	bool GetUltState() const { return ultState; }
+
 private:
 	/// <summary>
 	/// アニメーション画像の生成

@@ -32,6 +32,7 @@ public: //‰æ‘œ–¼
 		playerHeatTexNumber,
 		bloodGaugeNumber,
 		ultGaugeNumber,
+		overheatNumber,
 		vampire_front,
 		vampire_beside,
 		vampire_back,
