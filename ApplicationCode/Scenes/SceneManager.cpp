@@ -50,6 +50,7 @@ void SceneManager::SceneChange(SceneName scene) {
 	case SceneName::Title:
 		nowScene = new TitleScene();
 		nowScene->Initialize();
+
 		break;
 	case SceneName::Game:
 		nowScene = new GameScene();
@@ -59,11 +60,13 @@ void SceneManager::SceneChange(SceneName scene) {
 	case SceneName::Result:
 		nowScene = new ResultScene();
 		nowScene->Initialize();
+		ShowCursor(true);
 		break;
 
 	case SceneName::Over:
 		nowScene = new OverScene();
 		nowScene->Initialize();
+		ShowCursor(true);
 		break;
 	default:
 		break;
