@@ -72,12 +72,21 @@ void GameScene::Update()
 	HitBloodAndEnemys();
 	HitTowerAndEnemys();
 	timer_->Update();
-	
+
 	poseButton_->Update();
 	tower_->Update();
 
 	if (KeyInput::GetIns()->TriggerKey(DIK_M)) {
 		debugMuteki = !debugMuteki;
+	}
+	if (KeyInput::GetIns()->TriggerKey(DIK_O)) {
+		timer_->SetIsWatchOpen(true);
+	}
+	else if (KeyInput::GetIns()->TriggerKey(DIK_C)) {
+		timer_->SetIsWatchOpen(false);
+	}
+	if (KeyInput::GetIns()->TriggerKey(DIK_S)) {
+		timer_->SetIsTimerStart(true);
 	}
 
 	if (poseButton_->GetIsClick()) {
