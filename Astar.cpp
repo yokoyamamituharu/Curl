@@ -1,7 +1,6 @@
 #include "Astar.h"
-#include <list>
 
-bool AStar::IsCellWithinTheRange(int x, int y)
+bool IsCellWithinTheRange(int x, int y)
 {
 	if (x >= 0 && x < MapWidth &&
 		y >= 0 && y < MapHeight)
@@ -10,7 +9,7 @@ bool AStar::IsCellWithinTheRange(int x, int y)
 	}
 }
 
-bool AStar::IsEqualCell(const Cell& a, const Cell& b)
+bool IsEqualCell(const Cell& a, const Cell& b)
 {
 	if (a.X == b.X &&
 		a.Y == b.Y)
@@ -21,7 +20,7 @@ bool AStar::IsEqualCell(const Cell& a, const Cell& b)
 	return false;
 }
 
-bool AStar::Less(Node* a, Node* b)
+bool Less(Node* a, Node* b)
 {
 	if (a->TotalCost < b->TotalCost) {
 		return true;
@@ -29,7 +28,7 @@ bool AStar::Less(Node* a, Node* b)
 	return false;
 }
 
-bool AStar::AddAdjacentNode(std::list<Node*>& openList, std::list<Node*>& closeList, Node* adjacentNode, float cost)
+bool AddAdjacentNode(std::list<Node*>& openList, std::list<Node*>& closeList, Node* adjacentNode, float cost)
 {
 	bool Update = true;
 
@@ -49,7 +48,7 @@ bool AStar::AddAdjacentNode(std::list<Node*>& openList, std::list<Node*>& closeL
 	return false;
 }
 
-EraseResult AStar::EraseNode(std::list<Node*>& list, Node* newNode, float newCost)
+int EraseNode(std::list<Node*>& list, Node* newNode, float newCost)
 {
 	// クローズリストチェック
 	for (auto itr = list.begin(); itr != list.end(); itr++)
@@ -73,15 +72,15 @@ EraseResult AStar::EraseNode(std::list<Node*>& list, Node* newNode, float newCos
 	return EraseResult::NotFound;
 }
 
-float AStar::CalculateHeuristic(const Node* node, const Node* Goal)
+float CalculateHeuristic(const Node* node, const Node* Goal)
 {
-	float x = fabsf(Goal->Position.X - node->Position.X);
-	float y = fabsf(Goal->Position.Y - node->Position.Y);
+	float x = fabsf(float(Goal->Position.X) - float(node->Position.X));
+	float y = fabsf(float(Goal->Position.Y) - float(node->Position.Y));
 
 	return sqrtf(x * x + y * y);
 }
 
-void AStar::CreateGraph()
+void CreateGraph()
 {
 	for (int y = 0; y < MapHeight; y++)
 	{
@@ -109,12 +108,12 @@ void AStar::CreateGraph()
 	}
 }
 
-void AStar::AStarActivate(Cell& start, Cell& goal)
+std::list<Cell> AStarActivate(Cell& start, Cell& goal)
 {
 	std::list<Node*> openList;
 	std::list<Node*> closeList;
 
-	const Node* goalNode = &Graph[goal.X][goal.Y];
+	const Node* goalNode = &Graph[goal.Y][goal.X];
 
 	Cell lastUpdateCell[MapHeight][MapWidth];
 
@@ -141,7 +140,7 @@ void AStar::AStarActivate(Cell& start, Cell& goal)
 			{
 				adjacentNode->HeuristicCost = CalculateHeuristic(adjacentNode, goalNode);
 			}
-			float edgeCost = CostTable[adjacentNode->Position.Y][adjacentNode->Position.X];
+			float edgeCost =float(CostTable[adjacentNode->Position.Y][adjacentNode->Position.X]);
 			float totalCost = searchNode->TotalCost;
 
 			float cost = edgeCost + adjacentNode->HeuristicCost + totalCost;
@@ -161,6 +160,7 @@ void AStar::AStarActivate(Cell& start, Cell& goal)
 		}
 	}
 
+	//ルート復元
 	std::list<Cell> routeList;
 
 	routeList.push_back(goal);
@@ -169,6 +169,9 @@ void AStar::AStarActivate(Cell& start, Cell& goal)
 		Cell route = routeList.front();
 
 		if (IsEqualCell(route, start)) {
+
+			return routeList;
+
 			for (Cell& cell : routeList)
 			{
 				printf("X = %d y = %d/n", cell.X, cell.Y);
@@ -178,13 +181,17 @@ void AStar::AStarActivate(Cell& start, Cell& goal)
 		else
 		{
 			if (IsCellWithinTheRange(route.X, route.Y)) {
-
+				routeList.push_front(lastUpdateCell[route.Y][route.X]);
+			}
+			else {
+				printf("経路は見つからなかった...");
+				break;
 			}
 		}
 	}
 }
 
-void AStar::InitializeCost()
+void InitializeCost()
 {
 	for (int y = 0; y < MapHeight; y++)
 	{
