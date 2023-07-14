@@ -14,6 +14,7 @@ RabbitEnemy::~RabbitEnemy()
 	for (int32_t i = 0; i < backAnimationCount; i++) {
 		safe_delete(backSprites_[i]);
 	}
+	safe_delete(markerSprite_);
 }
 
 std::unique_ptr<RabbitEnemy> RabbitEnemy::UniqueCreate()
@@ -43,6 +44,10 @@ std::unique_ptr<RabbitEnemy> RabbitEnemy::UniqueCreate()
 	enemy->frontSprites_ = SpritesCreate(ImageManager::ImageName::rabbit_front, frontAnimationCount, enemy->pos);
 	enemy->besideSprites_ = SpritesCreate(ImageManager::ImageName::rabbit_beside, besideAnimationCount, enemy->pos);
 	enemy->backSprites_ = SpritesCreate(ImageManager::ImageName::rabbit_back, backAnimationCount, enemy->pos);
+
+	enemy->markerSprite_ = Sprite::Create((UINT)ImageManager::ImageName::guideArrow, { 0,0 }, { 1.0f,1.0f,1.0f,1.0f }, { 0.5f,0.5f });
+	enemy->markerSprite_->SetSize({ 56,87 });
+	enemy->markerSprite_->SetUi(true);
 
 	//rand‚ÌŠJ•ú
 	safe_delete(randCreate);
@@ -87,6 +92,9 @@ void RabbitEnemy::Update()
 	for (int32_t i = 0; i < backAnimationCount; i++) {
 		backSprites_[i]->SetPosition(pos);
 	}
+
+	markerSprite_->SetPosition(markerPos_);
+	markerSprite_->SetRotation(markerAngle);
 }
 
 int RabbitEnemy::BloodHit(int num)
@@ -149,5 +157,8 @@ void RabbitEnemy::Draw()
 	else {
 		besideSprites_[besideAnimationCounter_]->SetIsFlipX(false);
 		besideSprites_[besideAnimationCounter_]->Draw();
+	}
+	if (isMarker_) {
+		markerSprite_->Draw();
 	}
 }

@@ -60,7 +60,8 @@ public: //‰æ‘œ–¼
 		watch,
 		watch_BigHand,
 		watch_LittleHand,
-		reticle
+		reticle,
+		guideArrow
 	};
 
 public: //ƒƒ“ƒoŠÖ”

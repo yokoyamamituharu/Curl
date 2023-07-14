@@ -25,7 +25,7 @@ Enemys* Enemys::Create()
 	return enemys;
 }
 
-void Enemys::Update(int32_t towerHp, int playerHp)
+void Enemys::Update(int32_t towerHp, int playerHp, Vector2 camera)
 {
 	//¶¬ŽžŠÔ‚ÌŒ¸ŽY
 	enemyCreateTime--;
@@ -43,9 +43,18 @@ void Enemys::Update(int32_t towerHp, int playerHp)
 
 	
 	//“G‚¹‚ê‚¼‚ê‚ÌXV
-	for (auto& vampire : Vampires_)vampire->Update();
-	for (auto& basilisk : Basiliskes_)basilisk->Update();
-	for (auto& rabbit : Rabbits_)rabbit->Update();
+	for (auto& vampire : Vampires_) {
+		vampire->Update();
+		vampire->WorldMarker(camera);
+	}
+	for (auto& basilisk : Basiliskes_) { 
+		basilisk->Update(); 
+		basilisk->WorldMarker(camera);
+	}
+	for (auto& rabbit : Rabbits_) {
+		rabbit->Update();
+		rabbit->WorldMarker(camera);
+	}
 
 	//ŒŒ‚Æ‚Ì“–‚½‚è”»’è
 	EnemyHitBlood();

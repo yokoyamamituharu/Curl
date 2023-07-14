@@ -74,9 +74,9 @@ public:
 
 	virtual void Draw() = 0;//描画
 
-protected: //静的メンバ関数
-
 	void WorldMarker(XMFLOAT2 camera);
+
+protected: //静的メンバ関数
 
 	/// <summary>
 	/// 敵画像生成
@@ -98,11 +98,6 @@ protected:
 
 	XMFLOAT2 pos{};//座標
 
-	XMVECTOR markerAdd{};
-	float markerLength = 1;
-	XMFLOAT2 markerPos{};
-	float markerAngle{};
-
 	float angle{};//角度
 	float moveLength{};//距離
 	float moveAddLength = 1;//加算距離
@@ -123,6 +118,18 @@ protected:
 
 	std::array<float, 360> maxAngle;//角度最大値
 	std::array<float, 0> minAngle;//角度最小値
+
+	//画面外にいるときに画面内に出すマーカー
+	Sprite* markerSprite_ = nullptr;
+	XMVECTOR markerAdd{};
+	float markerLength = 1;
+	XMFLOAT2 markerPos_{};
+	float markerAngle{};
+	bool isMarker_ = false;
+	bool isRight_ = false;
+	bool isLeft_ = false;
+	bool isUp_ = false;
+	bool isDown_ = false;
 
 	//移動先座標
 	XMFLOAT2 movePoint = { 640.f,360.f };
