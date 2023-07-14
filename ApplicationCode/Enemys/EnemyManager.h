@@ -33,12 +33,6 @@ public: //\‘¢‘Ì
 	};
 
 public:
-	enum EnemyType
-	{
-		individual = 7,//ŒÂ‘Ì
-		liquid,//‰t‘Ì
-		gas,//‹C‘Ì
-	};
 
 	EnemyManager();
 	~EnemyManager();

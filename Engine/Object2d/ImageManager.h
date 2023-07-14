@@ -60,7 +60,8 @@ public: //‰æ‘œ–¼
 		watch,
 		watch_BigHand,
 		reticle,
-		particleCircle
+		particleCircle,
+		guideArrow
 	};
 
 public: //ƒƒ“ƒoŠÖ”

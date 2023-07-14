@@ -25,7 +25,7 @@ EnemyManager* EnemyManager::Create()
 	return enemys;
 }
 
-void EnemyManager::Update(int32_t towerHp, int playerHp)
+void EnemyManager::Update(int32_t towerHp, int playerHp, Vector2 camera)
 {
 	//¶¬ŠÔ‚ÌŒ¸Y
 	enemyCreateTime--;
