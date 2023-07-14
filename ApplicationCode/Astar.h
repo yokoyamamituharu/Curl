@@ -2,6 +2,8 @@
 #include <vector>
 #include <list>
 
+const int MapWidth = 10;
+const int MapHeight = 10;
 const int Infinity = 100000;
 
 // 削除結果
@@ -50,8 +52,6 @@ struct Node {
 };
 
 class AStar {
-	int MapWidth = 10;
-	int MapHeight = 10;
 
 	Node Graph[MapHeight][MapWidth];
 	int CostTable[MapHeight][MapWidth];
@@ -63,11 +63,12 @@ public:
 
 	static AStar* GetInstance();
 
-private:
-	AStar() = default;
-	~AStar() = {};
+	static AStar* AStarCreate();
 
 	std::list<Cell> AStarActivate(Cell& start, Cell& goal);
+private:
+	AStar() = default;
+	~AStar() {};
 
 	//リスト内の削除条件に合ったノードを削除
 	int EraseNode(std::list<Node*>& list, Node* newNode, float newCost);
@@ -80,16 +81,21 @@ private:
 	void InitializeCost();
 
 	//ステージのコストを設定
-	inline void SetTableCost(int cost[][]) { this->CostTable = cost; }
-	inline void SetStageWidth(int size) { this->MapWidth = size; }
-	inline void SetStageHeight(int size) { this->MapHeight = size; }
+	inline void SetTableCost(int cost[][MapHeight]) {
+		for (int i = 0; i < MapWidth; i++)
+		{
+			for (int j = 0; j < MapHeight; j++)
+			{
+				CostTable[i][j] = cost[i][j];
+			}
+		}
+	}
 };
 
 bool IsCellWithinTheRange(int x, int y);
 bool IsEqualCell(const Cell& a, const Cell& b);
 bool AddAdjacentNode(std::list<Node*>& openList, std::list<Node*>& closeList, Node* adjacentNode, float cost);
 bool Less(Node* a, Node* b);
-
 
 int CostTable[MapHeight][MapWidth] =
 {

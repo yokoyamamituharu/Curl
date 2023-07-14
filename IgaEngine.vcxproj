@@ -128,7 +128,6 @@
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>false</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)External\DirectXTex;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -147,7 +146,6 @@
       <ConformanceMode>false</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)External\DirectXTex;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -159,6 +157,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ApplicationCode\Astar.cpp" />
     <ClCompile Include="ApplicationCode\Command\DownMoveCommand.cpp" />
     <ClCompile Include="ApplicationCode\Command\KeyInputHandler.cpp" />
     <ClCompile Include="ApplicationCode\Command\LeftMoveCommand.cpp" />
@@ -181,8 +180,8 @@
     <ClCompile Include="ApplicationCode\ScrollCamera\ScrollCamera.cpp" />
     <ClCompile Include="ApplicationCode\Tower\Tower.cpp" />
     <ClCompile Include="ApplicationCode\UI\Button.cpp" />
-    <ClCompile Include="Astar.cpp" />
     <ClCompile Include="Camera2D.cpp" />
+    <ClCompile Include="ApplicationCode\UI\Timer.cpp" />
     <ClCompile Include="Engine\Audio\Sound.cpp" />
     <ClCompile Include="Engine\Audio\SoundManager.cpp" />
     <ClCompile Include="Engine\Base\DirectXSetting.cpp" />
@@ -216,6 +215,7 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ApplicationCode\Astar.h" />
     <ClInclude Include="ApplicationCode\Camera2D\Camera2D.h" />
     <ClInclude Include="ApplicationCode\Command\Command.h" />
     <ClInclude Include="ApplicationCode\Command\DownMoveCommand.h" />
@@ -241,7 +241,7 @@
     <ClInclude Include="ApplicationCode\ScrollCamera\ScrollCamera.h" />
     <ClInclude Include="ApplicationCode\Tower\Tower.h" />
     <ClInclude Include="ApplicationCode\UI\Button.h" />
-    <ClInclude Include="Astar.h" />
+    <ClInclude Include="ApplicationCode\UI\Timer.h" />
     <ClInclude Include="Engine\Audio\Sound.h" />
     <ClInclude Include="Engine\Audio\SoundManager.h" />
     <ClInclude Include="Engine\Base\DirectXSetting.h" />
