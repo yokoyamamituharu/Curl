@@ -119,7 +119,7 @@ void GameScene::Update()
 		
 		overheatSprite_->SetSize({ ultSpriteMaxSizeX,(ultSpriteMaxSizeY / player_ ->GetUltMaxGauge()) * -u});	// ‘Ì‰·ƒo[‚Ì‘å‚«‚³‚ð•Ï‚¦‚é
 
-		enemys_->Update(tower_->GetHP(), player_->GetPlayerHp());
+		enemys_->Update(tower_->GetHP(), player_->GetPlayerHp(),scrollCamera_->GetPosition());
 	}
 
 	
@@ -249,8 +249,8 @@ void GameScene::Draw()
 	DirectX::XMVECTOR vec = { scrollCamera_->GetPosition().x,scrollCamera_->GetPosition().y };
 	vec = DirectX::XMVector3TransformCoord(vec, Camera::GetMatViewPort());
 
-	std::wstring wstr3 = std::to_wstring(vec.m128_f32[0]);
-	std::wstring wstr4 = std::to_wstring(vec.m128_f32[1]);
+	std::wstring wstr3 = std::to_wstring(scrollCamera_->GetPosition().x);
+	std::wstring wstr4 = std::to_wstring(scrollCamera_->GetPosition().y);
 	text_->Draw("meiryo", "white", wstr1 + L"\n" + wstr2 + L"\n" + wstr3 + L"\n" + wstr4, textDrawRange);
 	
 

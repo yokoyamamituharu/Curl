@@ -3,7 +3,7 @@
 #include "Sprite.h"
 
 const Vector2 ScrollCamera::minPos = { WinApp::window_width / 2, WinApp::window_height / 2 };
-const Vector2 ScrollCamera::maxPos = { minPos.x + 200,minPos.y + 200 };
+const Vector2 ScrollCamera::maxPos = { minPos.x + 2000,minPos.y + 2000 };
 
 ScrollCamera::~ScrollCamera()
 {

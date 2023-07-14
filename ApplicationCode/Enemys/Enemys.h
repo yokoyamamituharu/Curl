@@ -32,7 +32,7 @@ public:
 
 	static Enemys* Create();
 
-	void Update(int32_t towerHp,int playerHp);
+	void Update(int32_t towerHp,int playerHp,Vector2 camera);
 
 	void EnemyCreate(const int phase);
 
