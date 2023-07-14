@@ -16,7 +16,7 @@
 #include "SceneManager.h"
 #include "TextDraw.h"
 #include "JsonLoader.h"
-#include"Enemys.h"
+#include"EnemyManager.h"
 
 #include "Blood.h"
 #include "Player.h"
@@ -94,7 +94,7 @@ private: //ƒƒ“ƒo•Ï”
 	std::unique_ptr<Sprite> ultGaugeSprite_ = nullptr;
 	std::unique_ptr<Sprite> overheatSprite_ = nullptr;
 	
-	Enemys* enemys_{};
+	EnemyManager* enemys_{};
 	
 	ScrollCamera* scrollCamera_ = nullptr;
 

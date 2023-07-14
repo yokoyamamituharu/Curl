@@ -22,8 +22,7 @@ void GameScene::Initialize()
 
 	postEffectNo_ = PostEffect::NONE;
 
-	enemys_ = new Enemys();
-	enemys_ = Enemys::Create();
+	enemys_ = EnemyManager::Create();
 
 	//blood_ = Blood::Create({ 300,500 }, Blood::Temperature::solid);
 	//player_ = Player::Create();
