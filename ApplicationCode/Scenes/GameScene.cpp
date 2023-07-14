@@ -22,12 +22,11 @@ void GameScene::Initialize()
 
 	postEffectNo_ = PostEffect::NONE;
 
-	enemys_ = EnemyManager::Create();
-
 	//blood_ = Blood::Create({ 300,500 }, Blood::Temperature::solid);
 	//player_ = Player::Create();
 	RoadPlayer();
 	bgSprite_ = Sprite::UniquePtrCreate(UINT(ImageManager::ImageName::bgTexNumber), { 0,0 });
+	bgSprite_->SetSize({ 3200.0f, 2700.0f });
 	GameSprite1_ = Sprite::UniquePtrCreate(UINT(ImageManager::ImageName::GameUI_01), { 0,0 });
 	GameSprite2_ = Sprite::UniquePtrCreate(UINT(ImageManager::ImageName::GameUI_02), { 0,0 });
 	GameSprite3_ = Sprite::UniquePtrCreate(UINT(ImageManager::ImageName::GameUI_03), { 0,0 });
@@ -66,6 +65,12 @@ void GameScene::Initialize()
 
 	timer_ = new Timer();
 	timer_->Initialize(60 * 20);
+
+	enemys_ = EnemyManager::Create();
+	if (SceneManager::GetStageNo() == 0) {
+		enemys_->EnemySpawnDataLoad("Stage1_EnemySpawnData.csv");
+		isTutorial_ = true;
+	}
 }
 
 void GameScene::Update()
@@ -117,7 +122,9 @@ void GameScene::Update()
 		
 		overheatSprite_->SetSize({ ultSpriteMaxSizeX,(ultSpriteMaxSizeY / player_ ->GetUltMaxGauge()) * -u});	// ‘Ì‰·ƒo[‚Ì‘å‚«‚³‚ð•Ï‚¦‚é
 
-		enemys_->Update(tower_->GetHP(), player_->GetPlayerHp(),scrollCamera_->GetPosition());
+		if (!isTutorial_) {
+			enemys_->Update(tower_->GetHP(), player_->GetPlayerHp(), scrollCamera_->GetPosition());
+		}
 	}
 
 	
@@ -322,7 +329,13 @@ void GameScene::RoadPlayer()
 	std::string line;
 	Vector2 pos{};
 	int rote, maxBlood = 0, hp = 0;
-	std::stringstream stream = ExternalFileLoader::GetIns()->ExternalFileOpen("player.txt");
+	std::stringstream stream;
+	if (SceneManager::GetStageNo() != 0) {
+		stream = ExternalFileLoader::GetIns()->ExternalFileOpen("player.txt");
+	}
+	else {
+		stream = ExternalFileLoader::GetIns()->ExternalFileOpen("TutorialPlayer.txt");
+	}
 
 	while (getline(stream, line)) {
 		std::istringstream line_stream(line);

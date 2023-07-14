@@ -67,10 +67,15 @@ public: //静的メンバ関数
 	static void SetScore(const int32_t score);
 
 	/// <summary>
+	/// ステージ番号をセット
+	/// </summary>
+	static void SetStageNo(const int32_t stageNo);
+
+	/// <summary>
 	/// ステージ番号取得
 	/// </summary>
 	/// <returns>ステージ番号</returns>
-	static int32_t GetStageNo() { return stageNo; }
+	static int32_t GetStageNo() { return stageNo_; }
 
 	/// <summary>
 	/// スコア取得
@@ -80,7 +85,7 @@ public: //静的メンバ関数
 
 private: //静的メンバ変数
 	static BaseScene* nowScene;
-	static int32_t stageNo;
+	static int32_t stageNo_;
 	static int32_t score;
 
 private: //メンバ変数

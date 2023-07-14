@@ -98,7 +98,6 @@ private: //ƒƒ“ƒo•Ï”
 	
 	ScrollCamera* scrollCamera_ = nullptr;
 
-	
 	std::unique_ptr<Button>	poseButton_;
 	std::unique_ptr<Button>	poseBackButton_;
 	std::unique_ptr<Button>	titleButton_;
@@ -106,5 +105,7 @@ private: //ƒƒ“ƒo•Ï”
 	bool pose_ = false;
 	bool debugMuteki = false;
 	Camera2D* camera2D = nullptr;
+
+	bool isTutorial_ = false;
 };
 
