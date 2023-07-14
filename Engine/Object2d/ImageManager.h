@@ -59,9 +59,9 @@ public: //画像名
 		wolfBackwardWalk,
 		watch,
 		watch_BigHand,
-		watch_LittleHand,
 		reticle,
-		grass/*マップチップ用の仮データ*/
+		particleCircle,
+		guideArrow
 	};
 
 public: //メンバ関数

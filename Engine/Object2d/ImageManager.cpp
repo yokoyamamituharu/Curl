@@ -48,8 +48,8 @@ void ImageManager::Initialize() {
 	Sprite::LoadTexture(int32_t(ImageName::wolfBackwardWalk), L"Engine/Resources/Images/wolfBackwardWalk.png");
 	Sprite::LoadTexture(int32_t(ImageName::watch), L"Engine/Resources/Images/Watch.png");
 	Sprite::LoadTexture(int32_t(ImageName::watch_BigHand), L"Engine/Resources/Images/Watch_BigHand.png");
-	Sprite::LoadTexture(int32_t(ImageName::watch_LittleHand), L"Engine/Resources/Images/Watch_LittleHand.png");
 	Sprite::LoadTexture(int32_t(ImageName::reticle), L"Engine/Resources/Images/reticle.png");
-	/*マップチップ用の仮データ*/Sprite::LoadTexture(int32_t(ImageName::grass), L"Engine/Resources/Images/grass.png");
+	Sprite::LoadTexture(int32_t(ImageName::particleCircle), L"Engine/Resources/Images/particleCircle.png");
+	Sprite::LoadTexture(int32_t(ImageName::guideArrow), L"Engine/Resources/Images/guideArrow.png");
 	
 }

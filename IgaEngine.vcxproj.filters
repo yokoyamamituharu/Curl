@@ -267,6 +267,8 @@
       <Filter>ソース ファイル\ApplicationCode\Camera2D</Filter>
     </ClCompile>
     <ClCompile Include="ApplicationCode\UI\Timer.cpp">
+      <Filter>ソース ファイル\ApplicationCode\UI</Filter>
+    <ClCompile Include="ApplicationCode\UI\Timer.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="ApplicationCode\MapChip\ChipData.cpp">
@@ -274,6 +276,9 @@
     </ClCompile>
     <ClCompile Include="ApplicationCode\MapChip\MapChip2D.cpp">
       <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Object2d\ParticleManager2d.cpp">
+      <Filter>ソース ファイル\ApplicationCode\Effects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -424,7 +429,6 @@
     <ClInclude Include="ApplicationCode\Blood\Blood.h">
       <Filter>ソース ファイル\ApplicationCode\Blood</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Base\RandCreate.h" />
     <ClInclude Include="ApplicationCode\Enemys\Enemys.h">
       <Filter>ソース ファイル\ApplicationCode\Enemies</Filter>
     </ClInclude>
@@ -461,11 +465,6 @@
     <ClInclude Include="ApplicationCode\Camera2D\Camera2D.h">
       <Filter>ソース ファイル\ApplicationCode\Camera2D</Filter>
     </ClInclude>
-    <ClInclude Include="ApplicationCode\UI\Timer.h" />
-    <ClInclude Include="ApplicationCode\MapChip\ChipData.h">
-      <Filter>ソース ファイル\ApplicationCode\MapChip</Filter>
-    </ClInclude>
-    <ClInclude Include="ApplicationCode\MapChip\MapChip2D.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="IgaEngine.rc">

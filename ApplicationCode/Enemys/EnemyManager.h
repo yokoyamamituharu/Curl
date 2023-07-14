@@ -1,38 +1,45 @@
 #pragma once
-#include<DirectXMath.h>
+#include <DirectXMath.h>
 #include"RandCreate.h"
 #include "Sprite.h"
 #include "KeyInput.h"
-#include<memory>
-#include<list>
+#include <memory>
+#include <list>
 
-#include"VampireEnemy.h"
-#include"BasiliskEnemy.h"
-#include"RabbitEnemy.h"
+#include "VampireEnemy.h"
+#include "BasiliskEnemy.h"
+#include "RabbitEnemy.h"
+#include "Vector2.h"
+#include <sstream>
 
 using namespace std;
 
-class Enemys
+class EnemyManager
 {
-private://省略
-
-	
 private:
 
-public:
-	enum EnemyType
-	{
-		individual = 7,//個体
-		liquid,//液体
-		gas,//気体
+public: //構造体
+
+	enum class EnemyType {
+		Vampire,
+		Rabbit,
+		Basilisk
 	};
 
-	Enemys();
-	~Enemys();
+	struct EnemySpawnData {
+		Vector2 spawnPoint_; //出現場所
+		EnemyType enemyType_; //敵タイプ
+		int32_t waitTime_; //出現待機時間
+	};
 
-	static Enemys* Create();
+public:
 
-	void Update(int32_t towerHp,int playerHp);
+	EnemyManager();
+	~EnemyManager();
+
+	static EnemyManager* Create();
+
+	void Update(int32_t towerHp,int playerHp,Vector2 camera);
 
 	void EnemyCreate(const int phase);
 
@@ -47,10 +54,13 @@ public:
 	list<unique_ptr<VampireEnemy>>& GetVampires() { return Vampires_; }
 	list<unique_ptr<BasiliskEnemy>>& GetBasiliskes() { return Basiliskes_; }
 	list<unique_ptr<RabbitEnemy>>& GetRabbits() { return Rabbits_; }
+
+	void EnemySpawnDataLoad();
+	void EnemySpawnDataUpdate();
 	//void SetEnemys(list<unique_ptr<Enemy>> enemys) { this->enemys3_ = move(enemys); };
 	void Draw();
 
-protected:
+private:
 	
 	int enemyNumber_{};//出現している敵の送料
 	int enemyCreateTime{};//生成時間
@@ -62,6 +72,11 @@ protected:
 	list<unique_ptr<VampireEnemy>> Vampires_{};
 	list<unique_ptr<BasiliskEnemy>> Basiliskes_{};
 	list<unique_ptr<RabbitEnemy>> Rabbits_{};
+
+	list<EnemySpawnData> enemySpawnData_; //敵出現データ
+	int32_t waitTimer_ = 500; //出現待機タイマー
+	std::stringstream enemySpawnFileData_; //敵出現データ格納用文字列
+	std::list<EnemySpawnData>::iterator it_; //イテレータ
 
 	int deadCount = 0;
 	bool gameFlag = 0;

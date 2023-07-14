@@ -20,12 +20,8 @@ void Timer::Initialize(const int32_t maxTime)
 	bigHand_ = Sprite::UniquePtrCreate((UINT)ImageManager::ImageName::watch_BigHand, { 640.0f, 39.5f });
 	bigHand_->SetUi(true);
 	bigHand_->SetAnchorPoint({ anchorPoint.x, 1.0f });
-	littleHand_ = Sprite::UniquePtrCreate((UINT)ImageManager::ImageName::watch_LittleHand, { 640.0f, 40.0f });
-	littleHand_->SetUi(true);
-	littleHand_->SetAnchorPoint({anchorPoint.x, 1.0f});
 
 	bigHandRot_ = 0.0f;
-	littleHandRot_ = 0.0f;
 }
 
 void Timer::Update()
@@ -64,7 +60,6 @@ void Timer::Draw()
 	watch_[watchAnimeCount_]->Draw();
 	if (watchAnimeCount_ >= 3) {
 		bigHand_->Draw();
-		//littleHand_->Draw();
 	}
 	
 }

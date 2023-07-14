@@ -1,21 +1,21 @@
-#include "Enemys.h"
+#include "EnemyManager.h"
 #include "ImageManager.h"
-
+#include "ExternalFileLoader.h"
 #include "SafeDelete.h"
 
-Enemys::Enemys()
+EnemyManager::EnemyManager()
 {
 }
 
-Enemys::~Enemys()
+EnemyManager::~EnemyManager()
 {
 	safe_delete(randCreate_);
 
 }
 
-Enemys* Enemys::Create()
+EnemyManager* EnemyManager::Create()
 {
-	Enemys* enemys = new Enemys();
+	EnemyManager* enemys = new EnemyManager();
 	enemys->enemyCreateTime = 200;
 	enemys->randCreate_ = new RandCreate();
 	enemys->enemyNumber_ = 0;
@@ -25,7 +25,7 @@ Enemys* Enemys::Create()
 	return enemys;
 }
 
-void Enemys::Update(int32_t towerHp, int playerHp)
+void EnemyManager::Update(int32_t towerHp, int playerHp, Vector2 camera)
 {
 	//ê∂ê¨éûä‘ÇÃå∏éY
 	enemyCreateTime--;
@@ -43,9 +43,18 @@ void Enemys::Update(int32_t towerHp, int playerHp)
 
 	
 	//ìGÇπÇÍÇºÇÍÇÃçXêV
-	for (auto& vampire : Vampires_)vampire->Update();
-	for (auto& basilisk : Basiliskes_)basilisk->Update();
-	for (auto& rabbit : Rabbits_)rabbit->Update();
+	for (auto& vampire : Vampires_) {
+		vampire->Update();
+		vampire->WorldMarker(camera);
+	}
+	for (auto& basilisk : Basiliskes_) { 
+		basilisk->Update(); 
+		basilisk->WorldMarker(camera);
+	}
+	for (auto& rabbit : Rabbits_) {
+		rabbit->Update();
+		rabbit->WorldMarker(camera);
+	}
 
 	//ååÇ∆ÇÃìñÇΩÇËîªíË
 	EnemyHitBlood();
@@ -57,7 +66,7 @@ void Enemys::Update(int32_t towerHp, int playerHp)
 	EnemysDead();
 }
 
-void Enemys::EnemyCreate(const int phase)
+void EnemyManager::EnemyCreate(const int phase)
 {
 	//èoåªóêêîê›íË
 	int temp = randCreate_->getRandInt(1, 6);
@@ -99,7 +108,7 @@ void Enemys::EnemyCreate(const int phase)
 	//enemys3_.push_back(Enemy::UniqueCreate());
 }
 
-void Enemys::EnemyHitBlood()
+void EnemyManager::EnemyHitBlood()
 {
 
 	for (unique_ptr<VampireEnemy>& vampire : Vampires_)
@@ -200,7 +209,7 @@ void Enemys::EnemyHitBlood()
 
 
 
-void Enemys::EnemyHitTower()
+void EnemyManager::EnemyHitTower()
 {
 	//ç‘Ç∆ÇÃìñÇΩÇËîªíË
 	for (auto& vampire : Vampires_)
@@ -235,7 +244,7 @@ void Enemys::EnemyHitTower()
 
 }
 
-void Enemys::EnemysDead()
+void EnemyManager::EnemysDead()
 {
 	Vampires_.remove_if([](std::unique_ptr<VampireEnemy>& vampire) {return vampire->GetDead();  });
 	Basiliskes_.remove_if([](std::unique_ptr<BasiliskEnemy>& basilisk) {return basilisk->GetDead();  });
@@ -243,7 +252,107 @@ void Enemys::EnemysDead()
 
 }
 
-void Enemys::Draw()
+void EnemyManager::EnemySpawnDataLoad()
+{
+	enemySpawnFileData_ = ExternalFileLoader::GetIns()->ExternalFileOpen("Stage1_EnemySpawnData.csv");
+	
+	std::string line;
+	Vector3 pos{};
+	Vector3 rot{};
+	Vector3 scale{};
+	Vector3 movePoint{};
+	std::vector<Vector3> movePoints{};
+	std::string type;
+	float moveTime = 120.0f;//2[s]
+	int32_t lifeTime = 240;//4[s]
+	int32_t shotIntervalTime = 60;//1[s]
+	int32_t hp = 1;
+	int32_t waitTime = 0;
+	bool isPos = false;
+	bool isRot = false;
+	bool isStyle = false;
+	bool isMovePoint = false;
+
+	//while (getline(enemyData_, line)) {
+	//	std::istringstream line_stream(line);
+	//	std::string word;
+	//	//îºäpãÊêÿÇËÇ≈ï∂éöóÒÇéÊìæ
+	//	getline(line_stream, word, ' ');
+	//	if (word == "#") {
+	//		continue;
+	//	}
+	//	if (word == "Pos") {
+	//		line_stream >> pos.x;
+	//		line_stream >> pos.y;
+	//		line_stream >> pos.z;
+	//		isPos = true;
+	//	}
+	//	if (word == "Rot") {
+	//		line_stream >> rot.x;
+	//		line_stream >> rot.y;
+	//		line_stream >> rot.z;
+	//		isRot = true;
+	//	}
+	//	if (word == "Type") {
+	//		line_stream >> type;
+	//		isStyle = true;
+	//	}
+	//	if (word == "Move") {
+	//		line_stream >> movePoint.x;
+	//		line_stream >> movePoint.y;
+	//		line_stream >> movePoint.z;
+	//		movePoints.push_back(movePoint);
+	//	}
+	//	if (word == "End") {
+	//		isMovePoint = true;
+	//	}
+	//	if (word == "MoveTime") {
+	//		line_stream >> moveTime;
+	//		//ïbêîä∑éZÇ»ÇÃÇ≈60î{Ç∑ÇÈ
+	//		moveTime *= 60.0f;
+	//	}
+	//	if (word == "LifeTime") {
+	//		line_stream >> lifeTime;
+	//		lifeTime *= 60;
+	//	}
+	//	if (word == "ShotCoolTime") {
+	//		line_stream >> shotIntervalTime;
+	//	}
+	//	if (word == "Hp") {
+	//		line_stream >> hp;
+	//	}
+	//	if (word == "Wait") {
+	//		line_stream >> waitTime;
+	//		//break;
+	//	}
+
+	//	if (isPos && isRot && isStyle) {
+	//		EnemyData enemyData;
+	//		enemyData.pos_ = pos;
+	//		enemyData.rot_ = rot;
+	//		enemyData.type_ = type;
+	//		if (isMovePoint) {
+	//			enemyData.movePoints_ = movePoints;
+	//			movePoints.clear();
+	//		}
+	//		enemyData.moveTime_ = moveTime;
+	//		enemyData.lifeTime_ = lifeTime;
+	//		enemyData.shotInterval_ = shotIntervalTime;
+	//		enemyData.hp_ = hp;
+	//		enemyData.waitTime_ = waitTime;
+	//		enemyDatas_.push_back(enemyData);
+
+	//		isPos = false;
+	//		isRot = false;
+	//		isStyle = false;
+	//		isMovePoint = false;
+	//	}
+	//}
+
+	//it_ = enemyDatas_.begin();
+}
+
+void EnemyManager::Draw()
 {
 	for (unique_ptr<VampireEnemy>& vampire : Vampires_)
 	{

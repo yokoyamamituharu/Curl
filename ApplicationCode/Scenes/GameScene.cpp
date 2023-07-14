@@ -22,8 +22,7 @@ void GameScene::Initialize()
 
 	postEffectNo_ = PostEffect::NONE;
 
-	enemys_ = new Enemys();
-	enemys_ = Enemys::Create();
+	enemys_ = EnemyManager::Create();
 
 	//blood_ = Blood::Create({ 300,500 }, Blood::Temperature::solid);
 	//player_ = Player::Create();
@@ -36,7 +35,6 @@ void GameScene::Initialize()
 	GameSprite2_->SetUi(true);
 	playerHp = Sprite::Create(UINT(ImageManager::ImageName::playerHp), { 0,0 });
 	playerHp->SetUi(true);
-
 
 	manual_ = Sprite::UniquePtrCreate(UINT(ImageManager::ImageName::Manual), { 300,0 });
 	manual_->SetUi(true);
@@ -122,7 +120,7 @@ void GameScene::Update()
 		
 		overheatSprite_->SetSize({ ultSpriteMaxSizeX,(ultSpriteMaxSizeY / player_ ->GetUltMaxGauge()) * -u});	// ‘Ì‰·ƒo[‚Ì‘å‚«‚³‚ð•Ï‚¦‚é
 
-		enemys_->Update(tower_->GetHP(), player_->GetPlayerHp());
+		enemys_->Update(tower_->GetHP(), player_->GetPlayerHp(),scrollCamera_->GetPosition());
 	}
 
 	
@@ -252,8 +250,8 @@ void GameScene::Draw()
 	DirectX::XMVECTOR vec = { scrollCamera_->GetPosition().x,scrollCamera_->GetPosition().y };
 	vec = DirectX::XMVector3TransformCoord(vec, Camera::GetMatViewPort());
 
-	std::wstring wstr3 = std::to_wstring(vec.m128_f32[0]);
-	std::wstring wstr4 = std::to_wstring(vec.m128_f32[1]);
+	std::wstring wstr3 = std::to_wstring(scrollCamera_->GetPosition().x);
+	std::wstring wstr4 = std::to_wstring(scrollCamera_->GetPosition().y);
 	text_->Draw("meiryo", "white", wstr1 + L"\n" + wstr2 + L"\n" + wstr3 + L"\n" + wstr4, textDrawRange);
 	
 

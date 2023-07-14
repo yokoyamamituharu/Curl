@@ -49,12 +49,8 @@ private: //ƒƒ“ƒo•Ï”
     std::unique_ptr<Sprite> watch_[7];
     //’·j
     std::unique_ptr<Sprite> bigHand_;
-    //’Zj
-    std::unique_ptr<Sprite> littleHand_;
     //’·j‰ñ“]
     float bigHandRot_;
-    //’Zj‰ñ“]
-    float littleHandRot_;
     //ŒvƒAƒjƒ[ƒVƒ‡ƒ“”
     int32_t watchAnimeCount_;
     //ŒvŠJ•úƒtƒ‰ƒO
