@@ -263,8 +263,11 @@
     <ClCompile Include="Camera2D.cpp">
       <Filter>ソース ファイル\ApplicationCode\Camera2D</Filter>
     </ClCompile>
-    <ClCompile Include="Timer.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="ApplicationCode\UI\Timer.cpp">
+      <Filter>ソース ファイル\ApplicationCode\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine\Object2d\ParticleManager2d.cpp">
+      <Filter>ソース ファイル\ApplicationCode\Effects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -415,7 +418,6 @@
     <ClInclude Include="ApplicationCode\Blood\Blood.h">
       <Filter>ソース ファイル\ApplicationCode\Blood</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\Base\RandCreate.h" />
     <ClInclude Include="ApplicationCode\Enemys\Enemys.h">
       <Filter>ソース ファイル\ApplicationCode\Enemies</Filter>
     </ClInclude>
@@ -449,9 +451,17 @@
     <ClInclude Include="ApplicationCode\Scenes\OverScene.h">
       <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
     </ClInclude>
-    <ClInclude Include="Timer.h" />
     <ClInclude Include="ApplicationCode\Camera2D\Camera2D.h">
       <Filter>ソース ファイル\ApplicationCode\Camera2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Base\RandCreate.h">
+      <Filter>ソース ファイル\Engine\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationCode\UI\Timer.h">
+      <Filter>ソース ファイル\ApplicationCode\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Object2d\ParticleManager2d.h">
+      <Filter>ソース ファイル\ApplicationCode\Effects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

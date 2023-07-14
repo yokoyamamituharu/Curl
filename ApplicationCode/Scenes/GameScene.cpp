@@ -22,8 +22,7 @@ void GameScene::Initialize()
 
 	postEffectNo_ = PostEffect::NONE;
 
-	enemys_ = new Enemys();
-	enemys_ = Enemys::Create();
+	enemys_ = EnemyManager::Create();
 
 	//blood_ = Blood::Create({ 300,500 }, Blood::Temperature::solid);
 	//player_ = Player::Create();
@@ -36,7 +35,6 @@ void GameScene::Initialize()
 	GameSprite2_->SetUi(true);
 	playerHp = Sprite::Create(UINT(ImageManager::ImageName::playerHp), { 0,0 });
 	playerHp->SetUi(true);
-
 
 	manual_ = Sprite::UniquePtrCreate(UINT(ImageManager::ImageName::Manual), { 300,0 });
 	manual_->SetUi(true);

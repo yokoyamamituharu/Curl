@@ -165,7 +165,7 @@
     <ClCompile Include="ApplicationCode\Blood\Blood.cpp" />
     <ClCompile Include="ApplicationCode\Enemys\BaseEnemy.cpp" />
     <ClCompile Include="ApplicationCode\Enemys\BasiliskEnemy.cpp" />
-    <ClCompile Include="ApplicationCode\Enemys\Enemys.cpp" />
+    <ClCompile Include="ApplicationCode\Enemys\EnemyManager.cpp" />
     <ClCompile Include="ApplicationCode\Enemys\RabbitEnemy.cpp" />
     <ClCompile Include="ApplicationCode\Enemys\VampireEnemy.cpp" />
     <ClCompile Include="ApplicationCode\Maths\MotionMath.cpp" />
@@ -200,6 +200,7 @@
     <ClCompile Include="Engine\Light\LightGroup.cpp" />
     <ClCompile Include="Engine\Object2d\DebugText.cpp" />
     <ClCompile Include="Engine\Object2d\ImageManager.cpp" />
+    <ClCompile Include="Engine\Object2d\ParticleManager2d.cpp" />
     <ClCompile Include="Engine\Object2d\PostEffect.cpp" />
     <ClCompile Include="Engine\Object2d\Sprite.cpp" />
     <ClCompile Include="Engine\Object2d\TextDraw.cpp" />
@@ -225,7 +226,7 @@
     <ClInclude Include="ApplicationCode\Blood\Blood.h" />
     <ClInclude Include="ApplicationCode\Enemys\BaseEnemy.h" />
     <ClInclude Include="ApplicationCode\Enemys\BasiliskEnemy.h" />
-    <ClInclude Include="ApplicationCode\Enemys\Enemys.h" />
+    <ClInclude Include="ApplicationCode\Enemys\EnemyManager.h" />
     <ClInclude Include="ApplicationCode\Enemys\RabbitEnemy.h" />
     <ClInclude Include="ApplicationCode\Enemys\VampireEnemy.h" />
     <ClInclude Include="ApplicationCode\Maths\MotionMath.h" />
@@ -266,6 +267,7 @@
     <ClInclude Include="Engine\Light\SpotLight.h" />
     <ClInclude Include="Engine\Object2d\DebugText.h" />
     <ClInclude Include="Engine\Object2d\ImageManager.h" />
+    <ClInclude Include="Engine\Object2d\ParticleManager2d.h" />
     <ClInclude Include="Engine\Object2d\PostEffect.h" />
     <ClInclude Include="Engine\Object2d\Sprite.h" />
     <ClInclude Include="Engine\Object2d\TextDraw.h" />

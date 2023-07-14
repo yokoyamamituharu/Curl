@@ -9,9 +9,9 @@
 class BaseEnemy
 {
 private:
-protected:
 	using XMFLOAT2 = DirectX::XMFLOAT2;
 	using XMVECTOR = DirectX::XMVECTOR;
+public:
 
 	enum EnemyType
 	{
