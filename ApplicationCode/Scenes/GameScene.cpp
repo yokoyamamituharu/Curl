@@ -36,6 +36,9 @@ void GameScene::Initialize()
 	playerHp = Sprite::Create(UINT(ImageManager::ImageName::playerHp), { 0,0 });
 	playerHp->SetUi(true);
 
+	reticleSprite_ = Sprite::UniquePtrCreate(UINT(ImageManager::ImageName::reticle), { 0,0 }, { 1,1,1,1 }, { 0.5,0.5 });
+	reticleSprite_->SetUi(true);
+
 	manual_ = Sprite::UniquePtrCreate(UINT(ImageManager::ImageName::Manual), { 300,0 });
 	manual_->SetUi(true);
 	int32_t towerHP = 10;
@@ -59,7 +62,7 @@ void GameScene::Initialize()
 	poseButton_ = Button::CreateUniqueButton(ImageManager::ImageName::Pause, { 64,24 }, { 100,100 }, 0);
 	poseBackButton_ = Button::CreateUniqueButton(ImageManager::ImageName::Back, { 100,300 }, { 100,100 }, 0);
 	titleButton_ = Button::CreateUniqueButton(ImageManager::ImageName::TitleBack, { 100,400 }, { 100,100 }, 0);
-	
+
 	camera2D = new Camera2D();
 	camera2D->InitializeCamera(WinApp::window_width, WinApp::window_height);
 	Sprite::SetCamera2D(camera2D);
@@ -110,22 +113,22 @@ void GameScene::Update()
 
 		int bloodGauge = player_->GetBloodGauge();
 		//						横幅(1090)を10で割った数,縦幅
-		bloodGaugeSprite_->SetSize({ (float)1090/player_->GetMaxBloodGauge()* bloodGauge,27});							// 血量バーの大きさを変える
+		bloodGaugeSprite_->SetSize({ (float)1090 / player_->GetMaxBloodGauge() * bloodGauge,27 });							// 血量バーの大きさを変える
 		float u = player_->GetUltGauge();
-		 const float ultSpriteMaxSizeX = 36.f; const float ultSpriteMaxSizeY = 336.f;
-		ultGaugeSprite_->SetSize({ ultSpriteMaxSizeX,(ultSpriteMaxSizeY / player_ ->GetUltMaxGauge()) * -u});	// 体温バーの大きさを変える
-		
-		overheatSprite_->SetSize({ ultSpriteMaxSizeX,(ultSpriteMaxSizeY / player_ ->GetUltMaxGauge()) * -u});	// 体温バーの大きさを変える
+		const float ultSpriteMaxSizeX = 36.f; const float ultSpriteMaxSizeY = 336.f;
+		ultGaugeSprite_->SetSize({ ultSpriteMaxSizeX,(ultSpriteMaxSizeY / player_->GetUltMaxGauge()) * -u });	// 体温バーの大きさを変える
 
-		enemys_->Update(tower_->GetHP(), player_->GetPlayerHp(),scrollCamera_->GetPosition());
+		overheatSprite_->SetSize({ ultSpriteMaxSizeX,(ultSpriteMaxSizeY / player_->GetUltMaxGauge()) * -u });	// 体温バーの大きさを変える
+
+		enemys_->Update(tower_->GetHP(), player_->GetPlayerHp(), scrollCamera_->GetPosition());
 	}
 
-	
+
 	//enemy_->Update();
 	scrollCamera_->Update(player_->GetPosition());
+	reticleSprite_->SetPosition({ (float)MouseInput::GetIns()->GetMousePoint().x,(float)MouseInput::GetIns()->GetMousePoint().y });
 	//シーン切り替え
 	SceneChange();
-
 }
 
 void GameScene::HitBloodAndEnemys()
@@ -240,17 +243,17 @@ void GameScene::Draw()
 	DirectXSetting::GetIns()->beginDrawWithDirect2D();
 	//テキスト描画範囲
 	D2D1_RECT_F textDrawRange = { 0, 0, 500, 500 };
-	
+
 	std::wstring wstr1 = std::to_wstring(player_->GetPosition().x);
 	std::wstring wstr2 = std::to_wstring(player_->GetPosition().y);
-	
+
 	DirectX::XMVECTOR vec = { scrollCamera_->GetPosition().x,scrollCamera_->GetPosition().y };
 	vec = DirectX::XMVector3TransformCoord(vec, Camera::GetMatViewPort());
 
 	std::wstring wstr3 = std::to_wstring(scrollCamera_->GetPosition().x);
 	std::wstring wstr4 = std::to_wstring(scrollCamera_->GetPosition().y);
 	text_->Draw("meiryo", "white", wstr1 + L"\n" + wstr2 + L"\n" + wstr3 + L"\n" + wstr4, textDrawRange);
-	
+
 
 	DirectXSetting::GetIns()->endDrawWithDirect2D();
 
@@ -270,6 +273,7 @@ void GameScene::Draw()
 	//GameSprite3_->Draw();
 	bloodGaugeSprite_->Draw();
 	playerHp->Draw();
+	reticleSprite_->Draw();
 
 	if (pose_) {
 		poseBackButton_->Draw();

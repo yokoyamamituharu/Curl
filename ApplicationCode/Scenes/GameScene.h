@@ -93,6 +93,7 @@ private: //ƒƒ“ƒo•Ï”
 	std::unique_ptr<Sprite> bloodGaugeSprite_ = nullptr;
 	std::unique_ptr<Sprite> ultGaugeSprite_ = nullptr;
 	std::unique_ptr<Sprite> overheatSprite_ = nullptr;
+	std::unique_ptr<Sprite> reticleSprite_ = nullptr;
 	
 	EnemyManager* enemys_{};
 	
