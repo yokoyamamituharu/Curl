@@ -68,6 +68,9 @@ void GameScene::Initialize()
 
 	timer_ = new Timer();
 	timer_->Initialize(60 * 20);
+
+	mapChip2D = MapChip2D::Create();
+	mapChip2D->Ins();
 }
 
 void GameScene::Update()

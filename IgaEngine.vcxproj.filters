@@ -99,6 +99,9 @@
     <Filter Include="ソース ファイル\ApplicationCode\ScrollCamera">
       <UniqueIdentifier>{62b739ab-18c2-492a-81e3-08fd4485c454}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ソース ファイル\ApplicationCode\MapChip">
+      <UniqueIdentifier>{d7dc639e-6ce5-452b-911b-bded11ebcfc8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -263,7 +266,13 @@
     <ClCompile Include="Camera2D.cpp">
       <Filter>ソース ファイル\ApplicationCode\Camera2D</Filter>
     </ClCompile>
-    <ClCompile Include="Timer.cpp">
+    <ClCompile Include="ApplicationCode\UI\Timer.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationCode\MapChip\ChipData.cpp">
+      <Filter>ソース ファイル\ApplicationCode\MapChip</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationCode\MapChip\MapChip2D.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -449,10 +458,14 @@
     <ClInclude Include="ApplicationCode\Scenes\OverScene.h">
       <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
     </ClInclude>
-    <ClInclude Include="Timer.h" />
     <ClInclude Include="ApplicationCode\Camera2D\Camera2D.h">
       <Filter>ソース ファイル\ApplicationCode\Camera2D</Filter>
     </ClInclude>
+    <ClInclude Include="ApplicationCode\UI\Timer.h" />
+    <ClInclude Include="ApplicationCode\MapChip\ChipData.h">
+      <Filter>ソース ファイル\ApplicationCode\MapChip</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationCode\MapChip\MapChip2D.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="IgaEngine.rc">

@@ -28,6 +28,7 @@
 #include "Timer.h"
 
 #include "Camera2D.h"
+#include "MapChip2D.h"
 
 class GameScene : public BaseScene
 {
@@ -103,8 +104,11 @@ private: //ƒƒ“ƒo•Ï”
 	std::unique_ptr<Button>	poseBackButton_;
 	std::unique_ptr<Button>	titleButton_;
 
+
 	bool pose_ = false;
 	bool debugMuteki = false;
 	Camera2D* camera2D = nullptr;
+
+	MapChip2D* mapChip2D{};
 };
 

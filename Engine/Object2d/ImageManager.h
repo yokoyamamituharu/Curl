@@ -60,7 +60,8 @@ public: //画像名
 		watch,
 		watch_BigHand,
 		watch_LittleHand,
-		reticle
+		reticle,
+		grass/*マップチップ用の仮データ*/
 	};
 
 public: //メンバ関数
