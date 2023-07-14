@@ -37,7 +37,6 @@ void GameScene::Initialize()
 	playerHp = Sprite::Create(UINT(ImageManager::ImageName::playerHp), { 0,0 });
 	playerHp->SetUi(true);
 
-
 	manual_ = Sprite::UniquePtrCreate(UINT(ImageManager::ImageName::Manual), { 300,0 });
 	manual_->SetUi(true);
 	int32_t towerHP = 10;

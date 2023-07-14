@@ -200,6 +200,7 @@
     <ClCompile Include="Engine\Light\LightGroup.cpp" />
     <ClCompile Include="Engine\Object2d\DebugText.cpp" />
     <ClCompile Include="Engine\Object2d\ImageManager.cpp" />
+    <ClCompile Include="Engine\Object2d\ParticleManager2d.cpp" />
     <ClCompile Include="Engine\Object2d\PostEffect.cpp" />
     <ClCompile Include="Engine\Object2d\Sprite.cpp" />
     <ClCompile Include="Engine\Object2d\TextDraw.cpp" />
@@ -266,6 +267,7 @@
     <ClInclude Include="Engine\Light\SpotLight.h" />
     <ClInclude Include="Engine\Object2d\DebugText.h" />
     <ClInclude Include="Engine\Object2d\ImageManager.h" />
+    <ClInclude Include="Engine\Object2d\ParticleManager2d.h" />
     <ClInclude Include="Engine\Object2d\PostEffect.h" />
     <ClInclude Include="Engine\Object2d\Sprite.h" />
     <ClInclude Include="Engine\Object2d\TextDraw.h" />

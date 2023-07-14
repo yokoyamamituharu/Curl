@@ -59,8 +59,8 @@ public: //‰æ‘œ–¼
 		wolfBackwardWalk,
 		watch,
 		watch_BigHand,
-		watch_LittleHand,
-		reticle
+		reticle,
+		particleCircle
 	};
 
 public: //ƒƒ“ƒoŠÖ”
