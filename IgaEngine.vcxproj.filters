@@ -100,7 +100,7 @@
       <UniqueIdentifier>{62b739ab-18c2-492a-81e3-08fd4485c454}</UniqueIdentifier>
     </Filter>
     <Filter Include="ソース ファイル\ApplicationCode\MapChip">
-      <UniqueIdentifier>{d7dc639e-6ce5-452b-911b-bded11ebcfc8}</UniqueIdentifier>
+      <UniqueIdentifier>{897c5fd6-b22b-4eb0-bf69-00e0a451addb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -242,9 +242,6 @@
     <ClCompile Include="ApplicationCode\ScrollCamera\ScrollCamera.cpp">
       <Filter>ソース ファイル\ApplicationCode\ScrollCamera</Filter>
     </ClCompile>
-    <ClCompile Include="ApplicationCode\Enemys\Enemys.cpp">
-      <Filter>ソース ファイル\ApplicationCode\Enemies</Filter>
-    </ClCompile>
     <ClCompile Include="ApplicationCode\Enemys\BaseEnemy.cpp">
       <Filter>ソース ファイル\ApplicationCode\Enemies</Filter>
     </ClCompile>
@@ -268,17 +265,18 @@
     </ClCompile>
     <ClCompile Include="ApplicationCode\UI\Timer.cpp">
       <Filter>ソース ファイル\ApplicationCode\UI</Filter>
-    <ClCompile Include="ApplicationCode\UI\Timer.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="ApplicationCode\MapChip\ChipData.cpp">
-      <Filter>ソース ファイル\ApplicationCode\MapChip</Filter>
-    </ClCompile>
-    <ClCompile Include="ApplicationCode\MapChip\MapChip2D.cpp">
-      <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="Engine\Object2d\ParticleManager2d.cpp">
       <Filter>ソース ファイル\ApplicationCode\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationCode\Enemys\EnemyManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationCode\MapChip\MapChip2D.cpp">
+      <Filter>ソース ファイル\ApplicationCode\MapChip</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationCode\MapChip\ChipData.cpp">
+      <Filter>ソース ファイル\ApplicationCode\MapChip</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -429,9 +427,6 @@
     <ClInclude Include="ApplicationCode\Blood\Blood.h">
       <Filter>ソース ファイル\ApplicationCode\Blood</Filter>
     </ClInclude>
-    <ClInclude Include="ApplicationCode\Enemys\Enemys.h">
-      <Filter>ソース ファイル\ApplicationCode\Enemies</Filter>
-    </ClInclude>
     <ClInclude Include="ApplicationCode\Players\Player.h">
       <Filter>ソース ファイル\ApplicationCode\Players</Filter>
     </ClInclude>
@@ -464,6 +459,22 @@
     </ClInclude>
     <ClInclude Include="ApplicationCode\Camera2D\Camera2D.h">
       <Filter>ソース ファイル\ApplicationCode\Camera2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Base\RandCreate.h">
+      <Filter>ソース ファイル\Engine\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationCode\UI\Timer.h">
+      <Filter>ソース ファイル\ApplicationCode\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine\Object2d\ParticleManager2d.h">
+      <Filter>ソース ファイル\ApplicationCode\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationCode\Enemys\EnemyManager.h" />
+    <ClInclude Include="ApplicationCode\MapChip\ChipData.h">
+      <Filter>ソース ファイル\ApplicationCode\MapChip</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationCode\MapChip\MapChip2D.h">
+      <Filter>ソース ファイル\ApplicationCode\MapChip</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
