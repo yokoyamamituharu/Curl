@@ -18,7 +18,7 @@ void MapChip2D::MapChipData()
 		{0,0,0,0,0,0,0,0,0,0,},
 		{0,0,0,0,0,0,0,0,0,0,},
 		{0,0,0,0,0,0,0,0,0,0,},
-		{0,0,0,0,0,0,0,0,0,0,},
+		{0,0,0,0,1,0,0,0,0,0,},
 		{0,0,0,0,0,0,0,0,0,0,},
 		{0,0,0,0,0,0,0,0,0,0,},
 		{0,0,0,0,0,0,0,0,0,0,},
@@ -44,15 +44,40 @@ void MapChip2D::Ins()
 		for (int j = 0; j < sizeY_.size(); j++)
 		{
 			//ƒ`ƒbƒv‚»‚ê‚¼‚ê‚Ì”Ô†‚É‚æ‚Á‚Äì¬
-			if (mapChipData[i][j] == NONE)
+			if (mapChipData[i][j] == (int)MapInfo::NONE)
 			{
-				chipData[i][j] = ChipData::Create(i, j, NONE);
+				chipData[i][j] = ChipData::Create(i, j, MapInfo::NONE);
+
 			}
 			
-			if (mapChipData[i][j] == ONES)
+			if (mapChipData[i][j] == (int)MapInfo::ONES)
 			{
-				chipData[i][j] = ChipData::Create(i, j, ONES);
+				chipData[i][j] = ChipData::Create(i, j, MapInfo::ONES);
 			}
+		}
+	}
+}
+
+void MapChip2D::Draw()
+{
+	for (int i = 0; i < sizeX_.size(); i++)
+	{
+		for (int j = 0; j < sizeY_.size(); j++)
+		{
+			
+			chipData[i][j]->Draw();
+		}
+	}
+}
+
+void MapChip2D::Delete()
+{
+	for (int i = 0; i < sizeX_.size(); i++)
+	{
+		for (int j = 0; j < sizeY_.size(); j++)
+		{
+
+			chipData[i][j]->Delete();
 		}
 	}
 }

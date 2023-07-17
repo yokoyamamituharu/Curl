@@ -476,6 +476,9 @@
     <ClInclude Include="ApplicationCode\MapChip\MapChip2D.h">
       <Filter>ソース ファイル\ApplicationCode\MapChip</Filter>
     </ClInclude>
+    <ClInclude Include="ApplicationCode\MapChip\MapInfo.h">
+      <Filter>ソース ファイル\ApplicationCode\MapChip</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="IgaEngine.rc">

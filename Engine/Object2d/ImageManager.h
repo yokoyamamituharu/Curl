@@ -61,7 +61,10 @@ public: //画像名
 		watch_BigHand,
 		reticle,
 		particleCircle,
-		guideArrow
+		guideArrow,
+		
+		//マップチップの関係上これより上に書いてね
+		mapChipTest
 	};
 
 public: //メンバ関数
@@ -69,5 +72,8 @@ public: //メンバ関数
 	/// 初期化
 	/// </summary>
 	void Initialize();
+
+private:
+	int mapChip = (int)ImageName::mapChipTest;
 };
 

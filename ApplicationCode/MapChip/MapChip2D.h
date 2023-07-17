@@ -5,16 +5,14 @@ class MapChip2D
 
 
 private:
-	enum MapInfo
-	{
-		//マップの種類だけ増えていく名前は仮
-		NONE,
-		ONES
-	};
+	
 public:
 	static MapChip2D* Create();
 	void MapChipData();
 	void Ins();
+	void Draw();
+
+	void Delete();
 	ChipData* GetChipData(int i, int j) {return chipData[i][j];}
 
 private:

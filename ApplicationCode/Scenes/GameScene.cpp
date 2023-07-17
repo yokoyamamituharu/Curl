@@ -240,6 +240,7 @@ void GameScene::Draw()
 	tower_->Draw();
 	//enemy_->Draw();
 	enemys_->Draw();
+	mapChip2D->Draw();
 	Sprite::PostDraw();
 	postEffect_->PostDrawScene(DirectXSetting::GetIns()->GetCmdList());
 
@@ -300,6 +301,8 @@ void GameScene::Finalize()
 	safe_delete(tower_);
 	safe_delete(scrollCamera_);
 	safe_delete(camera2D);
+	mapChip2D->Delete();
+	safe_delete(mapChip2D);
 	Sprite::SetCamera2D(nullptr);
 }
 

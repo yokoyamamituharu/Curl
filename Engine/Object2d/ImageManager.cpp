@@ -52,4 +52,8 @@ void ImageManager::Initialize() {
 	Sprite::LoadTexture(int32_t(ImageName::particleCircle), L"Engine/Resources/Images/particleCircle.png");
 	Sprite::LoadTexture(int32_t(ImageName::guideArrow), L"Engine/Resources/Images/guideArrow.png");
 	
+	//マップチップの関係上これより上に書いてね
+	Sprite::LoadTexture(int32_t(ImageName::mapChipTest), L"Engine/Resources/Images/mapChipTest.png");
+	Sprite::LoadTexture(int32_t(mapChip + 1), L"Engine/Resources/Images/guideArrow.png");
+	
 }
