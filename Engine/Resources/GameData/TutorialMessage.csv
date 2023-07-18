@@ -1,0 +1,51 @@
+#OPEN ← ウィンドウ開放
+#TEXT ← メッセージ内容(/で改行)
+#SPEED ← メッセージスピード
+#WAIT ← 次のメッセージまでの時間
+#IF ← 条件を満たしたら次のメッセージを読み込む
+    #PUSH ← ボタンが押されたら次のメッセージを読み込む
+    #PUSHコマンド引数
+    #PUSH 読み込むボタン 押されてから何秒後にメッセージを読み込むか
+    #例 PUSH LCLICK 60
+#CLOSE ← ウィンドウ閉鎖
+
+OPEN
+TEXT 守護者よ、目覚めたか
+SPEED 5
+WAIT 60
+
+TEXT 敵が迫っている。今すぐ我のもとに戻れ
+SPEED 5
+WAIT 60
+
+TEXT 何?どう動けばいいのかわからぬだと?
+SPEED 5
+WAIT 60
+
+TEXT 寝ぼけているのか?
+SPEED 5
+WAIT 60
+
+IF PUSH W 60
+TEXT マウスで狙っているところに/Wで向かうだろう?
+SPEED 5
+WAIT 1
+
+TEXT そうだ。動けるではないか
+SPEED 5
+WAIT 60
+
+TEXT よもや、貴様の力の使いかたも忘れてはおらぬな?
+SPEED 5
+WAIT 60
+
+IF PUSH LCLICK 60
+TEXT マウスで狙っているところに左クリックだ
+SPEED 5
+WAIT 1
+
+TEXT そうだ。
+SPEED 5
+WAIT 60
+
+CLOSE

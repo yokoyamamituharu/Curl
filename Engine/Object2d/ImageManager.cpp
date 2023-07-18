@@ -51,5 +51,6 @@ void ImageManager::Initialize() {
 	Sprite::LoadTexture(int32_t(ImageName::reticle), L"Engine/Resources/Images/reticle.png");
 	Sprite::LoadTexture(int32_t(ImageName::particleCircle), L"Engine/Resources/Images/particleCircle.png");
 	Sprite::LoadTexture(int32_t(ImageName::guideArrow), L"Engine/Resources/Images/guideArrow.png");
+	Sprite::LoadTexture(int32_t(ImageName::messageWindow), L"Engine/Resources/Images/MessageWindow.png");
 	
 }

@@ -67,10 +67,14 @@ void GameScene::Initialize()
 	timer_->Initialize(60 * 20);
 
 	enemys_ = EnemyManager::Create();
+	messageWindow_ = MessageWindow::UniquePtrCreate();
+
 	if (SceneManager::GetStageNo() == 0) {
 		enemys_->EnemySpawnDataLoad("Stage1_EnemySpawnData.csv");
+		messageWindow_->Initialize("TutorialMessage.csv");
 		isTutorial_ = true;
 	}
+
 }
 
 void GameScene::Update()
@@ -82,6 +86,7 @@ void GameScene::Update()
 
 	poseButton_->Update();
 	tower_->Update();
+	messageWindow_->Update();
 
 	if (KeyInput::GetIns()->TriggerKey(DIK_M)) {
 		debugMuteki = !debugMuteki;
@@ -257,7 +262,7 @@ void GameScene::Draw()
 	std::wstring wstr3 = std::to_wstring(scrollCamera_->GetPosition().x);
 	std::wstring wstr4 = std::to_wstring(scrollCamera_->GetPosition().y);
 	text_->Draw("meiryo", "white", wstr1 + L"\n" + wstr2 + L"\n" + wstr3 + L"\n" + wstr4, textDrawRange);
-	
+	messageWindow_->TextMessageDraw();
 
 	DirectXSetting::GetIns()->endDrawWithDirect2D();
 
@@ -284,6 +289,7 @@ void GameScene::Draw()
 		manual_->Draw();
 	}
 	timer_->Draw();
+	messageWindow_->SpriteDraw();
 	Sprite::PostDraw();
 	DirectXSetting::GetIns()->PostDraw();
 }
