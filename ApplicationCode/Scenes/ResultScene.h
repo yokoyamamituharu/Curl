@@ -58,5 +58,6 @@ private: //ƒƒ“ƒo•Ï”
 	TextDraw* text_;
 	std::unique_ptr<Button>titleButton_;
 	Sprite* Crear{};
+	std::unique_ptr<Sprite> clearBack_;
 };
 
