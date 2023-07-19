@@ -54,7 +54,7 @@ bool AddAdjacentNode(std::list<Node*>& openList, std::list<Node*>& closeList, No
 	return false;
 }
 
-int AStar::EraseNode(std::list<Node*>& list, Node* newNode, float newCost)
+int EraseNode(std::list<Node*>& list, Node* newNode, float newCost)
 {
 	// クローズリストチェック
 	for (auto itr = list.begin(); itr != list.end(); itr++)

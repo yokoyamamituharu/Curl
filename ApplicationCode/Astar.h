@@ -53,8 +53,8 @@ struct Node {
 
 class AStar {
 
-	Node Graph[MapHeight][MapWidth];
-	int CostTable[MapHeight][MapWidth];
+	Node Graph[MapHeight][MapWidth]{};
+	int CostTable[MapHeight][MapWidth]{};
 
 
 public:
@@ -63,15 +63,11 @@ public:
 
 	static AStar* GetInstance();
 
-	static AStar* AStarCreate();
-
 	std::list<Cell> AStarActivate(Cell& start, Cell& goal);
 private:
 	AStar() = default;
 	~AStar() {};
 
-	//リスト内の削除条件に合ったノードを削除
-	int EraseNode(std::list<Node*>& list, Node* newNode, float newCost);
 
 	// ヒューリスティックコスト計算(ノードとゴールまでの距離を返している)
 	float CalculateHeuristic(const Node* node, const Node* Goal);
@@ -92,6 +88,8 @@ private:
 	}
 };
 
+//リスト内の削除条件に合ったノードを削除
+int EraseNode(std::list<Node*>& list, Node* newNode, float newCost);
 bool IsCellWithinTheRange(int x, int y);
 bool IsEqualCell(const Cell& a, const Cell& b);
 bool AddAdjacentNode(std::list<Node*>& openList, std::list<Node*>& closeList, Node* adjacentNode, float cost);
