@@ -18,6 +18,7 @@ void ImageManager::Initialize() {
 	Sprite::LoadTexture(int32_t(ImageName::coldWaveNumber), L"Engine/Resources/Images/coldWave.png");
 	Sprite::LoadTexture(int32_t(ImageName::bloodGaugeNumber), L"Engine/Resources/Images/bloodGauge.png");
 	Sprite::LoadTexture(int32_t(ImageName::ultGaugeNumber), L"Engine/Resources/Images/bloodGauge.png");
+	Sprite::LoadTexture(int32_t(ImageName::overheatNumber), L"Engine/Resources/Images/overheat.png");
 	Sprite::LoadTexture(int32_t(ImageName::enemyindividual), L"Engine/Resources/Images/enemy(1).png");
 	Sprite::LoadTexture(int32_t(ImageName::enemyLiquid), L"Engine/Resources/Images/enemy(2).png");
 	Sprite::LoadTexture(int32_t(ImageName::enemyGas), L"Engine/Resources/Images/enemy(3).png");
@@ -45,5 +46,14 @@ void ImageManager::Initialize() {
 	Sprite::LoadTexture(int32_t(ImageName::gameOver), L"Engine/Resources/Images/GameOver.png");
 	Sprite::LoadTexture(int32_t(ImageName::wolfForwardWalk), L"Engine/Resources/Images/wolfForwardWalk.png");
 	Sprite::LoadTexture(int32_t(ImageName::wolfBackwardWalk), L"Engine/Resources/Images/wolfBackwardWalk.png");
+	Sprite::LoadTexture(int32_t(ImageName::watch), L"Engine/Resources/Images/Watch.png");
+	Sprite::LoadTexture(int32_t(ImageName::watch_BigHand), L"Engine/Resources/Images/Watch_BigHand.png");
+	Sprite::LoadTexture(int32_t(ImageName::reticle), L"Engine/Resources/Images/reticle.png");
+	Sprite::LoadTexture(int32_t(ImageName::particleCircle), L"Engine/Resources/Images/particleCircle.png");
+	Sprite::LoadTexture(int32_t(ImageName::guideArrow), L"Engine/Resources/Images/guideArrow.png");
+	
+	//マップチップの関係上これより上に書いてね
+	Sprite::LoadTexture(int32_t(ImageName::mapChipTest), L"Engine/Resources/Images/mapChipTest.png");
+	Sprite::LoadTexture(int32_t(mapChip + 1), L"Engine/Resources/Images/guideArrow.png");
 	
 }

@@ -68,6 +68,7 @@ void OverScene::Draw()
 void OverScene::Finalize()
 {
 	safe_delete(text_);
+	safe_delete(over);
 }
 
 void OverScene::SceneChange()

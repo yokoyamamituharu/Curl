@@ -16,7 +16,7 @@
 #include "SceneManager.h"
 #include "TextDraw.h"
 #include "JsonLoader.h"
-#include"Enemys.h"
+#include"EnemyManager.h"
 
 #include "Blood.h"
 #include "Player.h"
@@ -24,8 +24,12 @@
 #include "ScrollCamera.h"
 
 #include "Button.h"
-#include"Collision.h"
+#include "Collision.h"
+#include "Timer.h"
+
 #include "Camera2D.h"
+#include "MapChip2D.h"
+
 class GameScene : public BaseScene
 {
 public: //ÉÅÉìÉoä÷êî
@@ -80,16 +84,19 @@ private: //ÉÅÉìÉoïœêî
 
 	Player* player_ = nullptr;
 	Tower* tower_ = nullptr;
-	Sprite* bgSprite_ = nullptr;
-	Sprite* GameSprite1 = nullptr;
-	Sprite* GameSprite2 = nullptr;
-	Sprite* GameSprite3 = nullptr;
+	std::unique_ptr<Sprite> bgSprite_ = nullptr;
+	std::unique_ptr<Sprite> GameSprite1_ = nullptr;
+	std::unique_ptr<Sprite> GameSprite2_ = nullptr;
+	std::unique_ptr<Sprite> GameSprite3_ = nullptr;
 	Sprite* playerHp = nullptr;
-	Sprite* manual = nullptr;
+	Timer* timer_;
+	std::unique_ptr<Sprite> manual_ = nullptr;
 	std::unique_ptr<Sprite> bloodGaugeSprite_ = nullptr;
-	std::unique_ptr<Sprite> ultGaugeSprite = nullptr;
+	std::unique_ptr<Sprite> ultGaugeSprite_ = nullptr;
+	std::unique_ptr<Sprite> overheatSprite_ = nullptr;
+	std::unique_ptr<Sprite> reticleSprite_ = nullptr;
 	
-	Enemys* enemys_{};
+	EnemyManager* enemys_{};
 	
 	ScrollCamera* scrollCamera_ = nullptr;
 
@@ -98,8 +105,11 @@ private: //ÉÅÉìÉoïœêî
 	std::unique_ptr<Button>	poseBackButton_;
 	std::unique_ptr<Button>	titleButton_;
 
+
 	bool pose_ = false;
 	bool debugMuteki = false;
 	Camera2D* camera2D = nullptr;
+
+	MapChip2D* mapChip2D{};
 };
 

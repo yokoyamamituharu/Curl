@@ -22,24 +22,25 @@ void GameScene::Initialize()
 
 	postEffectNo_ = PostEffect::NONE;
 
-	enemys_ = new Enemys();
-	enemys_ = Enemys::Create();
+	enemys_ = EnemyManager::Create();
 
 	//blood_ = Blood::Create({ 300,500 }, Blood::Temperature::solid);
 	//player_ = Player::Create();
 	RoadPlayer();
-	bgSprite_ = Sprite::Create(UINT(ImageManager::ImageName::bgTexNumber), { 0,0 });
-	GameSprite1 = Sprite::Create(UINT(ImageManager::ImageName::GameUI_01), { 0,0 });
-	GameSprite2 = Sprite::Create(UINT(ImageManager::ImageName::GameUI_02), { 0,0 });
-	GameSprite3 = Sprite::Create(UINT(ImageManager::ImageName::GameUI_03), { 0,0 });
-	GameSprite1->SetUi(true);
-	GameSprite2->SetUi(true);
+	bgSprite_ = Sprite::UniquePtrCreate(UINT(ImageManager::ImageName::bgTexNumber), { 0,0 });
+	GameSprite1_ = Sprite::UniquePtrCreate(UINT(ImageManager::ImageName::GameUI_01), { 0,0 });
+	GameSprite2_ = Sprite::UniquePtrCreate(UINT(ImageManager::ImageName::GameUI_02), { 0,0 });
+	GameSprite3_ = Sprite::UniquePtrCreate(UINT(ImageManager::ImageName::GameUI_03), { 0,0 });
+	GameSprite1_->SetUi(true);
+	GameSprite2_->SetUi(true);
 	playerHp = Sprite::Create(UINT(ImageManager::ImageName::playerHp), { 0,0 });
 	playerHp->SetUi(true);
 
+	reticleSprite_ = Sprite::UniquePtrCreate(UINT(ImageManager::ImageName::reticle), { 0,0 }, { 1,1,1,1 }, { 0.5,0.5 });
+	reticleSprite_->SetUi(true);
 
-	manual = Sprite::Create(UINT(ImageManager::ImageName::Manual), { 300,0 });
-	manual->SetUi(true);
+	manual_ = Sprite::UniquePtrCreate(UINT(ImageManager::ImageName::Manual), { 300,0 });
+	manual_->SetUi(true);
 	int32_t towerHP = 10;
 	tower_ = new Tower;
 	tower_->Initialize(towerHP);
@@ -50,9 +51,13 @@ void GameScene::Initialize()
 	bloodGaugeSprite_->SetLeftSizeCorrection(true);
 	bloodGaugeSprite_->SetUi(true);
 	// 体温
-	ultGaugeSprite = Sprite::UniquePtrCreate(UINT(ImageManager::ImageName::ultGaugeNumber), { 1196,375 });
-	ultGaugeSprite->SetLeftSizeCorrection(true);
-	ultGaugeSprite->SetUi(true);
+	ultGaugeSprite_ = Sprite::UniquePtrCreate(UINT(ImageManager::ImageName::ultGaugeNumber), { 1196,375 });
+	ultGaugeSprite_->SetLeftSizeCorrection(true);
+	ultGaugeSprite_->SetUi(true);
+	// オーバーヒート状態
+	overheatSprite_ = Sprite::UniquePtrCreate(UINT(ImageManager::ImageName::overheatNumber), { 1196,375 });
+	overheatSprite_->SetLeftSizeCorrection(true);
+	overheatSprite_->SetUi(true);
 
 	poseButton_ = Button::CreateUniqueButton(ImageManager::ImageName::Pause, { 64,24 }, { 100,100 }, 0);
 	poseBackButton_ = Button::CreateUniqueButton(ImageManager::ImageName::Back, { 100,300 }, { 100,100 }, 0);
@@ -61,6 +66,12 @@ void GameScene::Initialize()
 	camera2D = new Camera2D();
 	camera2D->InitializeCamera(WinApp::window_width, WinApp::window_height);
 	Sprite::SetCamera2D(camera2D);
+
+	timer_ = new Timer();
+	timer_->Initialize(60 * 20);
+
+	mapChip2D = MapChip2D::Create();
+	mapChip2D->Ins();
 }
 
 void GameScene::Update()
@@ -68,6 +79,7 @@ void GameScene::Update()
 	//blood_->Update();
 	HitBloodAndEnemys();
 	HitTowerAndEnemys();
+	timer_->Update();
 
 	poseButton_->Update();
 	tower_->Update();
@@ -75,14 +87,26 @@ void GameScene::Update()
 	if (KeyInput::GetIns()->TriggerKey(DIK_M)) {
 		debugMuteki = !debugMuteki;
 	}
+	if (KeyInput::GetIns()->TriggerKey(DIK_O)) {
+		timer_->SetIsWatchOpen(true);
+	}
+	else if (KeyInput::GetIns()->TriggerKey(DIK_C)) {
+		timer_->SetIsWatchOpen(false);
+	}
+	if (KeyInput::GetIns()->TriggerKey(DIK_S)) {
+		timer_->SetIsTimerStart(true);
+	}
 
 	if (poseButton_->GetIsClick()) {
 		pose_ = true;
+		ShowCursor(true);
+
 	}
 	if (pose_) {
 		poseBackButton_->Update();
 		titleButton_->Update();
 		if (poseBackButton_->GetIsClick()) {
+			ShowCursor(false);
 			pose_ = false;
 		}
 	}
@@ -90,17 +114,22 @@ void GameScene::Update()
 		player_->Update(scrollCamera_);
 		//scrollCamera_->Update(player_->GetSprite()->GetPosition());
 
-		int b = player_->GetBloodGauge();
+		int bloodGauge = player_->GetBloodGauge();
 		//						横幅(1090)を10で割った数,縦幅
-		bloodGaugeSprite_->SetSize({ (float)109 * b ,27 });							// 血量バーの大きさを変える
+		bloodGaugeSprite_->SetSize({ (float)1090 / player_->GetMaxBloodGauge() * bloodGauge,27 });							// 血量バーの大きさを変える
 		float u = player_->GetUltGauge();
-		 const float ultSpriteMaxSizeX = 36.f; const float ultSpriteMaxSizeY = 336.f;
-		ultGaugeSprite->SetSize({ ultSpriteMaxSizeX,(ultSpriteMaxSizeY / player_ ->GetUltMaxGauge()) * -u});	// 体温バーの大きさを変える
+		const float ultSpriteMaxSizeX = 36.f; const float ultSpriteMaxSizeY = 336.f;
+		ultGaugeSprite_->SetSize({ ultSpriteMaxSizeX,(ultSpriteMaxSizeY / player_->GetUltMaxGauge()) * -u });	// 体温バーの大きさを変える
 
-		enemys_->Update(tower_->GetHP(), player_->GetPlayerHp());
+		overheatSprite_->SetSize({ ultSpriteMaxSizeX,(ultSpriteMaxSizeY / player_->GetUltMaxGauge()) * -u });	// 体温バーの大きさを変える
+
+		enemys_->Update(tower_->GetHP(), player_->GetPlayerHp(), scrollCamera_->GetPosition());
 	}
+
+
 	//enemy_->Update();
 	scrollCamera_->Update(player_->GetPosition());
+	reticleSprite_->SetPosition({ (float)MouseInput::GetIns()->GetMousePoint().x,(float)MouseInput::GetIns()->GetMousePoint().y });
 	//シーン切り替え
 	SceneChange();
 }
@@ -211,15 +240,24 @@ void GameScene::Draw()
 	tower_->Draw();
 	//enemy_->Draw();
 	enemys_->Draw();
+	mapChip2D->Draw();
 	Sprite::PostDraw();
 	postEffect_->PostDrawScene(DirectXSetting::GetIns()->GetCmdList());
 
 	DirectXSetting::GetIns()->beginDrawWithDirect2D();
 	//テキスト描画範囲
 	D2D1_RECT_F textDrawRange = { 0, 0, 500, 500 };
+
 	std::wstring wstr1 = std::to_wstring(player_->GetPosition().x);
 	std::wstring wstr2 = std::to_wstring(player_->GetPosition().y);
-	text_->Draw("meiryo", "white", wstr1 + L"\n" + wstr2, textDrawRange);
+
+	DirectX::XMVECTOR vec = { scrollCamera_->GetPosition().x,scrollCamera_->GetPosition().y };
+	vec = DirectX::XMVector3TransformCoord(vec, Camera::GetMatViewPort());
+
+	std::wstring wstr3 = std::to_wstring(scrollCamera_->GetPosition().x);
+	std::wstring wstr4 = std::to_wstring(scrollCamera_->GetPosition().y);
+	text_->Draw("meiryo", "white", wstr1 + L"\n" + wstr2 + L"\n" + wstr3 + L"\n" + wstr4, textDrawRange);
+
 
 	DirectXSetting::GetIns()->endDrawWithDirect2D();
 
@@ -230,18 +268,23 @@ void GameScene::Draw()
 	//ポストエフェクトをかけないスプライト描画処理(UI等)
 	Sprite::PreDraw(DirectXSetting::GetIns()->GetCmdList());
 	poseButton_->Draw();
-	GameSprite1->Draw();
-	ultGaugeSprite->Draw();
-	GameSprite2->Draw();
-	//GameSprite3->Draw();
+	GameSprite1_->Draw();
+	ultGaugeSprite_->Draw();
+	if (player_->GetUltState()) {
+		overheatSprite_->Draw();
+	}
+	GameSprite2_->Draw();
+	//GameSprite3_->Draw();
 	bloodGaugeSprite_->Draw();
 	playerHp->Draw();
+	reticleSprite_->Draw();
 
 	if (pose_) {
 		poseBackButton_->Draw();
 		titleButton_->Draw();
-		manual->Draw();
+		manual_->Draw();
 	}
+	timer_->Draw();
 	Sprite::PostDraw();
 	DirectXSetting::GetIns()->PostDraw();
 }
@@ -252,17 +295,14 @@ void GameScene::Finalize()
 	safe_delete(text_);
 	//enemys_->Delete();
 	safe_delete(enemys_);
-	safe_delete(manual);
-
+	safe_delete(timer_);
 	safe_delete(player_);
-	safe_delete(bgSprite_);
-	safe_delete(GameSprite1);
-	safe_delete(GameSprite2);
-	safe_delete(GameSprite3);
 	safe_delete(playerHp);
 	safe_delete(tower_);
 	safe_delete(scrollCamera_);
 	safe_delete(camera2D);
+	mapChip2D->Delete();
+	safe_delete(mapChip2D);
 	Sprite::SetCamera2D(nullptr);
 }
 

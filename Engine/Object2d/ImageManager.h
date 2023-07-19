@@ -32,6 +32,7 @@ public: //画像名
 		playerHeatTexNumber,
 		bloodGaugeNumber,
 		ultGaugeNumber,
+		overheatNumber,
 		vampire_front,
 		vampire_beside,
 		vampire_back,
@@ -55,7 +56,15 @@ public: //画像名
 		Manual,
 		gameOver,
 		wolfForwardWalk,
-		wolfBackwardWalk
+		wolfBackwardWalk,
+		watch,
+		watch_BigHand,
+		reticle,
+		particleCircle,
+		guideArrow,
+		
+		//マップチップの関係上これより上に書いてね
+		mapChipTest
 	};
 
 public: //メンバ関数
@@ -63,5 +72,8 @@ public: //メンバ関数
 	/// 初期化
 	/// </summary>
 	void Initialize();
+
+private:
+	int mapChip = (int)ImageName::mapChipTest;
 };
 

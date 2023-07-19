@@ -9,9 +9,9 @@
 class BaseEnemy
 {
 private:
-protected:
 	using XMFLOAT2 = DirectX::XMFLOAT2;
 	using XMVECTOR = DirectX::XMVECTOR;
+public:
 
 	enum EnemyType
 	{
@@ -74,6 +74,8 @@ public:
 
 	virtual void Draw() = 0;//描画
 
+	void WorldMarker(XMFLOAT2 camera);
+
 protected: //静的メンバ関数
 
 	/// <summary>
@@ -108,8 +110,26 @@ protected:
 	bool towerHitFlag{};//砦との当たり判定フラグ
 	bool dead{};//
 
+	bool minWidthFlag{};
+	bool minHeightFlag{};
+	bool maxWidthFlag{};
+	bool maxHeightFlag{};
+
+
 	std::array<float, 360> maxAngle;//角度最大値
 	std::array<float, 0> minAngle;//角度最小値
+
+	//画面外にいるときに画面内に出すマーカー
+	Sprite* markerSprite_ = nullptr;
+	XMVECTOR markerAdd{};
+	float markerLength = 1;
+	XMFLOAT2 markerPos_{};
+	float markerAngle{};
+	bool isMarker_ = false;
+	bool isRight_ = false;
+	bool isLeft_ = false;
+	bool isUp_ = false;
+	bool isDown_ = false;
 
 	//移動先座標
 	XMFLOAT2 movePoint = { 640.f,360.f };

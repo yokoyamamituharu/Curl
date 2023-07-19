@@ -117,6 +117,12 @@ public:
 	/// </summary>
 	float GetUltMaxGauge() { return ultMaxGauge; }
 
+	/// <summary>
+	/// ウルト状態
+	/// </summary>
+	/// <returns></returns>
+	bool GetUltState() const { return ultState; }
+
 private:
 	/// <summary>
 	/// アニメーション画像の生成
@@ -153,12 +159,10 @@ private:
 	std::vector<Sprite*> frontSprites_;
 	std::vector<Sprite*> backSprites_;
 	Vector2 position_{};
-	float heat_ = 0;
-	int maxHeatDiray_ = 0;
-	int heatDiray_ = maxHeatDiray_;
 	int state_ = (int)State::none;
 	KeyInputHandler* handler_ = nullptr;
-	float speed_ = 4.0f;
+	const float initSpeed_ = 2.0f;
+	float speed_ = initSpeed_;
 	int playerHp_ = 10;
 	int maxBlood_ = 0;
 	int bloodGauge_ = 0;
@@ -168,17 +172,16 @@ private:
 
 	Sprite* heatWave_ = nullptr;
 	Sprite* coldWave_ = nullptr;
-
-	// 熱波
-	bool isHeatWave = false;
-	float heatExtend = 0;
-	float heatAlpha = 1;
-
-	// 寒波
-	bool isColdWave = false;
-	float coldExtend = 0;
-	float coldAlpha = 1;
+	
 	bool isRecall_ = false;
+	// 熱波
+	bool isHeatWave_ = false;
+	float heatExtend_ = 0;
+	float heatAlpha_ = 1;
+	// 寒波
+	bool isColdWave_ = false;
+	float coldExtend_ = 0;
+	float coldAlpha_ = 1;	
 
 	// ウルト状態
 	bool ultState = false;			// ゲージ状態
@@ -188,9 +191,8 @@ private:
 	float ultDiray = maxUltDiray;
 
 	bool isMove_ = false;
-	float angle = 0;
-	int useAnimation = 0;
-	int useDirectionSide = 0;
+	int useAnimation_ = 0;
+	int useDirectionSide_ = 0;
 	//アニメーションタイマー
 	int32_t animationTimer_ = 0;
 	//前向きアニメーションカウンター
