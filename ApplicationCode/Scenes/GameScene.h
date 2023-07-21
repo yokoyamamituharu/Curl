@@ -28,6 +28,7 @@
 #include "Timer.h"
 #include "MessageWindow.h"
 #include "Camera2D.h"
+#include "MapChip2D.h"
 
 class GameScene : public BaseScene
 {
@@ -93,6 +94,7 @@ private: //ƒƒ“ƒo•Ï”
 	std::unique_ptr<Sprite> bloodGaugeSprite_ = nullptr;
 	std::unique_ptr<Sprite> ultGaugeSprite_ = nullptr;
 	std::unique_ptr<Sprite> overheatSprite_ = nullptr;
+	std::unique_ptr<Sprite> reticleSprite_ = nullptr;
 	
 	EnemyManager* enemys_{};
 	
@@ -103,9 +105,12 @@ private: //ƒƒ“ƒo•Ï”
 	std::unique_ptr<Button>	titleButton_;
 	std::unique_ptr<MessageWindow> messageWindow_;
 
+
 	bool pose_ = false;
 	bool debugMuteki = false;
 	Camera2D* camera2D = nullptr;
+
+	MapChip2D* mapChip2D{};
 
 	bool isTutorial_ = false;
 };

@@ -35,6 +35,9 @@ void GameScene::Initialize()
 	playerHp = Sprite::Create(UINT(ImageManager::ImageName::playerHp), { 0,0 });
 	playerHp->SetUi(true);
 
+	reticleSprite_ = Sprite::UniquePtrCreate(UINT(ImageManager::ImageName::reticle), { 0,0 }, { 1,1,1,1 }, { 0.5,0.5 });
+	reticleSprite_->SetUi(true);
+
 	manual_ = Sprite::UniquePtrCreate(UINT(ImageManager::ImageName::Manual), { 300,0 });
 	manual_->SetUi(true);
 	int32_t towerHP = 10;
@@ -58,7 +61,7 @@ void GameScene::Initialize()
 	poseButton_ = Button::CreateUniqueButton(ImageManager::ImageName::Pause, { 64,24 }, { 100,100 }, 0);
 	poseBackButton_ = Button::CreateUniqueButton(ImageManager::ImageName::Back, { 100,300 }, { 100,100 }, 0);
 	titleButton_ = Button::CreateUniqueButton(ImageManager::ImageName::TitleBack, { 100,400 }, { 100,100 }, 0);
-	
+
 	camera2D = new Camera2D();
 	camera2D->InitializeCamera(WinApp::window_width, WinApp::window_height);
 	Sprite::SetCamera2D(camera2D);
@@ -75,6 +78,8 @@ void GameScene::Initialize()
 		isTutorial_ = true;
 	}
 
+	mapChip2D = MapChip2D::Create();
+	mapChip2D->Ins();
 }
 
 void GameScene::Update()
@@ -119,7 +124,7 @@ void GameScene::Update()
 
 		int bloodGauge = player_->GetBloodGauge();
 		//						横幅(1090)を10で割った数,縦幅
-		bloodGaugeSprite_->SetSize({ (float)1090/player_->GetMaxBloodGauge()* bloodGauge,27});							// 血量バーの大きさを変える
+		bloodGaugeSprite_->SetSize({ (float)1090 / player_->GetMaxBloodGauge() * bloodGauge,27 });							// 血量バーの大きさを変える
 		float u = player_->GetUltGauge();
 		 const float ultSpriteMaxSizeX = 36.f; const float ultSpriteMaxSizeY = 336.f;
 		ultGaugeSprite_->SetSize({ ultSpriteMaxSizeX,(ultSpriteMaxSizeY / player_ ->GetUltMaxGauge()) * -u});	// 体温バーの大きさを変える
@@ -132,12 +137,12 @@ void GameScene::Update()
 		}
 	}
 
-	
+
 	//enemy_->Update();
 	scrollCamera_->Update(player_->GetPosition());
+	reticleSprite_->SetPosition({ (float)MouseInput::GetIns()->GetMousePoint().x,(float)MouseInput::GetIns()->GetMousePoint().y });
 	//シーン切り替え
 	SceneChange();
-
 }
 
 void GameScene::HitBloodAndEnemys()
@@ -246,6 +251,7 @@ void GameScene::Draw()
 	tower_->Draw();
 	//enemy_->Draw();
 	enemys_->Draw();
+	mapChip2D->Draw();
 	Sprite::PostDraw();
 	postEffect_->PostDrawScene(DirectXSetting::GetIns()->GetCmdList());
 
@@ -284,6 +290,7 @@ void GameScene::Draw()
 	//GameSprite3_->Draw();
 	bloodGaugeSprite_->Draw();
 	playerHp->Draw();
+	reticleSprite_->Draw();
 
 	if (pose_) {
 		poseBackButton_->Draw();
@@ -310,6 +317,8 @@ void GameScene::Finalize()
 	safe_delete(tower_);
 	safe_delete(scrollCamera_);
 	safe_delete(camera2D);
+	mapChip2D->Delete();
+	safe_delete(mapChip2D);
 	Sprite::SetCamera2D(nullptr);
 }
 

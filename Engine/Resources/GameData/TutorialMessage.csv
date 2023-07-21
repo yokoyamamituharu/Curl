@@ -22,10 +22,6 @@ TEXT 何?どう動けばいいのかわからぬだと?
 SPEED 3
 WAIT 60
 
-TEXT 寝ぼけているのか?
-SPEED 3
-WAIT 60
-
 IF PUSH W 60
 TEXT マウスで狙っているところにWで向かうだろう?
 SPEED 3
@@ -45,6 +41,20 @@ SPEED 3
 WAIT 1
 
 TEXT そうだ。
+SPEED 3
+WAIT 60
+
+TEXT TestTEXT
+SPEED 3
+WAIT 60
+
+CLOSE
+
+WAIT 60
+
+OPEN
+
+TEXT open
 SPEED 3
 WAIT 60
 

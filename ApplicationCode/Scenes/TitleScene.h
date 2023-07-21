@@ -60,6 +60,8 @@ private: //ƒƒ“ƒo•Ï”
 
 	Sprite* title_{};
 	Sprite* manual_{};
+	std::unique_ptr<Sprite> titleback_ = nullptr;
+
 	bool manualFlag = 0;
 	std::unique_ptr<Button> gameButton_;
 	std::unique_ptr<Button> manualButton_;

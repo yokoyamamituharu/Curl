@@ -51,16 +51,20 @@ public: //‰æ‘œ–¼
 		StartButton,
 		Pause,
 		TitleBack,
+		title,
 		Clear,
+		ClearBack,
 		Back,
 		Manual,
 		gameOver,
+		gameOverBack,
 		wolfForwardWalk,
 		wolfBackwardWalk,
 		watch,
 		watch_BigHand,
 		reticle,
 		particleCircle,
+		mapChipTest,
 		guideArrow,
 		messageWindow
 	};
@@ -70,5 +74,8 @@ public: //ƒƒ“ƒoŠÖ”
 	/// ‰Šú‰»
 	/// </summary>
 	void Initialize();
+
+private:
+	int mapChip = (int)ImageName::mapChipTest;
 };
 

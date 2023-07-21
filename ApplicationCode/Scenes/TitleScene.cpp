@@ -21,6 +21,7 @@ void TitleScene::Initialize()
 	manualFlag = 0;
 	title_ = Sprite::Create((UINT)ImageManager::ImageName::TitleLog, {});
 	//title_->SetSize({ 400*2,400*2 });
+	titleback_ = Sprite::UniquePtrCreate(UINT(ImageManager::ImageName::title), { 0,0 });
 	manual_ = Sprite::Create((UINT)ImageManager::ImageName::Manual, {});
 	postEffectNo_ = PostEffect::NONE;
 	gameButton_ = Button::CreateUniqueButton(ImageManager::ImageName::StartButton, { 1000,400 }, { 100,100 }, 0);
@@ -45,6 +46,7 @@ void TitleScene::Draw()
 	//ƒXƒvƒ‰ƒCƒg•`‰æˆ—(”wŒi)
 	Sprite::PreDraw(DirectXSetting::GetIns()->GetCmdList());
 	
+	titleback_->Draw();
 	if(manualFlag ==0)title_->Draw();
 	if (manualFlag == 1)manual_->Draw();
 

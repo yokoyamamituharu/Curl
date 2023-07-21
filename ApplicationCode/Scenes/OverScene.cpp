@@ -20,6 +20,7 @@ void OverScene::Initialize()
 
 	postEffectNo_ = PostEffect::NONE;
 	over = Sprite::Create((UINT)ImageManager::ImageName::gameOver, { 500,400 });
+	gameOverBack_ = Sprite::UniquePtrCreate(UINT(ImageManager::ImageName::gameOverBack), { 0,0 });
 	titleButton_ = Button::CreateUniqueButton(ImageManager::ImageName::TitleBack, { 300,400 }, { 100,100 }, 0);
 }
 
@@ -39,6 +40,7 @@ void OverScene::Draw()
 
 	//スプライト描画処理(背景)
 	Sprite::PreDraw(DirectXSetting::GetIns()->GetCmdList());
+	gameOverBack_->Draw();
 	Sprite::PostDraw();
 
 	//3Dオブジェクト描画処理

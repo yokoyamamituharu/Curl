@@ -40,10 +40,13 @@ void ImageManager::Initialize() {
 	Sprite::LoadTexture(int32_t(ImageName::StartButton), L"Engine/Resources/Images/StartButton.png");
 	Sprite::LoadTexture(int32_t(ImageName::Pause), L"Engine/Resources/Images/pause.png");
 	Sprite::LoadTexture(int32_t(ImageName::TitleBack), L"Engine/Resources/Images/titleBack.png");
+	Sprite::LoadTexture(int32_t(ImageName::title), L"Engine/Resources/Images/title.png");
 	Sprite::LoadTexture(int32_t(ImageName::Clear), L"Engine/Resources/Images/clear.png");
+	Sprite::LoadTexture(int32_t(ImageName::ClearBack), L"Engine/Resources/Images/clearback.png");
 	Sprite::LoadTexture(int32_t(ImageName::Back), L"Engine/Resources/Images/Back.png");
 	Sprite::LoadTexture(int32_t(ImageName::Manual), L"Engine/Resources/Images/Manual.png");
 	Sprite::LoadTexture(int32_t(ImageName::gameOver), L"Engine/Resources/Images/GameOver.png");
+	Sprite::LoadTexture(int32_t(ImageName::gameOverBack), L"Engine/Resources/Images/gameoverBack.png");
 	Sprite::LoadTexture(int32_t(ImageName::wolfForwardWalk), L"Engine/Resources/Images/wolfForwardWalk.png");
 	Sprite::LoadTexture(int32_t(ImageName::wolfBackwardWalk), L"Engine/Resources/Images/wolfBackwardWalk.png");
 	Sprite::LoadTexture(int32_t(ImageName::watch), L"Engine/Resources/Images/Watch.png");
@@ -52,5 +55,9 @@ void ImageManager::Initialize() {
 	Sprite::LoadTexture(int32_t(ImageName::particleCircle), L"Engine/Resources/Images/particleCircle.png");
 	Sprite::LoadTexture(int32_t(ImageName::guideArrow), L"Engine/Resources/Images/guideArrow.png");
 	Sprite::LoadTexture(int32_t(ImageName::messageWindow), L"Engine/Resources/Images/MessageWindow.png");
+	
+	//マップチップの関係上これより上に書いてね
+	Sprite::LoadTexture(int32_t(ImageName::mapChipTest), L"Engine/Resources/Images/mapChipTest.png");
+	Sprite::LoadTexture(int32_t(mapChip + 1), L"Engine/Resources/Images/guideArrow.png");
 	
 }
