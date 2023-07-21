@@ -266,11 +266,14 @@
     <ClCompile Include="ApplicationCode\UI\Timer.cpp">
       <Filter>ソース ファイル\ApplicationCode\UI</Filter>
     </ClCompile>
+    <ClCompile Include="ApplicationCode\Astar.cpp">
+      <Filter>ソース ファイル\ApplicationCode</Filter>
+    </ClCompile>
     <ClCompile Include="Engine\Object2d\ParticleManager2d.cpp">
       <Filter>ソース ファイル\ApplicationCode\Effects</Filter>
     </ClCompile>
     <ClCompile Include="ApplicationCode\Enemys\EnemyManager.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\ApplicationCode\Enemys</Filter>
     </ClCompile>
     <ClCompile Include="ApplicationCode\MapChip\MapChip2D.cpp">
       <Filter>ソース ファイル\ApplicationCode\MapChip</Filter>
@@ -456,6 +459,9 @@
     </ClInclude>
     <ClInclude Include="ApplicationCode\Scenes\OverScene.h">
       <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="ApplicationCode\Astar.h">
+      <Filter>ソース ファイル\ApplicationCode</Filter>
     </ClInclude>
     <ClInclude Include="ApplicationCode\Camera2D\Camera2D.h">
       <Filter>ソース ファイル\ApplicationCode\Camera2D</Filter>

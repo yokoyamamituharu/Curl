@@ -157,6 +157,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ApplicationCode\Astar.cpp" />
     <ClCompile Include="ApplicationCode\Command\DownMoveCommand.cpp" />
     <ClCompile Include="ApplicationCode\Command\KeyInputHandler.cpp" />
     <ClCompile Include="ApplicationCode\Command\LeftMoveCommand.cpp" />
@@ -217,6 +218,7 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ApplicationCode\Astar.h" />
     <ClInclude Include="ApplicationCode\Camera2D\Camera2D.h" />
     <ClInclude Include="ApplicationCode\Command\Command.h" />
     <ClInclude Include="ApplicationCode\Command\DownMoveCommand.h" />

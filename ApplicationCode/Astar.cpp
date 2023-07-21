@@ -1,5 +1,11 @@
 #include "Astar.h"
 
+AStar* AStar::GetInstance()
+{
+	static AStar instance;
+	return &instance;
+}
+
 bool IsCellWithinTheRange(int x, int y)
 {
 	if (x >= 0 && x < MapWidth &&
@@ -72,7 +78,7 @@ int EraseNode(std::list<Node*>& list, Node* newNode, float newCost)
 	return EraseResult::NotFound;
 }
 
-float CalculateHeuristic(const Node* node, const Node* Goal)
+float AStar::CalculateHeuristic(const Node* node, const Node* Goal)
 {
 	float x = fabsf(float(Goal->Position.X) - float(node->Position.X));
 	float y = fabsf(float(Goal->Position.Y) - float(node->Position.Y));
@@ -80,7 +86,7 @@ float CalculateHeuristic(const Node* node, const Node* Goal)
 	return sqrtf(x * x + y * y);
 }
 
-void CreateGraph()
+void AStar::CreateGraph()
 {
 	for (int y = 0; y < MapHeight; y++)
 	{
@@ -108,7 +114,7 @@ void CreateGraph()
 	}
 }
 
-std::list<Cell> AStarActivate(Cell& start, Cell& goal)
+std::list<Cell> AStar::AStarActivate(Cell& start, Cell& goal)
 {
 	std::list<Node*> openList;
 	std::list<Node*> closeList;
@@ -191,7 +197,7 @@ std::list<Cell> AStarActivate(Cell& start, Cell& goal)
 	}
 }
 
-void InitializeCost()
+void AStar::InitializeCost()
 {
 	for (int y = 0; y < MapHeight; y++)
 	{
