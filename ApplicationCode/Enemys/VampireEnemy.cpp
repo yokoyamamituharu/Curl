@@ -97,7 +97,7 @@ void VampireEnemy::Update()
 	markerSprite_->SetRotation(markerAngle);
 }
 
-void VampireEnemy::Draw(bool makerFlag)
+void VampireEnemy::Draw(bool isInvisible)
 {
 	if (++animationTimer_ > animationTime) {
 		frontAnimationCounter_++;
@@ -117,21 +117,23 @@ void VampireEnemy::Draw(bool makerFlag)
 	}
 
 	//アングルで移動方向を判定し、判定した方向に向いたアニメーションを使用
-	if (useAnimation == AnimationType::back) {
-		backSprites_[backAnimationCounter_]->Draw();
+	if (!isInvisible) {
+		if (useAnimation == AnimationType::back) {
+			backSprites_[backAnimationCounter_]->Draw();
+		}
+		else if (useAnimation == AnimationType::front) {
+			frontSprites_[frontAnimationCounter_]->Draw();
+		}
+		else if (useAnimation == AnimationType::rightSide) {
+			besideSprites_[besideAnimationCounter_]->SetIsFlipX(true);
+			besideSprites_[besideAnimationCounter_]->Draw();
+		}
+		else {
+			besideSprites_[besideAnimationCounter_]->SetIsFlipX(false);
+			besideSprites_[besideAnimationCounter_]->Draw();
+		}
 	}
-	else if (useAnimation == AnimationType::front) {
-		frontSprites_[frontAnimationCounter_]->Draw();
-	}
-	else if (useAnimation == AnimationType::rightSide) {
-		besideSprites_[besideAnimationCounter_]->SetIsFlipX(true);
-		besideSprites_[besideAnimationCounter_]->Draw();
-	}
-	else {
-		besideSprites_[besideAnimationCounter_]->SetIsFlipX(false);
-		besideSprites_[besideAnimationCounter_]->Draw();
-	}
-	if (isMarker_&& makerFlag) {
+	if (isMarker_) {
 		markerSprite_->Draw();
 	}
 }
