@@ -314,6 +314,15 @@ void GameScene::HitEnemys()
 
 }
 
+Vector2 GameScene::GetWorldMousePos()
+{
+	Vector2 mousePos{};
+	mousePos.x = MouseInput::GetIns()->GetMousePoint().x;
+	mousePos.y = MouseInput::GetIns()->GetMousePoint().y;
+	mousePos += scrollCamera_->GetPosition();
+	return mousePos;
+}
+
 void GameScene::SceneChange()
 {
 	if (pose_ && titleButton_->GetIsClick()) {
@@ -334,7 +343,8 @@ void GameScene::RoadPlayer()
 {
 	std::string line;
 	Vector2 pos{};
-	int rote, maxBlood = 0, hp = 0;
+	float rote = 0.0f;
+	int maxBlood = 0, hp = 0;
 	std::stringstream stream = ExternalFileLoader::GetIns()->ExternalFileOpen("player.txt");
 
 	while (getline(stream, line)) {
