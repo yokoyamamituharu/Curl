@@ -64,9 +64,10 @@ public: //‰æ‘œ–¼
 		watch_BigHand,
 		reticle,
 		particleCircle,
-		mapChipTest,
 		guideArrow,
-		messageWindow
+		messageWindow,
+		mapChipTest,
+		mapChipTest2
 	};
 
 public: //ƒƒ“ƒoŠÖ”

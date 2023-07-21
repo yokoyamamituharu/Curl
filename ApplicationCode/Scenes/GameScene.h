@@ -105,7 +105,6 @@ private: //ƒƒ“ƒo•Ï”
 	std::unique_ptr<Button>	titleButton_;
 	std::unique_ptr<MessageWindow> messageWindow_;
 
-
 	bool pose_ = false;
 	bool debugMuteki = false;
 	Camera2D* camera2D = nullptr;

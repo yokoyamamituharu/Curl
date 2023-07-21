@@ -7,6 +7,10 @@
     #PUSHコマンド引数
     #PUSH 読み込むボタン 押されてから何秒後にメッセージを読み込むか
     #例 PUSH LCLICK 60
+    #MOVE ← その座標まで進んだら次のメッセージを読み込む
+    #MOVEコマンド引数
+        #MOVE 二次元座標X 二次元座標Y 半径
+        #例 MOVE 200 100 100
 #CLOSE ← ウィンドウ閉鎖
 
 OPEN
@@ -23,7 +27,7 @@ SPEED 3
 WAIT 60
 
 IF PUSH W 60
-TEXT マウスで狙っているところにWで向かうだろう?
+TEXT マウスで狙っているところに/[W]で向かうだろう?
 SPEED 3
 WAIT 1
 
@@ -31,12 +35,12 @@ TEXT そうだ。動けるではないか
 SPEED 3
 WAIT 60
 
-TEXT よもや、貴様の力の使いかたも忘れてはおらぬな?
+TEXT よもや、貴様。血の使いかたも忘れてはおらぬな?
 SPEED 3
 WAIT 60
 
 IF PUSH LCLICK 60
-TEXT マウスで狙っているところに左クリックだ
+TEXT マウスで狙っているところに[左クリック]だ
 SPEED 3
 WAIT 1
 
@@ -44,18 +48,56 @@ TEXT そうだ。
 SPEED 3
 WAIT 60
 
-TEXT TestTEXT
+IF PUSH E 60
+TEXT では、熱波を出してみろ/[E]
+SPEED 3
+WAIT 1
+
+TEXT これで血が気体になったな
 SPEED 3
 WAIT 60
 
-CLOSE
+IF PUSH LCLICK 60
+TEXT もう一度血を出してみろ/[左クリック]
+SPEED 3
+WAIT 1
 
-WAIT 60
+IF PUSH Q 60
+TEXT よし、では冷波を出すんだ/[Q]
+SPEED 3
+WAIT 1
 
-OPEN
-
-TEXT open
+TEXT これで液体となった血は回収されたな
 SPEED 3
 WAIT 60
+
+TEXT そして液体だった血は個体となっただろう
+SPEED 3
+WAIT 60
+
+TEXT [液体]に[熱波]で[気体]に
+SPEED 3
+WAIT 60
+
+TEXT [液体]に[冷波]で[個体]に
+SPEED 3
+WAIT 60
+
+TEXT そして[個体]と[気体]は逆の波動を当てれば/[液体]に戻る
+SPEED 3
+WAIT 60
+
+TEXT これが貴様の力だ。思い出したか
+SPEED 3
+WAIT 30
+
+IF MOVE 640 360 1000
+TEXT ではこちらに向かってこい
+SPEED 3
+WAIT 1
+
+TEXT よし来たな。
+SPEED 3
+WAIT 30
 
 CLOSE

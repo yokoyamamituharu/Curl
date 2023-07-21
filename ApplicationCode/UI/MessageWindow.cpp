@@ -3,6 +3,7 @@
 #include "Easing.h"
 #include "KeyInput.h"
 #include "MouseInput.h"
+#include "Collision2d.h"
 
 MessageWindow* MessageWindow::Create()
 {
@@ -31,14 +32,21 @@ void MessageWindow::Initialize(const std::string& fileName)
 	isTextDrawComplete_ = false;
 }
 
-void MessageWindow::Update()
+void MessageWindow::Update(Vector2 playerPos, float playerRadius)
 {
 	std::string line;
 	std::string messageData;
 	std::wstring messageDataW;
+	Vector2 movePos;
+	float radius;
 
 	if (isCommand_) {
 		CommandCheck();
+
+		return;
+	}
+	if (isPointMove_) {
+		PointMoveCheck(playerPos, playerRadius);
 
 		return;
 	}
@@ -81,8 +89,17 @@ void MessageWindow::Update()
 				command_ = messageDataW;
 				line_stream >> messageWaitTimer_;
 				isMessageUpdateWait_ = true;
+				isCommand_ = true;
 			}
-			isCommand_ = true;
+			if (messageDataW == L"MOVE") {
+				line_stream >> movePos.x;
+				line_stream >> movePos.y;
+				line_stream >> radius;
+				movePoint_ = movePos;
+				movePointRadius_ = radius;
+				isMessageUpdateWait_ = true;
+				isPointMove_ = true;
+			}
 		}
 		if (word == "SPEED") {
 			line_stream >> textSpeed_;
@@ -164,13 +181,13 @@ void MessageWindow::TextMessageDraw()
 		}
 	}
 	//Œ»Ý’Ç‰Á‚³‚ê‚Ä‚¢‚é•¶Žš‚ð‘S‚Ä•`‰æ‚·‚é
-	textDraw_->Draw("meiryo", "white", drawMessage_, textDrawPos);
+	textDraw_->Draw("meiryo_16", "white", drawMessage_, textDrawPos);
 }
 
 void MessageWindow::CommandCheck()
 {
 	if (command_ == L"W") {
-		if (KeyInput::GetIns()->TriggerKey(DIK_W)) {
+		if (KeyInput::GetIns()->PushKey(DIK_W)) {
 			isCommand_ = false;
 		}
 	}
@@ -178,5 +195,22 @@ void MessageWindow::CommandCheck()
 		if (MouseInput::GetIns()->TriggerClick(MouseInput::MouseState::LEFT_CLICK)) {
 			isCommand_ = false;
 		}
+	}
+	if (command_ == L"E") {
+		if (KeyInput::GetIns()->PushKey(DIK_E)) {
+			isCommand_ = false;
+		}
+	}
+	if (command_ == L"Q") {
+		if (KeyInput::GetIns()->PushKey(DIK_Q)) {
+			isCommand_ = false;
+		}
+	}
+}
+
+void MessageWindow::PointMoveCheck(Vector2 playerPos, float playerRadius)
+{
+	if (Collision2d::GetIns()->CircleAndCircle(playerPos, movePoint_, playerRadius, movePointRadius_)) {
+		isPointMove_ = false;
 	}
 }

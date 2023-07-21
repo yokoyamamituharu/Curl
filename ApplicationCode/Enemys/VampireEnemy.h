@@ -16,7 +16,7 @@ public:
 
 	void Update();// 更新
 
-	void Draw();//描画
+	void Draw(bool isInvisible = true);//描画
 
 private: //定数
 	//前向きアニメーション画像

@@ -130,7 +130,7 @@ void GameScene::Update()
 		ultGaugeSprite_->SetSize({ ultSpriteMaxSizeX,(ultSpriteMaxSizeY / player_ ->GetUltMaxGauge()) * -u});	// 体温バーの大きさを変える
 		
 		overheatSprite_->SetSize({ ultSpriteMaxSizeX,(ultSpriteMaxSizeY / player_ ->GetUltMaxGauge()) * -u});	// 体温バーの大きさを変える
-		messageWindow_->Update();
+		messageWindow_->Update(player_->GetPosition(), 32);
 
 		if (!isTutorial_) {
 			enemys_->Update(tower_->GetHP(), player_->GetPlayerHp(), scrollCamera_->GetPosition());
@@ -259,8 +259,11 @@ void GameScene::Draw()
 	//テキスト描画範囲
 	D2D1_RECT_F textDrawRange = { 0, 0, 500, 500 };
 
-	std::wstring wstr1 = std::to_wstring(player_->GetPosition().x);
-	std::wstring wstr2 = std::to_wstring(player_->GetPosition().y);
+	/*std::wstring wstr1 = std::to_wstring(player_->GetPosition().x);
+	std::wstring wstr2 = std::to_wstring(player_->GetPosition().y);*/
+
+	std::wstring wstr1 = std::to_wstring(MouseInput::GetIns()->GetMousePoint().x);
+	std::wstring wstr2 = std::to_wstring(MouseInput::GetIns()->GetMousePoint().y);
 
 	DirectX::XMVECTOR vec = { scrollCamera_->GetPosition().x,scrollCamera_->GetPosition().y };
 	vec = DirectX::XMVector3TransformCoord(vec, Camera::GetMatViewPort());
@@ -347,7 +350,8 @@ void GameScene::RoadPlayer()
 {
 	std::string line;
 	Vector2 pos{};
-	int rote, maxBlood = 0, hp = 0;
+	float rote;
+	int32_t maxBlood = 0, hp = 0;
 	std::stringstream stream;
 	if (SceneManager::GetStageNo() != 0) {
 		stream = ExternalFileLoader::GetIns()->ExternalFileOpen("player.txt");

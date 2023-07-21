@@ -2,6 +2,7 @@
 #include "Sprite.h"
 #include "ImageManager.h"
 #include "TextDraw.h"
+#include "Vector2.h"
 #include <sstream>
 
 class MessageWindow
@@ -26,7 +27,7 @@ public: //メンバ関数
 	/// <summary>
 	/// 更新処理
 	/// </summary>
-	void Update();
+	void Update(Vector2 playerPos, float playerRadius);
 	/// <summary>
 	/// スプライト描画処理
 	/// </summary>
@@ -36,9 +37,13 @@ public: //メンバ関数
 	/// </summary>
 	void TextMessageDraw();
 	/// <summary>
-	/// コマンド入力チェック」
+	/// コマンド入力チェック
 	/// </summary>
 	void CommandCheck();
+	/// <summary>
+	/// ポイント移動チェック
+	/// </summary>
+	void PointMoveCheck(Vector2 playerPos, float playerRadius);
 
 private: //静的メンバ変数
 	//ウィンドウ開放時間
@@ -81,4 +86,10 @@ private: //メンバ変数
 	bool isOpen_;
 	//コマンド入力待機フラグ
 	bool isCommand_;
+	//ポイント移動フラグ
+	bool isPointMove_;
+	//移動ポイント
+	Vector2 movePoint_;
+	//移動ポイント半径
+	float movePointRadius_;
 };
