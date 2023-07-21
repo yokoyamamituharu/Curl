@@ -334,7 +334,8 @@ void GameScene::RoadPlayer()
 {
 	std::string line;
 	Vector2 pos{};
-	int rote, maxBlood = 0, hp = 0;
+	float rote = 0.0f;
+	int maxBlood = 0, hp = 0;
 	std::stringstream stream = ExternalFileLoader::GetIns()->ExternalFileOpen("player.txt");
 
 	while (getline(stream, line)) {
