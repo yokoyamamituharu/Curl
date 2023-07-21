@@ -64,6 +64,8 @@ public: //メンバ関数
 
 	void HitEnemys();
 
+	Vector2 GetWorldMousePos();
+
 private: //メンバ関数
 	/// <summary>
 	/// シーン切り替え処理

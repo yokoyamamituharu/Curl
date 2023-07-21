@@ -314,6 +314,15 @@ void GameScene::HitEnemys()
 
 }
 
+Vector2 GameScene::GetWorldMousePos()
+{
+	Vector2 mousePos{};
+	mousePos.x = MouseInput::GetIns()->GetMousePoint().x;
+	mousePos.y = MouseInput::GetIns()->GetMousePoint().y;
+	mousePos += scrollCamera_->GetPosition();
+	return mousePos;
+}
+
 void GameScene::SceneChange()
 {
 	if (pose_ && titleButton_->GetIsClick()) {
