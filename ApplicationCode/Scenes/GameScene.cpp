@@ -248,8 +248,11 @@ void GameScene::Draw()
 	//テキスト描画範囲
 	D2D1_RECT_F textDrawRange = { 0, 0, 500, 500 };
 
-	std::wstring wstr1 = std::to_wstring(player_->GetPosition().x);
-	std::wstring wstr2 = std::to_wstring(player_->GetPosition().y);
+	/*std::wstring wstr1 = std::to_wstring(player_->GetPosition().x);
+	std::wstring wstr2 = std::to_wstring(player_->GetPosition().y);*/
+
+	std::wstring wstr1 = std::to_wstring(MouseInput::GetIns()->GetMousePoint().x);
+	std::wstring wstr2 = std::to_wstring(MouseInput::GetIns()->GetMousePoint().y);
 
 	DirectX::XMVECTOR vec = { scrollCamera_->GetPosition().x,scrollCamera_->GetPosition().y };
 	vec = DirectX::XMVector3TransformCoord(vec, Camera::GetMatViewPort());

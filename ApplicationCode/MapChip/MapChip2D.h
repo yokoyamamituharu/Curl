@@ -1,15 +1,18 @@
 #pragma once
 #include"ChipData.h"
+
 class MapChip2D
 {
 
 
 private:
 	
+
 public:
 	static MapChip2D* Create();
 	void MapChipData();
 	void Ins();
+	void Update();
 	void Draw();
 
 	void Delete();

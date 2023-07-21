@@ -1,5 +1,6 @@
 #pragma once
-
+#include"ImageManager.h"
+using ImageName = ImageManager::ImageName;
 enum class MapInfo
 {
 	//マップの種類だけ増えていく名前は仮

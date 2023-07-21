@@ -14,9 +14,9 @@ private:
 
 public:
 	
-	static ChipData* Create(int i, int j, const MapInfo name);
+	static ChipData* Create(int i, int j, const ImageName name);
 	
-	void Ins(int i, int j, const MapInfo name);
+	void Ins(int i, int j, const ImageName name);
 	void Mapping(int i, int j);
 	void Draw();
 	void Delete();

@@ -18,7 +18,7 @@ void MapChip2D::MapChipData()
 		{0,0,0,0,0,0,0,0,0,0,},
 		{0,0,0,0,0,0,0,0,0,0,},
 		{0,0,0,0,0,0,0,0,0,0,},
-		{0,0,0,0,1,0,0,0,0,0,},
+		{0,0,0,0,0,0,0,0,0,0,},
 		{0,0,0,0,0,0,0,0,0,0,},
 		{0,0,0,0,0,0,0,0,0,0,},
 		{0,0,0,0,0,0,0,0,0,0,},
@@ -46,14 +46,26 @@ void MapChip2D::Ins()
 			//É`ÉbÉvÇªÇÍÇºÇÍÇÃî‘çÜÇ…ÇÊÇ¡ÇƒçÏê¨
 			if (mapChipData[i][j] == (int)MapInfo::NONE)
 			{
-				chipData[i][j] = ChipData::Create(i, j, MapInfo::NONE);
+				chipData[i][j] = ChipData::Create(i, j, ImageName::mapChipTest);
 
 			}
 			
 			if (mapChipData[i][j] == (int)MapInfo::ONES)
 			{
-				chipData[i][j] = ChipData::Create(i, j, MapInfo::ONES);
+				chipData[i][j] = ChipData::Create(i, j, ImageName::mapChipTest2);
 			}
+		}
+	}
+}
+
+void MapChip2D::Update()
+{
+	for (int i = 0; i < sizeX_.size(); i++)
+	{
+		for (int j = 0; j < sizeY_.size(); j++)
+		{
+
+			chipData[i][j];
 		}
 	}
 }

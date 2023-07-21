@@ -64,7 +64,8 @@ public: //画像名
 		guideArrow,
 		
 		//マップチップの関係上これより上に書いてね
-		mapChipTest
+		mapChipTest,
+		mapChipTest2
 	};
 
 public: //メンバ関数

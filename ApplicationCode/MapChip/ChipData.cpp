@@ -1,17 +1,17 @@
 #include "ChipData.h"
 
 
-ChipData* ChipData::Create(int i, int j, const MapInfo name)
+ChipData* ChipData::Create(int i, int j, const ImageName name)
 {
 	ChipData* instance = new ChipData();
 	instance->Ins(i,j, name);
 	return instance;
 }
 
-void ChipData::Ins(int i, int j, const MapInfo name)
+void ChipData::Ins(int i, int j, const ImageName name)
 {
 	
-	chipNumber = (int)name + (int)ImageManager::ImageName::mapChipTest;
+	chipNumber = (int)name;
 	Mapping(i, j);
 	sprite_ = Sprite::Create(UINT(chipNumber), pos_, {1,1,1,1}, { 0.5,0.5 });
 }
