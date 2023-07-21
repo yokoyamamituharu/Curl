@@ -4,10 +4,10 @@ class BasiliskEnemy : public BaseEnemy
 {
 
 private:
-	
-	
-	
-	
+
+
+
+
 
 public:
 	~BasiliskEnemy();//削除
@@ -15,7 +15,7 @@ public:
 
 	void Update();// 更新
 
-	void Draw();//描画
+	void Draw(bool makerFlag = true);//描画
 
 private: //定数
 	//前向きアニメーション数

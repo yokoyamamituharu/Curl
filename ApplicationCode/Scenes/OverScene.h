@@ -59,5 +59,6 @@ private: //ƒƒ“ƒo•Ï”
 	TextDraw* text_;
 	std::unique_ptr<Button>titleButton_;
 	Sprite* over{};
+	std::unique_ptr<Sprite> gameOverBack_ = nullptr;
 };
 

@@ -20,6 +20,7 @@ void ResultScene::Initialize()
 
 	postEffectNo_ = PostEffect::NONE;
 	Crear = Sprite::Create((UINT)ImageManager::ImageName::Clear, { 500,400 });
+	clearBack_ = Sprite::UniquePtrCreate(UINT(ImageManager::ImageName::ClearBack), { 0,0 });
 	titleButton_ = Button::CreateUniqueButton(ImageManager::ImageName::TitleBack, { 300,400 }, { 100,100 }, 0);
 }
 
@@ -39,6 +40,9 @@ void ResultScene::Draw()
 
 	//スプライト描画処理(背景)
 	Sprite::PreDraw(DirectXSetting::GetIns()->GetCmdList());
+
+	clearBack_->Draw();
+
 	Sprite::PostDraw();
 
 	//3Dオブジェクト描画処理

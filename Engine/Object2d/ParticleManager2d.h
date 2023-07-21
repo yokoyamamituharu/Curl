@@ -42,17 +42,17 @@ public: //静的メンバ関数
 	/// インスタンス生成
 	/// </summary>
 	/// <returns>インスタンス</returns>
-	//static ParticleManager2d* Create();
+	static ParticleManager2d* Create();
 	/// <summary>
 	/// インスタンス生成
 	/// </summary>
 	/// <returns>インスタンス</returns>
-	//static std::unique_ptr<ParticleManager2d> UniquePtrCreate();
+	static std::unique_ptr<ParticleManager2d> UniquePtrCreate();
 	/// <summary>
 	/// パーティクル生成
 	/// </summary>
 	/// <returns>インスタンス</returns>
-	//static std::unique_ptr<Particle2d> ParticleCreate();
+	static std::unique_ptr<Particle2d> ParticleCreate();
 
 public: //メンバ関数
 	/// <summary>

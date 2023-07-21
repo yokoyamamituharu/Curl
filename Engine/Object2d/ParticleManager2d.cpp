@@ -1,22 +1,22 @@
 #include "ParticleManager2d.h"
 
-//ParticleManager2d* ParticleManager2d::Create()
-//{
-//	ParticleManager2d* instance = new ParticleManager2d();
-//	return instance;
-//}
+ParticleManager2d* ParticleManager2d::Create()
+{
+	ParticleManager2d* instance = new ParticleManager2d();
+	return instance;
+}
 
-//std::unique_ptr<ParticleManager2d> ParticleManager2d::UniquePtrCreate()
-//{
-//	std::unique_ptr<ParticleManager2d> instance = std::make_unique<ParticleManager2d>();
-//	return std::move(instance);
-//}
+std::unique_ptr<ParticleManager2d> ParticleManager2d::UniquePtrCreate()
+{
+	std::unique_ptr<ParticleManager2d> instance = std::make_unique<ParticleManager2d>();
+	return std::move(instance);
+}
 
-//std::unique_ptr<ParticleManager2d::Particle2d> ParticleManager2d::ParticleCreate()
-//{
-//	std::unique_ptr<Particle2d> instance = std::make_unique<Particle2d>();
-//	return std::move(instance);
-//}
+std::unique_ptr<ParticleManager2d::Particle2d> ParticleManager2d::ParticleCreate()
+{
+	std::unique_ptr<Particle2d> instance = std::make_unique<Particle2d>();
+	return std::move(instance);
+}
 
 void ParticleManager2d::Update()
 {
@@ -41,5 +41,5 @@ void ParticleManager2d::Draw()
 
 void ParticleManager2d::Add(const Particle2d& particle)
 {
-	//particleList_.push_front(particle);
+	//particleList_.emplace_front(particle);
 }

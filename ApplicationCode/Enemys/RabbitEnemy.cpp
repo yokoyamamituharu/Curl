@@ -124,7 +124,7 @@ int RabbitEnemy::BloodHit(int num)
 	return temp;
 }
 
-void RabbitEnemy::Draw()
+void RabbitEnemy::Draw(bool makerFlag)
 {
 	if (++animationTimer_ > animationTime) {
 		frontAnimationCounter_++;
@@ -158,7 +158,7 @@ void RabbitEnemy::Draw()
 		besideSprites_[besideAnimationCounter_]->SetIsFlipX(false);
 		besideSprites_[besideAnimationCounter_]->Draw();
 	}
-	if (isMarker_) {
+	if (isMarker_&& makerFlag) {
 		markerSprite_->Draw();
 	}
 }
