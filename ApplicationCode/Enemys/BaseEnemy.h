@@ -72,7 +72,7 @@ public:
 
 	//void Create(int type);
 
-	virtual void Draw() = 0;//•`‰æ
+	virtual void Draw(bool makerFlag = true) = 0;//•`‰æ
 
 	void WorldMarker(XMFLOAT2 camera);
 

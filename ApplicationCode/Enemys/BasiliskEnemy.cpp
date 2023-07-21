@@ -110,7 +110,7 @@ void BasiliskEnemy::Update()
 	markerSprite_->SetRotation(markerAngle);
 }
 
-void BasiliskEnemy::Draw()
+void BasiliskEnemy::Draw(bool makerFlag)
 {
 	if (++animationTimer_ > animationTime) {
 		frontAnimationCounter_++;
@@ -144,7 +144,7 @@ void BasiliskEnemy::Draw()
 		besideSprites_[besideAnimationCounter_]->SetIsFlipX(false);
 		besideSprites_[besideAnimationCounter_]->Draw();
 	}
-	if (isMarker_) {
+	if (isMarker_&& makerFlag) {
 		markerSprite_->Draw();
 	}
 }
