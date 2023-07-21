@@ -19,7 +19,7 @@ std::unique_ptr<MessageWindow> MessageWindow::UniquePtrCreate()
 void MessageWindow::Initialize(const std::string& fileName)
 {
 	textData_ = ExternalFileLoader::GetIns()->ExternalFileOpen(fileName);
-	textWindow_ = Sprite::UniquePtrCreate((UINT)ImageManager::ImageName::messageWindow, { 800.0f, 100.0f });
+	textWindow_ = Sprite::UniquePtrCreate((UINT)ImageManager::ImageName::messageWindow, { 700.0f, 100.0f });
 	textWindow_->SetAlpha(0.4f);
 	textWindow_->SetUi(true);
 	textWindowSize_ = textWindow_->GetSize();
@@ -111,8 +111,8 @@ void MessageWindow::TextMessageDraw()
 	const float openWindowSizeY = 160.0f;
 
 	//メッセージウィンドウ座標
-	int32_t windowPosX = (int32_t)textWindow_->GetPosition().x;
-	int32_t windowPosY = (int32_t)textWindow_->GetPosition().y;
+	float windowPosX = textWindow_->GetPosition().x;
+	float windowPosY = textWindow_->GetPosition().y;
 
 	//メッセージウィンドウ開閉処理
 	//メッセージウィンドウ閉鎖処理
@@ -141,7 +141,7 @@ void MessageWindow::TextMessageDraw()
 
 	//テキスト描画範囲
 	D2D1_RECT_F textDrawPos = {
-		windowPosX, windowPosY, windowPosX + 400, windowPosY + 200
+		windowPosX, windowPosY, windowPosX + 400.0f, windowPosY + 200.0f
 	};
 
 	//テキストを1文字ずつ指定時間ごとに追加する

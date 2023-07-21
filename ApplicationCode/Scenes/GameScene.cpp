@@ -86,7 +86,6 @@ void GameScene::Update()
 
 	poseButton_->Update();
 	tower_->Update();
-	messageWindow_->Update();
 
 	if (KeyInput::GetIns()->TriggerKey(DIK_M)) {
 		debugMuteki = !debugMuteki;
@@ -126,6 +125,7 @@ void GameScene::Update()
 		ultGaugeSprite_->SetSize({ ultSpriteMaxSizeX,(ultSpriteMaxSizeY / player_ ->GetUltMaxGauge()) * -u});	// 体温バーの大きさを変える
 		
 		overheatSprite_->SetSize({ ultSpriteMaxSizeX,(ultSpriteMaxSizeY / player_ ->GetUltMaxGauge()) * -u});	// 体温バーの大きさを変える
+		messageWindow_->Update();
 
 		if (!isTutorial_) {
 			enemys_->Update(tower_->GetHP(), player_->GetPlayerHp(), scrollCamera_->GetPosition());
@@ -252,17 +252,19 @@ void GameScene::Draw()
 	DirectXSetting::GetIns()->beginDrawWithDirect2D();
 	//テキスト描画範囲
 	D2D1_RECT_F textDrawRange = { 0, 0, 500, 500 };
-	
+
 	std::wstring wstr1 = std::to_wstring(player_->GetPosition().x);
 	std::wstring wstr2 = std::to_wstring(player_->GetPosition().y);
-	
+
 	DirectX::XMVECTOR vec = { scrollCamera_->GetPosition().x,scrollCamera_->GetPosition().y };
 	vec = DirectX::XMVector3TransformCoord(vec, Camera::GetMatViewPort());
 
 	std::wstring wstr3 = std::to_wstring(scrollCamera_->GetPosition().x);
 	std::wstring wstr4 = std::to_wstring(scrollCamera_->GetPosition().y);
 	text_->Draw("meiryo", "white", wstr1 + L"\n" + wstr2 + L"\n" + wstr3 + L"\n" + wstr4, textDrawRange);
-	messageWindow_->TextMessageDraw();
+	if (!pose_) {
+		messageWindow_->TextMessageDraw();
+	}
 
 	DirectXSetting::GetIns()->endDrawWithDirect2D();
 
@@ -288,8 +290,10 @@ void GameScene::Draw()
 		titleButton_->Draw();
 		manual_->Draw();
 	}
+	else {
+		messageWindow_->SpriteDraw();
+	}
 	timer_->Draw();
-	messageWindow_->SpriteDraw();
 	Sprite::PostDraw();
 	DirectXSetting::GetIns()->PostDraw();
 }
