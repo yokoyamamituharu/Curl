@@ -26,6 +26,7 @@
 #include "Button.h"
 #include "Collision.h"
 #include "Timer.h"
+#include "ArrowMarker.h"
 
 #include "Camera2D.h"
 #include "MapChip2D.h"
@@ -113,5 +114,6 @@ private: //ƒƒ“ƒo•Ï”
 	Camera2D* camera2D = nullptr;
 
 	MapChip2D* mapChip2D{};
+	ArrowMarker* marker_ = nullptr;
 };
 

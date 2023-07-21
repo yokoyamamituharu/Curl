@@ -72,6 +72,8 @@ void GameScene::Initialize()
 
 	mapChip2D = MapChip2D::Create();
 	mapChip2D->Ins();
+
+	marker_ = ArrowMarker::Create({ 640, 360 });
 }
 
 void GameScene::Update()
@@ -126,6 +128,7 @@ void GameScene::Update()
 		enemys_->Update(tower_->GetHP(), player_->GetPlayerHp(), scrollCamera_->GetPosition());
 	}
 
+	marker_->Update(scrollCamera_->GetPosition());
 
 	//enemy_->Update();
 	scrollCamera_->Update(player_->GetPosition());
@@ -241,6 +244,7 @@ void GameScene::Draw()
 	//enemy_->Draw();
 	enemys_->Draw();
 	mapChip2D->Draw();
+	marker_->Draw();
 	Sprite::PostDraw();
 	postEffect_->PostDrawScene(DirectXSetting::GetIns()->GetCmdList());
 
@@ -306,6 +310,7 @@ void GameScene::Finalize()
 	safe_delete(camera2D);
 	mapChip2D->Delete();
 	safe_delete(mapChip2D);
+	safe_delete(marker_);
 	Sprite::SetCamera2D(nullptr);
 }
 
@@ -355,11 +360,11 @@ void GameScene::RoadPlayer()
 		if (word.find("#") == 0) {
 			continue;
 		}
-		if (word.find("pos") == 0) {
+		if (word.find("pos_") == 0) {
 			line_stream >> pos.x;
 			line_stream >> pos.y;
 		}
-		if (word.find("rote") == 0) {
+		if (word.find("rote_") == 0) {
 			line_stream >> rote;
 		}
 		if (word.find("maxBlood") == 0) {

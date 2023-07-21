@@ -272,14 +272,17 @@
     <ClCompile Include="Engine\Object2d\ParticleManager2d.cpp">
       <Filter>ソース ファイル\ApplicationCode\Effects</Filter>
     </ClCompile>
-    <ClCompile Include="ApplicationCode\Enemys\EnemyManager.cpp">
-      <Filter>ソース ファイル\ApplicationCode\Enemys</Filter>
-    </ClCompile>
     <ClCompile Include="ApplicationCode\MapChip\MapChip2D.cpp">
       <Filter>ソース ファイル\ApplicationCode\MapChip</Filter>
     </ClCompile>
     <ClCompile Include="ApplicationCode\MapChip\ChipData.cpp">
       <Filter>ソース ファイル\ApplicationCode\MapChip</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationCode\Enemys\EnemyManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="ApplicationCode\UI\ArrowMarker.cpp">
+      <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -485,6 +488,7 @@
     <ClInclude Include="ApplicationCode\MapChip\MapInfo.h">
       <Filter>ソース ファイル\ApplicationCode\MapChip</Filter>
     </ClInclude>
+    <ClInclude Include="ApplicationCode\UI\ArrowMarker.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="IgaEngine.rc">
