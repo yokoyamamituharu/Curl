@@ -17,9 +17,8 @@ std::unique_ptr<MessageWindow> MessageWindow::UniquePtrCreate()
 	return ins;
 }
 
-void MessageWindow::Initialize(const std::string& fileName)
+void MessageWindow::Initialize()
 {
-	textData_ = ExternalFileLoader::GetIns()->ExternalFileOpen(fileName);
 	textWindow_ = Sprite::UniquePtrCreate((UINT)ImageManager::ImageName::messageWindow, { 700.0f, 100.0f });
 	textWindow_->SetAlpha(0.4f);
 	textWindow_->SetUi(true);
@@ -111,6 +110,9 @@ void MessageWindow::Update(Vector2 playerPos, float playerRadius)
 		}
 		if (word == "CLOSE") {
 			isOpen_ = false;
+		}
+		if (word == "LOAD_END") {
+			isLoadEnd_ = true;
 		}
 	}
 }
@@ -213,4 +215,14 @@ void MessageWindow::PointMoveCheck(Vector2 playerPos, float playerRadius)
 	if (Collision2d::GetIns()->CircleAndCircle(playerPos, movePoint_, playerRadius, movePointRadius_)) {
 		isPointMove_ = false;
 	}
+}
+
+void MessageWindow::LoadTextMessageData(const std::string& fileName)
+{
+	textData_ = ExternalFileLoader::GetIns()->ExternalFileOpen(fileName);
+	textAddTimer_ = 0;
+	textSpeed_ = 1;
+	textCount_ = 0;
+	isTextDrawComplete_ = false;
+	isLoadEnd_ = false;
 }

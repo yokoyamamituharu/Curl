@@ -26,6 +26,8 @@
 #include "Button.h"
 #include "Collision.h"
 #include "Timer.h"
+#include "ArrowMarker.h"
+
 #include "MessageWindow.h"
 #include "Camera2D.h"
 #include "MapChip2D.h"
@@ -63,6 +65,8 @@ public: //ƒƒ“ƒoŠÖ”
 	void Finalize();
 
 	void HitEnemys();
+
+	Vector2 GetWorldMousePos();
 
 private: //ƒƒ“ƒoŠÖ”
 	/// <summary>
@@ -110,6 +114,7 @@ private: //ƒƒ“ƒo•Ï”
 	Camera2D* camera2D = nullptr;
 
 	MapChip2D* mapChip2D{};
+	ArrowMarker* marker_ = nullptr;
 
 	bool isTutorial_ = false;
 };

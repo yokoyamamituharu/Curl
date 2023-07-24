@@ -92,7 +92,7 @@ void Player::Update(ScrollCamera* camera) {
 	//血を放出
 	Shot(camera);
 	//使える血の残量を計算
-	bloodGauge_ = maxBlood_ - bloods_.size();
+	bloodGauge_ = maxBlood_ - (int)bloods_.size();
 
 	// 体温最大でウルト状態
 	if (ultGauge >= ultMaxGauge) {
@@ -281,7 +281,7 @@ void Player::Wave() {
 		heatWave_->SetSize({ heatExtend_ ,heatExtend_ });
 		heatWave_->SetAlpha(heatAlpha_);
 		heatExtend_ += 240;
-		heatAlpha_ -= 0.1;
+		heatAlpha_ -= 0.1f;
 		if (heatAlpha_ < 0) {
 			isHeatWave_ = false;
 			isRecall_ = true;

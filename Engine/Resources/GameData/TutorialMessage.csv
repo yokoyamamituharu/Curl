@@ -11,6 +11,7 @@
     #MOVEコマンド引数
         #MOVE 二次元座標X 二次元座標Y 半径
         #例 MOVE 200 100 100
+#LOAD_END ← 読み込み終了
 #CLOSE ← ウィンドウ閉鎖
 
 OPEN
@@ -91,7 +92,7 @@ TEXT これが貴様の力だ。思い出したか
 SPEED 3
 WAIT 30
 
-IF MOVE 640 360 1000
+IF MOVE 640 360 100
 TEXT ではこちらに向かってこい
 SPEED 3
 WAIT 1
@@ -100,4 +101,5 @@ TEXT よし来たな。
 SPEED 3
 WAIT 30
 
+LOAD_END
 CLOSE

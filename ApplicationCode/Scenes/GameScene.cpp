@@ -71,15 +71,21 @@ void GameScene::Initialize()
 
 	enemys_ = EnemyManager::Create();
 	messageWindow_ = MessageWindow::UniquePtrCreate();
+	messageWindow_->Initialize();
 
 	if (SceneManager::GetStageNo() == 0) {
 		enemys_->EnemySpawnDataLoad("Stage1_EnemySpawnData.csv");
-		messageWindow_->Initialize("TutorialMessage.csv");
+		messageWindow_->LoadTextMessageData("TutorialMessage.csv");
 		isTutorial_ = true;
+	}
+	else if (SceneManager::GetStageNo() == 1) {
+		enemys_->EnemySpawnDataLoad("Stage1_EnemySpawnData.csv");
 	}
 
 	mapChip2D = MapChip2D::Create();
 	mapChip2D->Ins();
+
+	marker_ = ArrowMarker::Create({ 640, 360 });
 }
 
 void GameScene::Update()
@@ -88,6 +94,12 @@ void GameScene::Update()
 	HitBloodAndEnemys();
 	HitTowerAndEnemys();
 	timer_->Update();
+	if (messageWindow_->GetIsLoadEnd()) {
+		isTutorial_ = false;
+		if (SceneManager::GetStageNo() == 0) {
+
+		}
+	}
 
 	poseButton_->Update();
 	tower_->Update();
@@ -137,6 +149,7 @@ void GameScene::Update()
 		}
 	}
 
+	marker_->Update(scrollCamera_->GetPosition());
 
 	//enemy_->Update();
 	scrollCamera_->Update(player_->GetPosition());
@@ -252,6 +265,7 @@ void GameScene::Draw()
 	//enemy_->Draw();
 	enemys_->Draw();
 	mapChip2D->Draw();
+	marker_->Draw();
 	Sprite::PostDraw();
 	postEffect_->PostDrawScene(DirectXSetting::GetIns()->GetCmdList());
 
@@ -322,12 +336,22 @@ void GameScene::Finalize()
 	safe_delete(camera2D);
 	mapChip2D->Delete();
 	safe_delete(mapChip2D);
+	safe_delete(marker_);
 	Sprite::SetCamera2D(nullptr);
 }
 
 void GameScene::HitEnemys()
 {
 
+}
+
+Vector2 GameScene::GetWorldMousePos()
+{
+	Vector2 mousePos{};
+	mousePos.x = MouseInput::GetIns()->GetMousePoint().x;
+	mousePos.y = MouseInput::GetIns()->GetMousePoint().y;
+	mousePos += scrollCamera_->GetPosition();
+	return mousePos;
 }
 
 void GameScene::SceneChange()

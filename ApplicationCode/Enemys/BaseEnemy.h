@@ -55,10 +55,10 @@ public:
 	int GetAnBloodType() { return anBloodType; }//得意な血のタイプ習得
 
 	void SetBloadHitFlag(int bloodHitFlag_) { this->bloodHitFlag = bloodHitFlag_; }//血の当たり判定代入
-	int GetBloodHitFlag() { return bloodHitFlag; }//血の当たり判定取得
+	bool GetBloodHitFlag() { return bloodHitFlag; }//血の当たり判定取得
 
 	void SetTowerHitFlag(int towerHitFlag_) { this->towerHitFlag = towerHitFlag_; }//守られている砦の当たり判定代入
-	int GetTowerHitFlag() { return towerHitFlag; }//守られている砦の当たり判定取得
+	bool GetTowerHitFlag() { return towerHitFlag; }//守られている砦の当たり判定取得
 
 	void SetDead(bool dead_) { this->dead = dead_; }//死亡フラグ代入
 	bool GetDead() { return dead; }//死亡フラグ取得

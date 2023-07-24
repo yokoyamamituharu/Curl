@@ -23,7 +23,7 @@ public: //メンバ関数
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize(const std::string& fileName);
+	void Initialize();
 	/// <summary>
 	/// 更新処理
 	/// </summary>
@@ -44,6 +44,16 @@ public: //メンバ関数
 	/// ポイント移動チェック
 	/// </summary>
 	void PointMoveCheck(Vector2 playerPos, float playerRadius);
+	/// <summary>
+	/// 読み込み終了フラグ取得
+	/// </summary>
+	/// <returns>読み込み終了フラグ</returns>
+	bool GetIsLoadEnd() { return isLoadEnd_; }
+	/// <summary>
+	/// テキストメッセージデータ読み込み
+	/// </summary>
+	/// <param name="fileName">読み込むファイル名</param>
+	void LoadTextMessageData(const std::string& fileName);
 
 private: //静的メンバ変数
 	//ウィンドウ開放時間
@@ -88,6 +98,8 @@ private: //メンバ変数
 	bool isCommand_;
 	//ポイント移動フラグ
 	bool isPointMove_;
+	//読み込み終了フラグ
+	bool isLoadEnd_;
 	//移動ポイント
 	Vector2 movePoint_;
 	//移動ポイント半径

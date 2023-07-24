@@ -181,6 +181,7 @@
     <ClCompile Include="ApplicationCode\Scenes\TitleScene.cpp" />
     <ClCompile Include="ApplicationCode\ScrollCamera\ScrollCamera.cpp" />
     <ClCompile Include="ApplicationCode\Tower\Tower.cpp" />
+    <ClCompile Include="ApplicationCode\UI\ArrowMarker.cpp" />
     <ClCompile Include="ApplicationCode\UI\Button.cpp" />
     <ClCompile Include="ApplicationCode\UI\MessageWindow.cpp" />
     <ClCompile Include="Camera2D.cpp" />
@@ -248,6 +249,7 @@
     <ClInclude Include="ApplicationCode\Scenes\TitleScene.h" />
     <ClInclude Include="ApplicationCode\ScrollCamera\ScrollCamera.h" />
     <ClInclude Include="ApplicationCode\Tower\Tower.h" />
+    <ClInclude Include="ApplicationCode\UI\ArrowMarker.h" />
     <ClInclude Include="ApplicationCode\UI\Button.h" />
     <ClInclude Include="ApplicationCode\UI\MessageWindow.h" />
     <ClInclude Include="ApplicationCode\UI\Timer.h" />
