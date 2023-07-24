@@ -13,6 +13,23 @@ bool Collision::HitCircle(XMFLOAT2 pos1, float radius1, XMFLOAT2 pos2, float rad
 	return temp < radius1 + radius2;
 }
 
+bool Collision::HitBox(XMFLOAT2 box, int boxSize, XMFLOAT2 point, int pointSize = 0)
+{
+	bool flag = 0;
+	if (box.x - boxSize > point.x + pointSize&&
+		box.x - boxSize < point.x - pointSize)
+	{
+		if (box.y - boxSize > point.y + pointSize &&
+			box.y - boxSize < point.y - pointSize)
+		{
+			flag = true;
+		}
+	}
+
+
+	return flag;
+}
+
 DirectX::XMFLOAT2 Collision::HitCrossWindows(XMFLOAT2 enemyPos, int flag)
 {
 	

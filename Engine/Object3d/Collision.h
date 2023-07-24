@@ -26,6 +26,8 @@ public: //ÉÅÉìÉoä÷êî
 
 	static bool HitCircle(XMFLOAT2 pos1, float radius1, XMFLOAT2 pos2, float radius2);
 
+	static bool HitBox(XMFLOAT2 box,int boxSize, XMFLOAT2 point,int pointSize = 0);
+
 	static XMFLOAT2 HitCrossWindows(XMFLOAT2 enemyPos,int flag);
 	
 	static bool CrossLine(XMFLOAT2 pos1, XMFLOAT2 pos2, XMFLOAT2 pos3, XMFLOAT2 pos4);
