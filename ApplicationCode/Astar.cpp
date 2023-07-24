@@ -6,6 +6,18 @@ AStar* AStar::GetInstance()
 	return &instance;
 }
 
+AStar* AStar::Create()
+{
+	AStar* instance = new AStar();
+
+	int cost[MapWidth][MapHeight] = {};
+	instance->SetTableCost(cost);
+
+	instance->CreateGraph();
+
+	return instance;
+}
+
 bool IsCellWithinTheRange(int x, int y)
 {
 	if (x >= 0 && x < MapWidth &&
@@ -13,9 +25,11 @@ bool IsCellWithinTheRange(int x, int y)
 	{
 		return true;
 	}
+
+	return false;
 }
 
-bool IsEqualCell(const Cell& a, const Cell& b)
+bool IsEqualCell(const AStar::Cell& a, const AStar::Cell& b)
 {
 	if (a.X == b.X &&
 		a.Y == b.Y)
@@ -26,7 +40,7 @@ bool IsEqualCell(const Cell& a, const Cell& b)
 	return false;
 }
 
-bool Less(Node* a, Node* b)
+bool Less(AStar::Node* a, AStar::Node* b)
 {
 	if (a->TotalCost < b->TotalCost) {
 		return true;
@@ -34,7 +48,7 @@ bool Less(Node* a, Node* b)
 	return false;
 }
 
-bool AddAdjacentNode(std::list<Node*>& openList, std::list<Node*>& closeList, Node* adjacentNode, float cost)
+bool AddAdjacentNode(std::list<AStar::Node*>& openList, std::list<AStar::Node*>& closeList, AStar::Node* adjacentNode, float cost)
 {
 	bool Update = true;
 
@@ -54,7 +68,7 @@ bool AddAdjacentNode(std::list<Node*>& openList, std::list<Node*>& closeList, No
 	return false;
 }
 
-int EraseNode(std::list<Node*>& list, Node* newNode, float newCost)
+int EraseNode(std::list<AStar::Node*>& list, AStar::Node* newNode, float newCost)
 {
 	// クローズリストチェック
 	for (auto itr = list.begin(); itr != list.end(); itr++)
@@ -114,7 +128,7 @@ void AStar::CreateGraph()
 	}
 }
 
-std::list<Cell> AStar::AStarActivate(Cell& start, Cell& goal)
+std::list<AStar::Cell> AStar::AStarActivate(Cell& start, Cell& goal)
 {
 	std::list<Node*> openList;
 	std::list<Node*> closeList;
@@ -146,13 +160,13 @@ std::list<Cell> AStar::AStarActivate(Cell& start, Cell& goal)
 			{
 				adjacentNode->HeuristicCost = CalculateHeuristic(adjacentNode, goalNode);
 			}
-			float edgeCost =float(CostTable[adjacentNode->Position.Y][adjacentNode->Position.X]);
+			float edgeCost = float(CostTable[adjacentNode->Position.Y][adjacentNode->Position.X]);
 			float totalCost = searchNode->TotalCost;
 
 			float cost = edgeCost + adjacentNode->HeuristicCost + totalCost;
 
 			//ノード追加
-			if (AddAdjacentNode(openList, closeList, adjacentNode, cost)) 
+			if (AddAdjacentNode(openList, closeList, adjacentNode, cost))
 			{
 				//トータルコスト更新
 				adjacentNode->TotalCost = cost;
@@ -195,6 +209,7 @@ std::list<Cell> AStar::AStarActivate(Cell& start, Cell& goal)
 			}
 		}
 	}
+	return routeList;
 }
 
 void AStar::InitializeCost()

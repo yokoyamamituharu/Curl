@@ -14,45 +14,47 @@ enum EraseResult
 	CouldntErased	// 削除できない
 };
 
-struct Cell
-{
-	int X{};
-	int Y{};
-
-	Cell() :
-		X(-1),
-		Y(-1)
-	{
-	}
-
-	Cell(int x, int y)
-	{
-		X = x;
-		Y = y;
-	}
-};
-struct Node {
-	Node() :
-		Node(0, 0)
-	{
-	}
-
-	Node(int x, int y) :
-		Position(x, y),
-		HeuristicCost(Infinity),
-		TotalCost(0)
-	{
-		Edges.clear();
-	}
-
-	Cell Position;
-	std::vector<Node*> Edges;
-	float HeuristicCost;
-	float TotalCost;
-};
 
 class AStar {
+public:
+	struct Cell
+	{
+		int X{};
+		int Y{};
 
+		Cell() :
+			X(-1),
+			Y(-1)
+		{
+		}
+
+		Cell(int x, int y)
+		{
+			X = x;
+			Y = y;
+		}
+	};
+	struct Node {
+		Node() :
+			Node(0, 0)
+		{
+		}
+
+		Node(int x, int y) :
+			Position(x, y),
+			HeuristicCost(Infinity),
+			TotalCost(0)
+		{
+			Edges.clear();
+		}
+
+		Cell Position;
+		std::vector<Node*> Edges;
+		float HeuristicCost;
+		float TotalCost;
+	};
+
+private:
 	Node Graph[MapHeight][MapWidth]{};
 	int CostTable[MapHeight][MapWidth]{};
 
@@ -62,6 +64,8 @@ public:
 	AStar& operator=(const AStar& astar) = delete;
 
 	static AStar* GetInstance();
+
+	static AStar* Create();
 
 	std::list<Cell> AStarActivate(Cell& start, Cell& goal);
 private:
@@ -76,6 +80,7 @@ private:
 
 	void InitializeCost();
 
+public:
 	//ステージのコストを設定
 	inline void SetTableCost(int cost[][MapHeight]) {
 		for (int i = 0; i < MapWidth; i++)
@@ -89,18 +94,8 @@ private:
 };
 
 //リスト内の削除条件に合ったノードを削除
-int EraseNode(std::list<Node*>& list, Node* newNode, float newCost);
+int EraseNode(std::list<AStar::Node*>& list, AStar::Node* newNode, float newCost);
 bool IsCellWithinTheRange(int x, int y);
-bool IsEqualCell(const Cell& a, const Cell& b);
-bool AddAdjacentNode(std::list<Node*>& openList, std::list<Node*>& closeList, Node* adjacentNode, float cost);
-bool Less(Node* a, Node* b);
-
-int CostTable[MapHeight][MapWidth] =
-{
-	//0  1  2  3  4
-	{ 1, 1, 1, 1, 1, }, // 0
-	{ 1, 0, 1, 1, 0, }, // 1
-	{ 1, 0, 0, 1, 1, }, // 2
-	{ 1, 1, 0, 0, 1, }, // 3
-	{ 0, 1, 1, 1, 1, }, // 4
-};
+bool IsEqualCell(const AStar::Cell& a, const AStar::Cell& b);
+bool AddAdjacentNode(std::list<AStar::Node*>& openList, std::list<AStar::Node*>& closeList, AStar:: Node* adjacentNode, float cost);
+bool Less(AStar::Node* a, AStar::Node* b);
