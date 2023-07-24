@@ -20,7 +20,7 @@ std::unique_ptr<MessageWindow> MessageWindow::UniquePtrCreate()
 void MessageWindow::Initialize()
 {
 	textWindow_ = Sprite::UniquePtrCreate((UINT)ImageManager::ImageName::messageWindow, { 700.0f, 100.0f });
-	textWindow_->SetAlpha(0.4f);
+	textWindow_->SetAlpha(1.0f);
 	textWindow_->SetUi(true);
 	textWindowSize_ = textWindow_->GetSize();
 	textWindowSize_.y = 0;
