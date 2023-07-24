@@ -342,16 +342,16 @@ void EnemyManager::Draw()
 {
 	for (unique_ptr<VampireEnemy>& vampire : Vampires_)
 	{
-		vampire->Draw();
+		vampire->Draw(false);
 	}
 
 	for (unique_ptr<BasiliskEnemy>& basilisk : Basiliskes_)
 	{
-		basilisk->Draw();
+		basilisk->Draw(false);
 	}
 
 	for (unique_ptr<RabbitEnemy>& rabbit : Rabbits_)
 	{
-		rabbit->Draw();
+		rabbit->Draw(false);
 	}
 }

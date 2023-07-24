@@ -263,9 +263,10 @@ void GameScene::Draw()
 	player_->Draw(scrollCamera_);
 	tower_->Draw();
 	//enemy_->Draw();
-	enemys_->Draw();
 	mapChip2D->Draw();
 	marker_->Draw();
+	enemys_->Draw();
+
 	Sprite::PostDraw();
 	postEffect_->PostDrawScene(DirectXSetting::GetIns()->GetCmdList());
 
