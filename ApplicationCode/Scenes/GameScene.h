@@ -28,6 +28,7 @@
 #include "Timer.h"
 #include "ArrowMarker.h"
 
+#include "MessageWindow.h"
 #include "Camera2D.h"
 #include "MapChip2D.h"
 
@@ -103,11 +104,10 @@ private: //ƒƒ“ƒo•Ï”
 	
 	ScrollCamera* scrollCamera_ = nullptr;
 
-	
 	std::unique_ptr<Button>	poseButton_;
 	std::unique_ptr<Button>	poseBackButton_;
 	std::unique_ptr<Button>	titleButton_;
-
+	std::unique_ptr<MessageWindow> messageWindow_;
 
 	bool pose_ = false;
 	bool debugMuteki = false;
@@ -115,5 +115,7 @@ private: //ƒƒ“ƒo•Ï”
 
 	MapChip2D* mapChip2D{};
 	ArrowMarker* marker_ = nullptr;
+
+	bool isTutorial_ = false;
 };
 

@@ -183,6 +183,7 @@
     <ClCompile Include="ApplicationCode\Tower\Tower.cpp" />
     <ClCompile Include="ApplicationCode\UI\ArrowMarker.cpp" />
     <ClCompile Include="ApplicationCode\UI\Button.cpp" />
+    <ClCompile Include="ApplicationCode\UI\MessageWindow.cpp" />
     <ClCompile Include="Camera2D.cpp" />
     <ClCompile Include="ApplicationCode\UI\Timer.cpp" />
     <ClCompile Include="Engine\Audio\Sound.cpp" />
@@ -202,6 +203,7 @@
     <ClCompile Include="Engine\Input\MouseInput.cpp" />
     <ClCompile Include="Engine\Input\PadInput.cpp" />
     <ClCompile Include="Engine\Light\LightGroup.cpp" />
+    <ClCompile Include="Engine\Object2d\Collision2d.cpp" />
     <ClCompile Include="Engine\Object2d\DebugText.cpp" />
     <ClCompile Include="Engine\Object2d\ImageManager.cpp" />
     <ClCompile Include="Engine\Object2d\ParticleManager2d.cpp" />
@@ -249,6 +251,7 @@
     <ClInclude Include="ApplicationCode\Tower\Tower.h" />
     <ClInclude Include="ApplicationCode\UI\ArrowMarker.h" />
     <ClInclude Include="ApplicationCode\UI\Button.h" />
+    <ClInclude Include="ApplicationCode\UI\MessageWindow.h" />
     <ClInclude Include="ApplicationCode\UI\Timer.h" />
     <ClInclude Include="Engine\Audio\Sound.h" />
     <ClInclude Include="Engine\Audio\SoundManager.h" />
@@ -274,6 +277,7 @@
     <ClInclude Include="Engine\Light\LightGroup.h" />
     <ClInclude Include="Engine\Light\PointLight.h" />
     <ClInclude Include="Engine\Light\SpotLight.h" />
+    <ClInclude Include="Engine\Object2d\Collision2d.h" />
     <ClInclude Include="Engine\Object2d\DebugText.h" />
     <ClInclude Include="Engine\Object2d\ImageManager.h" />
     <ClInclude Include="Engine\Object2d\ParticleManager2d.h" />

@@ -1,0 +1,20 @@
+#敵データ読み込み処理
+#使い方
+#
+
+#Enemy1
+
+Pos 200 300
+Type VAMP
+Wait 500
+
+#Enemy2
+
+Pos 10 200
+Type RABB
+Wait 500
+
+#Enemy3
+Pos 600 600
+Type BASI
+Wait 500

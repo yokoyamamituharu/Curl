@@ -30,11 +30,12 @@ void EnemyManager::Update(int32_t towerHp, int playerHp, Vector2 camera)
 	//¶¬ŽžŠÔ‚ÌŒ¸ŽY
 	enemyCreateTime--;
 	if (deadCount >= 30)gameFlag = TRUE;
+	EnemySpawnDataUpdate();
 	//¶¬ŽžŠÔ‚ª0–¢–ž‚©‚ÂÔ,ƒvƒŒƒCƒ„[‚ÌHP‚ª1ˆÈã‚©‚Â‘—Ê‚ª72–¢–ž‚Ìê‡“G‚ð¶¬
 	if ((towerHp > 0 || playerHp > 0) && enemyNumber_ < 72 && enemyCreateTime < 0)
 	{
 		//“G‚ð¶¬
-		EnemyCreate(3);
+		//EnemyCreate(3);
 		//“G‚Ì‘—Ê‚ð‰ÁŽZ
 		enemyNumber_++;
 		//”­¶ŽžŠÔƒ‰ƒ“ƒ_ƒ€‘ã“ü
@@ -252,104 +253,89 @@ void EnemyManager::EnemysDead()
 
 }
 
-void EnemyManager::EnemySpawnDataLoad()
+void EnemyManager::EnemySpawnDataLoad(const std::string& fileName)
 {
-	enemySpawnFileData_ = ExternalFileLoader::GetIns()->ExternalFileOpen("Stage1_EnemySpawnData.csv");
+	enemySpawnFileData_ = ExternalFileLoader::GetIns()->ExternalFileOpen(fileName);
 	
 	std::string line;
-	Vector3 pos{};
-	Vector3 rot{};
-	Vector3 scale{};
-	Vector3 movePoint{};
-	std::vector<Vector3> movePoints{};
+	Vector2 pos{};
 	std::string type;
-	float moveTime = 120.0f;//2[s]
-	int32_t lifeTime = 240;//4[s]
-	int32_t shotIntervalTime = 60;//1[s]
-	int32_t hp = 1;
 	int32_t waitTime = 0;
 	bool isPos = false;
-	bool isRot = false;
-	bool isStyle = false;
-	bool isMovePoint = false;
+	bool isType = false;
+	bool isWaitTime = false;
 
-	//while (getline(enemyData_, line)) {
-	//	std::istringstream line_stream(line);
-	//	std::string word;
-	//	//”¼Šp‹æØ‚è‚Å•¶Žš—ñ‚ðŽæ“¾
-	//	getline(line_stream, word, ' ');
-	//	if (word == "#") {
-	//		continue;
-	//	}
-	//	if (word == "Pos") {
-	//		line_stream >> pos.x;
-	//		line_stream >> pos.y;
-	//		line_stream >> pos.z;
-	//		isPos = true;
-	//	}
-	//	if (word == "Rot") {
-	//		line_stream >> rot.x;
-	//		line_stream >> rot.y;
-	//		line_stream >> rot.z;
-	//		isRot = true;
-	//	}
-	//	if (word == "Type") {
-	//		line_stream >> type;
-	//		isStyle = true;
-	//	}
-	//	if (word == "Move") {
-	//		line_stream >> movePoint.x;
-	//		line_stream >> movePoint.y;
-	//		line_stream >> movePoint.z;
-	//		movePoints.push_back(movePoint);
-	//	}
-	//	if (word == "End") {
-	//		isMovePoint = true;
-	//	}
-	//	if (word == "MoveTime") {
-	//		line_stream >> moveTime;
-	//		//•b”Š·ŽZ‚È‚Ì‚Å60”{‚·‚é
-	//		moveTime *= 60.0f;
-	//	}
-	//	if (word == "LifeTime") {
-	//		line_stream >> lifeTime;
-	//		lifeTime *= 60;
-	//	}
-	//	if (word == "ShotCoolTime") {
-	//		line_stream >> shotIntervalTime;
-	//	}
-	//	if (word == "Hp") {
-	//		line_stream >> hp;
-	//	}
-	//	if (word == "Wait") {
-	//		line_stream >> waitTime;
-	//		//break;
-	//	}
+	while (getline(enemySpawnFileData_, line)) {
+		std::istringstream line_stream(line);
+		std::string word;
+		//”¼Šp‹æØ‚è‚Å•¶Žš—ñ‚ðŽæ“¾
+		getline(line_stream, word, ' ');
+		if (word == "#") {
+			continue;
+		}
+		if (word == "Pos") {
+			line_stream >> pos.x;
+			line_stream >> pos.y;
+			isPos = true;
+		}
+		if (word == "Type") {
+			line_stream >> type;
+			isType = true;
+		}
+		if (word == "Wait") {
+			line_stream >> waitTime;
+			isWaitTime = true;
+		}
 
-	//	if (isPos && isRot && isStyle) {
-	//		EnemyData enemyData;
-	//		enemyData.pos_ = pos;
-	//		enemyData.rot_ = rot;
-	//		enemyData.type_ = type;
-	//		if (isMovePoint) {
-	//			enemyData.movePoints_ = movePoints;
-	//			movePoints.clear();
-	//		}
-	//		enemyData.moveTime_ = moveTime;
-	//		enemyData.lifeTime_ = lifeTime;
-	//		enemyData.shotInterval_ = shotIntervalTime;
-	//		enemyData.hp_ = hp;
-	//		enemyData.waitTime_ = waitTime;
-	//		enemyDatas_.push_back(enemyData);
+		if (isPos && isType && isWaitTime) {
+			EnemySpawnData enemyData;
+			enemyData.spawnPoint_ = pos;
+			enemyData.enemyType_ = type;
+			enemyData.waitTime_ = waitTime;
+			enemySpawnData_.push_back(enemyData);
 
-	//		isPos = false;
-	//		isRot = false;
-	//		isStyle = false;
-	//		isMovePoint = false;
-	//	}
-	//}
+			isPos = false;
+			isType = false;
+			isWaitTime = false;
+		}
+	}
 
-	//it_ = enemyDatas_.begin();
+	isWait_ = true;
+	it_ = enemySpawnData_.begin();
+}
+
+void EnemyManager::EnemySpawnDataUpdate()
+{
+	if (isWait_) {
+		if (!isPause_) {
+			waitTimer_--;
+			if (waitTimer_ <= 0) {
+				isWait_ = false;
+			}
+		}
+		return;
+	}
+
+	if (it_ == enemySpawnData_.end()) {
+		return;
+	}
+
+	if (it_->enemyType_ == "VAMP") {
+		Vampires_.push_back(VampireEnemy::UniqueCreate());
+	}
+	if (it_->enemyType_ == "RABB") {
+		Rabbits_.push_back(RabbitEnemy::UniqueCreate());
+	}
+	if (it_->enemyType_ == "BASI") {
+		Basiliskes_.push_back(BasiliskEnemy::UniqueCreate());
+	}
+
+	if (it_->waitTime_ >= 0) {
+		isWait_ = true;
+		waitTimer_ = it_->waitTime_;
+	}
+
+	it_++;
 }
 
 void EnemyManager::Draw()

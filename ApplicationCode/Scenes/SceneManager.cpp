@@ -1,7 +1,7 @@
 #include "SceneManager.h"
 
 BaseScene* SceneManager::nowScene = nullptr;
-int32_t SceneManager::stageNo = 1;
+int32_t SceneManager::stageNo_ = 1;
 int32_t SceneManager::score = 0;
 
 void SceneManager::Initialize() {
@@ -38,6 +38,11 @@ void SceneManager::AddScore(const int32_t score) {
 void SceneManager::SetScore(const int32_t score)
 {
 	SceneManager::score = score;
+}
+
+void SceneManager::SetStageNo(const int32_t stageNo)
+{
+	stageNo_ = stageNo;
 }
 
 void SceneManager::SceneChange(SceneName scene) {

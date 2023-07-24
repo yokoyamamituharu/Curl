@@ -22,12 +22,11 @@ void GameScene::Initialize()
 
 	postEffectNo_ = PostEffect::NONE;
 
-	enemys_ = EnemyManager::Create();
-
 	//blood_ = Blood::Create({ 300,500 }, Blood::Temperature::solid);
 	//player_ = Player::Create();
 	RoadPlayer();
 	bgSprite_ = Sprite::UniquePtrCreate(UINT(ImageManager::ImageName::bgTexNumber), { 0,0 });
+	bgSprite_->SetSize({ 3200.0f, 2700.0f });
 	GameSprite1_ = Sprite::UniquePtrCreate(UINT(ImageManager::ImageName::GameUI_01), { 0,0 });
 	GameSprite2_ = Sprite::UniquePtrCreate(UINT(ImageManager::ImageName::GameUI_02), { 0,0 });
 	GameSprite3_ = Sprite::UniquePtrCreate(UINT(ImageManager::ImageName::GameUI_03), { 0,0 });
@@ -70,6 +69,19 @@ void GameScene::Initialize()
 	timer_ = new Timer();
 	timer_->Initialize(60 * 20);
 
+	enemys_ = EnemyManager::Create();
+	messageWindow_ = MessageWindow::UniquePtrCreate();
+	messageWindow_->Initialize();
+
+	if (SceneManager::GetStageNo() == 0) {
+		enemys_->EnemySpawnDataLoad("Stage1_EnemySpawnData.csv");
+		messageWindow_->LoadTextMessageData("TutorialMessage.csv");
+		isTutorial_ = true;
+	}
+	else if (SceneManager::GetStageNo() == 1) {
+		enemys_->EnemySpawnDataLoad("Stage1_EnemySpawnData.csv");
+	}
+
 	mapChip2D = MapChip2D::Create();
 	mapChip2D->Ins();
 
@@ -82,6 +94,12 @@ void GameScene::Update()
 	HitBloodAndEnemys();
 	HitTowerAndEnemys();
 	timer_->Update();
+	if (messageWindow_->GetIsLoadEnd()) {
+		isTutorial_ = false;
+		if (SceneManager::GetStageNo() == 0) {
+
+		}
+	}
 
 	poseButton_->Update();
 	tower_->Update();
@@ -120,12 +138,15 @@ void GameScene::Update()
 		//						横幅(1090)を10で割った数,縦幅
 		bloodGaugeSprite_->SetSize({ (float)1090 / player_->GetMaxBloodGauge() * bloodGauge,27 });							// 血量バーの大きさを変える
 		float u = player_->GetUltGauge();
-		const float ultSpriteMaxSizeX = 36.f; const float ultSpriteMaxSizeY = 336.f;
-		ultGaugeSprite_->SetSize({ ultSpriteMaxSizeX,(ultSpriteMaxSizeY / player_->GetUltMaxGauge()) * -u });	// 体温バーの大きさを変える
+		 const float ultSpriteMaxSizeX = 36.f; const float ultSpriteMaxSizeY = 336.f;
+		ultGaugeSprite_->SetSize({ ultSpriteMaxSizeX,(ultSpriteMaxSizeY / player_ ->GetUltMaxGauge()) * -u});	// 体温バーの大きさを変える
+		
+		overheatSprite_->SetSize({ ultSpriteMaxSizeX,(ultSpriteMaxSizeY / player_ ->GetUltMaxGauge()) * -u});	// 体温バーの大きさを変える
+		messageWindow_->Update(player_->GetPosition(), 32);
 
-		overheatSprite_->SetSize({ ultSpriteMaxSizeX,(ultSpriteMaxSizeY / player_->GetUltMaxGauge()) * -u });	// 体温バーの大きさを変える
-
-		enemys_->Update(tower_->GetHP(), player_->GetPlayerHp(), scrollCamera_->GetPosition());
+		if (!isTutorial_) {
+			enemys_->Update(tower_->GetHP(), player_->GetPlayerHp(), scrollCamera_->GetPosition());
+		}
 	}
 
 	marker_->Update(scrollCamera_->GetPosition());
@@ -264,7 +285,9 @@ void GameScene::Draw()
 	std::wstring wstr3 = std::to_wstring(scrollCamera_->GetPosition().x);
 	std::wstring wstr4 = std::to_wstring(scrollCamera_->GetPosition().y);
 	text_->Draw("meiryo", "white", wstr1 + L"\n" + wstr2 + L"\n" + wstr3 + L"\n" + wstr4, textDrawRange);
-
+	if (!pose_) {
+		messageWindow_->TextMessageDraw();
+	}
 
 	DirectXSetting::GetIns()->endDrawWithDirect2D();
 
@@ -290,6 +313,9 @@ void GameScene::Draw()
 		poseBackButton_->Draw();
 		titleButton_->Draw();
 		manual_->Draw();
+	}
+	else {
+		messageWindow_->SpriteDraw();
 	}
 	timer_->Draw();
 	Sprite::PostDraw();
@@ -348,9 +374,15 @@ void GameScene::RoadPlayer()
 {
 	std::string line;
 	Vector2 pos{};
-	float rote = 0.0f;
-	int maxBlood = 0, hp = 0;
-	std::stringstream stream = ExternalFileLoader::GetIns()->ExternalFileOpen("player.txt");
+	float rote;
+	int32_t maxBlood = 0, hp = 0;
+	std::stringstream stream;
+	if (SceneManager::GetStageNo() != 0) {
+		stream = ExternalFileLoader::GetIns()->ExternalFileOpen("player.txt");
+	}
+	else {
+		stream = ExternalFileLoader::GetIns()->ExternalFileOpen("TutorialPlayer.txt");
+	}
 
 	while (getline(stream, line)) {
 		std::istringstream line_stream(line);
@@ -360,11 +392,11 @@ void GameScene::RoadPlayer()
 		if (word.find("#") == 0) {
 			continue;
 		}
-		if (word.find("pos_") == 0) {
+		if (word.find("pos") == 0) {
 			line_stream >> pos.x;
 			line_stream >> pos.y;
 		}
-		if (word.find("rote_") == 0) {
+		if (word.find("rote") == 0) {
 			line_stream >> rote;
 		}
 		if (word.find("maxBlood") == 0) {
