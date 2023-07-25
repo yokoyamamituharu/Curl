@@ -23,7 +23,8 @@ private:
 	std::array<int, 43> sizeY_;
 	ChipData* chipData[43][52]{};
 
-	int mapChipData[43][52];
+	int mapChipData[43][52]{};
 
+	int mapChipCostData[43][52]{};
 };
 

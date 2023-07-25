@@ -112,6 +112,22 @@ void MapChip2D::Update(Vector2 MousePos)
 			
 		}
 	}
+
+	for (int i = 0; i < sizeY_.size(); i++)
+	{
+		for (int j = 0; j < sizeX_.size(); j++)
+		{
+			if (chipData[i][j]->GetCost() == 1)
+			{
+				mapChipCostData[i][j] = 1;
+			}
+			else
+			{
+				mapChipCostData[i][j] = 0;
+			}
+
+		}
+	}
 }
 
 void MapChip2D::Draw()
@@ -120,11 +136,12 @@ void MapChip2D::Draw()
 	{
 		for (int j = 0; j < sizeX_.size(); j++)
 		{
-			if (chipData[i][j]->GetDrawFlag() == true)
+			chipData[i][j]->Draw();
+			/*if (chipData[i][j]->GetDrawFlag() == true)
 			{
 				chipData[i][j]->Draw();
 
-			}
+			}*/
 		}
 	}
 }
