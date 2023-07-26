@@ -20,15 +20,9 @@ private:
 
 public: //構造体
 
-	enum class EnemyType {
-		Vampire,
-		Rabbit,
-		Basilisk
-	};
-
 	struct EnemySpawnData {
 		Vector2 spawnPoint_; //出現場所
-		EnemyType enemyType_; //敵タイプ
+		std::string enemyType_; //敵タイプ
 		int32_t waitTime_; //出現待機時間
 	};
 
@@ -54,8 +48,18 @@ public:
 	list<unique_ptr<VampireEnemy>>& GetVampires() { return Vampires_; }
 	list<unique_ptr<BasiliskEnemy>>& GetBasiliskes() { return Basiliskes_; }
 	list<unique_ptr<RabbitEnemy>>& GetRabbits() { return Rabbits_; }
-
-	void EnemySpawnDataLoad();
+	/// <summary>
+	/// ポーズフラグをセット
+	/// </summary>
+	/// <param name="isPause">ポーズフラグ</param>
+	void SetPause(bool isPause) { isPause_ = isPause; }
+	/// <summary>
+	/// 敵スポーンデータ読み込み
+	/// </summary>
+	void EnemySpawnDataLoad(const std::string& fileName);
+	/// <summary>
+	/// 敵スポーン処理
+	/// </summary>
 	void EnemySpawnDataUpdate();
 	//void SetEnemys(list<unique_ptr<Enemy>> enemys) { this->enemys3_ = move(enemys); };
 	void Draw();
@@ -77,6 +81,9 @@ private:
 	int32_t waitTimer_ = 500; //出現待機タイマー
 	std::stringstream enemySpawnFileData_; //敵出現データ格納用文字列
 	std::list<EnemySpawnData>::iterator it_; //イテレータ
+
+	bool isWait_; //待機フラグ
+	bool isPause_; //ポーズ中フラグ
 
 	int deadCount = 0;
 	bool gameFlag = 0;

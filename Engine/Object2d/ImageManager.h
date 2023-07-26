@@ -65,8 +65,7 @@ public: //画像名
 		reticle,
 		particleCircle,
 		guideArrow,
-		
-		//マップチップの関係上これより上に書いてね
+		messageWindow,
 		mapChipTest,
 		mapChipTest2
 	};
