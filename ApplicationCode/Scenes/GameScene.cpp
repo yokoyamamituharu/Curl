@@ -2,6 +2,21 @@
 #include "ExternalFileLoader.h"
 #include "KeyInput.h"
 
+std::vector<Sprite*> GameScene::SpritesCreate(const ImageManager::ImageName imageName, const int32_t animationCount, const Vector2& UIpos) {
+	std::vector<Sprite*> sprites;
+
+	for (int32_t i = 0; i < animationCount; i++) {
+		sprites.push_back(Sprite::Create((UINT)imageName, UIpos));
+		sprites[i]->SetAnchorPoint({ 0.0f, 0.0f });
+		sprites[i]->SetPosition(UIpos);
+		Vector2 texBase = { 0.0f, 0.0f };
+		texBase.x = 1280.0f * (float)i;
+		sprites[i]->SetSize({ 1280.0f, 720.0f });
+		sprites[i]->SetTextureRect(texBase, { 1280.0f, 720.0f });
+	}
+	return sprites;
+}
+
 void GameScene::Initialize()
 {
 	const Vector3 LB = { -1.0f, -0.7f, 0.0f };
@@ -32,6 +47,13 @@ void GameScene::Initialize()
 	GameSprite3_ = Sprite::UniquePtrCreate(UINT(ImageManager::ImageName::GameUI_03), { 0,0 });
 	GameSprite1_->SetUi(true);
 	GameSprite2_->SetUi(true);
+
+	towerUISprites_ = SpritesCreate(ImageManager::ImageName::TowerUI, towerUIAnimationMax, {0,0});
+	for (int32_t i = 0; i < towerUIAnimationMax; i++) {
+		towerUISprites_[i]->SetUi(true);
+	}
+	towerUIAnimationCount_ = 0;
+
 	playerHp = Sprite::Create(UINT(ImageManager::ImageName::playerHp), { 0,0 });
 	playerHp->SetUi(true);
 
@@ -216,6 +238,7 @@ void GameScene::HitTowerAndEnemys()
 		{
 			tower_->OnCollision();
 			vampire->OnCollision();
+			towerUIAnimationCount_++;
 		}
 	}
 
@@ -226,7 +249,7 @@ void GameScene::HitTowerAndEnemys()
 		{
 			tower_->OnCollision();
 			basilisk->OnCollision();
-
+			towerUIAnimationCount_++;
 		}
 	}
 
@@ -237,7 +260,7 @@ void GameScene::HitTowerAndEnemys()
 		{
 			tower_->OnCollision();
 			rabbit->OnCollision();
-
+			towerUIAnimationCount_++;
 		}
 	}
 }
@@ -309,6 +332,8 @@ void GameScene::Draw()
 	bloodGaugeSprite_->Draw();
 	playerHp->Draw();
 	reticleSprite_->Draw();
+	// ƒ^ƒ[‚Ì‘Ì—Í‚É‡‚í‚¹‚ÄUI‚ª•Ï‚í‚é
+	towerUISprites_[towerUIAnimationCount_]->Draw();
 
 	if (pose_) {
 		poseBackButton_->Draw();
@@ -338,6 +363,11 @@ void GameScene::Finalize()
 	mapChip2D->Delete();
 	safe_delete(mapChip2D);
 	safe_delete(marker_);
+
+	for (int32_t i = 0; i < towerUIAnimationMax; i++) {
+		safe_delete(towerUISprites_[i]);
+	}
+
 	Sprite::SetCamera2D(nullptr);
 }
 
