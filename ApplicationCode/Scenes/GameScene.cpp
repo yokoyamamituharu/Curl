@@ -130,6 +130,7 @@ void GameScene::Update()
 
 	marker_->Update(scrollCamera_->GetPosition());
 
+	mapChip2D->Update(GetWorldMousePos());
 	//enemy_->Update();
 	scrollCamera_->Update(player_->GetPosition());
 	reticleSprite_->SetPosition({ (float)MouseInput::GetIns()->GetMousePoint().x,(float)MouseInput::GetIns()->GetMousePoint().y });
@@ -322,8 +323,8 @@ void GameScene::HitEnemys()
 Vector2 GameScene::GetWorldMousePos()
 {
 	Vector2 mousePos{};
-	mousePos.x = MouseInput::GetIns()->GetMousePoint().x;
-	mousePos.y = MouseInput::GetIns()->GetMousePoint().y;
+	mousePos.x = MouseInput::GetIns()->ClientToPostEffect().x;
+	mousePos.y = MouseInput::GetIns()->ClientToPostEffect().y;
 	mousePos += scrollCamera_->GetPosition();
 	return mousePos;
 }

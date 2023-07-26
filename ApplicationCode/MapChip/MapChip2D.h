@@ -16,7 +16,8 @@ public:
 	void Draw();
 
 	void Delete();
-	ChipData* GetChipData(int i, int j) {return chipData[i][j];}
+	ChipData* GetChipData(int sizeY, int sizeX) {return chipData[sizeY][sizeX];}
+	XMFLOAT2 GetChipPos(int sizeY, int sizeX) { return chipData[sizeY][sizeX]->GetPos(); }
 
 private:
 	std::array<int, 52> sizeX_;

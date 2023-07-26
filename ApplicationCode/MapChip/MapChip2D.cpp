@@ -99,7 +99,7 @@ void MapChip2D::Update(Vector2 MousePos)
 	{
 		for (int j = 0; j < sizeX_.size(); j++)
 		{
-			bool isHit = Collision::HitBox(chipData[i][j]->GetPos(), chipData[i][j]->GetHalfSize(), mousePos);
+			bool isHit = Collision::HitBox(chipData[i][j]->GetPos(),(int)chipData[i][j]->GetHalfSize(), MousePos);
 			if (isHit)
 			{
 				chipData[i][j]->SetDrawFlag(isHit);
@@ -107,7 +107,6 @@ void MapChip2D::Update(Vector2 MousePos)
 			else
 			{
 				chipData[i][j]->SetDrawFlag(isHit);
-
 			}
 			
 		}
@@ -132,16 +131,17 @@ void MapChip2D::Update(Vector2 MousePos)
 
 void MapChip2D::Draw()
 {
+	
 	for (int i = 0; i < sizeY_.size(); i++)
 	{
 		for (int j = 0; j < sizeX_.size(); j++)
 		{
-			chipData[i][j]->Draw();
-			/*if (chipData[i][j]->GetDrawFlag() == true)
+			//chipData[i][j]->Draw();
+			if (chipData[i][j]->GetDrawFlag() == true)
 			{
 				chipData[i][j]->Draw();
 
-			}*/
+			}
 		}
 	}
 }
