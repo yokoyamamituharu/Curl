@@ -26,9 +26,17 @@ public:
 	int GetCost() { return cost_; }
 	XMFLOAT2 GetPos() { return pos_; }
 	int GetChipNumber() { return chipNumber; }
+
+	int GetSize() { return (int)size_.size(); }
+	int GetHalfSize() { return (int)size_.size()/2; }
+
+	bool GetDrawFlag() { return drawFlag; }
+	void SetDrawFlag(bool flag) { this->drawFlag = flag; }
 private:
 
 	Sprite* sprite_{};
+	bool drawFlag = 0;
+
 	XMFLOAT2 pos_{};
 
 	int chipNumber;
