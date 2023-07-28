@@ -9,7 +9,8 @@
 #include "KeyInput.h"
 #include "SafeDelete.h"
 #include "TextDraw.h"
-#include"OverScene.h"
+#include "SelectScene.h"
+#include "OverScene.h"
 
 class SceneManager
 {
@@ -20,6 +21,7 @@ public:
 public: //ƒV[ƒ“ŠÇ—”Ô†
 	enum class SceneName {
 		Title,
+		Select,
 		Game,
 		Result,
 		Over,
