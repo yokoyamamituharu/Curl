@@ -11,8 +11,9 @@ void SelectScene::Initialize()
 	postEffect_ = std::make_unique<PostEffect>();
 	postEffect_->Initialize(LT, LB, RT, RB);
 
-	tutorial_ = Button::CreateUniqueButton(ImageManager::ImageName::ManualButton, { 640, 200 }, { 128, 64 }, 0.0f);
-	stage1_ = Button::CreateUniqueButton(ImageManager::ImageName::StartButton, {640, 400}, {128, 64}, 0.0f);
+	tutorial_ = Button::CreateUniqueButton(ImageManager::ImageName::tutorial, { 640, 200 }, { 207, 49 }, 0.0f);
+	stage1_ = Button::CreateUniqueButton(ImageManager::ImageName::play, {640, 400}, {120, 62}, 0.0f);
+	stageSelect_ = Sprite::UniquePtrCreate(UINT(ImageManager::ImageName::stageSelect), { 0,0 });
 }
 
 void SelectScene::Update()
@@ -32,6 +33,7 @@ void SelectScene::Draw()
 
 	//スプライト描画処理(背景)
 	Sprite::PreDraw(DirectXSetting::GetIns()->GetCmdList());
+	stageSelect_->Draw();
 	Sprite::PostDraw();
 
 	//3Dオブジェクト描画処理
