@@ -40,7 +40,7 @@ std::vector<Sprite*> Player::SpritesCreateP(int imageName, int32_t animationCoun
 	return sprites;
 }
 
-Player* Player::Create(Vector2 pos, float rote, int hp, int maxBlood) {
+Player* Player::Create(Vector2 pos, float rote, int hp, int maxBlood[], int speed[]) {
 	Player* instance = new Player();
 	instance->heatWave_ = Sprite::Create(UINT(ImageManager::ImageName::heatWaveNumber), { 0,0 }, { 1,1,1,1 }, { 0.5,0.5 });
 	instance->heatWave_->SetPosition({ 500,500 });
@@ -52,8 +52,12 @@ Player* Player::Create(Vector2 pos, float rote, int hp, int maxBlood) {
 	instance->handler_->Initialize(instance);
 	instance->position_ = pos;
 	instance->playerHp_ = hp;
-	instance->maxBlood_ = maxBlood;
-	instance->bloodGauge_ = maxBlood;
+	for (int i = 0; i < 5; i++) {
+		instance->ultMaxBlood_[i] = maxBlood[i];
+		instance->ultSpeed_[i] = speed[i];
+	}
+	instance->bloodGauge_ = maxBlood[0];
+	instance->speed_ = maxBlood[0];
 	instance->frontSprites_ = Player::SpritesCreateP((int)ImageManager::ImageName::wolfForwardWalk, frontAnimationCount, instance->position_);
 	instance->backSprites_ = Player::SpritesCreateP((int)ImageManager::ImageName::wolfBackwardWalk, backAnimationCount, instance->position_);
 	instance->useAnimation_ = (int)AnimationType::front;
@@ -83,6 +87,9 @@ void Player::Update(ScrollCamera* camera) {
 		position_.y = ScrollCamera::GetMaxScreenEdge().y - 32.0f;
 	}
 
+	speed_ = ultSpeed_[ultLevel_];
+	maxBlood_ = ultMaxBlood_[ultLevel_];
+
 	//プレイヤーのキーイベント更新
 	//handler_->PlayerHandleInput();
 
@@ -90,7 +97,7 @@ void Player::Update(ScrollCamera* camera) {
 	Wave();
 
 	//血を放出
-	Shot(camera);
+	//Shot(camera);
 	//使える血の残量を計算
 	bloodGauge_ = maxBlood_ - (int)bloods_.size();
 
@@ -98,16 +105,19 @@ void Player::Update(ScrollCamera* camera) {
 	if (ultGauge >= ultMaxGauge) {
 		//一回だけ実行する処理		
 		if (ultState == false) {
-			maxBlood_ += 20;
-			speed_ += 4;
+			ultLevel_++;
+			ultCharge_ = maxUltCharge_;
+			//maxBlood_ += 20;
+			//speed_ += 4;
 		}
 		ultState = true;
 		// 体温0でウルト解除
-	} else if (0 >= ultGauge) {
+	}
+	else if (0 >= ultGauge) {
 		if (ultState)
 		{
-			maxBlood_ -= 10;
-			speed_ -= 2;
+			//maxBlood_ -= 10;
+			//speed_ -= 2;
 		}
 		ultState = false;
 	}
@@ -115,18 +125,24 @@ void Player::Update(ScrollCamera* camera) {
 
 	// ウルト状態ならステータスを変える
 	if (ultState == true) {
-		//speed_ = 5.0f;		// スピードを上げる
 		ultDiray--;
 		// 時間でゲージ減らす
 		if (ultDiray <= 0) {
 			ultGauge--;			// ゲージを下げていく
 			ultDiray = maxUltDiray;
 		}
-	} else if (ultState == false) {
+	}
+	else if (ultState == false) {
 		//speed_ = initSpeed_; // 元のスピードに戻す
 	}
 
-	
+	if (ultLevel_ > 0) {
+		ultCharge_--;
+		if (ultCharge_ <= 0) {
+			ultLevel_--;
+			ultCharge_ = maxUltCharge_;
+		}
+	}
 
 	/// <summary>
 	///ゲームには関係ない
@@ -137,7 +153,7 @@ void Player::Update(ScrollCamera* camera) {
 			//blood->SetDead();
 		}
 		//血を戻す
-		if (isRecall_ && blood->GetTemperature() == (int)Blood::Temperature::liquid) {
+		if (isRecall_ && blood->GetTemperature() == (int)Blood::Temperature::liquid && blood->GetState() != (int)Blood::State::back && blood->GetState() != (int)Blood::State::shot) {
 			blood->SetState(Blood::State::back);
 		}
 		//血がプレイヤーの位置に戻ったらプレイヤーの体温を上げ血を消す
@@ -151,6 +167,7 @@ void Player::Update(ScrollCamera* camera) {
 					ultGauge = ultMaxGauge;
 				}
 			}
+			ultCharge_++;
 			blood->SetDead();
 		}
 
@@ -158,10 +175,10 @@ void Player::Update(ScrollCamera* camera) {
 		XMFLOAT2 pos2 = blood->GetPosition();
 		//熱波と血の当たり判定
 		float length = sqrtf((pos1.x - pos2.x) * (pos1.x - pos2.x) + (pos1.y - pos2.y) * (pos1.y - pos2.y));
-		if (heatExtend_ / 2 + 16 > length && isHeatWave_) blood->HeatWaveOnCollision();
+		if (heatExtend_ / 2 + 16 > length && isHeatWave_&&blood->GetState()!=(int)Blood::State::back&& blood->GetState() != (int)Blood::State::shot) blood->HeatWaveOnCollision();
 		//寒波と血の当たり判定
 		length = sqrtf((pos1.x - pos2.x) * (pos1.x - pos2.x) + (pos1.y - pos2.y) * (pos1.y - pos2.y));
-		if (coldExtend_ / 2 + 16 > length && isColdWave_) blood->ColdWaveOnCollision();
+		if (coldExtend_ / 2 + 16 > length && isColdWave_ && blood->GetState() != (int)Blood::State::back && blood->GetState() != (int)Blood::State::shot) blood->ColdWaveOnCollision();
 
 		//血の更新処理
 		blood->Update();
@@ -177,16 +194,25 @@ void Player::Update(ScrollCamera* camera) {
 	}
 }
 
-void Player::Shot(ScrollCamera* camera) {
+void Player::Shot(ScrollCamera* camera, Vector2 pos) {
 	//血を最大数出していたら処理をスキップ
 	if (bloods_.size() >= maxBlood_) return;
+
 	if (MouseInput::GetIns()->PushClick(MouseInput::LEFT_CLICK) && shotDiray_ <= 0 || PadInput::GetIns()->TriggerButton(PadInput::Button_RS) && shotDiray_ <= 0) {
-		Vector2 cursolPos = MouseInput::GetIns()->ClientToPostEffect() + camera->GetPosition();
-		bloods_.push_back(Blood::UniquePtrCreate({ position_.x,position_.y - 30 }, Blood::Temperature::liquid, cursolPos, &position_));
+		float playerYSize = 60;
+		if (pos.x != -100) {
+			bloods_.push_back(Blood::UniquePtrCreate({ position_.x,position_.y - playerYSize / 2 }, Blood::Temperature::liquid, pos, &position_));
+		}
+		else {
+			Vector2 cursolPos = MouseInput::GetIns()->ClientToPostEffect() + camera->GetPosition();
+			bloods_.push_back(Blood::UniquePtrCreate({ position_.x,position_.y - playerYSize / 2 }, Blood::Temperature::liquid, cursolPos, &position_));
+		}
 		shotDiray_ = maxShotDiray_;
-	} else {
+	}
+	else {
 		shotDiray_--;
 	}
+
 }
 
 void Player::Draw(ScrollCamera* scroll) {
@@ -215,7 +241,8 @@ void Player::Draw(ScrollCamera* scroll) {
 	if (useDirectionSide_ == (int)AnimationType::RightSide) {
 		frontSprites_[frontAnimationCounter_]->SetIsFlipX(true);
 		backSprites_[backAnimationCounter_]->SetIsFlipX(false);
-	} else if (useDirectionSide_ == (int)AnimationType::LeftSide) {
+	}
+	else if (useDirectionSide_ == (int)AnimationType::LeftSide) {
 		frontSprites_[frontAnimationCounter_]->SetIsFlipX(false);
 		backSprites_[backAnimationCounter_]->SetIsFlipX(true);
 	}
@@ -223,7 +250,8 @@ void Player::Draw(ScrollCamera* scroll) {
 	//アングルで移動方向を判定し、判定した方向に向いたアニメーションを使用
 	if (useAnimation_ == (int)AnimationType::back) {
 		backSprites_[backAnimationCounter_]->Draw();
-	} else if (useAnimation_ == (int)AnimationType::front) {
+	}
+	else if (useAnimation_ == (int)AnimationType::front) {
 		frontSprites_[frontAnimationCounter_]->Draw();
 	}
 	//熱波の描画
@@ -251,14 +279,16 @@ bool Player::Move(ScrollCamera* camera) {
 			if (vec.y > 0) {
 				//下に移動
 				useAnimation_ = (int)AnimationType::front;
-			} else if (vec.y < 0) {
+			}
+			else if (vec.y < 0) {
 				//上に移動
 				useAnimation_ = (int)AnimationType::back;
 			}
 			if (vec.x > 0) {
 				//右に移動
 				useDirectionSide_ = (int)AnimationType::RightSide;
-			} else if (vec.x < 0) {
+			}
+			else if (vec.x < 0) {
 				//左に移動
 				useDirectionSide_ = (int)AnimationType::LeftSide;
 			}

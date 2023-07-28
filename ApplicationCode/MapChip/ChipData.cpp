@@ -18,8 +18,8 @@ void ChipData::Ins(int i, int j, const ImageName name)
 
 void ChipData::Mapping(int i, int j)
 {
-	pos_.x = (float)(i * size_.size()) + 32.f;
-	pos_.y = (float)(j * size_.size()) + 32.f;
+	pos_.y = (float)(i * size_.size()) + 32.f;
+	pos_.x = (float)(j * size_.size()) + 32.f;
 }
 
 void ChipData::Draw()

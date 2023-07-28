@@ -2,6 +2,21 @@
 #include "ExternalFileLoader.h"
 #include "KeyInput.h"
 
+std::vector<Sprite*> GameScene::SpritesCreate(const ImageManager::ImageName imageName, const int32_t animationCount, const Vector2& UIpos) {
+	std::vector<Sprite*> sprites;
+
+	for (int32_t i = 0; i < animationCount; i++) {
+		sprites.push_back(Sprite::Create((UINT)imageName, UIpos));
+		sprites[i]->SetAnchorPoint({ 0.0f, 0.0f });
+		sprites[i]->SetPosition(UIpos);
+		Vector2 texBase = { 0.0f, 0.0f };
+		texBase.x = 1280.0f * (float)i;
+		sprites[i]->SetSize({ 1280.0f, 720.0f });
+		sprites[i]->SetTextureRect(texBase, { 1280.0f, 720.0f });
+	}
+	return sprites;
+}
+
 void GameScene::Initialize()
 {
 	const Vector3 LB = { -1.0f, -0.7f, 0.0f };
@@ -32,6 +47,13 @@ void GameScene::Initialize()
 	GameSprite3_ = Sprite::UniquePtrCreate(UINT(ImageManager::ImageName::GameUI_03), { 0,0 });
 	GameSprite1_->SetUi(true);
 	GameSprite2_->SetUi(true);
+
+	towerUISprites_ = SpritesCreate(ImageManager::ImageName::TowerUI, towerUIAnimationMax, { 0,0 });
+	for (int32_t i = 0; i < towerUIAnimationMax; i++) {
+		towerUISprites_[i]->SetUi(true);
+	}
+	towerUIAnimationCount_ = 0;
+
 	playerHp = Sprite::Create(UINT(ImageManager::ImageName::playerHp), { 0,0 });
 	playerHp->SetUi(true);
 
@@ -90,6 +112,7 @@ void GameScene::Initialize()
 
 void GameScene::Update()
 {
+
 	//blood_->Update();
 	HitBloodAndEnemys();
 	HitTowerAndEnemys();
@@ -138,10 +161,10 @@ void GameScene::Update()
 		//						横幅(1090)を10で割った数,縦幅
 		bloodGaugeSprite_->SetSize({ (float)1090 / player_->GetMaxBloodGauge() * bloodGauge,27 });							// 血量バーの大きさを変える
 		float u = player_->GetUltGauge();
-		 const float ultSpriteMaxSizeX = 36.f; const float ultSpriteMaxSizeY = 336.f;
-		ultGaugeSprite_->SetSize({ ultSpriteMaxSizeX,(ultSpriteMaxSizeY / player_ ->GetUltMaxGauge()) * -u});	// 体温バーの大きさを変える
-		
-		overheatSprite_->SetSize({ ultSpriteMaxSizeX,(ultSpriteMaxSizeY / player_ ->GetUltMaxGauge()) * -u});	// 体温バーの大きさを変える
+		const float ultSpriteMaxSizeX = 36.f; const float ultSpriteMaxSizeY = 336.f;
+		ultGaugeSprite_->SetSize({ ultSpriteMaxSizeX,(ultSpriteMaxSizeY / player_->GetUltMaxGauge()) * -u });	// 体温バーの大きさを変える
+
+		overheatSprite_->SetSize({ ultSpriteMaxSizeX,(ultSpriteMaxSizeY / player_->GetUltMaxGauge()) * -u });	// 体温バーの大きさを変える
 		messageWindow_->Update(player_->GetPosition(), 32);
 		if (messageWindow_->GetCountTarget() == L"ULT") {
 			messageWindow_->SetCounter(player_->GetUltGauge());
@@ -159,6 +182,22 @@ void GameScene::Update()
 	}
 
 	marker_->Update(scrollCamera_->GetPosition());
+
+	mapChip2D->Update(GetWorldMousePos());
+
+	for (int i = 0; i < 43; i++) {
+		for (int j = 0; j < 52; j++) {
+			if (mapChip2D->GetFlag(i, j) == true)
+			{
+				bool flag = mapChip2D->GetFlag(i, j);
+				int flag2 = mapChip2D->GetChipData(i, j)->GetCost();
+				if (flag && (int)MapInfo::NONE == flag2) {
+					Vector2 pos = mapChip2D->GetChipPos(i, j);
+					player_->Shot(scrollCamera_, { pos.x,pos.y });
+				}
+			}
+		}
+	}
 
 	//enemy_->Update();
 	scrollCamera_->Update(player_->GetPosition());
@@ -225,6 +264,7 @@ void GameScene::HitTowerAndEnemys()
 		{
 			tower_->OnCollision();
 			vampire->OnCollision();
+			towerUIAnimationCount_++;
 		}
 	}
 
@@ -235,7 +275,7 @@ void GameScene::HitTowerAndEnemys()
 		{
 			tower_->OnCollision();
 			basilisk->OnCollision();
-
+			towerUIAnimationCount_++;
 		}
 	}
 
@@ -246,7 +286,7 @@ void GameScene::HitTowerAndEnemys()
 		{
 			tower_->OnCollision();
 			rabbit->OnCollision();
-
+			towerUIAnimationCount_++;
 		}
 	}
 }
@@ -318,6 +358,8 @@ void GameScene::Draw()
 	bloodGaugeSprite_->Draw();
 	playerHp->Draw();
 	reticleSprite_->Draw();
+	// タワーの体力に合わせてUIが変わる
+	towerUISprites_[towerUIAnimationCount_]->Draw();
 
 	if (pose_) {
 		poseBackButton_->Draw();
@@ -347,6 +389,11 @@ void GameScene::Finalize()
 	mapChip2D->Delete();
 	safe_delete(mapChip2D);
 	safe_delete(marker_);
+
+	for (int32_t i = 0; i < towerUIAnimationMax; i++) {
+		safe_delete(towerUISprites_[i]);
+	}
+
 	Sprite::SetCamera2D(nullptr);
 }
 
@@ -358,8 +405,8 @@ void GameScene::HitEnemys()
 Vector2 GameScene::GetWorldMousePos()
 {
 	Vector2 mousePos{};
-	mousePos.x = MouseInput::GetIns()->GetMousePoint().x;
-	mousePos.y = MouseInput::GetIns()->GetMousePoint().y;
+	mousePos.x = MouseInput::GetIns()->ClientToPostEffect().x;
+	mousePos.y = MouseInput::GetIns()->ClientToPostEffect().y;
 	mousePos += scrollCamera_->GetPosition();
 	return mousePos;
 }
@@ -385,7 +432,7 @@ void GameScene::RoadPlayer()
 	std::string line;
 	Vector2 pos{};
 	float rote;
-	int32_t maxBlood = 0, hp = 0;
+	int32_t maxBlood[5] = {}, speed[5] = {}, hp = 0;
 	std::stringstream stream;
 	if (SceneManager::GetStageNo() != 0) {
 		stream = ExternalFileLoader::GetIns()->ExternalFileOpen("player.txt");
@@ -410,12 +457,23 @@ void GameScene::RoadPlayer()
 			line_stream >> rote;
 		}
 		if (word.find("maxBlood") == 0) {
-			line_stream >> maxBlood;
+			line_stream >> maxBlood[0];
+			line_stream >> maxBlood[1];
+			line_stream >> maxBlood[2];
+			line_stream >> maxBlood[3];
+			line_stream >> maxBlood[4];
+		}
+		if (word.find("speed") == 0) {
+			line_stream >> speed[0];
+			line_stream >> speed[1];
+			line_stream >> speed[2];
+			line_stream >> speed[3];
+			line_stream >> speed[4];
 		}
 		if (word.find("hp") == 0) {
 			line_stream >> hp;
 		}
 	}
-	player_ = Player::Create(pos, rote, hp, maxBlood);
+	player_ = Player::Create(pos, rote, hp, maxBlood, speed);
 }
 
