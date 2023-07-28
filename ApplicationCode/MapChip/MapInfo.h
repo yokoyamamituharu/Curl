@@ -5,5 +5,13 @@ enum class MapInfo
 {
 	//マップの種類だけ増えていく名前は仮
 	NONE,
-	ONES
+	ONE,
+	WALL
+};
+
+
+enum class MapCostInfo
+{
+	OFF,
+	ON,
 };

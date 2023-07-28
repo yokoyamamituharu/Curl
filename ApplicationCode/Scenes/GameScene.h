@@ -117,5 +117,7 @@ private: //ƒƒ“ƒo•Ï”
 	ArrowMarker* marker_ = nullptr;
 
 	bool isTutorial_ = false;
+
+	int getCost_[43][52];
 };
 

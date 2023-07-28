@@ -10,7 +10,9 @@ private:
 
 public:
 	static MapChip2D* Create();
-	void MapChipData();
+	void MapChipDataCreate();
+	void ChipDataCreate();
+	void CostDataCreate();
 	void Ins();
 	void Update(Vector2 MousePos);
 	void Draw();
@@ -19,6 +21,8 @@ public:
 	ChipData* GetChipData(int sizeY, int sizeX) {return chipData[sizeY][sizeX];}
 	XMFLOAT2 GetChipPos(int sizeY, int sizeX) { return chipData[sizeY][sizeX]->GetPos(); }
 
+	int GetCost(int sizeY, int sizeX) { return chipData[sizeY][sizeX]->GetCost(); }
+	//int* GetCost() { return *mapChipCostData; }
 private:
 	std::array<int, 52> sizeX_;
 	std::array<int, 43> sizeY_;

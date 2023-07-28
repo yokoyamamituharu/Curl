@@ -10,7 +10,7 @@ AStar* AStar::Create()
 {
 	AStar* instance = new AStar();
 
-	int cost[MapWidth][MapHeight] = {};
+	int cost[MapHeight][ MapWidth] = {};
 	instance->SetTableCost(cost);
 
 	instance->CreateGraph();

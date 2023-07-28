@@ -2,8 +2,9 @@
 #include <vector>
 #include <list>
 
-const int MapWidth = 10;
-const int MapHeight = 10;
+
+const int MapWidth = 52;
+const int MapHeight = 43;
 const int Infinity = 100000;
 
 // 削除結果
@@ -82,10 +83,11 @@ private:
 
 public:
 	//ステージのコストを設定
-	inline void SetTableCost(int cost[][MapHeight]) {
-		for (int i = 0; i < MapWidth; i++)
+	inline void SetTableCost(int cost[MapHeight][MapWidth]) {
+
+		for (int i = 0; i < MapHeight; i++)
 		{
-			for (int j = 0; j < MapHeight; j++)
+			for (int j = 0; j < MapWidth; j++)
 			{
 				CostTable[i][j] = cost[i][j];
 			}

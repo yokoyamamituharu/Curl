@@ -67,7 +67,8 @@ public: //‰æ‘œ–¼
 		guideArrow,
 		messageWindow,
 		mapChipTest,
-		mapChipTest2
+		mapChipTest2,
+		mapChipTest3
 	};
 
 public: //ƒƒ“ƒoŠÖ”

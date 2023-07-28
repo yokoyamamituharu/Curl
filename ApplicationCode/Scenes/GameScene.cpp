@@ -1,7 +1,7 @@
 #include "GameScene.h"
 #include "ExternalFileLoader.h"
 #include "KeyInput.h"
-
+#include"D:\学校\kamataアワード\ApplicationCode\AStar.h"
 void GameScene::Initialize()
 {
 	const Vector3 LB = { -1.0f, -0.7f, 0.0f };
@@ -84,12 +84,23 @@ void GameScene::Initialize()
 
 	mapChip2D = MapChip2D::Create();
 	mapChip2D->Ins();
-
+	AStar::GetInstance()->Create();
 	marker_ = ArrowMarker::Create({ 640, 360 });
 }
 
 void GameScene::Update()
 {
+
+	for (int i = 0; i < 43; i++)
+	{
+		for (int j = 0; j <52; j++)
+		{
+			getCost_[i][j] = mapChip2D->GetCost(i,j);
+		}
+	}
+
+	AStar::GetInstance()->SetTableCost(getCost_);
+
 	//blood_->Update();
 	HitBloodAndEnemys();
 	HitTowerAndEnemys();

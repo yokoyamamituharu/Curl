@@ -238,6 +238,7 @@
     <ClInclude Include="ApplicationCode\Enemys\VampireEnemy.h" />
     <ClInclude Include="ApplicationCode\MapChip\ChipData.h" />
     <ClInclude Include="ApplicationCode\MapChip\MapChip2D.h" />
+    <ClInclude Include="ApplicationCode\MapChip\MapChip2DInfo.h" />
     <ClInclude Include="ApplicationCode\MapChip\MapInfo.h" />
     <ClInclude Include="ApplicationCode\Maths\MotionMath.h" />
     <ClInclude Include="ApplicationCode\Players\Player.h" />
