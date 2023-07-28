@@ -45,6 +45,7 @@ public: //画像名
 		GameUI_01,
 		GameUI_02,
 		GameUI_03,
+		TowerUI,
 		playerHp,
 		TitleLog,
 		ManualButton,
@@ -65,8 +66,7 @@ public: //画像名
 		reticle,
 		particleCircle,
 		guideArrow,
-		
-		//マップチップの関係上これより上に書いてね
+		messageWindow,
 		mapChipTest,
 		mapChipTest2
 	};

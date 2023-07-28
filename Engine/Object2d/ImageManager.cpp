@@ -34,6 +34,7 @@ void ImageManager::Initialize() {
 	Sprite::LoadTexture(int32_t(ImageName::GameUI_01), L"Engine/Resources/Images/UIBack.png");
 	Sprite::LoadTexture(int32_t(ImageName::GameUI_02), L"Engine/Resources/Images/thermometer.png");
 	Sprite::LoadTexture(int32_t(ImageName::GameUI_03), L"Engine/Resources/Images/temperatureValue.png");
+	Sprite::LoadTexture(int32_t(ImageName::TowerUI), L"Engine/Resources/Images/towerUI.png");
 	Sprite::LoadTexture(int32_t(ImageName::playerHp), L"Engine/Resources/Images/hp.png");
 	Sprite::LoadTexture(int32_t(ImageName::TitleLog), L"Engine/Resources/Images/TitleLog.png");
 	Sprite::LoadTexture(int32_t(ImageName::ManualButton), L"Engine/Resources/Images/ManualButton.png");
@@ -54,6 +55,7 @@ void ImageManager::Initialize() {
 	Sprite::LoadTexture(int32_t(ImageName::reticle), L"Engine/Resources/Images/reticle.png");
 	Sprite::LoadTexture(int32_t(ImageName::particleCircle), L"Engine/Resources/Images/particleCircle.png");
 	Sprite::LoadTexture(int32_t(ImageName::guideArrow), L"Engine/Resources/Images/guideArrow.png");
+	Sprite::LoadTexture(int32_t(ImageName::messageWindow), L"Engine/Resources/Images/MessageWindow.png");
 	
 	//マップチップの関係上これより上に書いてね
 	Sprite::LoadTexture(int32_t(ImageName::mapChipTest), L"Engine/Resources/Images/mapChipTest.png");
