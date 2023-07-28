@@ -181,12 +181,12 @@ void GameScene::Update()
 			if (mapChip2D->GetFlag(i, j) == true)
 			{
 				bool flag = mapChip2D->GetFlag(i, j);
-				if (flag) {
+				int flag2 = mapChip2D->GetChipData(i, j)->GetCost();
+				if (flag && (int)MapInfo::NONE == flag2) {
 					Vector2 pos = mapChip2D->GetChipPos(i, j);
 					player_->Shot(scrollCamera_, { pos.x,pos.y });
 				}
 			}
-
 		}
 	}
 
