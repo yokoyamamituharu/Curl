@@ -143,6 +143,15 @@ void GameScene::Update()
 		
 		overheatSprite_->SetSize({ ultSpriteMaxSizeX,(ultSpriteMaxSizeY / player_ ->GetUltMaxGauge()) * -u});	// 体温バーの大きさを変える
 		messageWindow_->Update(player_->GetPosition(), 32);
+		if (messageWindow_->GetCountTarget() == L"ULT") {
+			messageWindow_->SetCounter(player_->GetUltGauge());
+		}
+		else if (messageWindow_->GetCountTarget() == L"ENEMY") {
+			//敵撃破カウントできる機構あったらいいね
+		}
+		else if (messageWindow_->GetCountTarget() == L"TIME") {
+			messageWindow_->SetCounter((float)timer_->GetTimeRange());
+		}
 
 		if (!isTutorial_) {
 			enemys_->Update(tower_->GetHP(), player_->GetPlayerHp(), scrollCamera_->GetPosition());
