@@ -41,7 +41,7 @@ public:
 	/// <param name="hp"></param>
 	/// <param name="maxBlood"></param>
 	/// <returns></returns>
-	static Player* Create(Vector2 pos, float rote, int hp, int maxBlood);
+	static Player* Create(Vector2 pos, float rote, int hp, int maxBlood[],int speed[]);
 
 	/// <summary>
 	/// 更新
@@ -189,6 +189,12 @@ private:
 	const float ultMaxGauge = 10;	// ゲージ最大値
 	const float maxUltDiray = 60;	// ゲージが減る速度
 	float ultDiray = maxUltDiray;
+	int ultLevel_ = 0;				//何回ウルト状態になったか	
+	const int maxUltCharge_ = 100;
+	int ultCharge_ = maxUltCharge_;	//ウルトレベルがある状態の場合、血を回収しないとチャージが切れてどんどんレベルが下がる
+	int ultSpeed_[5] = {};
+	int ultMaxBlood_[5] = {};
+
 
 	bool isMove_ = false;
 	int useAnimation_ = 0;

@@ -40,7 +40,7 @@ std::vector<Sprite*> Player::SpritesCreateP(int imageName, int32_t animationCoun
 	return sprites;
 }
 
-Player* Player::Create(Vector2 pos, float rote, int hp, int maxBlood) {
+Player* Player::Create(Vector2 pos, float rote, int hp, int maxBlood[], int speed[]) {
 	Player* instance = new Player();
 	instance->heatWave_ = Sprite::Create(UINT(ImageManager::ImageName::heatWaveNumber), { 0,0 }, { 1,1,1,1 }, { 0.5,0.5 });
 	instance->heatWave_->SetPosition({ 500,500 });
@@ -52,8 +52,12 @@ Player* Player::Create(Vector2 pos, float rote, int hp, int maxBlood) {
 	instance->handler_->Initialize(instance);
 	instance->position_ = pos;
 	instance->playerHp_ = hp;
-	instance->maxBlood_ = maxBlood;
-	instance->bloodGauge_ = maxBlood;
+	for (int i = 0; i < 5; i++) {
+		instance->ultMaxBlood_[i] = maxBlood[i];
+		instance->ultSpeed_[i] = speed[i];
+	}
+	instance->bloodGauge_ = maxBlood[0];
+	instance->speed_ = maxBlood[0];
 	instance->frontSprites_ = Player::SpritesCreateP((int)ImageManager::ImageName::wolfForwardWalk, frontAnimationCount, instance->position_);
 	instance->backSprites_ = Player::SpritesCreateP((int)ImageManager::ImageName::wolfBackwardWalk, backAnimationCount, instance->position_);
 	instance->useAnimation_ = (int)AnimationType::front;
@@ -83,6 +87,9 @@ void Player::Update(ScrollCamera* camera) {
 		position_.y = ScrollCamera::GetMaxScreenEdge().y - 32.0f;
 	}
 
+	speed_ = ultSpeed_[ultLevel_];
+	maxBlood_ = ultMaxBlood_[ultLevel_];
+
 	//プレイヤーのキーイベント更新
 	//handler_->PlayerHandleInput();
 
@@ -98,16 +105,18 @@ void Player::Update(ScrollCamera* camera) {
 	if (ultGauge >= ultMaxGauge) {
 		//一回だけ実行する処理		
 		if (ultState == false) {
-			maxBlood_ += 20;
-			speed_ += 4;
+			ultLevel_++;
+			ultCharge_ = maxUltCharge_;
+			//maxBlood_ += 20;
+			//speed_ += 4;
 		}
 		ultState = true;
 		// 体温0でウルト解除
 	} else if (0 >= ultGauge) {
 		if (ultState)
 		{
-			maxBlood_ -= 10;
-			speed_ -= 2;
+			//maxBlood_ -= 10;
+			//speed_ -= 2;
 		}
 		ultState = false;
 	}
@@ -115,7 +124,6 @@ void Player::Update(ScrollCamera* camera) {
 
 	// ウルト状態ならステータスを変える
 	if (ultState == true) {
-		//speed_ = 5.0f;		// スピードを上げる
 		ultDiray--;
 		// 時間でゲージ減らす
 		if (ultDiray <= 0) {
@@ -126,7 +134,13 @@ void Player::Update(ScrollCamera* camera) {
 		//speed_ = initSpeed_; // 元のスピードに戻す
 	}
 
-	
+	if (ultLevel_ > 0) {
+		ultCharge_--;
+		if (ultCharge_ <= 0) {
+			ultLevel_--;
+			ultCharge_ = maxUltCharge_;			
+		}
+	}
 
 	/// <summary>
 	///ゲームには関係ない
@@ -151,6 +165,7 @@ void Player::Update(ScrollCamera* camera) {
 					ultGauge = ultMaxGauge;
 				}
 			}
+			ultCharge_++;
 			blood->SetDead();
 		}
 

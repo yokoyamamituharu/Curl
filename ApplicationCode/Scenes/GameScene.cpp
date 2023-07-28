@@ -349,7 +349,8 @@ void GameScene::RoadPlayer()
 	std::string line;
 	Vector2 pos{};
 	float rote = 0.0f;
-	int maxBlood = 0, hp = 0;
+	int maxBlood[5] = {}, hp = 0;
+	int speed[5] = {};
 	std::stringstream stream = ExternalFileLoader::GetIns()->ExternalFileOpen("player.txt");
 
 	while (getline(stream, line)) {
@@ -368,12 +369,23 @@ void GameScene::RoadPlayer()
 			line_stream >> rote;
 		}
 		if (word.find("maxBlood") == 0) {
-			line_stream >> maxBlood;
+			line_stream >> maxBlood[0];
+			line_stream >> maxBlood[1];
+			line_stream >> maxBlood[2];
+			line_stream >> maxBlood[3];
+			line_stream >> maxBlood[4];
+		}
+		if (word.find("speed") == 0) {
+			line_stream >> speed[0];
+			line_stream >> speed[1];
+			line_stream >> speed[2];
+			line_stream >> speed[3];
+			line_stream >> speed[4];
 		}
 		if (word.find("hp") == 0) {
 			line_stream >> hp;
 		}
 	}
-	player_ = Player::Create(pos, rote, hp, maxBlood);
+	player_ = Player::Create(pos, rote, hp, maxBlood,speed);
 }
 

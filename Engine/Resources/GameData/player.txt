@@ -2,5 +2,6 @@
 
 pos 500 500
 rote 0
-maxBlood 100
+maxBlood 100 110 120 130 140
+speed 4 8 10 10 40
 hp 10
