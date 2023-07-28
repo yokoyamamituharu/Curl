@@ -41,7 +41,7 @@ public:
 	/// <param name="hp"></param>
 	/// <param name="maxBlood"></param>
 	/// <returns></returns>
-	static Player* Create(Vector2 pos, float rote, int hp, int maxBlood[],int speed[]);
+	static Player* Create(Vector2 pos, float rote, int hp, int maxBlood[], int speed[]);
 
 	/// <summary>
 	/// 更新
@@ -105,7 +105,7 @@ public:
 	/// 血の最大値を取得
 	/// </summary>
 	/// <returns></returns>
-	int GetMaxBloodGauge() { return maxBlood_; }	
+	int GetMaxBloodGauge() { return maxBlood_; }
 
 	/// <summary>
 	/// ウルトゲージの値を取得
@@ -123,6 +123,12 @@ public:
 	/// <returns></returns>
 	bool GetUltState() const { return ultState; }
 
+	/// <summary>
+	/// 血の発射
+	/// </summary>
+	/// <param name="camera"></param>
+	void Shot(ScrollCamera* camera, Vector2 pos = { -100,-100 });
+
 private:
 	/// <summary>
 	/// アニメーション画像の生成
@@ -132,12 +138,6 @@ private:
 	/// <param name="enemyPos"></param>
 	/// <returns></returns>
 	static std::vector<Sprite*> SpritesCreateP(int imageName, int32_t animationCount, Vector2& pos);
-
-	/// <summary>
-	/// 血の発射
-	/// </summary>
-	/// <param name="camera"></param>
-	void Shot(ScrollCamera* camera);
 
 	/// <summary>
 	/// 移動
@@ -172,7 +172,7 @@ private:
 
 	Sprite* heatWave_ = nullptr;
 	Sprite* coldWave_ = nullptr;
-	
+
 	bool isRecall_ = false;
 	// 熱波
 	bool isHeatWave_ = false;
@@ -181,7 +181,7 @@ private:
 	// 寒波
 	bool isColdWave_ = false;
 	float coldExtend_ = 0;
-	float coldAlpha_ = 1;	
+	float coldAlpha_ = 1;
 
 	// ウルト状態
 	bool ultState = false;			// ゲージ状態
