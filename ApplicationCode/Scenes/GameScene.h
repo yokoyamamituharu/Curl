@@ -17,6 +17,7 @@
 #include "TextDraw.h"
 #include "JsonLoader.h"
 #include"EnemyManager.h"
+#include "ParticleManager2d.h"
 
 #include "Blood.h"
 #include "Player.h"
@@ -110,6 +111,7 @@ private: //ƒƒ“ƒo•Ï”
 	std::unique_ptr<Sprite> ultGaugeSprite_ = nullptr;
 	std::unique_ptr<Sprite> overheatSprite_ = nullptr;
 	std::unique_ptr<Sprite> reticleSprite_ = nullptr;
+	std::unique_ptr<ParticleManager2d> particle_ = nullptr;
 	
 	EnemyManager* enemys_{};
 	
