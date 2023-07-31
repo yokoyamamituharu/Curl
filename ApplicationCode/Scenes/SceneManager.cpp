@@ -57,6 +57,12 @@ void SceneManager::SceneChange(SceneName scene) {
 		nowScene->Initialize();
 
 		break;
+	case SceneName::Select:
+		nowScene = new SelectScene();
+		nowScene->Initialize();
+		ShowCursor(true);
+
+		break;
 	case SceneName::Game:
 		nowScene = new GameScene();
 		nowScene->Initialize();

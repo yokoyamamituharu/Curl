@@ -35,7 +35,7 @@ void ArrowMarker::Update(Vector2 camera)
 	bool isUp = false;
 	bool isDown = false;
 	Vector2 markerPos = {};
-	float markerAngle = {};
+	float markerAngle = 0;
 	float radiusSize = 32;
 
 	if (pos_.x < camera.x - radiusSize)

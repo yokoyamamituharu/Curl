@@ -91,8 +91,7 @@ void TitleScene::Finalize()
 void TitleScene::SceneChange()
 {
 	if (gameButton_->GetIsClick()) {
-		SceneManager::SetStageNo(1);
-		SceneManager::SceneChange(SceneManager::SceneName::Game);
+		SceneManager::SceneChange(SceneManager::SceneName::Select);
 	}
 	else if (manualButton_->GetIsClick()) {
 

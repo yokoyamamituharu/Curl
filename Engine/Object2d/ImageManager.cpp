@@ -34,6 +34,7 @@ void ImageManager::Initialize() {
 	Sprite::LoadTexture(int32_t(ImageName::GameUI_01), L"Engine/Resources/Images/UIBack.png");
 	Sprite::LoadTexture(int32_t(ImageName::GameUI_02), L"Engine/Resources/Images/thermometer.png");
 	Sprite::LoadTexture(int32_t(ImageName::GameUI_03), L"Engine/Resources/Images/temperatureValue.png");
+	Sprite::LoadTexture(int32_t(ImageName::TowerUI), L"Engine/Resources/Images/towerUI.png");
 	Sprite::LoadTexture(int32_t(ImageName::playerHp), L"Engine/Resources/Images/hp.png");
 	Sprite::LoadTexture(int32_t(ImageName::TitleLog), L"Engine/Resources/Images/TitleLog.png");
 	Sprite::LoadTexture(int32_t(ImageName::ManualButton), L"Engine/Resources/Images/ManualButton.png");
@@ -47,6 +48,9 @@ void ImageManager::Initialize() {
 	Sprite::LoadTexture(int32_t(ImageName::Manual), L"Engine/Resources/Images/Manual.png");
 	Sprite::LoadTexture(int32_t(ImageName::gameOver), L"Engine/Resources/Images/GameOver.png");
 	Sprite::LoadTexture(int32_t(ImageName::gameOverBack), L"Engine/Resources/Images/gameoverBack.png");
+	Sprite::LoadTexture(int32_t(ImageName::stageSelect), L"Engine/Resources/Images/stageSelect.png");
+	Sprite::LoadTexture(int32_t(ImageName::play), L"Engine/Resources/Images/play.png");
+	Sprite::LoadTexture(int32_t(ImageName::tutorial), L"Engine/Resources/Images/tutorial.png");
 	Sprite::LoadTexture(int32_t(ImageName::wolfForwardWalk), L"Engine/Resources/Images/wolfForwardWalk.png");
 	Sprite::LoadTexture(int32_t(ImageName::wolfBackwardWalk), L"Engine/Resources/Images/wolfBackwardWalk.png");
 	Sprite::LoadTexture(int32_t(ImageName::watch), L"Engine/Resources/Images/Watch.png");

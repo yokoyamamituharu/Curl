@@ -11,6 +11,14 @@
     #MOVEコマンド引数
         #MOVE 二次元座標X 二次元座標Y 半径
         #例 MOVE 200 100 100
+    #COUNT ←カウンターが溜まったら次のメッセージを読み込む
+    #COUNTコマンド引数
+	#COUNT カウントするターゲット いくら溜まったら読み込むか
+	#カウントするターゲット一覧
+	#ULT←強化ゲージ量
+	#ENEMY←敵を倒した量
+	#TIME←時間
+	#例 COUNT ULT 100
 #LOAD_END ← 読み込み終了
 #CLOSE ← ウィンドウ閉鎖
 
@@ -92,9 +100,38 @@ TEXT これが貴様の力だ。思い出したか
 SPEED 3
 WAIT 30
 
-IF MOVE 640 360 100
 TEXT ではこちらに向かってこい
 SPEED 3
+WAIT 60
+
+TEXT 少し遅いな。強化してみるか
+SPEED 3
+WAIT 30
+
+IF COUNT ULT 10
+TEXT 血を吸収し続けると強化状態になる。強化してみろ
+SPEED 3
+WAIT 1
+
+TEXT そうだ。これで早くなったな。
+SPEED 3
+WAIT 30
+
+TEXT 強化状態は最大5段階まで溜まる。
+SPEED 3
+WAIT 30
+
+TEXT 強化状態を維持して敵を退けろ。
+SPEED 3
+WAIT 30
+
+TEXT では改めてこちらに向かってこい
+SPEED 3
+WAIT 30
+
+IF MOVE 640 360 100
+TEXT 矢印の方向に向かおう
+SPEED 2
 WAIT 1
 
 TEXT よし来たな。

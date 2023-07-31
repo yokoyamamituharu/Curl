@@ -37,6 +37,7 @@ void MessageWindow::Update(Vector2 playerPos, float playerRadius)
 	std::string messageData;
 	std::wstring messageDataW;
 	Vector2 movePos;
+	float maxCount;
 	float radius;
 
 	if (isCommand_) {
@@ -47,6 +48,12 @@ void MessageWindow::Update(Vector2 playerPos, float playerRadius)
 	if (isPointMove_) {
 		PointMoveCheck(playerPos, playerRadius);
 
+		return;
+	}
+
+	if (isCountCheck_) {
+		CounterCheck();
+		
 		return;
 	}
 
@@ -99,6 +106,15 @@ void MessageWindow::Update(Vector2 playerPos, float playerRadius)
 				isMessageUpdateWait_ = true;
 				isPointMove_ = true;
 			}
+			if (messageDataW == L"COUNT") {
+				line_stream >> messageData;
+				messageDataW = ExternalFileLoader::GetIns()->StringToWstring(messageData);
+				countTarget_ = messageDataW;
+				line_stream >> maxCount;
+				maxCount_ = maxCount;
+				isMessageUpdateWait_ = true;
+				isCountCheck_ = true;
+			}
 		}
 		if (word == "SPEED") {
 			line_stream >> textSpeed_;
@@ -130,8 +146,8 @@ void MessageWindow::TextMessageDraw()
 	const float openWindowSizeY = 160.0f;
 
 	//メッセージウィンドウ座標
-	float windowPosX = textWindow_->GetPosition().x;
-	float windowPosY = textWindow_->GetPosition().y;
+	float windowPosX = textWindow_->GetPosition().x + 10;
+	float windowPosY = textWindow_->GetPosition().y + 10;
 
 	//メッセージウィンドウ開閉処理
 	//メッセージウィンドウ閉鎖処理
@@ -214,6 +230,16 @@ void MessageWindow::PointMoveCheck(Vector2 playerPos, float playerRadius)
 {
 	if (Collision2d::GetIns()->CircleAndCircle(playerPos, movePoint_, playerRadius, movePointRadius_)) {
 		isPointMove_ = false;
+	}
+}
+
+void MessageWindow::CounterCheck()
+{
+	if (counter_ >= maxCount_) {
+		isCountCheck_ = false;
+		counter_ = 0;
+		maxCount_ = 0;
+		countTarget_ = L"";
 	}
 }
 

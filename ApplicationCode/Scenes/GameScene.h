@@ -68,6 +68,17 @@ public: //メンバ関数
 
 	Vector2 GetWorldMousePos();
 
+protected: //静的メンバ関数
+
+	/// <summary>
+	/// UI画像生成
+	/// </summary>
+	/// <param name="imageName">画像名</param>
+	/// <param name="animationCount">アニメーション数</param>
+	/// <param name="enemyPos">UI座標</param>
+	/// <returns>アニメーションスプライト</returns>
+	static std::vector<Sprite*> SpritesCreate(const ImageManager::ImageName imageName, const int32_t animationCount, const Vector2& UIpos);
+
 private: //メンバ関数
 	/// <summary>
 	/// シーン切り替え処理
@@ -119,5 +130,10 @@ private: //メンバ変数
 	bool isTutorial_ = false;
 
 	int getCost_[43][52];
+
+	std::vector<Sprite*> towerUISprites_;
+	int32_t towerUIAnimationCount_ = 0;
+	int32_t towerUIAnimationMax = 10;
+
 };
 

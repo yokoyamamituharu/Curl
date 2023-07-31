@@ -290,6 +290,9 @@
     <ClCompile Include="ApplicationCode\Enemys\EnemyManager.cpp">
       <Filter>ソース ファイル\ApplicationCode\Enemies</Filter>
     </ClCompile>
+    <ClCompile Include="ApplicationCode\Scenes\SelectScene.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine\Audio\Sound.h">
@@ -508,6 +511,7 @@
     <ClInclude Include="ApplicationCode\MapChip\MapChip2DInfo.h">
       <Filter>ソース ファイル\ApplicationCode\MapChip</Filter>
     </ClInclude>
+    <ClInclude Include="ApplicationCode\Scenes\SelectScene.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="IgaEngine.rc">

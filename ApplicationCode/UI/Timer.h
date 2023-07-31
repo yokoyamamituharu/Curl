@@ -29,6 +29,10 @@ public: //メンバ関数
     /// </summary>
     /// <param name="isTimerStart"></param>
     void SetIsTimerStart(bool isTimerStart) { isTimerStart_ = isTimerStart; }
+    /// <summary>
+    /// 現在のタイムの割合を取得
+    /// </summary>
+    int32_t GetTimeRange() { return nowTime_ / maxTime_; }
 
 private: //メンバ関数
     /// <summary>
