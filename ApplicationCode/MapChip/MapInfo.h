@@ -6,7 +6,8 @@ enum class MapInfo
 	//マップの種類だけ増えていく名前は仮
 	NONE,
 	ONE,
-	WALL
+	WALL,
+	GORL
 };
 
 

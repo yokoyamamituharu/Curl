@@ -28,17 +28,30 @@ std::unique_ptr<VampireEnemy> VampireEnemy::UniqueCreate()
 	enemy->hitBloodType = liquid_1;
 	enemy->anBloodType = gas_1;
 
-	//エネミーの値代入
+	////エネミーの値代入
 	enemy->angle = randCreate->getRandFloat(0, 359);//角度のランダム代入
 	enemy->moveLength = randCreate->getRandFloat(400, 500);//movePointからどれだけ離れているかのランダム代入
 
-	//座標の計算代入
-	enemy->pos.x = sin((enemy->angle * DirectX::XM_PI) / 180) * enemy->moveLength;
-	enemy->pos.y = cos((enemy->angle * DirectX::XM_PI) / 180) * enemy->moveLength;
+	////座標の計算代入
+	//enemy->pos.x = sin((enemy->angle * DirectX::XM_PI) / 180) * enemy->moveLength;
+	//enemy->pos.y = cos((enemy->angle * DirectX::XM_PI) / 180) * enemy->moveLength;
 
+	/*enemy->dPos_.X = randCreate->getRandInt(0, 52);
+	enemy->dPos_.Y = randCreate->getRandInt(0, 43);*/
+
+	enemy->dPos_.X = 20;
+	enemy->dPos_.Y = 5;
+
+	enemy->pos.x = (float)enemy->dPos_.X * (float)enemy->chipSize;
+	enemy->pos.y = (float)enemy->dPos_.Y * (float)enemy->chipSize;
+
+
+	enemy->routeTime = 100;
+	enemy->gorl = { 4,2 };
+	enemy->route = AStar::GetInstance()->AStarActivate(enemy->dPos_, enemy->gorl);
 	//座標のずれを修正
-	enemy->pos.x = enemy->pos.x + 640.f;
-	enemy->pos.y = enemy->pos.y + 360.f;
+	/*enemy->pos.x = enemy->pos.x + 640.f;
+	enemy->pos.y = enemy->pos.y + 360.f;*/
 
 	enemy->frontSprites_ = SpritesCreate(ImageManager::ImageName::vampire_front, frontAnimationCount, enemy->pos);
 	enemy->besideSprites_ = SpritesCreate(ImageManager::ImageName::vampire_beside, besideAnimationCount, enemy->pos);
@@ -60,14 +73,41 @@ void VampireEnemy::Update()
 	//距離の計算
 	moveLength -= moveAddLength;
 
+	routeTime--;
+	if (routeTime < 0)
+	{
 
-	//座標の計算代入
-	pos.y = sin((angle * DirectX::XM_PI) / 180) * moveLength;
-	pos.x = cos((angle * DirectX::XM_PI) / 180) * moveLength;
+		route = AStar::GetInstance()->AStarActivate(dPos_, gorl);
+		routeTime = 100;
+	}
+	////座標の計算代入
+	//pos.y = sin((angle * DirectX::XM_PI) / 180) * moveLength;
+	//pos.x = cos((angle * DirectX::XM_PI) / 180) * moveLength;
+
 
 	//座標のずれを修正
 	pos.x = pos.x + movePoint.x;
 	pos.y = pos.y + movePoint.y;
+
+	for (auto cell : route)
+	{
+		//2点間のベクトル（正規化してね）
+		pos.x += pos.x - (cell.X * chipSize);
+		pos.y += pos.y - (cell.Y * chipSize);
+		Vector2 vec = pos;
+		pos = vec.normalize();
+		//マップチップ上の敵の位置を更新
+		dPos_.X = pos.x / chipSize;
+		dPos_.Y = pos.y / chipSize;
+
+		//敵の位置が参照セルと同じになったらリストから削除
+		if (dPos_.X == cell.X && dPos_.Y == cell.Y) {
+			route.erase(route.begin());
+		}
+
+		break;
+	}
+
 
 	//アングルで移動方向を判定し、判定した方向に向いたアニメーションを使用
 	if (angle > 45 && angle < 135) {

@@ -7,9 +7,6 @@ class VampireEnemy: public BaseEnemy
 private:
 	
 	
-	
-	
-
 public:
 	~VampireEnemy();//íœ
 	static std::unique_ptr<VampireEnemy> UniqueCreate();//ì¬
@@ -27,5 +24,12 @@ private: //’è”
 	static const int32_t backAnimationCount = 6;
 
 	int useAnimation = 0;
+
+	Cell dPos_={0,0};
+	Cell gorl={0,0};
+
+	int chipSize = 64;
+
+	int routeTime = 100;
 };
 

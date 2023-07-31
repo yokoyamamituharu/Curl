@@ -34,7 +34,7 @@ void MapChip2D::MapChipDataCreate()
 		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
 		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
 		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
-		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
 		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
 		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
 		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
@@ -78,6 +78,7 @@ void MapChip2D::ChipDataCreate()
 			if (mapChipData[i][j] == (int)MapInfo::NONE)
 			{
 				chipData[i][j] = ChipData::Create(i, j, ImageName::mapChipTest);
+				chipData[i][j]->CostOn();
 
 			}
 
@@ -89,6 +90,12 @@ void MapChip2D::ChipDataCreate()
 			if (mapChipData[i][j] == (int)MapInfo::WALL)
 			{
 				chipData[i][j] = ChipData::Create(i, j, ImageName::mapChipTest3);
+				
+			}
+
+			if (mapChipData[i][j] == (int)MapInfo::GORL)
+			{
+				chipData[i][j] = ChipData::Create(i, j, ImageName::mapChipTest);
 				chipData[i][j]->CostOn();
 			}
 		}
@@ -157,13 +164,13 @@ void MapChip2D::Draw()
 	{
 		for (int j = 0; j < sizeX_.size(); j++)
 		{
-			if (chipData[i][j]->GetCost() == 1)
+			if (chipData[i][j]->GetCost() == 0)
 			{
 				chipData[i][j]->Draw();
 
 			}
 			//chipData[i][j]->Draw();
-			if (chipData[i][j]->GetDrawFlag() == true&& chipData[i][j]->GetCost() == 0)
+			if (chipData[i][j]->GetDrawFlag() == true&& chipData[i][j]->GetCost() == 1)
 			{
 				chipData[i][j]->Draw();
 

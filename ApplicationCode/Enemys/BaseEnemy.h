@@ -2,15 +2,18 @@
 #include<array>
 #include<DirectXMath.h>
 #include <vector>
-
+#include"Vector2.h"
 #include"Sprite.h"
 #include "ImageManager.h"
+#include"C:\k020g1211\蒲田アワード(sin)\ApplicationCode\AStar.h"
 
 class BaseEnemy
 {
 private:
 	using XMFLOAT2 = DirectX::XMFLOAT2;
 	using XMVECTOR = DirectX::XMVECTOR;
+	
+
 public:
 
 	enum EnemyType
@@ -116,6 +119,8 @@ protected:
 	bool maxHeightFlag{};
 
 
+	
+	std::list<Cell>route;
 	std::array<float, 360> maxAngle;//角度最大値
 	std::array<float, 0> minAngle;//角度最小値
 

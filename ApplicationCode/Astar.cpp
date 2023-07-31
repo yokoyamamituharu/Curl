@@ -2,20 +2,40 @@
 
 AStar* AStar::GetInstance()
 {
-	static AStar instance;
-	return &instance;
+	static AStar* instance = new AStar();
+	return instance;
 }
 
-AStar* AStar::Create()
+void AStar::Initialize(int cost[MapHeight][MapWidth])
 {
-	AStar* instance = new AStar();
+	
 
-	int cost[MapHeight][ MapWidth] = {};
-	instance->SetTableCost(cost);
+	//int cost[MapHeight][ MapWidth] = {};
+	SetTableCost(cost);
 
-	instance->CreateGraph();
+	CreateGraph();
 
-	return instance;
+	
+}
+
+void AStar::NodeUpdate(int y,int x)
+{
+
+	//隣接ノード設定
+	Cell adjacent_cells[] = {
+		Cell(x,y - 1),
+		Cell(x - 1,y),
+		Cell(x + 1,y),
+		Cell(x,y + 1),
+	};
+
+	//隣接ノードの追加
+	for (const Cell& cell : adjacent_cells)
+	{
+		if (IsCellWithinTheRange(cell.X, cell.Y) == true && CostTable[cell.Y][cell.X] == 1) {
+			Graph[y][x].Edges.push_back(&Graph[cell.Y][cell.X]);
+		}
+	}
 }
 
 bool IsCellWithinTheRange(int x, int y)
@@ -29,7 +49,7 @@ bool IsCellWithinTheRange(int x, int y)
 	return false;
 }
 
-bool IsEqualCell(const AStar::Cell& a, const AStar::Cell& b)
+bool IsEqualCell(const Cell& a, const Cell& b)
 {
 	if (a.X == b.X &&
 		a.Y == b.Y)
@@ -109,26 +129,15 @@ void AStar::CreateGraph()
 			Graph[y][x].Position.X = x;
 			Graph[y][x].Position.Y = y;
 
-			//隣接ノード設定
-			Cell adjacent_cells[] = {
-				Cell(x,y - 1),
-				Cell(x - 1,y),
-				Cell(x + 1,y),
-				Cell(x,y + 1),
-			};
-
-			//隣接ノードの追加
-			for (const Cell& cell : adjacent_cells)
-			{
-				if (IsCellWithinTheRange(cell.X, cell.Y) == true && CostTable[cell.Y][cell.X]) {
-					Graph[y][x].Edges.push_back(&Graph[cell.Y][cell.X]);
-				}
-			}
+			NodeUpdate(y,x);
 		}
 	}
+
+	printf("aaaaaaaaaaaaaaaaaaaaa");
+
 }
 
-std::list<AStar::Cell> AStar::AStarActivate(Cell& start, Cell& goal)
+std::list<Cell>& AStar::AStarActivate(Cell& start, Cell& goal)
 {
 	std::list<Node*> openList;
 	std::list<Node*> closeList;
@@ -174,10 +183,29 @@ std::list<AStar::Cell> AStar::AStarActivate(Cell& start, Cell& goal)
 				lastUpdateCell[adjacentNode->Position.Y][adjacentNode->Position.X] = searchNode->Position;
 			}
 
-			closeList.push_back(searchNode);
-
-			openList.sort(Less);
+			
 		}
+		bool close = true;
+
+		// クローズリストチェック
+		for (auto itr = closeList.begin(); itr != closeList.end(); itr++)
+		{
+			// ノードと同じセルがあるか調べる
+			if (IsEqualCell(searchNode->Position, (*itr)->Position) == true)
+			{
+				close = false;
+				break;
+			}
+		}
+
+		// 同じノードが無かったので追加
+		if (close == true)
+		{
+			// このノードの探索終了
+			closeList.push_back(searchNode);
+		}
+
+		openList.sort(Less);
 	}
 
 	//ルート復元

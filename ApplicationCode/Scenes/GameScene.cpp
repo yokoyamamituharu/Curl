@@ -1,7 +1,7 @@
 #include "GameScene.h"
 #include "ExternalFileLoader.h"
 #include "KeyInput.h"
-
+#include"C:\k020g1211\蒲田アワード(sin)\ApplicationCode\AStar.h"
 std::vector<Sprite*> GameScene::SpritesCreate(const ImageManager::ImageName imageName, const int32_t animationCount, const Vector2& UIpos) {
 	std::vector<Sprite*> sprites;
 
@@ -103,26 +103,24 @@ void GameScene::Initialize()
 	else if (SceneManager::GetStageNo() == 1) {
 		enemys_->EnemySpawnDataLoad("Stage1_EnemySpawnData.csv");
 	}
-
+	
 	mapChip2D = MapChip2D::Create();
 	mapChip2D->Ins();
-	AStar::GetInstance()->Create();
+	for (int i = 0; i < 43; i++)
+	{
+		for (int j = 0; j < 52; j++)
+		{
+			getCost_[i][j] = mapChip2D->GetCost(i, j);
+		}
+	}
+	//AStar::GetInstance()->SetTableCost(getCost_);
+	AStar::GetInstance()->Initialize(getCost_);
 	marker_ = ArrowMarker::Create({ 640, 360 });
 }
 
 void GameScene::Update()
 {
-
-	for (int i = 0; i < 43; i++)
-	{
-		for (int j = 0; j <52; j++)
-		{
-			getCost_[i][j] = mapChip2D->GetCost(i,j);
-		}
-	}
-
-	AStar::GetInstance()->SetTableCost(getCost_);
-
+	
 	//blood_->Update();
 	HitBloodAndEnemys();
 	HitTowerAndEnemys();
