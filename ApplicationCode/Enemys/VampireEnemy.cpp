@@ -58,14 +58,14 @@ std::unique_ptr<VampireEnemy> VampireEnemy::UniqueCreate(Cell cell)
 		{
 			enemy->dPos_.X = randCreate->getRandInt(0, 52);
 			enemy->dPos_.Y = 0;
-			enemy->useAnimation = AnimationType::back;
+			enemy->useAnimation = AnimationType::front;
 		}
 		//‰º
 		else
 		{
 			enemy->dPos_.X = randCreate->getRandInt(0, 52);
 			enemy->dPos_.Y = 42;
-			enemy->useAnimation = AnimationType::front;
+			enemy->useAnimation = AnimationType::back;
 		}
 	}
 	

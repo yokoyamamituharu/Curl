@@ -16,7 +16,7 @@ BasiliskEnemy::~BasiliskEnemy()
 	safe_delete(markerSprite_);
 }
 
-std::unique_ptr<BasiliskEnemy> BasiliskEnemy::UniqueCreate()
+std::unique_ptr<BasiliskEnemy> BasiliskEnemy::UniqueCreate(Cell cell)
 {//作成開始
 	std::unique_ptr<BasiliskEnemy> enemy = std::make_unique<BasiliskEnemy>();
 
@@ -32,13 +32,50 @@ std::unique_ptr<BasiliskEnemy> BasiliskEnemy::UniqueCreate()
 	enemy->angle = randCreate->getRandFloat(0, 359);//角度のランダム代入
 	enemy->moveLength = randCreate->getRandFloat(400, 500);//movePointからどれだけ離れているかのランダム代入
 
-	//座標の計算代入
-	enemy->pos.x = sin((enemy->angle * DirectX::XM_PI) / 180) * enemy->moveLength;
-	enemy->pos.y = cos((enemy->angle * DirectX::XM_PI) / 180) * enemy->moveLength;
+	//上下
+	if (randCreate->getRandInt(0, 10) % 2 == 0)
+	{
+		//左
+		if (randCreate->getRandInt(0, 10) % 2 == 0)
+		{
+			enemy->dPos_.X = 0;
+			enemy->dPos_.Y = randCreate->getRandInt(0, 43);
+			enemy->useAnimation = AnimationType::rightSide;
+		}
+		//右
+		else
+		{
+			enemy->dPos_.X = 51;
+			enemy->dPos_.Y = randCreate->getRandInt(0, 43);
+			enemy->useAnimation = AnimationType::ReftSide;
+		}
+	}
+	//左右
+	else
+	{
+		//上
+		if (randCreate->getRandInt(0, 10) % 2 == 0)
+		{
+			enemy->dPos_.X = randCreate->getRandInt(0, 52);
+			enemy->dPos_.Y = 0;
+			enemy->useAnimation = AnimationType::front;
+		}
+		//下
+		else
+		{
+			enemy->dPos_.X = randCreate->getRandInt(0, 52);
+			enemy->dPos_.Y = 42;
+			enemy->useAnimation = AnimationType::back;
+		}
+	}
 
-	//座標のずれを修正
-	enemy->pos.x = enemy->pos.x + 640.f;
-	enemy->pos.y = enemy->pos.y + 360.f;
+
+	enemy->pos.x = (float)enemy->dPos_.X * (float)enemy->chipSize;
+	enemy->pos.y = (float)enemy->dPos_.Y * (float)enemy->chipSize;
+
+
+	enemy->gorl = cell;
+	enemy->route = AStar::GetInstance()->AStarActivate(enemy->dPos_, enemy->gorl);
 
 	enemy->frontSprites_ = SpritesCreate(ImageManager::ImageName::basilisk_front, frontAnimationCount, enemy->pos);
 	enemy->besideSprites_ = SpritesCreate(ImageManager::ImageName::basilisk_beside, besideAnimationCount, enemy->pos);
@@ -65,37 +102,27 @@ void BasiliskEnemy::Update()
 	if (moveFlag == TRUE)angle += moveAngle;
 	else angle -= moveAngle;
 
-	//アングルが360を超えたら360引く
-	if (angle > maxAngle.size())angle -= maxAngle.size();
-	
-	//アングルが0を下回ったら360足す
-	if (angle < minAngle.size())angle += maxAngle.size();
+	for (auto cell : route)
+	{
 
-	//アングルで移動方向を判定し、判定した方向に向いたアニメーションを使用
-	if (angle > 45 && angle < 135) {
-		useAnimation = AnimationType::back;
+		Vector2 vec;
+		vec.x = (cell.X * chipSize + 32) - pos.x;
+		vec.y = (cell.Y * chipSize + 32) - pos.y;
+		vec.normalize();
+		//2点間のベクトル（正規化してね）
+		pos.x += vec.x;
+		pos.y += vec.y;
+		//マップチップ上の敵の位置を更新
+		dPos_.X = pos.x / chipSize;
+		dPos_.Y = pos.y / chipSize;
+
+		//敵の位置が参照セルと同じになったらリストから削除
+		if (dPos_.X == cell.X && dPos_.Y == cell.Y) {
+			route.erase(route.begin());
+		}
+
+		break;
 	}
-	else if (angle > 225 && angle < 270) {
-		useAnimation = AnimationType::front;
-	}
-	else if (angle >= 135 && angle <= 225) {
-		useAnimation = AnimationType::rightSide;
-	}
-	else {
-		useAnimation = AnimationType::ReftSide;
-
-	}
-
-	//距離の計算
-	moveLength -= moveAddLength;
-
-	//座標の計算代入
-	pos.y = sin((angle * DirectX::XM_PI) / 180) * moveLength;
-	pos.x = cos((angle * DirectX::XM_PI) / 180) * moveLength;
-
-	//座標のずれを修正
-	pos.x = pos.x + movePoint.x;
-	pos.y = pos.y + movePoint.y;
 
 	for (int32_t i = 0; i < frontAnimationCount; i++) {
 		frontSprites_[i]->SetPosition(pos);

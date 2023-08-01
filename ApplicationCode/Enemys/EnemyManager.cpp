@@ -84,7 +84,7 @@ void EnemyManager::EnemyCreate(const int phase, Cell cell)
 		}
 		if (temp == 2 || temp == 5 || temp == 6)
 		{
-			Rabbits_.push_back(RabbitEnemy::UniqueCreate());
+			Rabbits_.push_back(RabbitEnemy::UniqueCreate(cell));
 		}
 	}
 	//フェーズ3（ヴァンパイア、ウサギ、バジリスク）
@@ -95,11 +95,11 @@ void EnemyManager::EnemyCreate(const int phase, Cell cell)
 		}
 		if (temp == 2 || temp == 5)
 		{
-			Basiliskes_.push_back(BasiliskEnemy::UniqueCreate());
+			Basiliskes_.push_back(BasiliskEnemy::UniqueCreate(cell));
 		}
 		if (temp == 3 || temp == 6)
 		{
-			Rabbits_.push_back(RabbitEnemy::UniqueCreate());
+			Rabbits_.push_back(RabbitEnemy::UniqueCreate(cell));
 		}
 	}
 	/*else
@@ -324,10 +324,10 @@ void EnemyManager::EnemySpawnDataUpdate(Cell cell)
 		Vampires_.push_back(VampireEnemy::UniqueCreate(cell));
 	}
 	if (it_->enemyType_ == "RABB") {
-		Rabbits_.push_back(RabbitEnemy::UniqueCreate());
+		Rabbits_.push_back(RabbitEnemy::UniqueCreate(cell));
 	}
 	if (it_->enemyType_ == "BASI") {
-		Basiliskes_.push_back(BasiliskEnemy::UniqueCreate());
+		Basiliskes_.push_back(BasiliskEnemy::UniqueCreate(cell));
 	}
 
 	if (it_->waitTime_ >= 0) {
