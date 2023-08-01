@@ -49,6 +49,7 @@ void Button::Update()
 		alpha_ = initAlpha_;
 	}
 
+	button_->SetPosition(pos_);
 	button_->SetSize(size_);
 	button_->SetAlpha(alpha_);
 }

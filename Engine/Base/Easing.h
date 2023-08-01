@@ -39,10 +39,34 @@ public: //ÉÅÉìÉoä÷êî
 
 	static inline float easeOutBack(float time, float maxTime, float maxPos, float nowPos, float back = 1.70158f) {
 		maxPos -= nowPos;
-		time /= maxTime;
-		time -= 1;
+		time = time / maxTime - 1;
 
-		return maxPos * (time * time * ((back + 1) * time + back) + 1) + nowPos;
+		return maxPos * (time * time * ((back + 1) * time * back) + 1) + nowPos;
+	}
+
+	static inline float easeOutBounce(float time, float maxTime, float nowPos, float maxPos) {
+		const float n1 = 7.5625f;
+		const float d1 = 2.75f;
+
+		maxPos -= nowPos;
+		time /= maxTime - 1.0f;
+
+		if (time < 1.0f / d1) {
+			float t = time;
+			return maxPos * (n1 * t * t) + nowPos;
+		}
+		else if (time < 2.0f / d1) {
+			float t = time - 1.5f / d1;
+			return maxPos * (n1 * t * t + 0.75f) + nowPos;
+		}
+		else if (time < 2.5f / d1) {
+			float t = time - 2.25f / d1;
+			return maxPos * (n1 * t * t + 0.9375f) + nowPos;
+		}
+		else {
+			float t = time - 2.625f / d1;
+			return maxPos * (n1 * t * t + 0.984375f) + nowPos;
+		}
 	}
 };
 

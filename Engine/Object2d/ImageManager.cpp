@@ -49,6 +49,7 @@ void ImageManager::Initialize() {
 	Sprite::LoadTexture(int32_t(ImageName::gameOver), L"Engine/Resources/Images/GameOver.png");
 	Sprite::LoadTexture(int32_t(ImageName::gameOverBack), L"Engine/Resources/Images/gameoverBack.png");
 	Sprite::LoadTexture(int32_t(ImageName::stageSelect), L"Engine/Resources/Images/stageSelect.png");
+	Sprite::LoadTexture(int32_t(ImageName::stageSelectWindow), L"Engine/Resources/Images/stageSelectWindow.png");
 	Sprite::LoadTexture(int32_t(ImageName::play), L"Engine/Resources/Images/play.png");
 	Sprite::LoadTexture(int32_t(ImageName::tutorial), L"Engine/Resources/Images/tutorial.png");
 	Sprite::LoadTexture(int32_t(ImageName::wolfForwardWalk), L"Engine/Resources/Images/wolfForwardWalk.png");

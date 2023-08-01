@@ -60,6 +60,7 @@ public: //‰æ‘œ–¼
 		gameOver,
 		gameOverBack,
 		stageSelect,
+		stageSelectWindow,
 		play,
 		tutorial,
 		wolfForwardWalk,
