@@ -70,7 +70,7 @@ public:
 
 	void NodeUpdate(int y, int x);
 
-	std::list<Cell>& AStarActivate(Cell& start, Cell& goal);
+	std::list<Cell> AStarActivate(Cell& start, Cell& goal);
 private:
 	AStar() = default;
 	~AStar() {};

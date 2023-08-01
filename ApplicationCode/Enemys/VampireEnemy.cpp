@@ -86,16 +86,19 @@ void VampireEnemy::Update()
 
 
 	//座標のずれを修正
-	pos.x = pos.x + movePoint.x;
-	pos.y = pos.y + movePoint.y;
+	//pos.x = pos.x + movePoint.x;
+	//pos.y = pos.y + movePoint.y;
 
 	for (auto cell : route)
 	{
+
+		Vector2 vec;
+		vec.x = (cell.X * chipSize) - pos.x;
+		vec.y = (cell.Y * chipSize) - pos.y;
+		vec.normalize();
 		//2点間のベクトル（正規化してね）
-		pos.x += pos.x - (cell.X * chipSize);
-		pos.y += pos.y - (cell.Y * chipSize);
-		Vector2 vec = pos;
-		pos = vec.normalize();
+		pos.x += vec.x;
+		pos.y += vec.y;
 		//マップチップ上の敵の位置を更新
 		dPos_.X = pos.x / chipSize;
 		dPos_.Y = pos.y / chipSize;

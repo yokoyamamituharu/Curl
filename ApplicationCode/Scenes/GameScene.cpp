@@ -1,7 +1,7 @@
 #include "GameScene.h"
 #include "ExternalFileLoader.h"
 #include "KeyInput.h"
-#include"C:\k020g1211\蒲田アワード(sin)\ApplicationCode\AStar.h"
+#include"..\AStar.h"
 std::vector<Sprite*> GameScene::SpritesCreate(const ImageManager::ImageName imageName, const int32_t animationCount, const Vector2& UIpos) {
 	std::vector<Sprite*> sprites;
 

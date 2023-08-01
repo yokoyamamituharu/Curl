@@ -137,7 +137,7 @@ void AStar::CreateGraph()
 
 }
 
-std::list<Cell>& AStar::AStarActivate(Cell& start, Cell& goal)
+std::list<Cell> AStar::AStarActivate(Cell& start, Cell& goal)
 {
 	std::list<Node*> openList;
 	std::list<Node*> closeList;
@@ -217,8 +217,6 @@ std::list<Cell>& AStar::AStarActivate(Cell& start, Cell& goal)
 		Cell route = routeList.front();
 
 		if (IsEqualCell(route, start)) {
-
-			return routeList;
 
 			for (Cell& cell : routeList)
 			{

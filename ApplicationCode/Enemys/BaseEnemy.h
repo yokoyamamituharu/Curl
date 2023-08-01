@@ -5,7 +5,7 @@
 #include"Vector2.h"
 #include"Sprite.h"
 #include "ImageManager.h"
-#include"C:\k020g1211\蒲田アワード(sin)\ApplicationCode\AStar.h"
+#include"..\AStar.h"
 
 class BaseEnemy
 {
