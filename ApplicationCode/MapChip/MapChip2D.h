@@ -1,6 +1,7 @@
 #pragma once
 #include"ChipData.h"
 #include"Vector2.h"
+#include"..\AStar.h"
 class MapChip2D
 {
 
@@ -23,12 +24,24 @@ public:
 	bool GetFlag(int sizeY, int sizeX) { return chipData[sizeY][sizeX]->GetDrawFlag(); }
 
 	int GetCost(int sizeY, int sizeX) { return chipData[sizeY][sizeX]->GetCost(); }
+
+	XMFLOAT2 GetTowerPos()
+	{
+	
+		return towerPos_;
+	}
+	Cell GetTowerCell()
+	{
+		return towerCell_;
+	}
 	//int* GetCost() { return *mapChipCostData; }
 private:
 	std::array<int, 52> sizeX_;
 	std::array<int, 43> sizeY_;
 	ChipData* chipData[43][52]{};
 
+	XMFLOAT2 towerPos_;
+	Cell towerCell_;
 	int mapChipData[43][52]{};
 
 	int mapChipCostData[43][52]{};

@@ -2,6 +2,7 @@
 #include"BaseEnemy.h"
 #include<memory>
 #include<list>
+
 class VampireEnemy: public BaseEnemy
 {
 private:
@@ -9,7 +10,7 @@ private:
 	
 public:
 	~VampireEnemy();//íœ
-	static std::unique_ptr<VampireEnemy> UniqueCreate();//ì¬
+	static std::unique_ptr<VampireEnemy> UniqueCreate(Cell cell);//ì¬
 
 	void Update();// XV
 

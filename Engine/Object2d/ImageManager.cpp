@@ -63,6 +63,6 @@ void ImageManager::Initialize() {
 	//マップチップの関係上これより上に書いてね
 	Sprite::LoadTexture(int32_t(ImageName::mapChipTest), L"Engine/Resources/Images/mapChipTest.png");
 	Sprite::LoadTexture(int32_t(ImageName::mapChipTest2), L"Engine/Resources/Images/guideArrow.png");
-	Sprite::LoadTexture(int32_t(ImageName::mapChipTest3), L"Engine/Resources/Images/Wall.png");
+	Sprite::LoadTexture(int32_t(ImageName::mapChipTest3), L"Engine/Resources/Images/wall3.png");
 
 }

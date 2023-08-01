@@ -25,12 +25,12 @@ EnemyManager* EnemyManager::Create()
 	return enemys;
 }
 
-void EnemyManager::Update(int32_t towerHp, int playerHp, Vector2 camera)
+void EnemyManager::Update(int32_t towerHp, int playerHp, Vector2 camera, Cell cell)
 {
 	//生成時間の減産
 	enemyCreateTime--;
 	if (deadCount >= 30)gameFlag = TRUE;
-	EnemySpawnDataUpdate();
+	EnemySpawnDataUpdate(cell);
 	//生成時間が0未満かつ砦,プレイヤーのHPが1以上かつ総量が72未満の場合敵を生成
 	if ((towerHp > 0 || playerHp > 0) && enemyNumber_ < 72 && enemyCreateTime < 0)
 	{
@@ -67,20 +67,20 @@ void EnemyManager::Update(int32_t towerHp, int playerHp, Vector2 camera)
 	EnemysDead();
 }
 
-void EnemyManager::EnemyCreate(const int phase)
+void EnemyManager::EnemyCreate(const int phase, Cell cell)
 {
 	//出現乱数設定
 	int temp = randCreate_->getRandInt(1, 6);
 
 	//フェーズ1(ヴァンパイア)
 	if (phase == 1) {
-		Vampires_.push_back(VampireEnemy::UniqueCreate());
+		Vampires_.push_back(VampireEnemy::UniqueCreate(cell));
 	}
 	//フェーズ2（ヴァンパイア、ウサギ）
 	else if (phase == 2) {
 		if (temp == 1 || temp == 4 || temp == 3)
 		{
-			Vampires_.push_back(VampireEnemy::UniqueCreate());
+			Vampires_.push_back(VampireEnemy::UniqueCreate(cell));
 		}
 		if (temp == 2 || temp == 5 || temp == 6)
 		{
@@ -91,7 +91,7 @@ void EnemyManager::EnemyCreate(const int phase)
 	else if (phase == 3) {
 		if (temp == 1 || temp == 4)
 		{
-			Vampires_.push_back(VampireEnemy::UniqueCreate());
+			Vampires_.push_back(VampireEnemy::UniqueCreate(cell));
 		}
 		if (temp == 2 || temp == 5)
 		{
@@ -304,7 +304,7 @@ void EnemyManager::EnemySpawnDataLoad(const std::string& fileName)
 	it_ = enemySpawnData_.begin();
 }
 
-void EnemyManager::EnemySpawnDataUpdate()
+void EnemyManager::EnemySpawnDataUpdate(Cell cell)
 {
 	if (isWait_) {
 		if (!isPause_) {
@@ -321,7 +321,7 @@ void EnemyManager::EnemySpawnDataUpdate()
 	}
 
 	if (it_->enemyType_ == "VAMP") {
-		Vampires_.push_back(VampireEnemy::UniqueCreate());
+		Vampires_.push_back(VampireEnemy::UniqueCreate(cell));
 	}
 	if (it_->enemyType_ == "RABB") {
 		Rabbits_.push_back(RabbitEnemy::UniqueCreate());

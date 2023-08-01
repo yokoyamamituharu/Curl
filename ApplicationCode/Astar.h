@@ -35,7 +35,7 @@ struct Cell
 
 class AStar {
 public:
-	
+
 	struct Node {
 		Node() :
 			Node(0, 0)

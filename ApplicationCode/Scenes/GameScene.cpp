@@ -63,8 +63,7 @@ void GameScene::Initialize()
 	manual_ = Sprite::UniquePtrCreate(UINT(ImageManager::ImageName::Manual), { 300,0 });
 	manual_->SetUi(true);
 	int32_t towerHP = 10;
-	tower_ = new Tower;
-	tower_->Initialize(towerHP);
+	
 	scrollCamera_ = ScrollCamera::Create();
 	Sprite::SetCamera(scrollCamera_);
 	// ŒŒ‚Ì—Ê
@@ -115,6 +114,8 @@ void GameScene::Initialize()
 	}
 	//AStar::GetInstance()->SetTableCost(getCost_);
 	AStar::GetInstance()->Initialize(getCost_);
+	tower_ = new Tower;
+	tower_->Initialize(towerHP, mapChip2D->GetTowerPos());
 	marker_ = ArrowMarker::Create({ 640, 360 });
 }
 
@@ -185,7 +186,7 @@ void GameScene::Update()
 		}
 
 		if (!isTutorial_) {
-			enemys_->Update(tower_->GetHP(), player_->GetPlayerHp(), scrollCamera_->GetPosition());
+			enemys_->Update(tower_->GetHP(), player_->GetPlayerHp(), scrollCamera_->GetPosition(), mapChip2D->GetTowerCell());
 		}
 	}
 
@@ -199,7 +200,7 @@ void GameScene::Update()
 			{
 				bool flag = mapChip2D->GetFlag(i, j);
 				int flag2 = mapChip2D->GetChipData(i, j)->GetCost();
-				if (flag && (int)MapInfo::NONE == flag2) {
+				if (flag && (int)MapCostInfo::ON == flag2) {
 					Vector2 pos = mapChip2D->GetChipPos(i, j);
 					player_->Shot(scrollCamera_, { pos.x,pos.y });
 				}
