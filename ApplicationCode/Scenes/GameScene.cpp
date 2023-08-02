@@ -63,7 +63,7 @@ void GameScene::Initialize()
 	manual_ = Sprite::UniquePtrCreate(UINT(ImageManager::ImageName::Manual), { 300,0 });
 	manual_->SetUi(true);
 	int32_t towerHP = 10;
-	
+
 	scrollCamera_ = ScrollCamera::Create();
 	Sprite::SetCamera(scrollCamera_);
 	// ŒŒ‚Ì—Ê
@@ -103,7 +103,7 @@ void GameScene::Initialize()
 	else if (SceneManager::GetStageNo() == 1) {
 		enemys_->EnemySpawnDataLoad("Stage1_EnemySpawnData.csv");
 	}
-	
+
 	mapChip2D = MapChip2D::Create();
 	mapChip2D->Ins();
 	for (int i = 0; i < 43; i++)
@@ -122,7 +122,7 @@ void GameScene::Initialize()
 
 void GameScene::Update()
 {
-	
+
 	//blood_->Update();
 	HitBloodAndEnemys();
 	HitTowerAndEnemys();
@@ -142,7 +142,7 @@ void GameScene::Update()
 			float fNum = (float)RandCreate::sGetRandFloat(-5, 5);
 			for (int i = 0; i < iNum; i++) {
 				Vector2 vec2 = { (float)RandCreate::sGetRandFloat(-10, 10), (float)RandCreate::sGetRandFloat(-10, 10) };
-				particle_->Add(50, player_->GetPosition() + vec2, { 0, -1 }, { 0, 0 },{ 15.0f + fNum, 15.0f + fNum }, { 0.0f, 0.0f }, { 1.0f, 0.0f, 0.0f }, { 1.0f, 1.0f, 1.0f });
+				particle_->Add(50, player_->GetPosition() + vec2, { 0, -1 }, { 0, 0 }, { 15.0f + fNum, 15.0f + fNum }, { 0.0f, 0.0f }, { 1.0f, 0.0f, 0.0f }, { 1.0f, 1.0f, 1.0f });
 			}
 		}
 		else if (player_->GetUltLevel() == 1) {
@@ -267,6 +267,8 @@ void GameScene::Update()
 	}
 	else if (player_->GetUltLevel() == 5) {
 		overheatSprite_->SetColor({ 0.5f, 0.5f,0.5f });
+	}
+
 	for (int i = 0; i < 43; i++) {
 		for (int j = 0; j < 52; j++) {
 			if (mapChip2D->GetFlag(i, j) == true)
@@ -404,7 +406,7 @@ void GameScene::HitMapAndPlayer()
 			}
 		}
 	}
-	
+
 
 
 }

@@ -73,8 +73,7 @@ public: //‰æ‘œ–¼
 		messageWindow,
 		mapChipTest,
 		mapChipTest2,
-		mapChipTest3
-		mapChipTest2,
+		mapChipTest3,
 		droppedLiquid
 	};
 
