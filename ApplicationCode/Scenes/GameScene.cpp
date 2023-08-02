@@ -90,7 +90,7 @@ void GameScene::Initialize()
 	Sprite::SetCamera2D(camera2D);
 
 	timer_ = new Timer();
-	timer_->Initialize(60 * 20);
+	timer_->Initialize(60 * 1);
 
 	enemys_ = EnemyManager::Create();
 	messageWindow_ = MessageWindow::UniquePtrCreate();
