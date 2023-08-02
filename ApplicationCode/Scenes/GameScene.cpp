@@ -64,9 +64,6 @@ void GameScene::Initialize()
 	manual_->SetUi(true);
 	int32_t towerHP = 10;
 
-	int32_t towerHP = 2;
-	tower_ = new Tower;
-	tower_->Initialize(towerHP);
 	scrollCamera_ = ScrollCamera::Create();
 	Sprite::SetCamera(scrollCamera_);
 	// ŒŒ‚Ì—Ê
