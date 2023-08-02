@@ -62,7 +62,7 @@ void GameScene::Initialize()
 
 	manual_ = Sprite::UniquePtrCreate(UINT(ImageManager::ImageName::Manual), { 300,0 });
 	manual_->SetUi(true);
-	int32_t towerHP = 10;
+	int32_t towerHP = 2;
 	tower_ = new Tower;
 	tower_->Initialize(towerHP);
 	scrollCamera_ = ScrollCamera::Create();
@@ -84,6 +84,13 @@ void GameScene::Initialize()
 	poseBackButton_ = Button::CreateUniqueButton(ImageManager::ImageName::Back, { 100,300 }, { 100,100 }, 0);
 	titleButton_ = Button::CreateUniqueButton(ImageManager::ImageName::TitleBack, { 100,400 }, { 100,100 }, 0);
 	particle_ = ParticleManager2d::UniquePtrCreate();
+	for (int32_t i = 0; i < 4; i++) {
+		towerBreak_[i] = Sprite::UniquePtrCreate((UINT)ImageManager::ImageName::towerBreak, {640, -500});
+		towerBreak_[i]->SetAnchorPoint({ 0.5f, 0.5f });
+		towerBreak_[i]->SetTextureRect({ 64.0f * (float)i, 0.0f }, { 64.0f, 64.0f });
+		towerBreak_[i]->SetSize({ 256.0f, 256.0f });
+		towerBreak_[i]->SetUi(true);
+	}
 
 	camera2D = new Camera2D();
 	camera2D->InitializeCamera(WinApp::window_width, WinApp::window_height);
@@ -422,6 +429,7 @@ void GameScene::Draw()
 		messageWindow_->SpriteDraw();
 	}
 	timer_->Draw();
+	towerBreak_[towerBreakAnime_]->Draw();
 	Sprite::PostDraw();
 	DirectXSetting::GetIns()->PostDraw();
 }
@@ -465,6 +473,24 @@ Vector2 GameScene::GetWorldMousePos()
 
 void GameScene::SceneChange()
 {
+	bool isOver = false;
+	const float gameOverTime = 20.0f;
+	if (tower_->GetHP() <= 0) {
+		gameOverTimer_++;
+		towerBreakAnimeTimer_++;
+		for (int32_t i = 0; i < 4; i++) {
+			towerBreak_[i]->SetPosition({640.0f, Easing::easeOutBounce((float)gameOverTimer_, gameOverTime, towerBreak_[i]->GetPosition().y, 360.0f)});
+		}
+
+		if (towerBreakAnimeTimer_ >= gameOverTime) {
+			towerBreakAnime_ = (towerBreakAnime_ + 1) % 4;
+			towerBreakAnimeTimer_ = 0;
+		}
+		if (gameOverTimer_ >= gameOverTime * 4) {
+			isOver = true;
+		}
+	}
+
 	if (pose_ && titleButton_->GetIsClick()) {
 		SceneManager::SceneChange(SceneManager::SceneName::Title);
 	}
@@ -472,7 +498,7 @@ void GameScene::SceneChange()
 	{
 		SceneManager::SceneChange(SceneManager::SceneName::Result);
 	}
-	else if (tower_->GetHP() <= 0 && !debugMuteki)
+	else if (isOver && !debugMuteki)
 	{
 		SceneManager::SceneChange(SceneManager::SceneName::Over);
 

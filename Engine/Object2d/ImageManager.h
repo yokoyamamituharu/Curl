@@ -73,7 +73,8 @@ public: //‰æ‘œ–¼
 		messageWindow,
 		mapChipTest,
 		mapChipTest2,
-		droppedLiquid
+		droppedLiquid,
+		towerBreak
 	};
 
 public: //ƒƒ“ƒoŠÖ”

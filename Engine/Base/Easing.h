@@ -45,9 +45,6 @@ public: //ƒƒ“ƒoŠÖ”
 	}
 
 	static inline float easeOutBounce(float time, float maxTime, float nowPos, float maxPos) {
-		const float n1 = 7.5625f;
-		const float d1 = 2.75f;
-
 		if (time <= 0.0f) {
 			return nowPos;
 		}
