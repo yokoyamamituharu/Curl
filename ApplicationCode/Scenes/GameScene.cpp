@@ -93,12 +93,12 @@ void GameScene::Initialize()
 	ultGaugeSprite_[5]->SetLeftSizeCorrection(true);
 	ultGaugeSprite_[5]->SetUi(true);
 
-	color[0] = { 1.0f, 0.0f, 0.0f };
-	color[1] = { 1.0f,1.0f,0.0f };
-	color[2] = { 0.5f, 0.5f,1.0f };
-	color[3] = { 1.0f, 0.0f, 1.0f };
-	color[4] = { 0.5f, 1.0f,0.5f };
-	color[5] = { 0.5f, 0.5f,0.5f };
+	color[0] = { 0.5f, 0.5f, 0.5f };
+	color[1] = { 0.5f, 0.5f, 1.0f };
+	color[2] = { 0.5f, 1.0f,0.5f };
+	color[3] = { 1.0f,1.0f,0.0f };
+	color[4] = { 1.0f, 0.0f, 1.0f };
+	color[5] = { 1.0f, 0.0f, 0.0f };
 
 	ultGaugeSprite_[0]->SetColor(color[0]);
 	ultGaugeSprite_[1]->SetColor(color[1]);
@@ -430,6 +430,10 @@ void GameScene::HitTowerAndEnemys()
 			towerUIAnimationCount_++;
 			SoundManager::GetIns()->PlaySE(SoundManager::SEKey::sekihiDamage, 0.1f);
 		}
+	}
+
+	if (towerUIAnimationCount_ >= 9) {
+		towerUIAnimationCount_ = 9;
 	}
 }
 
