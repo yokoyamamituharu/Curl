@@ -105,7 +105,7 @@ void Blood::Update()
 			speed_ = initSpeed_;
 		}
 		else {
-			speed_ += 0.08;
+			speed_ += 0.08f;
 		}
 
 		break;

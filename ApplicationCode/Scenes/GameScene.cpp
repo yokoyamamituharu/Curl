@@ -90,7 +90,7 @@ void GameScene::Initialize()
 	Sprite::SetCamera2D(camera2D);
 
 	timer_ = new Timer();
-	timer_->Initialize(60 * 20);
+	timer_->Initialize(60 * 1);
 
 	enemys_ = EnemyManager::Create();
 	messageWindow_ = MessageWindow::UniquePtrCreate();
@@ -126,8 +126,31 @@ void GameScene::Update()
 	}
 
 	static int32_t timer = 0;
-	if (timer++ > 10) {
-		particle_->Add(50, player_->GetPosition(), { 0, -1 }, { 0, 0 }, { 15.0f, 15.0f }, { 0.0f, 0.0f }, { 1.0f, 0.0f, 0.0f }, {1.0f, 1.0f, 1.0f});
+	if (timer++ > 5) {
+		if (player_->GetUltLevel() == 0) {
+			//particle_->Add(50, player_->GetPosition(), { 0, -1 }, { 0, 0 }, { 15.0f, 15.0f }, { 0.0f, 0.0f }, { 1.0f, 0.0f, 0.0f }, { 1.0f, 1.0f, 1.0f });
+			int iNum = (int)RandCreate::sGetRandFloat(1, 2);
+			float fNum = (float)RandCreate::sGetRandFloat(-5, 5);
+			for (int i = 0; i < iNum; i++) {
+				Vector2 vec2 = { (float)RandCreate::sGetRandFloat(-10, 10), (float)RandCreate::sGetRandFloat(-10, 10) };
+				particle_->Add(50, player_->GetPosition() + vec2, { 0, -1 }, { 0, 0 },{ 15.0f + fNum, 15.0f + fNum }, { 0.0f, 0.0f }, { 1.0f, 0.0f, 0.0f }, { 1.0f, 1.0f, 1.0f });
+			}
+		}
+		else if (player_->GetUltLevel() == 1) {
+			particle_->Add(50, player_->GetPosition(), { 0, -1 }, { 0, 0 }, { 15.0f, 15.0f }, { 0.0f, 0.0f }, { 1.0f, 0.0f, 0.0f }, { 1.0f, 1.0f, 1.0f });
+		}
+		else if (player_->GetUltLevel() == 2) {
+			particle_->Add(50, player_->GetPosition(), { 0, -1 }, { 0, 0 }, { 15.0f, 15.0f }, { 0.0f, 0.0f }, { 0.5f, 0.5f,1.0f }, { 1.0f, 1.0f, 1.0f });
+		}
+		else if (player_->GetUltLevel() == 3) {
+			particle_->Add(50, player_->GetPosition(), { 0, -1 }, { 0, 0 }, { 15.0f, 15.0f }, { 0.0f, 0.0f }, { 1.0f, 0.0f, 0.0f }, { 1.0f, 1.0f, 1.0f });
+		}
+		else if (player_->GetUltLevel() == 4) {
+			particle_->Add(50, player_->GetPosition(), { 0, -1 }, { 0, 0 }, { 15.0f, 15.0f }, { 0.0f, 0.0f }, { 0.5f, 1.0f,0.5f }, { 1.0f, 1.0f, 1.0f });
+		}
+		else if (player_->GetUltLevel() == 5) {
+			particle_->Add(50, player_->GetPosition(), { 0, -1 }, { 0, 0 }, { 15.0f, 15.0f }, { 0.0f, 0.0f }, { 0.5f, 0.5f,0.5f }, { 1.0f, 1.0f, 1.0f });
+		}
 		timer = 0;
 	}
 
@@ -169,7 +192,7 @@ void GameScene::Update()
 		}
 	}
 	else {
-		if (poseBreak==false) {
+		if (poseBreak == false) {
 			//マップチップの位置に血を発射する
 			for (int i = 0; i < 43; i++) {
 				for (int j = 0; j < 52; j++) {
@@ -373,7 +396,6 @@ void GameScene::Draw()
 	marker_->Draw();
 	enemys_->Draw();
 	particle_->Draw();
-
 	Sprite::PostDraw();
 	postEffect_->PostDrawScene(DirectXSetting::GetIns()->GetCmdList());
 
@@ -520,6 +542,7 @@ void GameScene::RoadPlayer()
 			line_stream >> maxBlood[2];
 			line_stream >> maxBlood[3];
 			line_stream >> maxBlood[4];
+			line_stream >> maxBlood[5];
 		}
 		if (word.find("speed") == 0) {
 			line_stream >> speed[0];
@@ -527,6 +550,7 @@ void GameScene::RoadPlayer()
 			line_stream >> speed[2];
 			line_stream >> speed[3];
 			line_stream >> speed[4];
+			line_stream >> speed[5];
 		}
 		if (word.find("hp") == 0) {
 			line_stream >> hp;
