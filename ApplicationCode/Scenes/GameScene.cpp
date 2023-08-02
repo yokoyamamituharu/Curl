@@ -123,7 +123,6 @@ void GameScene::Update()
 
 		}
 	}
-
 	poseButton_->Update();
 	tower_->Update();
 
@@ -140,6 +139,12 @@ void GameScene::Update()
 		timer_->SetIsTimerStart(true);
 	}
 
+	if (poseBreak) {
+		if (!MouseInput::GetIns()->PushClick(MouseInput::MouseState::LEFT_CLICK)) {
+			poseBreak = false;
+		}
+	}
+
 	if (poseButton_->GetIsClick()) {
 		pose_ = true;
 		ShowCursor(true);
@@ -151,9 +156,27 @@ void GameScene::Update()
 		if (poseBackButton_->GetIsClick()) {
 			ShowCursor(false);
 			pose_ = false;
+			poseBreak = true;
 		}
 	}
 	else {
+		if (poseBreak==false) {
+			//マップチップの位置に血を発射する
+			for (int i = 0; i < 43; i++) {
+				for (int j = 0; j < 52; j++) {
+					if (mapChip2D->GetFlag(i, j) == true)
+					{
+						bool flag = mapChip2D->GetFlag(i, j);
+						int flag2 = mapChip2D->GetChipData(i, j)->GetCost();
+						if (flag && (int)MapInfo::NONE == flag2) {
+							Vector2 pos = mapChip2D->GetChipPos(i, j);
+							player_->Shot(scrollCamera_, { pos.x,pos.y });
+							break;
+						}
+					}
+				}
+			}
+		}
 		player_->Update(scrollCamera_);
 		//scrollCamera_->Update(player_->GetSprite()->GetPosition());
 
@@ -185,23 +208,30 @@ void GameScene::Update()
 
 	mapChip2D->Update(GetWorldMousePos());
 
-	for (int i = 0; i < 43; i++) {
-		for (int j = 0; j < 52; j++) {
-			if (mapChip2D->GetFlag(i, j) == true)
-			{
-				bool flag = mapChip2D->GetFlag(i, j);
-				int flag2 = mapChip2D->GetChipData(i, j)->GetCost();
-				if (flag && (int)MapInfo::NONE == flag2) {
-					Vector2 pos = mapChip2D->GetChipPos(i, j);
-					player_->Shot(scrollCamera_, { pos.x,pos.y });
-				}
-			}
-		}
+
+	if (player_->GetUltLevel() == 0) {
+		overheatSprite_->SetColor({ 1.0f, 1.0f,1.0f });
+	}
+	else if (player_->GetUltLevel() == 1) {
+		overheatSprite_->SetColor({ 1.0f, 1.0f,1.0f });
+	}
+	else if (player_->GetUltLevel() == 2) {
+		overheatSprite_->SetColor({ 1.0f, 0.0f,1.0f });
+	}
+	else if (player_->GetUltLevel() == 3) {
+		overheatSprite_->SetColor({ 0.5f, 0.5f,1.0f });
+	}
+	else if (player_->GetUltLevel() == 4) {
+		overheatSprite_->SetColor({ 0.5f, 1.0f,0.5f });
+	}
+	else if (player_->GetUltLevel() == 5) {
+		overheatSprite_->SetColor({ 0.5f, 0.5f,0.5f });
 	}
 
 	//enemy_->Update();
 	scrollCamera_->Update(player_->GetPosition());
 	reticleSprite_->SetPosition({ (float)MouseInput::GetIns()->GetMousePoint().x,(float)MouseInput::GetIns()->GetMousePoint().y });
+
 	//シーン切り替え
 	SceneChange();
 }
@@ -432,7 +462,7 @@ void GameScene::RoadPlayer()
 	std::string line;
 	Vector2 pos{};
 	float rote;
-	int32_t maxBlood[5] = {}, speed[5] = {}, hp = 0;
+	int32_t maxBlood[6] = {}, speed[6] = {}, hp = 0;
 	std::stringstream stream;
 	if (SceneManager::GetStageNo() != 0) {
 		stream = ExternalFileLoader::GetIns()->ExternalFileOpen("player.txt");

@@ -68,7 +68,8 @@ public: //‰æ‘œ–¼
 		guideArrow,
 		messageWindow,
 		mapChipTest,
-		mapChipTest2
+		mapChipTest2,
+		droppedLiquid
 	};
 
 public: //ƒƒ“ƒoŠÖ”

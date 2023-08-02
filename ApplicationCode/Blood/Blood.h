@@ -12,7 +12,8 @@ public:
 		NONE,
 		solid,
 		liquid,
-		gas
+		gas,
+		droppedLiquid
 	};
 
 	enum class State {
