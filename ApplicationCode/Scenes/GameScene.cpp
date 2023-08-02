@@ -508,12 +508,13 @@ void GameScene::Draw()
 	//スプライト描画処理(UI等)
 	Sprite::PreDraw(DirectXSetting::GetIns()->GetCmdList());
 	bgSprite_->Draw();
-	player_->Draw(scrollCamera_);
+	
 	tower_->Draw();
 	//enemy_->Draw();
 	mapChip2D->Draw();
 	marker_->Draw();
 	enemys_->Draw();
+	player_->Draw(scrollCamera_);
 	particle_->Draw();
 	Sprite::PostDraw();
 	postEffect_->PostDrawScene(DirectXSetting::GetIns()->GetCmdList());

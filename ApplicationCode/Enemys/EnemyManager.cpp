@@ -17,7 +17,7 @@ EnemyManager::~EnemyManager()
 EnemyManager* EnemyManager::Create()
 {
 	EnemyManager* enemys = new EnemyManager();
-	enemys->enemyCreateTime = 200;
+	enemys->enemyCreateTime = 500;
 	enemys->randCreate_ = new RandCreate();
 	enemys->enemyNumber_ = 0;
 	enemys->deadCount = 0;
