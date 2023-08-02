@@ -9,7 +9,10 @@ SoundManager* SoundManager::GetIns()
 void SoundManager::Initialize(Sound* sound)
 {
 	this->sound_ = sound;
+	//BGM
+	LoadBGM("Engine/Resources/Sound/BGM/maou_bgm_neorock82.wav", BGMKey::game);
 
+	//SE
 	LoadSE("Engine/Resources/Sound/SE/kettei.wav", SEKey::kettei);
 	LoadSE("Engine/Resources/Sound/SE/kanpa.wav", SEKey::kanpa);
 	LoadSE("Engine/Resources/Sound/SE/neppa.wav", SEKey::neppa);

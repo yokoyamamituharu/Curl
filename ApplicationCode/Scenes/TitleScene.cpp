@@ -1,5 +1,6 @@
 #include "TitleScene.h"
 #include <random>
+#include "SoundManager.h"
 
 void TitleScene::Initialize()
 {
@@ -26,6 +27,8 @@ void TitleScene::Initialize()
 	postEffectNo_ = PostEffect::NONE;
 	gameButton_ = Button::CreateUniqueButton(ImageManager::ImageName::StartButton, { 1000,400 }, { 100,100 }, 0);
 	manualButton_ = Button::CreateUniqueButton(ImageManager::ImageName::ManualButton, { 1000,600 }, { 100,100 }, 0);
+
+	SoundManager::GetIns()->PlayBGM(SoundManager::BGMKey::game, true, 0.1);
 }
 
 void TitleScene::Update()

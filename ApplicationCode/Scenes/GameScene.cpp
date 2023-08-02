@@ -183,6 +183,7 @@ void GameScene::Update()
 	}
 
 	static int32_t timer = 0;
+	const Vector2 playerHoseiTi = { 0,-15 };
 	if (timer++ > 5) {
 		if (player_->GetUltLevel() == 0) {
 			//particle_->Add(50, player_->GetPosition(), { 0, -1 }, { 0, 0 }, { 15.0f, 15.0f }, { 0.0f, 0.0f }, { 1.0f, 0.0f, 0.0f }, { 1.0f, 1.0f, 1.0f });
@@ -190,7 +191,7 @@ void GameScene::Update()
 			float fNum = (float)RandCreate::sGetRandFloat(-5, 5);
 			for (int i = 0; i < iNum; i++) {
 				Vector2 vec2 = { (float)RandCreate::sGetRandFloat(-10, 10), (float)RandCreate::sGetRandFloat(-10, 10) };
-				particle_->Add(50, player_->GetPosition() + vec2, { 0, -1 }, { 0, 0 }, { 15.0f + fNum, 15.0f + fNum }, { 0.0f, 0.0f }, color[0], { 1.0f, 1.0f, 1.0f });
+				particle_->Add(50, player_->GetPosition() + playerHoseiTi + vec2, { 0, -1 }, { 0, 0 }, { 15.0f + fNum, 15.0f + fNum }, { 0.0f, 0.0f }, color[0], { 1.0f, 1.0f, 1.0f });
 			}
 		}
 		else if (player_->GetUltLevel() == 1) {
@@ -198,7 +199,7 @@ void GameScene::Update()
 			float fNum = (float)RandCreate::sGetRandFloat(-5, 5);
 			for (int i = 0; i < iNum; i++) {
 				Vector2 vec2 = { (float)RandCreate::sGetRandFloat(-10, 10), (float)RandCreate::sGetRandFloat(-10, 10) };
-				particle_->Add(50, player_->GetPosition() + vec2, { 0, -1 }, { 0, 0 }, { 15.0f + fNum, 15.0f + fNum }, { 0.0f, 0.0f }, color[1], { 1.0f, 1.0f, 1.0f });
+				particle_->Add(50, player_->GetPosition() + playerHoseiTi + vec2, { 0, -1 }, { 0, 0 }, { 15.0f + fNum, 15.0f + fNum }, { 0.0f, 0.0f }, color[1], { 1.0f, 1.0f, 1.0f });
 			}
 		}
 		else if (player_->GetUltLevel() == 2) {
@@ -206,7 +207,7 @@ void GameScene::Update()
 			float fNum = (float)RandCreate::sGetRandFloat(-5, 5);
 			for (int i = 0; i < iNum; i++) {
 				Vector2 vec2 = { (float)RandCreate::sGetRandFloat(-10, 10), (float)RandCreate::sGetRandFloat(-10, 10) };
-				particle_->Add(50, player_->GetPosition() + vec2, { 0, -1 }, { 0, 0 }, { 15.0f + fNum, 15.0f + fNum }, { 0.0f, 0.0f }, color[2], { 1.0f, 1.0f, 1.0f });
+				particle_->Add(50, player_->GetPosition() + playerHoseiTi + vec2, { 0, -1 }, { 0, 0 }, { 15.0f + fNum, 15.0f + fNum }, { 0.0f, 0.0f }, color[2], { 1.0f, 1.0f, 1.0f });
 			}
 		}
 		else if (player_->GetUltLevel() == 3) {
@@ -214,7 +215,7 @@ void GameScene::Update()
 			float fNum = (float)RandCreate::sGetRandFloat(-5, 5);
 			for (int i = 0; i < iNum; i++) {
 				Vector2 vec2 = { (float)RandCreate::sGetRandFloat(-10, 10), (float)RandCreate::sGetRandFloat(-10, 10) };
-				particle_->Add(50, player_->GetPosition() + vec2, { 0, -1 }, { 0, 0 }, { 15.0f + fNum, 15.0f + fNum }, { 0.0f, 0.0f }, color[3], { 1.0f, 1.0f, 1.0f });
+				particle_->Add(50, player_->GetPosition() + playerHoseiTi + vec2, { 0, -1 }, { 0, 0 }, { 15.0f + fNum, 15.0f + fNum }, { 0.0f, 0.0f }, color[3], { 1.0f, 1.0f, 1.0f });
 			}
 		}
 		else if (player_->GetUltLevel() == 4) {
@@ -222,7 +223,7 @@ void GameScene::Update()
 			float fNum = (float)RandCreate::sGetRandFloat(-5, 5);
 			for (int i = 0; i < iNum; i++) {
 				Vector2 vec2 = { (float)RandCreate::sGetRandFloat(-10, 10), (float)RandCreate::sGetRandFloat(-10, 10) };
-				particle_->Add(50, player_->GetPosition() + vec2, { 0, -1 }, { 0, 0 }, { 15.0f + fNum, 15.0f + fNum }, { 0.0f, 0.0f }, color[4], { 1.0f, 1.0f, 1.0f });
+				particle_->Add(50, player_->GetPosition() + playerHoseiTi + vec2, { 0, -1 }, { 0, 0 }, { 15.0f + fNum, 15.0f + fNum }, { 0.0f, 0.0f }, color[4], { 1.0f, 1.0f, 1.0f });
 			}
 		}
 		else if (player_->GetUltLevel() == 5) {
@@ -230,7 +231,7 @@ void GameScene::Update()
 			float fNum = (float)RandCreate::sGetRandFloat(-5, 5);
 			for (int i = 0; i < iNum; i++) {
 				Vector2 vec2 = { (float)RandCreate::sGetRandFloat(-10, 10), (float)RandCreate::sGetRandFloat(-10, 10) };
-				particle_->Add(50, player_->GetPosition() + vec2, { 0, -1 }, { 0, 0 }, { 15.0f + fNum, 15.0f + fNum }, { 0.0f, 0.0f }, color[5], { 1.0f, 1.0f, 1.0f });
+				particle_->Add(50, player_->GetPosition() + playerHoseiTi + vec2, { 0, -1 }, { 0, 0 }, { 15.0f + fNum, 15.0f + fNum }, { 0.0f, 0.0f }, color[5], { 1.0f, 1.0f, 1.0f });
 			}
 		}
 		timer = 0;

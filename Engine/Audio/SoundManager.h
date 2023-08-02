@@ -24,7 +24,7 @@ class SoundManager final
 
 public: //サブクラス
 	enum class BGMKey {
-		rrrrr,
+		game,
 	};
 
 	enum class SEKey {
