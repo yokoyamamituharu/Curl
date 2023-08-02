@@ -93,7 +93,7 @@ private:
 	Vector2 oldvec_{};
 	Vector2* playerPos_{};
 	const float initSpeed_ = 5.0f;
-	float speed_ = 5.0f;
+	float speed_ = 8.0f;
 	int maxTempDray = 20;
 	int tempDray = 0;
 };

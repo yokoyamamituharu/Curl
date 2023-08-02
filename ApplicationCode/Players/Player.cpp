@@ -130,13 +130,13 @@ void Player::Update(ScrollCamera* camera) {
 	//	//speed_ = initSpeed_; // 元のスピードに戻す
 	//}
 
-	if (ultLevel_ > 0) {
-		ultChargeDray_--;
-		if (ultChargeDray_ <= 0) {
-			ultGauge[ultLevel_]--;
-			ultChargeDray_ = maxUltChargeDray_;
-			if (ultGauge[ultLevel_] <= 0) {
-				ultGauge[ultLevel_] = 0;
+	ultChargeDray_--;
+	if (ultChargeDray_ <= 0) {
+		ultGauge[ultLevel_]--;
+		ultChargeDray_ = maxUltChargeDray_;
+		if (ultGauge[ultLevel_] <= 0) {
+			ultGauge[ultLevel_] = 0;
+			if (ultLevel_ > 0) {
 				ultLevel_--;
 				ultGauge[ultLevel_] = ultMaxGauge - 1;
 			}
