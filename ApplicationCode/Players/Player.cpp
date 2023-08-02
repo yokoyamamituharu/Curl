@@ -276,7 +276,11 @@ bool Player::Move(ScrollCamera* camera) {
 			Vector2 vec = cursolPos - playerPos;
 			vec.normalize();
 			AddPlayerVector(vec * speed_);
-
+			static int dray = 0;
+			if (dray-- <= 0) {
+				SoundManager::GetIns()->PlaySE(SoundManager::SEKey::walk, 0.1f);
+				dray = 58;
+			}
 			//Žg‚¤‰æ‘œ‚ð‘I‚Ô
 			if (vec.y > 0) {
 				//‰º‚ÉˆÚ“®

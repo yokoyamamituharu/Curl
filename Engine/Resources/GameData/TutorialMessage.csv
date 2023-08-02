@@ -25,15 +25,15 @@
 OPEN
 TEXT 守護者よ、目覚めたか
 SPEED 3
-WAIT 60
+WAIT 30
 
 TEXT 敵が迫っている。今すぐ我のもとに戻れ
 SPEED 3
-WAIT 60
+WAIT 30
 
 TEXT 何?どう動けばいいのかわからぬだと?
 SPEED 3
-WAIT 60
+WAIT 30
 
 IF PUSH W 60
 TEXT マウスで狙っているところに/[W]で向かうだろう?
@@ -42,11 +42,11 @@ WAIT 1
 
 TEXT そうだ。動けるではないか
 SPEED 3
-WAIT 60
+WAIT 30
 
 TEXT よもや、貴様。血の使いかたも忘れてはおらぬな?
 SPEED 3
-WAIT 60
+WAIT 30
 
 IF PUSH LCLICK 60
 TEXT マウスで狙っているところに[左クリック]だ
@@ -55,7 +55,7 @@ WAIT 1
 
 TEXT そうだ。
 SPEED 3
-WAIT 60
+WAIT 30
 
 IF PUSH E 60
 TEXT では、熱波を出してみろ/[E]
@@ -64,7 +64,7 @@ WAIT 1
 
 TEXT これで血が気体になったな
 SPEED 3
-WAIT 60
+WAIT 30
 
 IF PUSH LCLICK 60
 TEXT もう一度血を出してみろ/[左クリック]
@@ -78,23 +78,35 @@ WAIT 1
 
 TEXT これで液体となった血は回収されたな
 SPEED 3
-WAIT 60
+WAIT 30
 
 TEXT そして液体だった血は個体となっただろう
 SPEED 3
-WAIT 60
+WAIT 30
 
 TEXT [液体]に[熱波]で[気体]に
 SPEED 3
-WAIT 60
+WAIT 30
 
 TEXT [液体]に[冷波]で[個体]に
 SPEED 3
-WAIT 60
+WAIT 30
 
 TEXT そして[個体]と[気体]は逆の波動を当てれば/[液体]に戻る
 SPEED 3
-WAIT 60
+WAIT 30
+
+TEXT また、ウサギ型には[気体]を
+SPEED 3
+WAIT 30
+
+TEXT ニワトリには[個体]を
+SPEED 3
+WAIT 30
+
+TEXT ヴァンパイアには[液体]をぶつければ倒せる
+SPEED 3
+WAIT 30
 
 TEXT これが貴様の力だ。思い出したか
 SPEED 3
@@ -102,7 +114,7 @@ WAIT 30
 
 TEXT ではこちらに向かってこい
 SPEED 3
-WAIT 60
+WAIT 30
 
 TEXT 少し遅いな。強化してみるか
 SPEED 3
@@ -127,14 +139,18 @@ WAIT 30
 
 TEXT では改めてこちらに向かってこい
 SPEED 3
-WAIT 30
+WAIT 10
 
-IF MOVE x y 100
+IF MOVE 1728 1344 100
 TEXT 矢印の方向に向かおう
 SPEED 2
 WAIT 1
 
 TEXT よし来たな。
+SPEED 3
+WAIT 30
+
+TEXT 敵の猛攻を耐え、我を守れ。頼んだぞ。
 SPEED 3
 WAIT 30
 

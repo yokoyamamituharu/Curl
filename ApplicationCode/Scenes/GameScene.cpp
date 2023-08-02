@@ -93,12 +93,12 @@ void GameScene::Initialize()
 	ultGaugeSprite_[5]->SetLeftSizeCorrection(true);
 	ultGaugeSprite_[5]->SetUi(true);
 
-	color[0] = { 1.0f, 0.0f, 0.0f };
-	color[1] = { 1.0f,1.0f,0.0f };
-	color[2] = { 0.5f, 0.5f,1.0f };
-	color[3] = { 1.0f, 0.0f, 1.0f };
-	color[4] = { 0.5f, 1.0f,0.5f };
-	color[5] = { 0.5f, 0.5f,0.5f };
+	color[0] = { 0.5f, 0.5f, 0.5f };
+	color[1] = { 0.5f, 0.5f, 1.0f };
+	color[2] = { 0.5f, 1.0f,0.5f };
+	color[3] = { 1.0f,1.0f,0.0f };
+	color[4] = { 1.0f, 0.0f, 1.0f };
+	color[5] = { 1.0f, 0.0f, 0.0f };
 
 	ultGaugeSprite_[0]->SetColor(color[0]);
 	ultGaugeSprite_[1]->SetColor(color[1]);
@@ -172,7 +172,7 @@ void GameScene::Update()
 	//blood_->Update();
 	HitBloodAndEnemys();
 	HitTowerAndEnemys();
-	timer_->Update();
+	
 	if (messageWindow_->GetIsLoadEnd()) {
 		isTutorial_ = false;
 		if (SceneManager::GetStageNo() == 0) {
@@ -240,6 +240,8 @@ void GameScene::Update()
 	poseButton_->Update();
 	tower_->Update();
 
+	
+
 	if (KeyInput::GetIns()->TriggerKey(DIK_M)) {
 		//debugMuteki = !debugMuteki;
 	}
@@ -271,13 +273,25 @@ void GameScene::Update()
 				for (int j = 0; j < 52; j++) {
 					if (mapChip2D->GetFlag(i, j) == true) {
 						bool flag = mapChip2D->GetFlag(i, j);
-						int flag2 = mapChip2D->GetChipData(i, j)->GetCost();
-						if (flag && (int)MapInfo::NONE == flag2) {
+						int flag2 = mapChip2D->GetRetMap(i, j);
+						if ((int)MapCostInfo::ON == flag2) {
 							Vector2 pos = mapChip2D->GetChipPos(i, j);
 							player_->Shot(scrollCamera_, { pos.x,pos.y });
 							break;
 						}
 					}
+				}
+			}
+
+			for (int i = 0; i < 43; i++) {
+				for (int j = 0; j < 52; j++) {
+					bloodMapChip[i][j] = 0;
+				}
+			}
+			for (std::unique_ptr<Blood>& blood : player_->GetBloods()) {
+				if (blood->GetState() == (int)Blood::State::idle) {
+					Vector2 vec2 = { blood->GetPos().x / 64,blood->GetPos().y / 64 };
+					bloodMapChip[(int)vec2.y][(int)vec2.x] = 1;
 				}
 			}
 		}
@@ -308,6 +322,7 @@ void GameScene::Update()
 		if (!isTutorial_) {
 			enemys_->Update(tower_->GetHP(), player_->GetPlayerHp(), scrollCamera_->GetPosition(), mapChip2D->GetTowerCell());
 		}
+		timer_->Update();
 	}
 
 	marker_->Update(scrollCamera_->GetPosition());
@@ -339,7 +354,7 @@ void GameScene::Update()
 			if (mapChip2D->GetFlag(i, j) == true)
 			{
 				bool flag = mapChip2D->GetFlag(i, j);
-				int flag2 = mapChip2D->GetChipData(i, j)->GetCost();
+				int flag2 = mapChip2D->GetRetMap(i, j);
 				if (flag && (int)MapCostInfo::ON == flag2) {
 					Vector2 pos = mapChip2D->GetChipPos(i, j);
 					player_->Shot(scrollCamera_, { pos.x,pos.y });
@@ -453,6 +468,10 @@ void GameScene::HitTowerAndEnemys()
 			towerUIAnimationCount_++;
 			SoundManager::GetIns()->PlaySE(SoundManager::SEKey::sekihiDamage, 0.1f);
 		}
+	}
+
+	if (towerUIAnimationCount_ >= 9) {
+		towerUIAnimationCount_ = 9;
 	}
 }
 

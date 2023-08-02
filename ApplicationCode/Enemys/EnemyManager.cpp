@@ -33,7 +33,7 @@ void EnemyManager::Update(int32_t towerHp, int playerHp, Vector2 camera, Cell ce
 	if (deadCount >= 30)gameFlag = TRUE;
 	//EnemySpawnDataUpdate(cell);
 	//生成時間が0未満かつ砦,プレイヤーのHPが1以上かつ総量が30未満の場合敵を生成
-	if ((towerHp > 0 || playerHp > 0) && enemyNumber_ < 30 && enemyCreateTime < 0)
+	if ((towerHp > 0 || playerHp > 0) && enemyNumber_ < 15 && enemyCreateTime < 0)
 	{
 		//敵を生成
 		EnemyCreate(3, cell);
@@ -43,14 +43,14 @@ void EnemyManager::Update(int32_t towerHp, int playerHp, Vector2 camera, Cell ce
 		enemyCreateTime = randCreate_->getRandInt(10, 100);
 	}
 
-	
+
 	//敵せれぞれの更新
 	for (auto& vampire : Vampires_) {
 		vampire->Update();
 		vampire->WorldMarker(camera);
 	}
-	for (auto& basilisk : Basiliskes_) { 
-		basilisk->Update(); 
+	for (auto& basilisk : Basiliskes_) {
+		basilisk->Update();
 		basilisk->WorldMarker(camera);
 	}
 	for (auto& rabbit : Rabbits_) {
@@ -129,8 +129,10 @@ void EnemyManager::EnemyHitBlood()
 				deadCount++;
 				//SE
 				SoundManager::GetIns()->PlaySE(SoundManager::SEKey::enemyDamage, 0.6f);
+				//BreakBlood(vampire->Getpos(), player);
+				//血をまき散らす
 			}
-			
+
 			//血のタイプが得意かどうか
 			else if (vampire->GetBloodType() == vampire->GetAnBloodType())
 			{
@@ -165,6 +167,7 @@ void EnemyManager::EnemyHitBlood()
 			{
 				basilisk->OnCollision();
 				enemyNumber_--;
+				SoundManager::GetIns()->PlaySE(SoundManager::SEKey::enemyDamage, 0.6f);
 				deadCount++;
 
 			}
@@ -191,6 +194,7 @@ void EnemyManager::EnemyHitBlood()
 			{
 				rabbit->OnCollision();
 				enemyNumber_--;
+				SoundManager::GetIns()->PlaySE(SoundManager::SEKey::enemyDamage, 0.6f);
 				deadCount++;
 
 			}
@@ -227,7 +231,7 @@ void EnemyManager::EnemyHitTower()
 	}
 	//砦との距離が5.f以下だったらデリート
 	Vampires_.remove_if([](unique_ptr<VampireEnemy>& vampire) {return vampire->GetMoveLength() <= 5; });
-	
+
 	//以下同文
 	for (auto& basilisk : Basiliskes_)
 	{
@@ -256,10 +260,15 @@ void EnemyManager::EnemysDead()
 
 }
 
+void EnemyManager::BreakBlood(Vector2 pos, Player* player)
+{
+	//player->GetBloods().push_back(Blood::UniquePtrCreate(pos, Blood::Temperature::liquid, pos, &player->GetPosition()));
+}
+
 void EnemyManager::EnemySpawnDataLoad(const std::string& fileName)
 {
 	enemySpawnFileData_ = ExternalFileLoader::GetIns()->ExternalFileOpen(fileName);
-	
+
 	std::string line;
 	Vector2 pos{};
 	std::string type;

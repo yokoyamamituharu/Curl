@@ -11,6 +11,8 @@
 #include "RabbitEnemy.h"
 #include "Vector2.h"
 #include <sstream>
+#include "Blood.h"
+#include "Player.h"
 
 using namespace std;
 
@@ -45,6 +47,8 @@ public:
 
 	bool GetGameFlag() { return gameFlag; }
 
+	void BreakBlood(Vector2 pos, Player* player);
+
 	list<unique_ptr<VampireEnemy>>& GetVampires() { return Vampires_; }
 	list<unique_ptr<BasiliskEnemy>>& GetBasiliskes() { return Basiliskes_; }
 	list<unique_ptr<RabbitEnemy>>& GetRabbits() { return Rabbits_; }
@@ -65,14 +69,14 @@ public:
 	void Draw();
 
 private:
-	
+
 	int enemyNumber_{};//oŒ»‚µ‚Ä‚¢‚é“G‚Ì‘——¿
 	int enemyCreateTime{};//¶¬ŠÔ
 	RandCreate* randCreate_{};//ƒ‰ƒ“ƒ_ƒ€
 	KeyInput* keyInput_{};
 
 	//unique_ptr<Enemy> enemys2_{};
-	
+
 	list<unique_ptr<VampireEnemy>> Vampires_{};
 	list<unique_ptr<BasiliskEnemy>> Basiliskes_{};
 	list<unique_ptr<RabbitEnemy>> Rabbits_{};
