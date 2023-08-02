@@ -1,6 +1,7 @@
 #include "GameScene.h"
 #include "ExternalFileLoader.h"
 #include "KeyInput.h"
+#include "SoundManager.h"
 
 std::vector<Sprite*> GameScene::SpritesCreate(const ImageManager::ImageName imageName, const int32_t animationCount, const Vector2& UIpos) {
 	std::vector<Sprite*> sprites;
@@ -34,6 +35,7 @@ void GameScene::Initialize()
 	}
 	//light->SetCircleShadowActive(0, true);
 	Object3d::SetLight(light_.get());
+	SoundManager::GetIns()->PlaySE(SoundManager::SEKey::gameover, 0.5f);
 
 	postEffectNo_ = PostEffect::NONE;
 
@@ -570,6 +572,7 @@ void GameScene::SceneChange()
 			towerBreakAnimeTimer_ = 0;
 		}
 		if (gameOverTimer_ >= gameOverTime * 4) {
+			SoundManager::GetIns()->PlaySE(SoundManager::SEKey::rockBreak, 0.5f);
 			isOver = true;
 		}
 	}
@@ -585,6 +588,10 @@ void GameScene::SceneChange()
 	{
 		SceneManager::SceneChange(SceneManager::SceneName::Over);
 
+	}
+
+	if (KeyInput::GetIns()->TriggerKey(DIK_C)) {
+		SceneManager::SceneChange(SceneManager::SceneName::Result);
 	}
 }
 
