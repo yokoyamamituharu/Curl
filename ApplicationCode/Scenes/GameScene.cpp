@@ -261,12 +261,24 @@ void GameScene::Update()
 					if (mapChip2D->GetFlag(i, j) == true) {
 						bool flag = mapChip2D->GetFlag(i, j);
 						int flag2 = mapChip2D->GetChipData(i, j)->GetCost();
-						if (flag && (int)MapInfo::NONE == flag2) {
+						if (flag && (int)MapInfo::NONE == flag2 && bloodMapChip[i][j] == 0) {
 							Vector2 pos = mapChip2D->GetChipPos(i, j);
 							player_->Shot(scrollCamera_, { pos.x,pos.y });
 							break;
 						}
 					}
+				}
+			}
+
+			for (int i = 0; i < 43; i++) {
+				for (int j = 0; j < 52; j++) {
+					bloodMapChip[i][j] = 0;
+				}
+			}
+			for (std::unique_ptr<Blood>& blood : player_->GetBloods()) {
+				if (blood->GetState() == (int)Blood::State::idle) {
+					Vector2 vec2 = { blood->GetPos().x / 64,blood->GetPos().y / 64 };
+					bloodMapChip[(int)vec2.y][(int)vec2.x] = 1;
 				}
 			}
 		}
