@@ -34,6 +34,10 @@ public: //サブクラス
 		syukketu,
 		enemyDamage,
 		sekihiDamage,
+		gameclear,
+		gameover,
+		rockBreak,
+		walk,
 	};
 
 public:  //静的メンバ関数
