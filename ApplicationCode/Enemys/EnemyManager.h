@@ -39,7 +39,7 @@ public:
 
 	void EnemyCreate(const int phase, Cell cell);
 
-	void EnemyHitBlood(Player* player);
+	void EnemyHitBlood();
 
 	void EnemyHitTower();
 

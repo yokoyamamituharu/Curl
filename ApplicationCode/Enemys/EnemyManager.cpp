@@ -59,7 +59,7 @@ void EnemyManager::Update(int32_t towerHp, int playerHp, Vector2 camera, Cell ce
 	}
 
 	//ŒŒ‚Æ‚Ì“–‚½‚è”»’è
-	EnemyHitBlood(player);
+	EnemyHitBlood();
 
 	//Ô‚Æ‚Ì“–‚½‚è”»’è
 	//EnemyHitTower();
@@ -110,7 +110,7 @@ void EnemyManager::EnemyCreate(const int phase, Cell cell)
 	//enemys3_.push_back(Enemy::UniqueCreate());
 }
 
-void EnemyManager::EnemyHitBlood(Player* player)
+void EnemyManager::EnemyHitBlood()
 {
 
 	for (unique_ptr<VampireEnemy>& vampire : Vampires_)
@@ -129,7 +129,7 @@ void EnemyManager::EnemyHitBlood(Player* player)
 				deadCount++;
 				//SE
 				SoundManager::GetIns()->PlaySE(SoundManager::SEKey::enemyDamage, 0.6f);
-				BreakBlood(vampire->Getpos(), player);
+				//BreakBlood(vampire->Getpos(), player);
 				//ŒŒ‚ğ‚Ü‚«U‚ç‚·
 			}
 
