@@ -83,6 +83,7 @@ void GameScene::Initialize()
 	poseButton_ = Button::CreateUniqueButton(ImageManager::ImageName::Pause, { 64,24 }, { 100,100 }, 0);
 	poseBackButton_ = Button::CreateUniqueButton(ImageManager::ImageName::Back, { 100,300 }, { 100,100 }, 0);
 	titleButton_ = Button::CreateUniqueButton(ImageManager::ImageName::TitleBack, { 100,400 }, { 100,100 }, 0);
+	particle_ = ParticleManager2d::UniquePtrCreate();
 
 	camera2D = new Camera2D();
 	camera2D->InitializeCamera(WinApp::window_width, WinApp::window_height);
@@ -123,6 +124,14 @@ void GameScene::Update()
 
 		}
 	}
+
+	static int32_t timer = 0;
+	if (timer++ > 10) {
+		particle_->Add(50, player_->GetPosition(), { 0, -1 }, { 0, 0 }, { 15.0f, 15.0f }, { 0.0f, 0.0f }, { 1.0f, 0.0f, 0.0f }, {1.0f, 1.0f, 1.0f});
+		timer = 0;
+	}
+
+	particle_->Update();
 	poseButton_->Update();
 	tower_->Update();
 
@@ -345,6 +354,7 @@ void GameScene::Draw()
 	mapChip2D->Draw();
 	marker_->Draw();
 	enemys_->Draw();
+	particle_->Draw();
 
 	Sprite::PostDraw();
 	postEffect_->PostDrawScene(DirectXSetting::GetIns()->GetCmdList());

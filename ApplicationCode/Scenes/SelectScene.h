@@ -36,5 +36,7 @@ private: //メンバ変数
 	std::unique_ptr<Button> tutorial_;
 	//ステージ1ボタン
 	std::unique_ptr<Button> stage1_;
+	// 背景画像
+	std::unique_ptr<Sprite> stageSelect_ = nullptr;
 };
 

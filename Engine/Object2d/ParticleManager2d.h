@@ -10,25 +10,29 @@ class ParticleManager2d
 public: //構造体
 	struct Particle2d {
 		//座標
-		Vector2 pos_;
+		Vector2 pos_ = { 0, 0 };
+		//大きさ
+		Vector2 size_ = { 1, 1 };
+		//回転
+		float rot_ = 0.0f;
 		//速度ベクトル
-		Vector2 velocity_;
+		Vector2 velocity_ = { 0, 0 };
 		//加速度
-		Vector2 accel_;
+		Vector2 accel_ = { 0, 0 };
 		//色
-		Vector3 color_;
+		Vector3 color_ = {1, 1, 1};
 		//アルファ値
-		float alpha_;
+		float alpha_ = 1.0f;
 		//初期パラメータ
-		Vector3 start_Color_;
-		float start_Size_;
-		float start_Rot_;
-		float start_Alpha_;
+		Vector3 start_Color_ = {1, 1, 1};
+		Vector2 start_Size_ = {1, 1};
+		float start_Rot_ = 0.0f;
+		float start_Alpha_ = 1.0f;
 		//最終パラメータ
-		Vector3 end_Color_;
-		float end_Size_;
-		float end_Rot_;
-		float end_Alpha_;
+		Vector3 end_Color_ = {1, 1, 1};
+		Vector2 end_Size_ = {0, 0};
+		float end_Rot_ = 0.0f;
+		float end_Alpha_ = 0.0f;
 		//現在フレーム
 		int32_t nowFrame_;
 		//最終フレーム
@@ -69,7 +73,7 @@ public: //メンバ関数
 	/// パーティクル追加
 	/// </summary>
 	/// <param name="particle">パーティクル</param>
-	void Add(const Particle2d& particle);
+	void Add(int32_t life, Vector2 position, Vector2 velocity, Vector2 accel, Vector2 start_scale = { 1.0f, 1.0f }, Vector2 end_scale = {1.0f, 1.0f}, Vector3 start_color = { 1.0f, 1.0f, 1.0f }, Vector3 end_color = { 0.0f, 0.0f, 0.0f }, float start_alpha = 1.0f, float end_alpha = 0.0f);
 
 private: //メンバ変数
 	//パーティクルリスト
