@@ -89,7 +89,8 @@ void GameScene::Initialize()
 	Sprite::SetCamera2D(camera2D);
 
 	timer_ = new Timer();
-	timer_->Initialize(60 * 1);
+	timer_->Initialize(60 * 60);
+	
 
 	enemys_ = EnemyManager::Create();
 	messageWindow_ = MessageWindow::UniquePtrCreate();
@@ -104,6 +105,11 @@ void GameScene::Initialize()
 		enemys_->EnemySpawnDataLoad("Stage1_EnemySpawnData.csv");
 	}
 
+	if (isTutorial_ == false)
+	{
+		timer_->SetIsWatchOpen(true);
+		timer_->SetIsTimerStart(true);
+	}
 	mapChip2D = MapChip2D::Create();
 	mapChip2D->Ins();
 	for (int i = 0; i < 43; i++)
@@ -132,6 +138,8 @@ void GameScene::Update()
 		if (SceneManager::GetStageNo() == 0) {
 
 		}
+		timer_->SetIsWatchOpen(true);
+		timer_->SetIsTimerStart(true);
 	}
 
 	static int32_t timer = 0;
@@ -169,15 +177,6 @@ void GameScene::Update()
 
 	if (KeyInput::GetIns()->TriggerKey(DIK_M)) {
 		debugMuteki = !debugMuteki;
-	}
-	if (KeyInput::GetIns()->TriggerKey(DIK_O)) {
-		timer_->SetIsWatchOpen(true);
-	}
-	else if (KeyInput::GetIns()->TriggerKey(DIK_C)) {
-		timer_->SetIsWatchOpen(false);
-	}
-	if (KeyInput::GetIns()->TriggerKey(DIK_S)) {
-		timer_->SetIsTimerStart(true);
 	}
 
 	if (poseBreak) {
@@ -282,7 +281,7 @@ void GameScene::Update()
 			}
 		}
 	}
-
+	HitMapAndPlayer();
 	//enemy_->Update();
 	scrollCamera_->Update(player_->GetPosition());
 	reticleSprite_->SetPosition({ (float)MouseInput::GetIns()->GetMousePoint().x,(float)MouseInput::GetIns()->GetMousePoint().y });
@@ -398,9 +397,20 @@ void GameScene::HitMapAndPlayer()
 			if (mapChip2D->GetMapChipData(i, j) == (int)MapInfo::WALL)
 			{
 				bool isHit = Collision::HitBox(mapChip2D->GetChipPos(i, j)
-					, 32, player_->GetPosition(), 64);
+					, 30, player_->GetPosition(), { 32,32 });
 				if (isHit)
 				{
+					player_->SetOldPos();
+				}
+			}
+
+			if (mapChip2D->GetMapChipData(i, j) == (int)MapInfo::GORL)
+			{
+				bool isHit = Collision::HitBox(mapChip2D->GetChipPos(i, j)
+					, 32, player_->GetPosition(), { 32,32 });
+				if (isHit)
+				{
+					player_->SetOldPos();
 
 				}
 			}
@@ -545,6 +555,11 @@ void GameScene::SceneChange()
 		SceneManager::SceneChange(SceneManager::SceneName::Over);
 
 	}
+	else if (timer_->IsTimeOver())
+	{
+		SceneManager::SceneChange(SceneManager::SceneName::Result);
+	}
+
 }
 
 void GameScene::RoadPlayer()

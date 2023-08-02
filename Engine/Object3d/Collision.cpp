@@ -30,6 +30,24 @@ bool Collision::HitBox(XMFLOAT2 box, int boxSize, XMFLOAT2 point, int pointSize)
 	return flag;
 }
 
+bool Collision::HitBox(XMFLOAT2 box, int boxSize, XMFLOAT2 point, XMFLOAT2 size)
+{
+	bool flag = 0;
+	if (box.x - boxSize < point.x + size.x &&
+		box.x + boxSize > point.x - size.x)
+	{
+		if (box.y - boxSize < point.y + size.y &&
+			box.y + boxSize > point.y - size.y)
+		{
+			flag = true;
+		}
+	}
+
+
+	return flag;
+}
+
+
 DirectX::XMFLOAT2 Collision::HitCrossWindows(XMFLOAT2 enemyPos, int flag)
 {
 	

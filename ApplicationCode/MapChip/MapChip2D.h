@@ -25,7 +25,7 @@ public:
 
 	int GetCost(int sizeY, int sizeX) { return chipData[sizeY][sizeX]->GetCost(); }
 
-	int GetMapChipData(int sizeY, int sizeX) { return mapChipData[sizeX][sizeY]; }
+	int GetMapChipData(int sizeY, int sizeX) { return mapChipData[sizeY][sizeX]; }
 
 	XMFLOAT2 GetTowerPos()
 	{
