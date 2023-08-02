@@ -207,9 +207,11 @@ void Player::Shot(ScrollCamera* camera, Vector2 pos) {
 	if (bloods_.size() >= maxBlood_) return;
 
 	if (MouseInput::GetIns()->PushClick(MouseInput::LEFT_CLICK) && shotDiray_ <= 0 || PadInput::GetIns()->TriggerButton(PadInput::Button_RS) && shotDiray_ <= 0) {
-		float playerYSize = 60;
-		if (pos.x != -100) {
+		constexpr float playerYSize = 60.f;
+		if (pos.x != -100.0f) {
 			bloods_.push_back(Blood::UniquePtrCreate({ position_.x,position_.y - playerYSize / 2 }, Blood::Temperature::liquid, pos, &position_));
+			// SE
+			SoundManager::GetIns()->PlaySE(SoundManager::SEKey::syukketu, 0.1f);
 		}
 		else {
 			Vector2 cursolPos = MouseInput::GetIns()->ClientToPostEffect() + camera->GetPosition();

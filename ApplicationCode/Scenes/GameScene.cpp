@@ -262,6 +262,7 @@ void GameScene::HitBloodAndEnemys()
 				}
 				vampire->SetBloadHitFlag(isHit);
 				vampire->SetBloodType(blood->GetTemperature());
+				SoundManager::GetIns()->PlaySE(SoundManager::SEKey::enemyDamage, 0.1f);
 			}
 		}
 	}
@@ -280,6 +281,7 @@ void GameScene::HitBloodAndEnemys()
 				}
 				basilisk->SetBloadHitFlag(isHit);
 				basilisk->SetBloodType(blood->GetTemperature());
+				SoundManager::GetIns()->PlaySE(SoundManager::SEKey::enemyDamage, 0.1f);
 			}
 		}
 	}
@@ -298,6 +300,7 @@ void GameScene::HitBloodAndEnemys()
 				}
 				rabbit->SetBloadHitFlag(isHit);
 				rabbit->SetBloodType(blood->GetTemperature());
+				SoundManager::GetIns()->PlaySE(SoundManager::SEKey::enemyDamage, 0.1f);
 			}
 		}
 	}
@@ -316,6 +319,7 @@ void GameScene::HitTowerAndEnemys()
 			tower_->OnCollision();
 			vampire->OnCollision();
 			towerUIAnimationCount_++;
+			SoundManager::GetIns()->PlaySE(SoundManager::SEKey::sekihiDamage, 0.1f);
 		}
 	}
 
@@ -327,6 +331,7 @@ void GameScene::HitTowerAndEnemys()
 			tower_->OnCollision();
 			basilisk->OnCollision();
 			towerUIAnimationCount_++;
+			SoundManager::GetIns()->PlaySE(SoundManager::SEKey::sekihiDamage, 0.1f);
 		}
 	}
 
@@ -338,6 +343,7 @@ void GameScene::HitTowerAndEnemys()
 			tower_->OnCollision();
 			rabbit->OnCollision();
 			towerUIAnimationCount_++;
+			SoundManager::GetIns()->PlaySE(SoundManager::SEKey::sekihiDamage, 0.1f);
 		}
 	}
 }
