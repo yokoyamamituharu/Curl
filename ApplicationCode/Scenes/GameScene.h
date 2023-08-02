@@ -56,6 +56,11 @@ public: //メンバ関数
 	void HitTowerAndEnemys();
 
 	/// <summary>
+	/// マップとプレイヤーの当たり判定
+	/// </summary>
+	void HitMapAndPlayer();
+
+	/// <summary>
 	/// 描画処理
 	/// </summary>
 	void Draw();

@@ -268,8 +268,10 @@ bool Player::Move(ScrollCamera* camera) {
 	if (KeyInput::GetIns()->PushKey(DIK_W) || PadInput::GetIns()->leftStickY() <= -0.5f) {
 		Vector2 cursolPos = MouseInput::GetIns()->ClientToPostEffect() + camera->GetPosition();
 		Vector2 playerPos = position_;
+		Vector2 oldPlayerPos = position_;
 		//プレイヤーと目的地（カーソルの位置）が近かったら移動処理をしない（プレイヤーがカーソルの位置で往復を繰り返してしまうから）
 		float length = sqrtf((cursolPos.x - playerPos.x) * (cursolPos.x - playerPos.x) + (cursolPos.y - playerPos.y) * (cursolPos.y - playerPos.y));
+
 		if (length > 1.0f) {
 			Vector2 vec = cursolPos - playerPos;
 			vec.normalize();

@@ -30,12 +30,12 @@ void EnemyManager::Update(int32_t towerHp, int playerHp, Vector2 camera, Cell ce
 	//¶¬ŠÔ‚ÌŒ¸Y
 	enemyCreateTime--;
 	if (deadCount >= 30)gameFlag = TRUE;
-	EnemySpawnDataUpdate(cell);
-	//¶¬ŠÔ‚ª0–¢–‚©‚ÂÔ,ƒvƒŒƒCƒ„[‚ÌHP‚ª1ˆÈã‚©‚Â‘—Ê‚ª72–¢–‚Ìê‡“G‚ğ¶¬
-	if ((towerHp > 0 || playerHp > 0) && enemyNumber_ < 72 && enemyCreateTime < 0)
+	//EnemySpawnDataUpdate(cell);
+	//¶¬ŠÔ‚ª0–¢–‚©‚ÂÔ,ƒvƒŒƒCƒ„[‚ÌHP‚ª1ˆÈã‚©‚Â‘—Ê‚ª30–¢–‚Ìê‡“G‚ğ¶¬
+	if ((towerHp > 0 || playerHp > 0) && enemyNumber_ < 30 && enemyCreateTime < 0)
 	{
 		//“G‚ğ¶¬
-		//EnemyCreate(3);
+		EnemyCreate(3, cell);
 		//“G‚Ì‘—Ê‚ğ‰ÁZ
 		enemyNumber_++;
 		//”­¶ŠÔƒ‰ƒ“ƒ_ƒ€‘ã“ü

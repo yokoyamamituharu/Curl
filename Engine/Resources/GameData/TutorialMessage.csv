@@ -129,7 +129,7 @@ TEXT では改めてこちらに向かってこい
 SPEED 3
 WAIT 30
 
-IF MOVE 640 360 100
+IF MOVE x y 100
 TEXT 矢印の方向に向かおう
 SPEED 2
 WAIT 1

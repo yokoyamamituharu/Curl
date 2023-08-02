@@ -9,6 +9,7 @@ SoundManager* SoundManager::GetIns()
 void SoundManager::Initialize(Sound* sound)
 {
 	this->sound_ = sound;
+	//LoadBGM("", BGMKey::rrrrr);
 }
 
 void SoundManager::PlayBGM(const BGMKey bgmKey, const bool isRoop, const float volume)

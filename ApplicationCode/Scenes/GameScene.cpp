@@ -88,6 +88,8 @@ void GameScene::Initialize()
 	Sprite::SetCamera2D(camera2D);
 
 	timer_ = new Timer();
+	
+	
 	timer_->Initialize(60 * 20);
 
 	enemys_ = EnemyManager::Create();
@@ -116,7 +118,7 @@ void GameScene::Initialize()
 	AStar::GetInstance()->Initialize(getCost_);
 	tower_ = new Tower;
 	tower_->Initialize(towerHP, mapChip2D->GetTowerPos());
-	marker_ = ArrowMarker::Create({ 640, 360 });
+	marker_ = ArrowMarker::Create(tower_->GetPos());
 }
 
 void GameScene::Update()
@@ -298,6 +300,29 @@ void GameScene::HitTowerAndEnemys()
 			towerUIAnimationCount_++;
 		}
 	}
+}
+
+void GameScene::HitMapAndPlayer()
+{
+	//64
+	for (int i = 0; i < 43; i++)
+	{
+		for (int j = 0; j < 52; j++)
+		{
+			if (mapChip2D->GetMapChipData(i, j) == (int)MapInfo::WALL)
+			{
+				bool isHit = Collision::HitBox(mapChip2D->GetChipPos(i, j)
+					, 32, player_->GetPosition(), 64);
+				if (isHit)
+				{
+
+				}
+			}
+		}
+	}
+	
+
+
 }
 
 void GameScene::Draw()
