@@ -72,13 +72,43 @@ void GameScene::Initialize()
 	bloodGaugeSprite_->SetLeftSizeCorrection(true);
 	bloodGaugeSprite_->SetUi(true);
 	// 体温
-	ultGaugeSprite_ = Sprite::UniquePtrCreate(UINT(ImageManager::ImageName::ultGaugeNumber), { 1196,375 });
-	ultGaugeSprite_->SetLeftSizeCorrection(true);
-	ultGaugeSprite_->SetUi(true);
+	ultGaugeSprite_[0] = Sprite::UniquePtrCreate(UINT(ImageManager::ImageName::ultGaugeNumber), { 1196,375 }, { 0.0f, 0.0f, 1.0f, 1.0f });
+	ultGaugeSprite_[0]->SetLeftSizeCorrection(true);
+	ultGaugeSprite_[0]->SetUi(true);
+	ultGaugeSprite_[1] = Sprite::UniquePtrCreate(UINT(ImageManager::ImageName::ultGaugeNumber), { 1196,375 }, { 0.0f, 0.0f, 1.0f,1.0f });
+	ultGaugeSprite_[1]->SetLeftSizeCorrection(true);
+	ultGaugeSprite_[1]->SetUi(true);
+	ultGaugeSprite_[2] = Sprite::UniquePtrCreate(UINT(ImageManager::ImageName::ultGaugeNumber), { 1196,375 }, { 1.0f, 0.5f, 1.0f,1.0f });
+	ultGaugeSprite_[2]->SetLeftSizeCorrection(true);
+	ultGaugeSprite_[2]->SetUi(true);
+	ultGaugeSprite_[3] = Sprite::UniquePtrCreate(UINT(ImageManager::ImageName::ultGaugeNumber), { 1196,375 }, { 1.0f, 0.5f, 0.0f,1.0f });
+	ultGaugeSprite_[3]->SetLeftSizeCorrection(true);
+	ultGaugeSprite_[3]->SetUi(true);
+	ultGaugeSprite_[4] = Sprite::UniquePtrCreate(UINT(ImageManager::ImageName::ultGaugeNumber), { 1196,375 }, { 1.0f, 0.5f, 0.5f,1.0f });
+	ultGaugeSprite_[4]->SetLeftSizeCorrection(true);
+	ultGaugeSprite_[4]->SetUi(true);
+	ultGaugeSprite_[5] = Sprite::UniquePtrCreate(UINT(ImageManager::ImageName::ultGaugeNumber), { 1196,375 }, { 0.5f, 0.5f, 0.5f,1.0f });
+	ultGaugeSprite_[5]->SetLeftSizeCorrection(true);
+	ultGaugeSprite_[5]->SetUi(true);
+
+	color[0] = { 1.0f, 0.0f, 0.0f };
+	color[1] = { 1.0f,1.0f,0.0f };
+	color[2] = { 0.5f, 0.5f,1.0f };
+	color[3] = { 1.0f, 0.0f, 1.0f };
+	color[4] = { 0.5f, 1.0f,0.5f };
+	color[5] = { 0.5f, 0.5f,0.5f };
+
+	ultGaugeSprite_[0]->SetColor(color[0]);
+	ultGaugeSprite_[1]->SetColor(color[1]);
+	ultGaugeSprite_[2]->SetColor(color[2]);
+	ultGaugeSprite_[3]->SetColor(color[3]);
+	ultGaugeSprite_[4]->SetColor(color[4]);
+	ultGaugeSprite_[5]->SetColor(color[5]);
+
 	// オーバーヒート状態
-	overheatSprite_ = Sprite::UniquePtrCreate(UINT(ImageManager::ImageName::overheatNumber), { 1196,375 });
-	overheatSprite_->SetLeftSizeCorrection(true);
-	overheatSprite_->SetUi(true);
+	//overheatSprite_ = Sprite::UniquePtrCreate(UINT(ImageManager::ImageName::overheatNumber), { 1196,375 });
+	//overheatSprite_->SetLeftSizeCorrection(true);
+	//overheatSprite_->SetUi(true);
 
 	poseButton_ = Button::CreateUniqueButton(ImageManager::ImageName::Pause, { 64,24 }, { 100,100 }, 0);
 	poseBackButton_ = Button::CreateUniqueButton(ImageManager::ImageName::Back, { 100,300 }, { 100,100 }, 0);
@@ -140,23 +170,48 @@ void GameScene::Update()
 			float fNum = (float)RandCreate::sGetRandFloat(-5, 5);
 			for (int i = 0; i < iNum; i++) {
 				Vector2 vec2 = { (float)RandCreate::sGetRandFloat(-10, 10), (float)RandCreate::sGetRandFloat(-10, 10) };
-				particle_->Add(50, player_->GetPosition() + vec2, { 0, -1 }, { 0, 0 },{ 15.0f + fNum, 15.0f + fNum }, { 0.0f, 0.0f }, { 1.0f, 0.0f, 0.0f }, { 1.0f, 1.0f, 1.0f });
+				particle_->Add(50, player_->GetPosition() + vec2, { 0, -1 }, { 0, 0 }, { 15.0f + fNum, 15.0f + fNum }, { 0.0f, 0.0f }, color[0], { 1.0f, 1.0f, 1.0f });
 			}
 		}
 		else if (player_->GetUltLevel() == 1) {
-			particle_->Add(50, player_->GetPosition(), { 0, -1 }, { 0, 0 }, { 15.0f, 15.0f }, { 0.0f, 0.0f }, { 1.0f, 0.0f, 0.0f }, { 1.0f, 1.0f, 1.0f });
+			int iNum = (int)RandCreate::sGetRandFloat(1, 2);
+			float fNum = (float)RandCreate::sGetRandFloat(-5, 5);
+			for (int i = 0; i < iNum; i++) {
+				Vector2 vec2 = { (float)RandCreate::sGetRandFloat(-10, 10), (float)RandCreate::sGetRandFloat(-10, 10) };
+				particle_->Add(50, player_->GetPosition() + vec2, { 0, -1 }, { 0, 0 }, { 15.0f + fNum, 15.0f + fNum }, { 0.0f, 0.0f }, color[1], { 1.0f, 1.0f, 1.0f });
+			}
 		}
 		else if (player_->GetUltLevel() == 2) {
-			particle_->Add(50, player_->GetPosition(), { 0, -1 }, { 0, 0 }, { 15.0f, 15.0f }, { 0.0f, 0.0f }, { 0.5f, 0.5f,1.0f }, { 1.0f, 1.0f, 1.0f });
+			int iNum = (int)RandCreate::sGetRandFloat(1, 2);
+			float fNum = (float)RandCreate::sGetRandFloat(-5, 5);
+			for (int i = 0; i < iNum; i++) {
+				Vector2 vec2 = { (float)RandCreate::sGetRandFloat(-10, 10), (float)RandCreate::sGetRandFloat(-10, 10) };
+				particle_->Add(50, player_->GetPosition() + vec2, { 0, -1 }, { 0, 0 }, { 15.0f + fNum, 15.0f + fNum }, { 0.0f, 0.0f }, color[2], { 1.0f, 1.0f, 1.0f });
+			}
 		}
 		else if (player_->GetUltLevel() == 3) {
-			particle_->Add(50, player_->GetPosition(), { 0, -1 }, { 0, 0 }, { 15.0f, 15.0f }, { 0.0f, 0.0f }, { 1.0f, 0.0f, 0.0f }, { 1.0f, 1.0f, 1.0f });
+			int iNum = (int)RandCreate::sGetRandFloat(1, 2);
+			float fNum = (float)RandCreate::sGetRandFloat(-5, 5);
+			for (int i = 0; i < iNum; i++) {
+				Vector2 vec2 = { (float)RandCreate::sGetRandFloat(-10, 10), (float)RandCreate::sGetRandFloat(-10, 10) };
+				particle_->Add(50, player_->GetPosition() + vec2, { 0, -1 }, { 0, 0 }, { 15.0f + fNum, 15.0f + fNum }, { 0.0f, 0.0f }, color[3], { 1.0f, 1.0f, 1.0f });
+			}
 		}
 		else if (player_->GetUltLevel() == 4) {
-			particle_->Add(50, player_->GetPosition(), { 0, -1 }, { 0, 0 }, { 15.0f, 15.0f }, { 0.0f, 0.0f }, { 0.5f, 1.0f,0.5f }, { 1.0f, 1.0f, 1.0f });
+			int iNum = (int)RandCreate::sGetRandFloat(1, 2);
+			float fNum = (float)RandCreate::sGetRandFloat(-5, 5);
+			for (int i = 0; i < iNum; i++) {
+				Vector2 vec2 = { (float)RandCreate::sGetRandFloat(-10, 10), (float)RandCreate::sGetRandFloat(-10, 10) };
+				particle_->Add(50, player_->GetPosition() + vec2, { 0, -1 }, { 0, 0 }, { 15.0f + fNum, 15.0f + fNum }, { 0.0f, 0.0f }, color[4], { 1.0f, 1.0f, 1.0f });
+			}
 		}
 		else if (player_->GetUltLevel() == 5) {
-			particle_->Add(50, player_->GetPosition(), { 0, -1 }, { 0, 0 }, { 15.0f, 15.0f }, { 0.0f, 0.0f }, { 0.5f, 0.5f,0.5f }, { 1.0f, 1.0f, 1.0f });
+			int iNum = (int)RandCreate::sGetRandFloat(1, 2);
+			float fNum = (float)RandCreate::sGetRandFloat(-5, 5);
+			for (int i = 0; i < iNum; i++) {
+				Vector2 vec2 = { (float)RandCreate::sGetRandFloat(-10, 10), (float)RandCreate::sGetRandFloat(-10, 10) };
+				particle_->Add(50, player_->GetPosition() + vec2, { 0, -1 }, { 0, 0 }, { 15.0f + fNum, 15.0f + fNum }, { 0.0f, 0.0f }, color[5], { 1.0f, 1.0f, 1.0f });
+			}
 		}
 		timer = 0;
 	}
@@ -166,7 +221,7 @@ void GameScene::Update()
 	tower_->Update();
 
 	if (KeyInput::GetIns()->TriggerKey(DIK_M)) {
-		debugMuteki = !debugMuteki;
+		//debugMuteki = !debugMuteki;
 	}
 	if (KeyInput::GetIns()->TriggerKey(DIK_O)) {
 		timer_->SetIsWatchOpen(true);
@@ -199,12 +254,11 @@ void GameScene::Update()
 		}
 	}
 	else {
+		//マップチップの位置に血を発射する
 		if (poseBreak == false) {
-			//マップチップの位置に血を発射する
 			for (int i = 0; i < 43; i++) {
 				for (int j = 0; j < 52; j++) {
-					if (mapChip2D->GetFlag(i, j) == true)
-					{
+					if (mapChip2D->GetFlag(i, j) == true) {
 						bool flag = mapChip2D->GetFlag(i, j);
 						int flag2 = mapChip2D->GetChipData(i, j)->GetCost();
 						if (flag && (int)MapInfo::NONE == flag2) {
@@ -222,11 +276,13 @@ void GameScene::Update()
 		int bloodGauge = player_->GetBloodGauge();
 		//						横幅(1090)を10で割った数,縦幅
 		bloodGaugeSprite_->SetSize({ (float)1090 / player_->GetMaxBloodGauge() * bloodGauge,27 });							// 血量バーの大きさを変える
-		float u = player_->GetUltGauge();
-		const float ultSpriteMaxSizeX = 36.f; const float ultSpriteMaxSizeY = 336.f;
-		ultGaugeSprite_->SetSize({ ultSpriteMaxSizeX,(ultSpriteMaxSizeY / player_->GetUltMaxGauge()) * -u });	// 体温バーの大きさを変える
+		for (int i = 0; i < 6; i++) {
+			float u = player_->GetUltGaugeM(i);
+			const float ultSpriteMaxSizeX = 36.0f; const float ultSpriteMaxSizeY = 336.0f;
+			ultGaugeSprite_[i]->SetSize({ ultSpriteMaxSizeX,(ultSpriteMaxSizeY / player_->GetUltMaxGauge()) * -u });	// 体温バーの大きさを変える
+		}
 
-		overheatSprite_->SetSize({ ultSpriteMaxSizeX,(ultSpriteMaxSizeY / player_->GetUltMaxGauge()) * -u });	// 体温バーの大きさを変える
+		//overheatSprite_->SetSize({ ultSpriteMaxSizeX,(ultSpriteMaxSizeY / player_->GetUltMaxGauge()) * -u });	// 体温バーの大きさを変える
 		messageWindow_->Update(player_->GetPosition(), 32);
 		if (messageWindow_->GetCountTarget() == L"ULT") {
 			messageWindow_->SetCounter(player_->GetUltGauge());
@@ -248,24 +304,24 @@ void GameScene::Update()
 	mapChip2D->Update(GetWorldMousePos());
 
 
-	if (player_->GetUltLevel() == 0) {
-		overheatSprite_->SetColor({ 1.0f, 1.0f,1.0f });
-	}
-	else if (player_->GetUltLevel() == 1) {
-		overheatSprite_->SetColor({ 1.0f, 1.0f,1.0f });
-	}
-	else if (player_->GetUltLevel() == 2) {
-		overheatSprite_->SetColor({ 1.0f, 0.0f,1.0f });
-	}
-	else if (player_->GetUltLevel() == 3) {
-		overheatSprite_->SetColor({ 0.5f, 0.5f,1.0f });
-	}
-	else if (player_->GetUltLevel() == 4) {
-		overheatSprite_->SetColor({ 0.5f, 1.0f,0.5f });
-	}
-	else if (player_->GetUltLevel() == 5) {
-		overheatSprite_->SetColor({ 0.5f, 0.5f,0.5f });
-	}
+	//if (player_->GetUltLevel() == 0) {
+	//	overheatSprite_->SetColor({ 1.0f, 1.0f,1.0f });
+	//}
+	//else if (player_->GetUltLevel() == 1) {
+	//	overheatSprite_->SetColor({ 1.0f, 1.0f,1.0f });
+	//}
+	//else if (player_->GetUltLevel() == 2) {
+	//	overheatSprite_->SetColor({ 1.0f, 0.0f,1.0f });
+	//}
+	//else if (player_->GetUltLevel() == 3) {
+	//	overheatSprite_->SetColor({ 0.5f, 0.5f,1.0f });
+	//}
+	//else if (player_->GetUltLevel() == 4) {
+	//	overheatSprite_->SetColor({ 0.5f, 1.0f,0.5f });
+	//}
+	//else if (player_->GetUltLevel() == 5) {
+	//	overheatSprite_->SetColor({ 0.5f, 0.5f,0.5f });
+	//}
 
 	//enemy_->Update();
 	scrollCamera_->Update(player_->GetPosition());
@@ -418,7 +474,7 @@ void GameScene::Draw()
 
 	std::wstring wstr3 = std::to_wstring(scrollCamera_->GetPosition().x);
 	std::wstring wstr4 = std::to_wstring(scrollCamera_->GetPosition().y);
-	text_->Draw("meiryo", "white", wstr1 + L"\n" + wstr2 + L"\n" + wstr3 + L"\n" + wstr4, textDrawRange);
+	//text_->Draw("meiryo", "white", wstr1 + L"\n" + wstr2 + L"\n" + wstr3 + L"\n" + wstr4, textDrawRange);
 	if (!pose_) {
 		messageWindow_->TextMessageDraw();
 	}
@@ -433,9 +489,11 @@ void GameScene::Draw()
 	Sprite::PreDraw(DirectXSetting::GetIns()->GetCmdList());
 	poseButton_->Draw();
 	GameSprite1_->Draw();
-	ultGaugeSprite_->Draw();
+	for (int i = 0; i < 6; i++) {
+		ultGaugeSprite_[i]->Draw();
+	}
 	if (player_->GetUltState()) {
-		overheatSprite_->Draw();
+		//overheatSprite_->Draw();
 	}
 	GameSprite2_->Draw();
 	//GameSprite3_->Draw();
