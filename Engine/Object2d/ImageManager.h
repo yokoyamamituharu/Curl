@@ -75,6 +75,8 @@ public: //‰æ‘œ–¼
 		mapChipTest2,
 		mapChipTest3,
 		droppedLiquid
+		droppedLiquid,
+		towerBreak
 	};
 
 public: //ƒƒ“ƒoŠÖ”

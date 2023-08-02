@@ -9,7 +9,14 @@ SoundManager* SoundManager::GetIns()
 void SoundManager::Initialize(Sound* sound)
 {
 	this->sound_ = sound;
-	//LoadBGM("", BGMKey::rrrrr);
+
+	LoadSE("Engine/Resources/Sound/SE/kettei.wav", SEKey::kettei);
+	LoadSE("Engine/Resources/Sound/SE/kanpa.wav", SEKey::kanpa);
+	LoadSE("Engine/Resources/Sound/SE/neppa.wav", SEKey::neppa);
+	LoadSE("Engine/Resources/Sound/SE/syukketu.wav", SEKey::syukketu);
+	LoadSE("Engine/Resources/Sound/SE/enemyDamage.wav", SEKey::enemyDamage);
+	LoadSE("Engine/Resources/Sound/SE/sekihiDamage.wav", SEKey::sekihiDamage);
+
 }
 
 void SoundManager::PlayBGM(const BGMKey bgmKey, const bool isRoop, const float volume)

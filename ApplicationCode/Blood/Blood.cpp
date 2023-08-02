@@ -135,7 +135,7 @@ void Blood::Decrease()
 
 void Blood::Draw()
 {
-	if (state_ == (int)State::idle && temp_ <= (int)Temperature::liquid) {
+	if (state_ == (int)State::idle && temp_ == (int)Temperature::liquid) {
 		sprites_[(int)Temperature::droppedLiquid]->Draw();
 	}
 	else {

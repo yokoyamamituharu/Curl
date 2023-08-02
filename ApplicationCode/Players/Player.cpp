@@ -7,6 +7,7 @@
 #include <math.h>
 #include "KeyInputHandler.h"
 #include "BaseEnemy.h"
+#include "SoundManager.h"
 
 int32_t Player::frontAnimationCount = 6;
 int32_t Player::backAnimationCount = 6;
@@ -52,7 +53,7 @@ Player* Player::Create(Vector2 pos, float rote, int hp, int maxBlood[], int spee
 	instance->handler_->Initialize(instance);
 	instance->position_ = pos;
 	instance->playerHp_ = hp;
-	for (int i = 0; i < sizeof(instance->ultMaxBlood_)/sizeof(instance->ultMaxBlood_[0]); i++) {
+	for (int i = 0; i < sizeof(instance->ultMaxBlood_) / sizeof(instance->ultMaxBlood_[0]); i++) {
 		instance->ultMaxBlood_[i] = maxBlood[i];
 		instance->ultSpeed_[i] = speed[i];
 	}
@@ -101,51 +102,43 @@ void Player::Update(ScrollCamera* camera) {
 	//使える血の残量を計算
 	bloodGauge_ = maxBlood_ - (int)bloods_.size();
 
-	// 体温最大でウルト状態
-	if (ultGauge >= ultMaxGauge) {
+	// 体温最大でウルトレベルを上げる
+	if (ultGauge[ultLevel_] >= ultMaxGauge) {
 		//一回だけ実行する処理		
-		if (ultState == false) {
-			if (ultLevel_ < 5) {
-				ultLevel_++;
-			}			
-			ultCharge_ = maxUltCharge_;
-			//maxBlood_ += 20;
-			//speed_ += 4;
+		//if (ultState == false) {
+		if (ultLevel_ < 5) {
+			ultLevel_++;
+			ultGauge[ultLevel_] = 0.0f;
 		}
+		//ultCharge_ = maxUltCharge_;		
+		//}
 		ultState = true;
 		// 体温0でウルト解除
 	}
-	else if (0 >= ultGauge) {
-		if (ultState)
-		{
-			//maxBlood_ -= 10;
-			//speed_ -= 2;
-		}
-		ultState = false;
-	}
 
 
-	// ウルト状態ならステータスを変える
-	if (ultState == true) {
-		ultDiray--;
-		// 時間でゲージ減らす
-		if (ultDiray <= 0) {
-			ultGauge--;			// ゲージを下げていく
-			ultDiray = maxUltDiray;
-		}
-	}
-	else if (ultState == false) {
-		//speed_ = initSpeed_; // 元のスピードに戻す
-	}
+	//// ウルト状態ならステータスを変える
+	//if (ultState == true) {
+	//	ultDiray--;
+	//	// 時間でゲージ減らす
+	//	if (ultDiray <= 0) {
+	//		ultGauge--;			// ゲージを下げていく
+	//		ultDiray = maxUltDiray;
+	//	}
+	//}
+	//else if (ultState == false) {
+	//	//speed_ = initSpeed_; // 元のスピードに戻す
+	//}
 
-	if (ultLevel_ > 0&& ultState) {
-		ultChargeDray_--;		
-		if (ultCharge_ <= 0) {			
-			ultCharge_--;
+	if (ultLevel_ > 0) {
+		ultChargeDray_--;
+		if (ultChargeDray_ <= 0) {
+			ultGauge[ultLevel_]--;
 			ultChargeDray_ = maxUltChargeDray_;
-			if (ultCharge_ <= 0) {
+			if (ultGauge[ultLevel_] <= 0) {
+				ultGauge[ultLevel_] = 0;
 				ultLevel_--;
-				ultCharge_ = maxUltCharge_;
+				ultGauge[ultLevel_] = ultMaxGauge - 1;
 			}
 		}
 	}
@@ -164,16 +157,15 @@ void Player::Update(ScrollCamera* camera) {
 		}
 		//血がプレイヤーの位置に戻ったらプレイヤーの体温を上げ血を消す
 		if (blood->GetState() == (int)Blood::State::heat) {
-			// ウルト状態でなければゲージを増やしていく
-			if (ultState == false) {
-				ultGauge++;
+			// ウルト状態でなければゲージを増やしていく			
+			ultGauge[ultLevel_]++;
+			ultChargeDray_ = maxUltChargeDray_;
 
-				// 体温が最大値を超えないようにする
-				if (ultGauge > ultMaxGauge) {
-					ultGauge = ultMaxGauge;
-				}
+			// 体温が最大値を超えないようにする
+			if (ultGauge[ultLevel_] >= ultMaxGauge) {
+				ultGauge[ultLevel_] = ultMaxGauge;
 			}
-			ultCharge_++;
+			//ultCharge_++;
 			blood->SetDead();
 		}
 
@@ -181,7 +173,7 @@ void Player::Update(ScrollCamera* camera) {
 		XMFLOAT2 pos2 = blood->GetPosition();
 		//熱波と血の当たり判定
 		float length = sqrtf((pos1.x - pos2.x) * (pos1.x - pos2.x) + (pos1.y - pos2.y) * (pos1.y - pos2.y));
-		if (heatExtend_ / 2 + 16 > length && isHeatWave_&&blood->GetState()!=(int)Blood::State::back&& blood->GetState() != (int)Blood::State::shot) blood->HeatWaveOnCollision();
+		if (heatExtend_ / 2 + 16 > length && isHeatWave_ && blood->GetState() != (int)Blood::State::back && blood->GetState() != (int)Blood::State::shot) blood->HeatWaveOnCollision();
 		//寒波と血の当たり判定
 		length = sqrtf((pos1.x - pos2.x) * (pos1.x - pos2.x) + (pos1.y - pos2.y) * (pos1.y - pos2.y));
 		if (coldExtend_ / 2 + 16 > length && isColdWave_ && blood->GetState() != (int)Blood::State::back && blood->GetState() != (int)Blood::State::shot) blood->ColdWaveOnCollision();
@@ -205,9 +197,11 @@ void Player::Shot(ScrollCamera* camera, Vector2 pos) {
 	if (bloods_.size() >= maxBlood_) return;
 
 	if (MouseInput::GetIns()->PushClick(MouseInput::LEFT_CLICK) && shotDiray_ <= 0 || PadInput::GetIns()->TriggerButton(PadInput::Button_RS) && shotDiray_ <= 0) {
-		float playerYSize = 60;
-		if (pos.x != -100) {
+		constexpr float playerYSize = 60.f;
+		if (pos.x != -100.0f) {
 			bloods_.push_back(Blood::UniquePtrCreate({ position_.x,position_.y - playerYSize / 2 }, Blood::Temperature::liquid, pos, &position_));
+			// SE
+			SoundManager::GetIns()->PlaySE(SoundManager::SEKey::syukketu, 0.1f);
 		}
 		else {
 			Vector2 cursolPos = MouseInput::GetIns()->ClientToPostEffect() + camera->GetPosition();
@@ -311,9 +305,15 @@ void Player::Wave() {
 	//毎フレーム最初にfalseにする
 	isRecall_ = false;
 	//熱波を放射
-	if (KeyInput::GetIns()->TriggerKey(DIK_E)) isHeatWave_ = true;
+	if (KeyInput::GetIns()->TriggerKey(DIK_E)) {
+		isHeatWave_ = true;
+		SoundManager::GetIns()->PlaySE(SoundManager::SEKey::neppa, 0.7f);
+	}
 	//寒波を放射
-	if (KeyInput::GetIns()->TriggerKey(DIK_Q)) isColdWave_ = true;
+	if (KeyInput::GetIns()->TriggerKey(DIK_Q)) {
+		SoundManager::GetIns()->PlaySE(SoundManager::SEKey::kanpa, 0.3f);
+		isColdWave_ = true;
+	}
 
 	if (isHeatWave_) {
 		heatWave_->SetSize({ heatExtend_ ,heatExtend_ });
