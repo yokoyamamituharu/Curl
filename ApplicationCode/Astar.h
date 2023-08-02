@@ -2,8 +2,9 @@
 #include <vector>
 #include <list>
 
-const int MapWidth = 10;
-const int MapHeight = 10;
+
+const int MapWidth = 52;
+const int MapHeight = 43;
 const int Infinity = 100000;
 
 // 削除結果
@@ -13,27 +14,28 @@ enum EraseResult
 	Erased,			// 削除
 	CouldntErased	// 削除できない
 };
+struct Cell
+{
+	int X{};
+	int Y{};
+
+	Cell() :
+		X(-1),
+		Y(-1)
+	{
+	}
+
+	Cell(int x, int y)
+	{
+		X = x;
+		Y = y;
+	}
+};
 
 
 class AStar {
 public:
-	struct Cell
-	{
-		int X{};
-		int Y{};
 
-		Cell() :
-			X(-1),
-			Y(-1)
-		{
-		}
-
-		Cell(int x, int y)
-		{
-			X = x;
-			Y = y;
-		}
-	};
 	struct Node {
 		Node() :
 			Node(0, 0)
@@ -53,7 +55,6 @@ public:
 		float HeuristicCost;
 		float TotalCost;
 	};
-
 private:
 	Node Graph[MapHeight][MapWidth]{};
 	int CostTable[MapHeight][MapWidth]{};
@@ -65,7 +66,9 @@ public:
 
 	static AStar* GetInstance();
 
-	static AStar* Create();
+	void Initialize(int cost[MapHeight][MapWidth]);
+
+	void NodeUpdate(int y, int x);
 
 	std::list<Cell> AStarActivate(Cell& start, Cell& goal);
 private:
@@ -82,10 +85,11 @@ private:
 
 public:
 	//ステージのコストを設定
-	inline void SetTableCost(int cost[][MapHeight]) {
-		for (int i = 0; i < MapWidth; i++)
+	inline void SetTableCost(int cost[MapHeight][MapWidth]) {
+
+		for (int i = 0; i < MapHeight; i++)
 		{
-			for (int j = 0; j < MapHeight; j++)
+			for (int j = 0; j < MapWidth; j++)
 			{
 				CostTable[i][j] = cost[i][j];
 			}
@@ -96,6 +100,6 @@ public:
 //リスト内の削除条件に合ったノードを削除
 int EraseNode(std::list<AStar::Node*>& list, AStar::Node* newNode, float newCost);
 bool IsCellWithinTheRange(int x, int y);
-bool IsEqualCell(const AStar::Cell& a, const AStar::Cell& b);
-bool AddAdjacentNode(std::list<AStar::Node*>& openList, std::list<AStar::Node*>& closeList, AStar:: Node* adjacentNode, float cost);
+bool IsEqualCell(const Cell& a, const Cell& b);
+bool AddAdjacentNode(std::list<AStar::Node*>& openList, std::list<AStar::Node*>& closeList, AStar::Node* adjacentNode, float cost);
 bool Less(AStar::Node* a, AStar::Node* b);

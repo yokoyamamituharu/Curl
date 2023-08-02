@@ -11,7 +11,7 @@ private:
 
 public:
 	~BasiliskEnemy();//íœ
-	static std::unique_ptr<BasiliskEnemy> UniqueCreate();//ì¬
+	static std::unique_ptr<BasiliskEnemy> UniqueCreate(Cell cell);//ì¬
 
 	void Update();// XV
 
@@ -26,6 +26,11 @@ private: //’è”
 	static const int32_t backAnimationCount = 6;
 
 	int useAnimation = 0;
+
+	Cell dPos_ = { 0,0 };
+	Cell gorl = { 0,0 };
+
+	int chipSize = 64;
 
 private: //ƒƒ“ƒo•Ï”
 

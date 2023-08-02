@@ -3,6 +3,7 @@
 #include "KeyInput.h"
 #include "SoundManager.h"
 
+#include"..\AStar.h"
 std::vector<Sprite*> GameScene::SpritesCreate(const ImageManager::ImageName imageName, const int32_t animationCount, const Vector2& UIpos) {
 	std::vector<Sprite*> sprites;
 
@@ -64,9 +65,8 @@ void GameScene::Initialize()
 
 	manual_ = Sprite::UniquePtrCreate(UINT(ImageManager::ImageName::Manual), { 300,0 });
 	manual_->SetUi(true);
-	int32_t towerHP = 2;
-	tower_ = new Tower;
-	tower_->Initialize(towerHP);
+	int32_t towerHP = 10;
+
 	scrollCamera_ = ScrollCamera::Create();
 	Sprite::SetCamera(scrollCamera_);
 	// ŒŒ‚Ì—Ê
@@ -129,7 +129,8 @@ void GameScene::Initialize()
 	Sprite::SetCamera2D(camera2D);
 
 	timer_ = new Timer();
-	timer_->Initialize(60 * 1);
+	timer_->Initialize(60 * 60);
+	
 
 	enemys_ = EnemyManager::Create();
 	messageWindow_ = MessageWindow::UniquePtrCreate();
@@ -144,10 +145,25 @@ void GameScene::Initialize()
 		enemys_->EnemySpawnDataLoad("Stage1_EnemySpawnData.csv");
 	}
 
+	if (isTutorial_ == false)
+	{
+		timer_->SetIsWatchOpen(true);
+		timer_->SetIsTimerStart(true);
+	}
 	mapChip2D = MapChip2D::Create();
 	mapChip2D->Ins();
-
-	marker_ = ArrowMarker::Create({ 640, 360 });
+	for (int i = 0; i < 43; i++)
+	{
+		for (int j = 0; j < 52; j++)
+		{
+			getCost_[i][j] = mapChip2D->GetCost(i, j);
+		}
+	}
+	//AStar::GetInstance()->SetTableCost(getCost_);
+	AStar::GetInstance()->Initialize(getCost_);
+	tower_ = new Tower;
+	tower_->Initialize(towerHP, mapChip2D->GetTowerPos());
+	marker_ = ArrowMarker::Create(tower_->GetPos());
 }
 
 void GameScene::Update()
@@ -162,6 +178,8 @@ void GameScene::Update()
 		if (SceneManager::GetStageNo() == 0) {
 
 		}
+		timer_->SetIsWatchOpen(true);
+		timer_->SetIsTimerStart(true);
 	}
 
 	static int32_t timer = 0;
@@ -224,15 +242,6 @@ void GameScene::Update()
 
 	if (KeyInput::GetIns()->TriggerKey(DIK_M)) {
 		//debugMuteki = !debugMuteki;
-	}
-	if (KeyInput::GetIns()->TriggerKey(DIK_O)) {
-		timer_->SetIsWatchOpen(true);
-	}
-	else if (KeyInput::GetIns()->TriggerKey(DIK_C)) {
-		timer_->SetIsWatchOpen(false);
-	}
-	if (KeyInput::GetIns()->TriggerKey(DIK_S)) {
-		timer_->SetIsTimerStart(true);
 	}
 
 	if (poseBreak) {
@@ -297,7 +306,7 @@ void GameScene::Update()
 		}
 
 		if (!isTutorial_) {
-			enemys_->Update(tower_->GetHP(), player_->GetPlayerHp(), scrollCamera_->GetPosition());
+			enemys_->Update(tower_->GetHP(), player_->GetPlayerHp(), scrollCamera_->GetPosition(), mapChip2D->GetTowerCell());
 		}
 	}
 
@@ -325,6 +334,20 @@ void GameScene::Update()
 	//	overheatSprite_->SetColor({ 0.5f, 0.5f,0.5f });
 	//}
 
+	for (int i = 0; i < 43; i++) {
+		for (int j = 0; j < 52; j++) {
+			if (mapChip2D->GetFlag(i, j) == true)
+			{
+				bool flag = mapChip2D->GetFlag(i, j);
+				int flag2 = mapChip2D->GetChipData(i, j)->GetCost();
+				if (flag && (int)MapCostInfo::ON == flag2) {
+					Vector2 pos = mapChip2D->GetChipPos(i, j);
+					player_->Shot(scrollCamera_, { pos.x,pos.y });
+				}
+			}
+		}
+	}
+	HitMapAndPlayer();
 	//enemy_->Update();
 	scrollCamera_->Update(player_->GetPosition());
 	reticleSprite_->SetPosition({ (float)MouseInput::GetIns()->GetMousePoint().x,(float)MouseInput::GetIns()->GetMousePoint().y });
@@ -437,6 +460,40 @@ void GameScene::HitTowerAndEnemys()
 	}
 }
 
+void GameScene::HitMapAndPlayer()
+{
+	//64
+	for (int i = 0; i < 43; i++)
+	{
+		for (int j = 0; j < 52; j++)
+		{
+			if (mapChip2D->GetMapChipData(i, j) == (int)MapInfo::WALL)
+			{
+				bool isHit = Collision::HitBox(mapChip2D->GetChipPos(i, j)
+					, 30, player_->GetPosition(), { 32,32 });
+				if (isHit)
+				{
+					player_->SetOldPos();
+				}
+			}
+
+			if (mapChip2D->GetMapChipData(i, j) == (int)MapInfo::GORL)
+			{
+				bool isHit = Collision::HitBox(mapChip2D->GetChipPos(i, j)
+					, 32, player_->GetPosition(), { 32,32 });
+				if (isHit)
+				{
+					player_->SetOldPos();
+
+				}
+			}
+		}
+	}
+
+
+
+}
+
 void GameScene::Draw()
 {
 	//”wŒiF
@@ -455,12 +512,13 @@ void GameScene::Draw()
 	//ƒXƒvƒ‰ƒCƒg•`‰æˆ—(UI“™)
 	Sprite::PreDraw(DirectXSetting::GetIns()->GetCmdList());
 	bgSprite_->Draw();
-	player_->Draw(scrollCamera_);
+	
 	tower_->Draw();
 	//enemy_->Draw();
 	mapChip2D->Draw();
 	marker_->Draw();
 	enemys_->Draw();
+	player_->Draw(scrollCamera_);
 	particle_->Draw();
 	Sprite::PostDraw();
 	postEffect_->PostDrawScene(DirectXSetting::GetIns()->GetCmdList());
@@ -593,10 +651,11 @@ void GameScene::SceneChange()
 		SceneManager::SceneChange(SceneManager::SceneName::Over);
 
 	}
-
-	if (KeyInput::GetIns()->TriggerKey(DIK_C)) {
+	else if (timer_->IsTimeOver())
+	{
 		SceneManager::SceneChange(SceneManager::SceneName::Result);
 	}
+
 }
 
 void GameScene::RoadPlayer()

@@ -15,7 +15,7 @@ VampireEnemy::~VampireEnemy()
 	safe_delete(markerSprite_);
 }
 
-std::unique_ptr<VampireEnemy> VampireEnemy::UniqueCreate()
+std::unique_ptr<VampireEnemy> VampireEnemy::UniqueCreate(Cell cell)
 {
 	//作成開始
 	std::unique_ptr<VampireEnemy> enemy = std::make_unique<VampireEnemy>();
@@ -28,18 +28,56 @@ std::unique_ptr<VampireEnemy> VampireEnemy::UniqueCreate()
 	enemy->hitBloodType = liquid_1;
 	enemy->anBloodType = gas_1;
 
-	//エネミーの値代入
+	////エネミーの値代入
 	enemy->angle = randCreate->getRandFloat(0, 359);//角度のランダム代入
 	enemy->moveLength = randCreate->getRandFloat(400, 500);//movePointからどれだけ離れているかのランダム代入
+	
+	//上下
+	if (randCreate->getRandInt(0, 10) % 2 == 0)
+	{
+		//左
+		if (randCreate->getRandInt(0, 10) % 2 == 0)
+		{
+			enemy->dPos_.X = 0;
+			enemy->dPos_.Y = randCreate->getRandInt(0, 43);
+			enemy->useAnimation = AnimationType::rightSide;
+		}
+		//右
+		else
+		{
+			enemy->dPos_.X = 51;
+			enemy->dPos_.Y = randCreate->getRandInt(0, 43);
+			enemy->useAnimation = AnimationType::ReftSide;
+		}
+	}
+	//左右
+	else
+	{
+		//上
+		if (randCreate->getRandInt(0, 10) % 2 == 0)
+		{
+			enemy->dPos_.X = randCreate->getRandInt(0, 52);
+			enemy->dPos_.Y = 0;
+			enemy->useAnimation = AnimationType::front;
+		}
+		//下
+		else
+		{
+			enemy->dPos_.X = randCreate->getRandInt(0, 52);
+			enemy->dPos_.Y = 42;
+			enemy->useAnimation = AnimationType::back;
+		}
+	}
+	
+	
+	enemy->pos.x = (float)enemy->dPos_.X * (float)enemy->chipSize;
+	enemy->pos.y = (float)enemy->dPos_.Y * (float)enemy->chipSize;
 
-	//座標の計算代入
-	enemy->pos.x = sin((enemy->angle * DirectX::XM_PI) / 180) * enemy->moveLength;
-	enemy->pos.y = cos((enemy->angle * DirectX::XM_PI) / 180) * enemy->moveLength;
 
-	//座標のずれを修正
-	enemy->pos.x = enemy->pos.x + 640.f;
-	enemy->pos.y = enemy->pos.y + 360.f;
-
+	enemy->routeTime = 100;
+	enemy->gorl = cell;
+	enemy->route = AStar::GetInstance()->AStarActivate(enemy->dPos_, enemy->gorl);
+	
 	enemy->frontSprites_ = SpritesCreate(ImageManager::ImageName::vampire_front, frontAnimationCount, enemy->pos);
 	enemy->besideSprites_ = SpritesCreate(ImageManager::ImageName::vampire_beside, besideAnimationCount, enemy->pos);
 	enemy->backSprites_ = SpritesCreate(ImageManager::ImageName::vampire_back, backAnimationCount, enemy->pos);
@@ -60,29 +98,38 @@ void VampireEnemy::Update()
 	//距離の計算
 	moveLength -= moveAddLength;
 
+	routeTime--;
+	if (routeTime < 0)
+	{
 
-	//座標の計算代入
-	pos.y = sin((angle * DirectX::XM_PI) / 180) * moveLength;
-	pos.x = cos((angle * DirectX::XM_PI) / 180) * moveLength;
+		//route = AStar::GetInstance()->AStarActivate(dPos_, gorl);
+		routeTime = 100;
+	}
 
-	//座標のずれを修正
-	pos.x = pos.x + movePoint.x;
-	pos.y = pos.y + movePoint.y;
+	for (auto cell : route)
+	{
 
-	//アングルで移動方向を判定し、判定した方向に向いたアニメーションを使用
-	if (angle > 45 && angle < 135) {
-		useAnimation = AnimationType::back;
-	}
-	else if (angle > 225 && angle < 270) {
-		useAnimation = AnimationType::front;
-	}
-	else if (angle >= 135 && angle <= 225) {
-		useAnimation = AnimationType::rightSide;
-	}
-	else {
-		useAnimation = AnimationType::ReftSide;
+		Vector2 vec;
+		vec.x = (cell.X * chipSize + 32) - pos.x;
+		vec.y = (cell.Y * chipSize + 32) - pos.y;
+		vec.normalize();
+		//2点間のベクトル（正規化してね）
+		pos.x += vec.x;
+		pos.y += vec.y;
+		//マップチップ上の敵の位置を更新
+		dPos_.X = pos.x / chipSize;
+		dPos_.Y = pos.y / chipSize;
 
+		//敵の位置が参照セルと同じになったらリストから削除
+		if (dPos_.X == cell.X && dPos_.Y == cell.Y) {
+			route.erase(route.begin());
+		}
+
+		break;
 	}
+
+
+	
 
 	for (int32_t i = 0; i < frontAnimationCount; i++) {
 		frontSprites_[i]->SetPosition(pos);

@@ -1,12 +1,13 @@
 #include "Tower.h"
 #include "ImageManager.h"
 
-void Tower::Initialize(int32_t hp)
+void Tower::Initialize(int32_t hp, Vector2 pos)
 {
 	hit = 0;
 	hitTime = 10;
 	hp_ = hp;
 	pos_ = { 640, 360 };
+	pos_ = pos;
 	tower_ = Sprite::UniquePtrCreate((UINT)ImageManager::ImageName::towerNumber, pos_);
 	tower_->SetAnchorPoint({ 0.5f,0.5f });
 }
