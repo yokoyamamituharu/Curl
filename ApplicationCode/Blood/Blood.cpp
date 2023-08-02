@@ -21,6 +21,7 @@ Blood* Blood::Create(DirectX::XMFLOAT2 position, Temperature temp)
 	instance->sprites_[(int)Temperature::solid] = Sprite::Create(UINT(ImageManager::ImageName::solidTexNumber), position, {}, { 0.5,0.5 });
 	instance->sprites_[(int)Temperature::liquid] = Sprite::Create(UINT(ImageManager::ImageName::liquidNumber), position, {}, { 0.5,0.5 });
 	instance->sprites_[(int)Temperature::gas] = Sprite::Create(UINT(ImageManager::ImageName::gasTexNumber), position, {}, { 0.5,0.5 });
+	instance->sprites_[(int)Temperature::droppedLiquid] = Sprite::Create(UINT(ImageManager::ImageName::droppedLiquid), position, {}, { 0.5,0.5 });
 	instance->temp_ = (int)temp;
 	return instance;
 }
@@ -34,6 +35,8 @@ std::unique_ptr<Blood> Blood::UniquePtrCreate(Vector2 position, Temperature stat
 	instance->sprites_[(int)Temperature::solid] = Sprite::Create(UINT(ImageManager::ImageName::solidTexNumber), position, { 1.f,1.f,1.f,1.f }, { 0.5,0.5 });
 	instance->sprites_[(int)Temperature::liquid] = Sprite::Create(UINT(ImageManager::ImageName::liquidNumber), position, { 1.f,1.f,1.f,1.f }, { 0.5,0.5 });
 	instance->sprites_[(int)Temperature::gas] = Sprite::Create(UINT(ImageManager::ImageName::gasTexNumber), position, { 1.f,1.f,1.f,1.f }, { 0.5,0.5 });
+ 
+	instance->sprites_[(int)Temperature::droppedLiquid] = Sprite::Create(UINT(ImageManager::ImageName::droppedLiquid), position, { 1.f,1.f,1.f,1.f }, { 0.5,0.5 });
 	instance->temp_ = (int)state;
 	Vector2 vec = instance->targetPos_ - instance->position_;
 	vec.normalize();
@@ -51,12 +54,7 @@ void Blood::Update()
 	if (KeyInput::GetIns()->TriggerKey(DIK_UP))  Rising();
 	if (KeyInput::GetIns()->TriggerKey(DIK_DOWN))  Decrease();
 	DirectX::XMINT4 a1{}, a2{};
-	Vector2 vec{  };
-
-	//状態が液体じゃなくなったら回収を停止
-	if (state_ == (int)State::back && temp_ != (int)Temperature::liquid) {
-		state_ = (int)State::idle;
-	}
+	Vector2 vec{  };	
 
 	switch (state_)
 	{
@@ -100,10 +98,16 @@ void Blood::Update()
 		a2.z = int(oldvec_.y * 10000) / 1000;
 		a2.w = int(oldvec_.y * 10000) / 100 - a2.z * 10;
 
+		//移動ベクトルが違う＝プレイヤーの位置をすぎたら血の状態を回収可能にする
 		if (!(a1.x == a2.x && a1.y == a2.y) || !(a1.z == a2.z && a1.w == a2.w)) {
 			state_ = (int)State::heat;
 			position_ = *playerPos_;
+			speed_ = initSpeed_;
 		}
+		else {
+			speed_ += 0.08f;
+		}
+
 		break;
 	default:
 		break;
@@ -112,6 +116,7 @@ void Blood::Update()
 		tempDray--;
 	}
 
+	sprites_[(int)Temperature::droppedLiquid]->SetPosition(position_);
 	sprites_[temp_]->SetPosition(position_);
 }
 
@@ -130,7 +135,12 @@ void Blood::Decrease()
 
 void Blood::Draw()
 {
-	sprites_[temp_]->Draw();
+	if (state_ == (int)State::idle && temp_ <= (int)Temperature::liquid) {
+		sprites_[(int)Temperature::droppedLiquid]->Draw();
+	}
+	else {
+		sprites_[temp_]->Draw();
+	}
 }
 
 bool Blood::GetDead()

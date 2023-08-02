@@ -34,6 +34,12 @@ public: //メンバ関数
     /// </summary>
     int32_t GetTimeRange() { return nowTime_ / maxTime_; }
 
+    /// <summary>
+    /// タイムオーバー処理
+    /// </summary>
+    /// <returns></returns>
+    bool IsTimeOver() { return nowTime_ / maxTime_ >= 1.0f; }
+
 private: //メンバ関数
     /// <summary>
     /// 時間から回転角を求める

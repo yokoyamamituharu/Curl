@@ -29,6 +29,10 @@ private: //仮想メンバ関数
 	/// </summary>
 	void SceneChange() override;
 
+private: //静的メンバ変数
+	//イージング時間
+	static const float easingTime;
+
 private: //メンバ変数
 	//ポストエフェクト
 	std::unique_ptr<PostEffect> postEffect_;
@@ -38,5 +42,9 @@ private: //メンバ変数
 	std::unique_ptr<Button> stage1_;
 	// 背景画像
 	std::unique_ptr<Sprite> stageSelect_ = nullptr;
+	// ステージ選択ウィンドウ
+	std::unique_ptr<Sprite> stageSelectWindow_ = nullptr;
+	//イージングタイマー
+	float easingTimer_;
 };
 
