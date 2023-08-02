@@ -2,6 +2,7 @@
 #include "ImageManager.h"
 #include "ExternalFileLoader.h"
 #include "SafeDelete.h"
+#include "SoundManager.h"
 
 EnemyManager::EnemyManager()
 {
@@ -126,6 +127,8 @@ void EnemyManager::EnemyHitBlood()
 				enemyNumber_--;
 				//死亡カウント
 				deadCount++;
+				//SE
+				SoundManager::GetIns()->PlaySE(SoundManager::SEKey::enemyDamage, 0.6f);
 			}
 			
 			//血のタイプが得意かどうか

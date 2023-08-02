@@ -285,7 +285,6 @@ void GameScene::HitBloodAndEnemys()
 				}
 				vampire->SetBloadHitFlag(isHit);
 				vampire->SetBloodType(blood->GetTemperature());
-				SoundManager::GetIns()->PlaySE(SoundManager::SEKey::enemyDamage, 0.1f);
 			}
 		}
 	}
@@ -304,7 +303,6 @@ void GameScene::HitBloodAndEnemys()
 				}
 				basilisk->SetBloadHitFlag(isHit);
 				basilisk->SetBloodType(blood->GetTemperature());
-				SoundManager::GetIns()->PlaySE(SoundManager::SEKey::enemyDamage, 0.1f);
 			}
 		}
 	}
@@ -323,7 +321,6 @@ void GameScene::HitBloodAndEnemys()
 				}
 				rabbit->SetBloadHitFlag(isHit);
 				rabbit->SetBloodType(blood->GetTemperature());
-				SoundManager::GetIns()->PlaySE(SoundManager::SEKey::enemyDamage, 0.1f);
 			}
 		}
 	}
