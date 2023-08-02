@@ -172,7 +172,7 @@ void GameScene::Update()
 	//blood_->Update();
 	HitBloodAndEnemys();
 	HitTowerAndEnemys();
-	timer_->Update();
+	
 	if (messageWindow_->GetIsLoadEnd()) {
 		isTutorial_ = false;
 		if (SceneManager::GetStageNo() == 0) {
@@ -240,6 +240,8 @@ void GameScene::Update()
 	poseButton_->Update();
 	tower_->Update();
 
+	
+
 	if (KeyInput::GetIns()->TriggerKey(DIK_M)) {
 		//debugMuteki = !debugMuteki;
 	}
@@ -271,8 +273,8 @@ void GameScene::Update()
 				for (int j = 0; j < 52; j++) {
 					if (mapChip2D->GetFlag(i, j) == true) {
 						bool flag = mapChip2D->GetFlag(i, j);
-						int flag2 = mapChip2D->GetChipData(i, j)->GetCost();
-						if (flag && (int)MapInfo::NONE == flag2) {
+						int flag2 = mapChip2D->GetRetMap(i, j);
+						if ((int)MapCostInfo::ON == flag2) {
 							Vector2 pos = mapChip2D->GetChipPos(i, j);
 							player_->Shot(scrollCamera_, { pos.x,pos.y });
 							break;
@@ -308,6 +310,7 @@ void GameScene::Update()
 		if (!isTutorial_) {
 			enemys_->Update(tower_->GetHP(), player_->GetPlayerHp(), scrollCamera_->GetPosition(), mapChip2D->GetTowerCell());
 		}
+		timer_->Update();
 	}
 
 	marker_->Update(scrollCamera_->GetPosition());
@@ -339,7 +342,7 @@ void GameScene::Update()
 			if (mapChip2D->GetFlag(i, j) == true)
 			{
 				bool flag = mapChip2D->GetFlag(i, j);
-				int flag2 = mapChip2D->GetChipData(i, j)->GetCost();
+				int flag2 = mapChip2D->GetRetMap(i, j);
 				if (flag && (int)MapCostInfo::ON == flag2) {
 					Vector2 pos = mapChip2D->GetChipPos(i, j);
 					player_->Shot(scrollCamera_, { pos.x,pos.y });

@@ -22,8 +22,10 @@ public:
 	void Delete();
 
 	void CostOn() { this->cost_ = 1; }
+	void RetMapOn() { this->retMap = 1; }
 	void SetCost(int cost) { this->cost_ = cost; }
 	int GetCost() { return cost_; }
+	int GetRetMap() { return retMap; }
 	XMFLOAT2 GetPos() { return pos_; }
 	int GetChipNumber() { return chipNumber; }
 
@@ -41,6 +43,7 @@ private:
 
 	int chipNumber;
 	int cost_ = 0;
+	int retMap = 0;
 	std::array<int, 64> size_;
 };
 

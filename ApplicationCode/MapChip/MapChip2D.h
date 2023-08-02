@@ -24,6 +24,7 @@ public:
 	bool GetFlag(int sizeY, int sizeX) { return chipData[sizeY][sizeX]->GetDrawFlag(); }
 
 	int GetCost(int sizeY, int sizeX) { return chipData[sizeY][sizeX]->GetCost(); }
+	int GetRetMap(int sizeY, int sizeX) { return chipData[sizeY][sizeX]->GetRetMap(); }
 
 	int GetMapChipData(int sizeY, int sizeX) { return mapChipData[sizeY][sizeX]; }
 

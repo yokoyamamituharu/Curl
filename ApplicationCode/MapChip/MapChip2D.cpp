@@ -78,6 +78,7 @@ void MapChip2D::ChipDataCreate()
 			{
 				chipData[i][j] = ChipData::Create(i, j, ImageName::mapChipTest);
 				chipData[i][j]->CostOn();
+				chipData[i][j]->RetMapOn();
 
 			}
 
