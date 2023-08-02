@@ -256,6 +256,10 @@ void GameScene::HitBloodAndEnemys()
 
 			if (isHit == true)
 			{
+				int an = vampire->GetAnBloodType();
+				if (an == blood->GetTemperature()) {
+					blood->SetDead();
+				}
 				vampire->SetBloadHitFlag(isHit);
 				vampire->SetBloodType(blood->GetTemperature());
 			}
@@ -270,6 +274,10 @@ void GameScene::HitBloodAndEnemys()
 
 			if (isHit == true)
 			{
+				int an = basilisk->GetAnBloodType();
+				if (an == blood->GetTemperature()) {
+					blood->SetDead();
+				}
 				basilisk->SetBloadHitFlag(isHit);
 				basilisk->SetBloodType(blood->GetTemperature());
 			}
@@ -284,6 +292,10 @@ void GameScene::HitBloodAndEnemys()
 
 			if (isHit == true)
 			{
+				int an = rabbit->GetAnBloodType();
+				if (an == blood->GetTemperature()) {
+					blood->SetDead();
+				}
 				rabbit->SetBloadHitFlag(isHit);
 				rabbit->SetBloodType(blood->GetTemperature());
 			}

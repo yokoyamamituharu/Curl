@@ -98,10 +98,16 @@ void Blood::Update()
 		a2.z = int(oldvec_.y * 10000) / 1000;
 		a2.w = int(oldvec_.y * 10000) / 100 - a2.z * 10;
 
+		//移動ベクトルが違う＝プレイヤーの位置をすぎたら血の状態を回収可能にする
 		if (!(a1.x == a2.x && a1.y == a2.y) || !(a1.z == a2.z && a1.w == a2.w)) {
 			state_ = (int)State::heat;
 			position_ = *playerPos_;
+			speed_ = initSpeed_;
 		}
+		else {
+			speed_ += 0.08;
+		}
+
 		break;
 	default:
 		break;
