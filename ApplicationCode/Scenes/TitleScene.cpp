@@ -1,4 +1,5 @@
 #include "TitleScene.h"
+#include "SoundManager.h"
 #include <random>
 
 void TitleScene::Initialize()

@@ -28,7 +28,12 @@ public: //サブクラス
 	};
 
 	enum class SEKey {
-
+		kettei,
+		kanpa,
+		neppa,
+		syukketu,
+		enemyDamage,
+		sekihiDamage,
 	};
 
 public:  //静的メンバ関数

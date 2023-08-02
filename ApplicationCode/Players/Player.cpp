@@ -7,6 +7,7 @@
 #include <math.h>
 #include "KeyInputHandler.h"
 #include "BaseEnemy.h"
+#include "SoundManager.h"
 
 int32_t Player::frontAnimationCount = 6;
 int32_t Player::backAnimationCount = 6;
@@ -57,7 +58,7 @@ Player* Player::Create(Vector2 pos, float rote, int hp, int maxBlood[], int spee
 		instance->ultSpeed_[i] = speed[i];
 	}
 	instance->bloodGauge_ = maxBlood[0];
-	instance->speed_ = maxBlood[0];
+	instance->speed_ = float(maxBlood[0]);
 	instance->frontSprites_ = Player::SpritesCreateP((int)ImageManager::ImageName::wolfForwardWalk, frontAnimationCount, instance->position_);
 	instance->backSprites_ = Player::SpritesCreateP((int)ImageManager::ImageName::wolfBackwardWalk, backAnimationCount, instance->position_);
 	instance->useAnimation_ = (int)AnimationType::front;
@@ -87,7 +88,7 @@ void Player::Update(ScrollCamera* camera) {
 		position_.y = ScrollCamera::GetMaxScreenEdge().y - 32.0f;
 	}
 
-	speed_ = ultSpeed_[ultLevel_];
+	speed_ = float(ultSpeed_[ultLevel_]);
 	maxBlood_ = ultMaxBlood_[ultLevel_];
 
 	//プレイヤーのキーイベント更新
@@ -310,9 +311,15 @@ void Player::Wave() {
 	//毎フレーム最初にfalseにする
 	isRecall_ = false;
 	//熱波を放射
-	if (KeyInput::GetIns()->TriggerKey(DIK_E)) isHeatWave_ = true;
+	if (KeyInput::GetIns()->TriggerKey(DIK_E)) {
+		isHeatWave_ = true;
+		SoundManager::GetIns()->PlaySE(SoundManager::SEKey::neppa, 0.3f);
+	}
 	//寒波を放射
-	if (KeyInput::GetIns()->TriggerKey(DIK_Q)) isColdWave_ = true;
+	if (KeyInput::GetIns()->TriggerKey(DIK_Q)) {
+		SoundManager::GetIns()->PlaySE(SoundManager::SEKey::kanpa, 0.5f);
+		isColdWave_ = true;
+	}
 
 	if (isHeatWave_) {
 		heatWave_->SetSize({ heatExtend_ ,heatExtend_ });
