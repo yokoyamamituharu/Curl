@@ -129,8 +129,8 @@ void GameScene::Initialize()
 	Sprite::SetCamera2D(camera2D);
 
 	timer_ = new Timer();
-	timer_->Initialize(60 * 60);
-	
+	timer_->Initialize(60 * 120);
+
 
 	enemys_ = EnemyManager::Create();
 	messageWindow_ = MessageWindow::UniquePtrCreate();
@@ -172,7 +172,7 @@ void GameScene::Update()
 	//blood_->Update();
 	HitBloodAndEnemys();
 	HitTowerAndEnemys();
-	
+
 	if (messageWindow_->GetIsLoadEnd()) {
 		isTutorial_ = false;
 		if (SceneManager::GetStageNo() == 0) {
@@ -240,7 +240,7 @@ void GameScene::Update()
 	poseButton_->Update();
 	tower_->Update();
 
-	
+
 
 	if (KeyInput::GetIns()->TriggerKey(DIK_M)) {
 		//debugMuteki = !debugMuteki;
@@ -274,7 +274,7 @@ void GameScene::Update()
 					if (mapChip2D->GetFlag(i, j) == true) {
 						bool flag = mapChip2D->GetFlag(i, j);
 						int flag2 = mapChip2D->GetRetMap(i, j);
-						if ((int)MapCostInfo::ON == flag2) {
+						if ((int)MapCostInfo::ON == flag2 && bloodMapChip[i][j] == 0) {
 							Vector2 pos = mapChip2D->GetChipPos(i, j);
 							player_->Shot(scrollCamera_, { pos.x,pos.y });
 							break;
@@ -349,19 +349,6 @@ void GameScene::Update()
 	//	overheatSprite_->SetColor({ 0.5f, 0.5f,0.5f });
 	//}
 
-	for (int i = 0; i < 43; i++) {
-		for (int j = 0; j < 52; j++) {
-			if (mapChip2D->GetFlag(i, j) == true)
-			{
-				bool flag = mapChip2D->GetFlag(i, j);
-				int flag2 = mapChip2D->GetRetMap(i, j);
-				if (flag && (int)MapCostInfo::ON == flag2) {
-					Vector2 pos = mapChip2D->GetChipPos(i, j);
-					player_->Shot(scrollCamera_, { pos.x,pos.y });
-				}
-			}
-		}
-	}
 	HitMapAndPlayer();
 	//enemy_->Update();
 	scrollCamera_->Update(player_->GetPosition());
@@ -527,7 +514,7 @@ void GameScene::Draw()
 	//スプライト描画処理(UI等)
 	Sprite::PreDraw(DirectXSetting::GetIns()->GetCmdList());
 	bgSprite_->Draw();
-	
+
 	tower_->Draw();
 	//enemy_->Draw();
 	mapChip2D->Draw();
@@ -656,10 +643,6 @@ void GameScene::SceneChange()
 
 	if (pose_ && titleButton_->GetIsClick()) {
 		SceneManager::SceneChange(SceneManager::SceneName::Title);
-	}
-	else if (enemys_->GetGameFlag() == 1)
-	{
-		SceneManager::SceneChange(SceneManager::SceneName::Result);
 	}
 	else if (isOver && !debugMuteki)
 	{

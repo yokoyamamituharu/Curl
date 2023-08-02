@@ -193,10 +193,10 @@ private:
 	bool ultState = false;			// ゲージ状態
 	float ultGauge[6] = {};				// ゲージ値
 	const float ultMaxGauge = 10;	// ゲージ最大値
-	const float maxUltDiray = 60;	// ゲージが減る速度
-	float ultDiray = maxUltDiray;
+	//const float maxUltDiray = 60;	// ゲージが減る速度
+	//float ultDiray = maxUltDiray;
 	int ultLevel_ = 0;				//何回ウルト状態になったか	
-	const int maxUltChargeDray_ = 60;	
+	const int maxUltChargeDray_ = 180;	
 	const int maxUltCharge_ = 100;
 	int ultChargeDray_ = maxUltChargeDray_;
 	//int ultCharge_ = maxUltCharge_;	//ウルトレベルがある状態の場合、血を回収しないとチャージが切れてどんどんレベルが下がる
