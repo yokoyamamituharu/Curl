@@ -314,11 +314,11 @@ void Player::Wave() {
 	//”M”g‚ð•úŽË
 	if (KeyInput::GetIns()->TriggerKey(DIK_E)) {
 		isHeatWave_ = true;
-		SoundManager::GetIns()->PlaySE(SoundManager::SEKey::neppa, 0.3f);
+		SoundManager::GetIns()->PlaySE(SoundManager::SEKey::neppa, 0.7f);
 	}
 	//Š¦”g‚ð•úŽË
 	if (KeyInput::GetIns()->TriggerKey(DIK_Q)) {
-		SoundManager::GetIns()->PlaySE(SoundManager::SEKey::kanpa, 0.5f);
+		SoundManager::GetIns()->PlaySE(SoundManager::SEKey::kanpa, 0.3f);
 		isColdWave_ = true;
 	}
 
