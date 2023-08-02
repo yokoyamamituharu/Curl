@@ -124,9 +124,9 @@ private: //ƒƒ“ƒo•Ï”
 	std::unique_ptr<Sprite> reticleSprite_ = nullptr;
 	std::unique_ptr<Sprite> towerBreak_[4];
 	std::unique_ptr<ParticleManager2d> particle_ = nullptr;
-	
+
 	EnemyManager* enemys_{};
-	
+
 	ScrollCamera* scrollCamera_ = nullptr;
 
 	std::unique_ptr<Button>	poseButton_;
@@ -153,5 +153,6 @@ private: //ƒƒ“ƒo•Ï”
 	int32_t towerBreakAnimeTimer_ = 0;
 
 	bool poseBreak = false;
+	int bloodMapChip[43][52] = {};
 };
 

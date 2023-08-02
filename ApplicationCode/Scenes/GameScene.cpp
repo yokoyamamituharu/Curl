@@ -282,6 +282,18 @@ void GameScene::Update()
 					}
 				}
 			}
+
+			for (int i = 0; i < 43; i++) {
+				for (int j = 0; j < 52; j++) {
+					bloodMapChip[i][j] = 0;
+				}
+			}
+			for (std::unique_ptr<Blood>& blood : player_->GetBloods()) {
+				if (blood->GetState() == (int)Blood::State::idle) {
+					Vector2 vec2 = { blood->GetPos().x / 64,blood->GetPos().y / 64 };
+					bloodMapChip[(int)vec2.y][(int)vec2.x] = 1;
+				}
+			}
 		}
 		player_->Update(scrollCamera_);
 		//scrollCamera_->Update(player_->GetSprite()->GetPosition());
