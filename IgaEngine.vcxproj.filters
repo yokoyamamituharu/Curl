@@ -291,7 +291,7 @@
       <Filter>ソース ファイル\ApplicationCode\Enemies</Filter>
     </ClCompile>
     <ClCompile Include="ApplicationCode\Scenes\SelectScene.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -508,10 +508,16 @@
     <ClInclude Include="ApplicationCode\Enemys\EnemyManager.h">
       <Filter>ソース ファイル\ApplicationCode\Enemies</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="ApplicationCode\MapChip\MapChip2DInfo.h">
       <Filter>ソース ファイル\ApplicationCode\MapChip</Filter>
     </ClInclude>
     <ClInclude Include="ApplicationCode\Scenes\SelectScene.h" />
+=======
+    <ClInclude Include="ApplicationCode\Scenes\SelectScene.h">
+      <Filter>ソース ファイル\ApplicationCode\Scenes</Filter>
+    </ClInclude>
+>>>>>>> master
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="IgaEngine.rc">

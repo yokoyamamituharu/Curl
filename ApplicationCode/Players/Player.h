@@ -110,7 +110,9 @@ public:
 	/// <summary>
 	/// ウルトゲージの値を取得
 	/// </summary>
-	float GetUltGauge() { return ultGauge; }
+	float GetUltGaugeM(int level) { return ultGauge[level]; }
+
+	float GetUltGauge() { return ultGauge[ultLevel_]; }
 
 	/// <summary>
 	/// ウルト最大値
@@ -128,6 +130,8 @@ public:
 	/// </summary>
 	/// <param name="camera"></param>
 	void Shot(ScrollCamera* camera, Vector2 pos = { -100,-100 });
+
+	int GetUltLevel() { return ultLevel_; }
 
 private:
 	/// <summary>
@@ -185,15 +189,17 @@ private:
 
 	// ウルト状態
 	bool ultState = false;			// ゲージ状態
-	float ultGauge = 0;				// ゲージ値
+	float ultGauge[6] = {};				// ゲージ値
 	const float ultMaxGauge = 10;	// ゲージ最大値
 	const float maxUltDiray = 60;	// ゲージが減る速度
 	float ultDiray = maxUltDiray;
 	int ultLevel_ = 0;				//何回ウルト状態になったか	
+	const int maxUltChargeDray_ = 60;	
 	const int maxUltCharge_ = 100;
-	int ultCharge_ = maxUltCharge_;	//ウルトレベルがある状態の場合、血を回収しないとチャージが切れてどんどんレベルが下がる
-	int ultSpeed_[5] = {};
-	int ultMaxBlood_[5] = {};
+	int ultChargeDray_ = maxUltChargeDray_;
+	//int ultCharge_ = maxUltCharge_;	//ウルトレベルがある状態の場合、血を回収しないとチャージが切れてどんどんレベルが下がる
+	int ultSpeed_[6] = {};
+	int ultMaxBlood_[6] = {};
 
 
 	bool isMove_ = false;

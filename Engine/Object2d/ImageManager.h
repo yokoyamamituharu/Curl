@@ -60,6 +60,7 @@ public: //‰æ‘œ–¼
 		gameOver,
 		gameOverBack,
 		stageSelect,
+		stageSelectWindow,
 		play,
 		tutorial,
 		wolfForwardWalk,
@@ -72,7 +73,12 @@ public: //‰æ‘œ–¼
 		messageWindow,
 		mapChipTest,
 		mapChipTest2,
+<<<<<<< HEAD
 		mapChipTest3
+=======
+		droppedLiquid,
+		towerBreak
+>>>>>>> master
 	};
 
 public: //ƒƒ“ƒoŠÖ”

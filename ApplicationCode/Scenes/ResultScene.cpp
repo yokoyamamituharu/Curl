@@ -1,4 +1,5 @@
 #include "ResultScene.h"
+#include "SoundManager.h"
 
 void ResultScene::Initialize()
 {
@@ -17,6 +18,7 @@ void ResultScene::Initialize()
 	}
 	//light->SetCircleShadowActive(0, true);
 	Object3d::SetLight(light_.get());
+	SoundManager::GetIns()->PlaySE(SoundManager::SEKey::gameclear, 0.5f);
 
 	postEffectNo_ = PostEffect::NONE;
 	Crear = Sprite::Create((UINT)ImageManager::ImageName::Clear, { 500,400 });

@@ -9,6 +9,17 @@ SoundManager* SoundManager::GetIns()
 void SoundManager::Initialize(Sound* sound)
 {
 	this->sound_ = sound;
+
+	LoadSE("Engine/Resources/Sound/SE/kettei.wav", SEKey::kettei);
+	LoadSE("Engine/Resources/Sound/SE/kanpa.wav", SEKey::kanpa);
+	LoadSE("Engine/Resources/Sound/SE/neppa.wav", SEKey::neppa);
+	LoadSE("Engine/Resources/Sound/SE/syukketu.wav", SEKey::syukketu);
+	LoadSE("Engine/Resources/Sound/SE/enemyDamage.wav", SEKey::enemyDamage);
+	LoadSE("Engine/Resources/Sound/SE/sekihiDamage.wav", SEKey::sekihiDamage);
+	LoadSE("Engine/Resources/Sound/SE/rockBreak.wav", SEKey::rockBreak);
+	LoadSE("Engine/Resources/Sound/SE/gameclear.wav", SEKey::gameclear);
+	LoadSE("Engine/Resources/Sound/SE/gameover.wav", SEKey::gameover);
+	LoadSE("Engine/Resources/Sound/SE/walk.wav", SEKey::walk);
 }
 
 void SoundManager::PlayBGM(const BGMKey bgmKey, const bool isRoop, const float volume)

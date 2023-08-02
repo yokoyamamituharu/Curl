@@ -49,6 +49,7 @@ void ImageManager::Initialize() {
 	Sprite::LoadTexture(int32_t(ImageName::gameOver), L"Engine/Resources/Images/GameOver.png");
 	Sprite::LoadTexture(int32_t(ImageName::gameOverBack), L"Engine/Resources/Images/gameoverBack.png");
 	Sprite::LoadTexture(int32_t(ImageName::stageSelect), L"Engine/Resources/Images/stageSelect.png");
+	Sprite::LoadTexture(int32_t(ImageName::stageSelectWindow), L"Engine/Resources/Images/stageSelectWindow.png");
 	Sprite::LoadTexture(int32_t(ImageName::play), L"Engine/Resources/Images/play.png");
 	Sprite::LoadTexture(int32_t(ImageName::tutorial), L"Engine/Resources/Images/tutorial.png");
 	Sprite::LoadTexture(int32_t(ImageName::wolfForwardWalk), L"Engine/Resources/Images/wolfForwardWalk.png");
@@ -59,6 +60,8 @@ void ImageManager::Initialize() {
 	Sprite::LoadTexture(int32_t(ImageName::particleCircle), L"Engine/Resources/Images/particleCircle.png");
 	Sprite::LoadTexture(int32_t(ImageName::guideArrow), L"Engine/Resources/Images/guideArrow.png");
 	Sprite::LoadTexture(int32_t(ImageName::messageWindow), L"Engine/Resources/Images/MessageWindow.png");
+	Sprite::LoadTexture(int32_t(ImageName::droppedLiquid), L"Engine/Resources/Images/droppedLiquid.png");
+	Sprite::LoadTexture(int32_t(ImageName::towerBreak), L"Engine/Resources/Images/tower_break.png");
 	
 	//マップチップの関係上これより上に書いてね
 	Sprite::LoadTexture(int32_t(ImageName::mapChipTest), L"Engine/Resources/Images/mapChipTest.png");

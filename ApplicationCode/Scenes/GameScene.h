@@ -17,6 +17,7 @@
 #include "TextDraw.h"
 #include "JsonLoader.h"
 #include"EnemyManager.h"
+#include "ParticleManager2d.h"
 
 #include "Blood.h"
 #include "Player.h"
@@ -107,9 +108,17 @@ private: //ÉÅÉìÉoïœêî
 	Timer* timer_;
 	std::unique_ptr<Sprite> manual_ = nullptr;
 	std::unique_ptr<Sprite> bloodGaugeSprite_ = nullptr;
-	std::unique_ptr<Sprite> ultGaugeSprite_ = nullptr;
-	std::unique_ptr<Sprite> overheatSprite_ = nullptr;
+	std::unique_ptr<Sprite> ultGaugeSprite_[6] = { nullptr };
+	DirectX::XMFLOAT3 color[6] = {};
+	//std::unique_ptr<Sprite> ultGaugeSprite1_ = nullptr;
+	//std::unique_ptr<Sprite> ultGaugeSprite2_ = nullptr;
+	//std::unique_ptr<Sprite> ultGaugeSprite3_ = nullptr;
+	//std::unique_ptr<Sprite> ultGaugeSprite4_ = nullptr;
+	//std::unique_ptr<Sprite> ultGaugeSprite5_ = nullptr;
+	//std::unique_ptr<Sprite> overheatSprite_ = nullptr;
 	std::unique_ptr<Sprite> reticleSprite_ = nullptr;
+	std::unique_ptr<Sprite> towerBreak_[4];
+	std::unique_ptr<ParticleManager2d> particle_ = nullptr;
 	
 	EnemyManager* enemys_{};
 	
@@ -134,6 +143,10 @@ private: //ÉÅÉìÉoïœêî
 	std::vector<Sprite*> towerUISprites_;
 	int32_t towerUIAnimationCount_ = 0;
 	int32_t towerUIAnimationMax = 10;
+	int32_t gameOverTimer_ = 0;
+	int32_t towerBreakAnime_ = 0;
+	int32_t towerBreakAnimeTimer_ = 0;
 
+	bool poseBreak = false;
 };
 
