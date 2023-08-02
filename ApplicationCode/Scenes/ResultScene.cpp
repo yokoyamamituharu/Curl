@@ -21,7 +21,7 @@ void ResultScene::Initialize()
 	SoundManager::GetIns()->PlaySE(SoundManager::SEKey::gameclear, 0.5f);
 
 	postEffectNo_ = PostEffect::NONE;
-	Crear = Sprite::Create((UINT)ImageManager::ImageName::Clear, { 500,400 });
+	Crear = Sprite::Create((UINT)ImageManager::ImageName::Clear, { 400,10 });
 	clearBack_ = Sprite::UniquePtrCreate(UINT(ImageManager::ImageName::ClearBack), { 0,0 });
 	titleButton_ = Button::CreateUniqueButton(ImageManager::ImageName::TitleBack, { 300,400 }, { 100,100 }, 0);
 }
