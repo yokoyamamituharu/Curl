@@ -68,7 +68,7 @@ void GameScene::Initialize()
 	scrollCamera_ = ScrollCamera::Create();
 	Sprite::SetCamera(scrollCamera_);
 	// ŒŒ‚Ì—Ê
-	bloodGaugeSprite_ = Sprite::UniquePtrCreate(UINT(ImageManager::ImageName::bloodGaugeNumber), { 99,656 });
+	bloodGaugeSprite_ = Sprite::UniquePtrCreate(UINT(ImageManager::ImageName::bloodGaugeNumber), { 99,656 }, { 1.0f,0.0f,0.0f,0.0f });
 	bloodGaugeSprite_->SetLeftSizeCorrection(true);
 	bloodGaugeSprite_->SetUi(true);
 	// ‘Ì‰·
@@ -115,7 +115,7 @@ void GameScene::Initialize()
 	titleButton_ = Button::CreateUniqueButton(ImageManager::ImageName::TitleBack, { 100,400 }, { 100,100 }, 0);
 	particle_ = ParticleManager2d::UniquePtrCreate();
 	for (int32_t i = 0; i < 4; i++) {
-		towerBreak_[i] = Sprite::UniquePtrCreate((UINT)ImageManager::ImageName::towerBreak, {640, -500});
+		towerBreak_[i] = Sprite::UniquePtrCreate((UINT)ImageManager::ImageName::towerBreak, { 640, -500 });
 		towerBreak_[i]->SetAnchorPoint({ 0.5f, 0.5f });
 		towerBreak_[i]->SetTextureRect({ 64.0f * (float)i, 0.0f }, { 64.0f, 64.0f });
 		towerBreak_[i]->SetSize({ 256.0f, 256.0f });
@@ -562,7 +562,7 @@ void GameScene::SceneChange()
 		gameOverTimer_++;
 		towerBreakAnimeTimer_++;
 		for (int32_t i = 0; i < 4; i++) {
-			towerBreak_[i]->SetPosition({640.0f, Easing::easeOutBounce((float)gameOverTimer_, gameOverTime, towerBreak_[i]->GetPosition().y, 360.0f)});
+			towerBreak_[i]->SetPosition({ 640.0f, Easing::easeOutBounce((float)gameOverTimer_, gameOverTime, towerBreak_[i]->GetPosition().y, 360.0f) });
 		}
 
 		if (towerBreakAnimeTimer_ >= gameOverTime) {
