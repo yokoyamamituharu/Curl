@@ -60,7 +60,7 @@ public: //ƒƒ“ƒoŠÖ”
 		float timeRate = time / maxTime;
 
 		if (timeRate < (1.0f / 2.75f)) {
-			return nowPos * (1.0f - timeRate) + maxPos * timeRate;
+			return nowPos * (7.5625f * timeRate * timeRate) + maxPos;
 		}
 		else if (timeRate < (2.0f / 2.75f)) {
 			timeRate -= (1.5f / 2.75f);
