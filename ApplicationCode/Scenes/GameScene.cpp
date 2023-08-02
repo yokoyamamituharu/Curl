@@ -472,7 +472,7 @@ void GameScene::HitMapAndPlayer()
 			if (mapChip2D->GetMapChipData(i, j) == (int)MapInfo::WALL)
 			{
 				bool isHit = Collision::HitBox(mapChip2D->GetChipPos(i, j)
-					, 30, player_->GetPosition(), { 32,32 });
+					, 30, player_->GetPosition(), { 13,5 });
 				if (isHit)
 				{
 					player_->SetOldPos();
@@ -482,7 +482,7 @@ void GameScene::HitMapAndPlayer()
 			if (mapChip2D->GetMapChipData(i, j) == (int)MapInfo::GORL)
 			{
 				bool isHit = Collision::HitBox(mapChip2D->GetChipPos(i, j)
-					, 32, player_->GetPosition(), { 32,32 });
+					, 32, player_->GetPosition(), { 13,5 });
 				if (isHit)
 				{
 					player_->SetOldPos();
