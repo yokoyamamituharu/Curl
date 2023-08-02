@@ -108,8 +108,14 @@ private: //ÉÅÉìÉoïœêî
 	Timer* timer_;
 	std::unique_ptr<Sprite> manual_ = nullptr;
 	std::unique_ptr<Sprite> bloodGaugeSprite_ = nullptr;
-	std::unique_ptr<Sprite> ultGaugeSprite_ = nullptr;
-	std::unique_ptr<Sprite> overheatSprite_ = nullptr;
+	std::unique_ptr<Sprite> ultGaugeSprite_[6] = { nullptr };
+	DirectX::XMFLOAT3 color[6] = {};
+	//std::unique_ptr<Sprite> ultGaugeSprite1_ = nullptr;
+	//std::unique_ptr<Sprite> ultGaugeSprite2_ = nullptr;
+	//std::unique_ptr<Sprite> ultGaugeSprite3_ = nullptr;
+	//std::unique_ptr<Sprite> ultGaugeSprite4_ = nullptr;
+	//std::unique_ptr<Sprite> ultGaugeSprite5_ = nullptr;
+	//std::unique_ptr<Sprite> overheatSprite_ = nullptr;
 	std::unique_ptr<Sprite> reticleSprite_ = nullptr;
 	std::unique_ptr<ParticleManager2d> particle_ = nullptr;
 	
