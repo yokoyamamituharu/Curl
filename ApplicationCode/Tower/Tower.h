@@ -21,7 +21,7 @@ public: //ƒƒ“ƒoŠÖ”
 	/// ‰Šú‰»
 	/// </summary>
 	/// <param name="hp">‰ŠúHP</param>
-	void Initialize(int32_t hp);
+	void Initialize(int32_t hp, Vector2 pos);
 
 	/// <summary>
 	/// XVˆ—

@@ -133,6 +133,8 @@ public:
 
 	int GetUltLevel() { return ultLevel_; }
 
+	void SetOldPos() { position_ = oldPlayerPos; }
+
 private:
 	/// <summary>
 	/// アニメーション画像の生成
@@ -211,4 +213,6 @@ private:
 	int32_t frontAnimationCounter_ = 0;
 	//後ろ向きアニメーションカウンター
 	int32_t backAnimationCounter_ = 0;
+
+	Vector2 oldPlayerPos{};
 };

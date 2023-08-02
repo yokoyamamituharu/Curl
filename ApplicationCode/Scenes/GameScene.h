@@ -57,6 +57,11 @@ public: //メンバ関数
 	void HitTowerAndEnemys();
 
 	/// <summary>
+	/// マップとプレイヤーの当たり判定
+	/// </summary>
+	void HitMapAndPlayer();
+
+	/// <summary>
 	/// 描画処理
 	/// </summary>
 	void Draw();
@@ -137,6 +142,8 @@ private: //メンバ変数
 	ArrowMarker* marker_ = nullptr;
 
 	bool isTutorial_ = false;
+
+	int getCost_[43][52];
 
 	std::vector<Sprite*> towerUISprites_;
 	int32_t towerUIAnimationCount_ = 0;

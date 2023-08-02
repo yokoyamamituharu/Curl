@@ -10,7 +10,7 @@ private:
 
 public:
 	~RabbitEnemy();//íœ
-	static std::unique_ptr<RabbitEnemy> UniqueCreate();//ì¬
+	static std::unique_ptr<RabbitEnemy> UniqueCreate(Cell cell);//ì¬
 
 	void Update();// XV
 
@@ -27,5 +27,10 @@ private: //’è”
 	static const int32_t backAnimationCount = 3;
 
 	int useAnimation = 0;
+
+	Cell dPos_ = { 0,0 };
+	Cell gorl = { 0,0 };
+
+	int chipSize = 64;
 };
 

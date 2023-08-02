@@ -33,9 +33,9 @@ public:
 
 	static EnemyManager* Create();
 
-	void Update(int32_t towerHp,int playerHp,Vector2 camera);
+	void Update(int32_t towerHp,int playerHp,Vector2 camera, Cell cell);
 
-	void EnemyCreate(const int phase);
+	void EnemyCreate(const int phase, Cell cell);
 
 	void EnemyHitBlood();
 
@@ -60,7 +60,7 @@ public:
 	/// <summary>
 	/// “GƒXƒ|[ƒ“ˆ—
 	/// </summary>
-	void EnemySpawnDataUpdate();
+	void EnemySpawnDataUpdate(Cell cell);
 	//void SetEnemys(list<unique_ptr<Enemy>> enemys) { this->enemys3_ = move(enemys); };
 	void Draw();
 
