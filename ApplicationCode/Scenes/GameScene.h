@@ -135,5 +135,7 @@ private: //ƒƒ“ƒo•Ï”
 	int32_t towerUIAnimationCount_ = 0;
 	int32_t towerUIAnimationMax = 10;
 
+
+	bool poseBreak = false;
 };
 

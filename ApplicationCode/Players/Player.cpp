@@ -105,6 +105,9 @@ void Player::Update(ScrollCamera* camera) {
 	if (ultGauge >= ultMaxGauge) {
 		//一回だけ実行する処理		
 		if (ultState == false) {
+			if (ultLevel_ < 5) {
+
+			}
 			ultLevel_++;
 			ultCharge_ = maxUltCharge_;
 			//maxBlood_ += 20;
@@ -136,11 +139,15 @@ void Player::Update(ScrollCamera* camera) {
 		//speed_ = initSpeed_; // 元のスピードに戻す
 	}
 
-	if (ultLevel_ > 0) {
-		ultCharge_--;
-		if (ultCharge_ <= 0) {
-			ultLevel_--;
-			ultCharge_ = maxUltCharge_;
+	if (ultLevel_ > 0&& ultState) {
+		ultChargeDray_--;		
+		if (ultCharge_ <= 0) {			
+			ultCharge_--;
+			ultChargeDray_ = maxUltChargeDray_;
+			if (ultCharge_ <= 0) {
+				ultLevel_--;
+				ultCharge_ = maxUltCharge_;
+			}
 		}
 	}
 
