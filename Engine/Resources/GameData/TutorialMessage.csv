@@ -139,7 +139,7 @@ WAIT 30
 
 TEXT では改めてこちらに向かってこい
 SPEED 3
-WAIT 10
+WAIT 30
 
 IF MOVE 1728 1344 100
 TEXT 矢印の方向に向かおう

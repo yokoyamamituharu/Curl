@@ -129,7 +129,7 @@ void GameScene::Initialize()
 	Sprite::SetCamera2D(camera2D);
 
 	timer_ = new Timer();
-	timer_->Initialize(60 * 60);
+	timer_->Initialize(60 * 120);
 
 
 	enemys_ = EnemyManager::Create();
@@ -643,10 +643,6 @@ void GameScene::SceneChange()
 
 	if (pose_ && titleButton_->GetIsClick()) {
 		SceneManager::SceneChange(SceneManager::SceneName::Title);
-	}
-	else if (enemys_->GetGameFlag() == 1)
-	{
-		SceneManager::SceneChange(SceneManager::SceneName::Result);
 	}
 	else if (isOver && !debugMuteki)
 	{
