@@ -167,6 +167,7 @@ void EnemyManager::EnemyHitBlood()
 			{
 				basilisk->OnCollision();
 				enemyNumber_--;
+				SoundManager::GetIns()->PlaySE(SoundManager::SEKey::enemyDamage, 0.6f);
 				deadCount++;
 
 			}
@@ -193,6 +194,7 @@ void EnemyManager::EnemyHitBlood()
 			{
 				rabbit->OnCollision();
 				enemyNumber_--;
+				SoundManager::GetIns()->PlaySE(SoundManager::SEKey::enemyDamage, 0.6f);
 				deadCount++;
 
 			}
