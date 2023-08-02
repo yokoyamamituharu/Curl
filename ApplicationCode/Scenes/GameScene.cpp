@@ -309,7 +309,7 @@ void GameScene::Update()
 		}
 
 		if (!isTutorial_) {
-			enemys_->Update(tower_->GetHP(), player_->GetPlayerHp(), scrollCamera_->GetPosition());
+			enemys_->Update(tower_->GetHP(), player_->GetPlayerHp(), scrollCamera_->GetPosition(),player_);
 		}
 	}
 

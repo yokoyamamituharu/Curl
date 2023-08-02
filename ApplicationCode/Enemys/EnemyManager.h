@@ -11,6 +11,8 @@
 #include "RabbitEnemy.h"
 #include "Vector2.h"
 #include <sstream>
+#include "Blood.h"
+#include "Player.h"
 
 using namespace std;
 
@@ -33,17 +35,19 @@ public:
 
 	static EnemyManager* Create();
 
-	void Update(int32_t towerHp,int playerHp,Vector2 camera);
+	void Update(int32_t towerHp, int playerHp, Vector2 camera, Player* player);
 
 	void EnemyCreate(const int phase);
 
-	void EnemyHitBlood();
+	void EnemyHitBlood(Player* player);
 
 	void EnemyHitTower();
 
 	void EnemysDead();
 
 	bool GetGameFlag() { return gameFlag; }
+
+	void BreakBlood(Vector2 pos, Player* player);
 
 	list<unique_ptr<VampireEnemy>>& GetVampires() { return Vampires_; }
 	list<unique_ptr<BasiliskEnemy>>& GetBasiliskes() { return Basiliskes_; }
@@ -65,14 +69,14 @@ public:
 	void Draw();
 
 private:
-	
+
 	int enemyNumber_{};//oŒ»‚µ‚Ä‚¢‚é“G‚Ì‘——¿
 	int enemyCreateTime{};//¶¬ŠÔ
 	RandCreate* randCreate_{};//ƒ‰ƒ“ƒ_ƒ€
 	KeyInput* keyInput_{};
 
 	//unique_ptr<Enemy> enemys2_{};
-	
+
 	list<unique_ptr<VampireEnemy>> Vampires_{};
 	list<unique_ptr<BasiliskEnemy>> Basiliskes_{};
 	list<unique_ptr<RabbitEnemy>> Rabbits_{};
