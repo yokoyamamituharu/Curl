@@ -111,6 +111,7 @@ private: //ƒƒ“ƒo•Ï”
 	std::unique_ptr<Sprite> ultGaugeSprite_ = nullptr;
 	std::unique_ptr<Sprite> overheatSprite_ = nullptr;
 	std::unique_ptr<Sprite> reticleSprite_ = nullptr;
+	std::unique_ptr<Sprite> towerBreak_[4];
 	std::unique_ptr<ParticleManager2d> particle_ = nullptr;
 	
 	EnemyManager* enemys_{};
@@ -134,7 +135,9 @@ private: //ƒƒ“ƒo•Ï”
 	std::vector<Sprite*> towerUISprites_;
 	int32_t towerUIAnimationCount_ = 0;
 	int32_t towerUIAnimationMax = 10;
-
+	int32_t gameOverTimer_ = 0;
+	int32_t towerBreakAnime_ = 0;
+	int32_t towerBreakAnimeTimer_ = 0;
 
 	bool poseBreak = false;
 };
