@@ -52,12 +52,12 @@ Player* Player::Create(Vector2 pos, float rote, int hp, int maxBlood[], int spee
 	instance->handler_->Initialize(instance);
 	instance->position_ = pos;
 	instance->playerHp_ = hp;
-	for (int i = 0; i < 5; i++) {
+	for (int i = 0; i < sizeof(instance->ultMaxBlood_)/sizeof(instance->ultMaxBlood_[0]); i++) {
 		instance->ultMaxBlood_[i] = maxBlood[i];
 		instance->ultSpeed_[i] = speed[i];
 	}
 	instance->bloodGauge_ = maxBlood[0];
-	instance->speed_ = maxBlood[0];
+	instance->speed_ = (float)speed[0];
 	instance->frontSprites_ = Player::SpritesCreateP((int)ImageManager::ImageName::wolfForwardWalk, frontAnimationCount, instance->position_);
 	instance->backSprites_ = Player::SpritesCreateP((int)ImageManager::ImageName::wolfBackwardWalk, backAnimationCount, instance->position_);
 	instance->useAnimation_ = (int)AnimationType::front;
@@ -87,7 +87,7 @@ void Player::Update(ScrollCamera* camera) {
 		position_.y = ScrollCamera::GetMaxScreenEdge().y - 32.0f;
 	}
 
-	speed_ = ultSpeed_[ultLevel_];
+	speed_ = (float)ultSpeed_[ultLevel_];
 	maxBlood_ = ultMaxBlood_[ultLevel_];
 
 	//プレイヤーのキーイベント更新
@@ -106,9 +106,8 @@ void Player::Update(ScrollCamera* camera) {
 		//一回だけ実行する処理		
 		if (ultState == false) {
 			if (ultLevel_ < 5) {
-
-			}
-			ultLevel_++;
+				ultLevel_++;
+			}			
 			ultCharge_ = maxUltCharge_;
 			//maxBlood_ += 20;
 			//speed_ += 4;
